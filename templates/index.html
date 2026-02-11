@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}首页 - 健康工具站{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">免费在线健康计算工具</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card p-3 mb-3">
+      <h5>BMI 计算器</h5>
+      <p>计算你的身体质量指数</p>
+      <a href="/bmi" class="btn btn-primary">开始计算</a>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<h2>关于本站</h2>
+<p>
+本网站提供免费的健康计算工具，包括 BMI、基础代谢率、
+每日热量需求等，帮助你更好地管理身体健康。
+</p>
+{% endblock %}

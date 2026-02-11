@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}BMI 计算器 - 健康工具站{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-2">BMI 计算器</h1>
+        <p class="text-muted">输入身高体重，计算 BMI（仅供参考，不作为医疗建议）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if bmi is not none %}
+          <div class="alert alert-info mt-3">
+            <div>你的 BMI：<b>{{ bmi }}</b></div>
+            <div>参考结果：<b>{{ category }}</b></div>
+          </div>
+        {% endif %}
+
+        <hr>
+
+        <h2 class="h6">BMI 参考范围（成人）</h2>
+        <ul class="text-muted mb-0">
+          <li>&lt; 18.5：偏瘦</li>
+          <li>18.5 – 23.9：正常</li>
+          <li>24.0 – 27.9：偏胖</li>
+          <li>≥ 28.0：肥胖</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
