@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}睡眠周期计算器 - 健康工具站{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-2">睡眠周期计算器</h1>
+        <p class="text-muted">按 90 分钟一个周期，默认加 15 分钟入睡缓冲（仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">模式</label>
+            <select name="mode" class="form-select">
+              <option value="wake">我想在这个时间起床</option>
+              <option value="sleep">我准备在这个时间上床睡觉</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">时间（HH:MM）</label>
+            <input name="time_hhmm" class="form-control" placeholder="例如 23:30" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if results and results|length > 0 %}
+          <div class="mt-3">
+            <h2 class="h6">建议时间</h2>
+            <ul class="mb-0">
+              {% for r in results %}
+                <li>{{ r }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <hr>
+        <p class="small text-muted mb-0">提示：尽量固定作息；如果经常睡不醒，可能是睡眠质量或时长不足。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

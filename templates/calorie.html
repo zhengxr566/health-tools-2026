@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}每日热量需求 TDEE - 健康工具站{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-9 col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-2">每日热量需求（TDEE）</h1>
+        <p class="text-muted">先算 BMR，再乘活动系数得到维持热量（kcal/天，仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">性别</label>
+            <select name="sex" class="form-select">
+              <option value="male">男</option>
+              <option value="female">女</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">年龄</label>
+            <input name="age" class="form-control" inputmode="numeric" required>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">活动水平</label>
+            <select name="factor" class="form-select">
+              <option value="1.2">久坐（1.2）</option>
+              <option value="1.375">轻度（1.375）</option>
+              <option value="1.55">中度（1.55）</option>
+              <option value="1.725">较高（1.725）</option>
+              <option value="1.9">非常高（1.9）</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if tdee is not none %}
+          <div class="alert alert-info mt-3">
+            <div>估算 BMR：<b>{{ bmr }} kcal/天</b></div>
+            <div>估算 TDEE（维持热量）：<b>{{ tdee }} kcal/天</b></div>
+            <div class="small text-muted mt-2">减脂一般在维持热量基础上适度减少；增肌一般适度增加（仅供参考）。</div>
+          </div>
+        {% endif %}
+
+        <hr>
+        <p class="small text-muted mb-0">提示：长期身体不适或特殊人群（孕期、慢病等）建议咨询专业人士。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

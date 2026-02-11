@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}基础代谢率 BMR - 健康工具站{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-2">基础代谢率（BMR）</h1>
+        <p class="text-muted">使用 Mifflin-St Jeor 公式估算（kcal/天，仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">性别</label>
+            <select name="sex" class="form-select">
+              <option value="male">男</option>
+              <option value="female">女</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <label class="form-label">年龄</label>
+            <input name="age" class="form-control" inputmode="numeric" required>
+          </div>
+          <div class="col-4">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required>
+          </div>
+          <div class="col-4">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if bmr is not none %}
+          <div class="alert alert-info mt-3">
+            你的 BMR 约为：<b>{{ bmr }} kcal/天</b>
+          </div>
+        {% endif %}
+
+        <hr>
+        <p class="small text-muted mb-0">BMR 是身体维持基本生命活动所需能量，不等于每天实际消耗（实际消耗通常更高）。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}饮水量计算器 - 健康工具站{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-2">饮水量计算器</h1>
+        <p class="text-muted">简单估算：建议饮水量 ≈ 体重 × 30–35 ml（仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if low is not none %}
+          <div class="alert alert-info mt-3">
+            建议范围：<b>{{ low }}–{{ high }} ml/天</b>
+            <div class="small text-muted mt-1">约 {{ (low/1000)|round(2) }}–{{ (high/1000)|round(2) }} L/天</div>
+          </div>
+        {% endif %}
+
+        <hr>
+        <p class="small text-muted mb-0">提示：运动、炎热天气、出汗多时可适当增加；如有疾病或医生建议请优先遵医嘱。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
