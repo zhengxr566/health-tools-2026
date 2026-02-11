@@ -1,22 +1,24 @@
 {% extends "base.html" %}
-{% block title %}BMI 计算器 - 健康工具站{% endblock %}
+{% block title %}BMI 计算器（高级版）- 健康工具站{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h1 class="h4 mb-2">BMI 计算器</h1>
-        <p class="text-muted">输入身高体重，计算 BMI（仅供参考，不作为医疗建议）。</p>
+  <div class="col-12 col-md-10 col-lg-8">
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
+      <h1 class="h4 mb-1">BMI 计算器（高级版）</h1>
+      <p class="text-muted mb-0">除了 BMI 数值，还提供健康体重区间、可视化与行动建议（仅供参考）。</p>
+    </div>
 
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
         <form method="post" class="row g-3">
           <div class="col-md-6">
             <label class="form-label">身高（cm）</label>
-            <input name="height_cm" class="form-control" inputmode="decimal" required>
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
           </div>
           <div class="col-md-6">
             <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
           </div>
           <div class="col-12">
             <button class="btn btn-success w-100">计算</button>
@@ -24,18 +26,73 @@
         </form>
 
         {% if error %}
-          <div class="alert alert-warning mt-3">{{ error }}</div>
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
         {% endif %}
+      </div>
+    </div>
 
-        {% if bmi is not none %}
-          <div class="alert alert-info mt-3">
-            <div>你的 BMI：<b>{{ bmi }}</b></div>
-            <div>参考结果：<b>{{ category }}</b></div>
+    {% if bmi is not none %}
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+              <div class="text-muted small">你的 BMI</div>
+              <div class="h3 mb-0">{{ bmi }}</div>
+            </div>
+            <div>
+              <span class="badge text-bg-primary p-2">{{ category }}</span>
+            </div>
           </div>
-        {% endif %}
 
-        <hr>
+          <div class="mt-3">
+            <div class="d-flex justify-content-between small text-muted">
+              <span>偏低</span><span>中间</span><span>偏高</span>
+            </div>
+            <div class="progress" role="progressbar" aria-label="BMI gauge" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: {{ progress }}%"></div>
+            </div>
+            <div class="form-text">提示：此条仅作直观展示（将 BMI 映射到 15–35 的范围）。</div>
+          </div>
 
+          <hr>
+
+          <h2 class="h6 mb-2">健康体重区间（按 BMI 18.5–23.9）</h2>
+          <div class="bg-light rounded-3 p-3">
+            <div>建议体重范围：<b>{{ ideal_min }} – {{ ideal_max }} kg</b></div>
+
+            {% if to_min is not none and to_max is not none %}
+              <div class="small text-muted mt-2">
+                {% if bmi < 18.5 %}
+                  距离进入“正常”下限还差约 <b>{{ to_min|abs }}</b> kg（仅供参考）。
+                {% elif bmi > 23.9 %}
+                  距离回到“正常”上限约需减少 <b>{{ to_max }}</b> kg（仅供参考）。
+                {% else %}
+                  你目前在区间内，可重点关注体脂、腰围与体能。
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+
+          <hr>
+
+          <h2 class="h6 mb-2">{{ suggestion_title }}</h2>
+          <ul class="mb-2">
+            {% for s in suggestions %}
+              <li>{{ s }}</li>
+            {% endfor %}
+          </ul>
+          <div class="small text-muted">{{ risk_note }}</div>
+
+          <div class="mt-3 d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-primary btn-sm" href="/bmr">去算 BMR（基础代谢）</a>
+            <a class="btn btn-outline-primary btn-sm" href="/calorie">去算 TDEE（每日热量）</a>
+            <a class="btn btn-outline-primary btn-sm" href="/water">去算 饮水量</a>
+            <a class="btn btn-outline-primary btn-sm" href="/sleep">去算 睡眠周期</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
         <h2 class="h6">BMI 参考范围（成人）</h2>
         <ul class="text-muted mb-0">
           <li>&lt; 18.5：偏瘦</li>
@@ -44,7 +101,16 @@
           <li>≥ 28.0：肥胖</li>
         </ul>
       </div>
-    </div>
+
+      <div class="bg-white rounded-3 shadow-sm p-4">
+        <h2 class="h6">常见问题（FAQ）</h2>
+        <div class="mb-2"><b>Q：BMI 正常就一定健康吗？</b><br><span class="text-muted">A：不一定。建议结合腰围、体脂、运动能力与体检指标一起看。</span></div>
+        <div class="mb-2"><b>Q：为什么我 BMI 正常但看起来胖？</b><br><span class="text-muted">A：可能是肌肉量偏低、体脂偏高。力量训练和蛋白质摄入通常更关键。</span></div>
+        <div><b>Q：我应该多久称一次体重？</b><br><span class="text-muted">A：建议固定条件（晨起如厕后）每周 2–3 次观察趋势，不要被单日波动影响。</span></div>
+        <hr>
+        <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。如有疾病或不适请咨询专业人士。</p>
+      </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

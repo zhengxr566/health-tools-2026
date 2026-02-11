@@ -47,33 +47,106 @@ def home():
 # 1) BMI
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi_page():
+    # 表单回填
+    height_cm_in = ""
+    weight_kg_in = ""
+
     bmi = None
     category = None
     error = None
 
+    # 高级输出
+    ideal_min = ideal_max = None        # 健康体重区间（kg）
+    to_min = to_max = None              # 距离区间边界差值（kg）
+    suggestion_title = ""
+    suggestions = []
+    progress = None                     # 0-100 用于进度条
+    risk_note = ""
+
     if request.method == "POST":
+        height_cm_in = request.form.get("height_cm", "").strip()
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+
         try:
-            height_cm = float(request.form["height_cm"])
-            weight_kg = float(request.form["weight_kg"])
+            height_cm = float(height_cm_in)
+            weight_kg = float(weight_kg_in)
             if height_cm <= 0 or weight_kg <= 0:
                 raise ValueError
 
             h = height_cm / 100.0
-            bmi = round(weight_kg / (h * h), 2)
+            bmi = weight_kg / (h * h)
+            bmi = round(bmi, 2)
 
+            # 参考区间（你之前用的：18.5 / 24 / 28）
             if bmi < 18.5:
                 category = "偏瘦"
+                suggestion_title = "建议：先稳步增重，提高力量与营养密度"
+                suggestions = [
+                    "每餐保证蛋白质（鸡蛋、鱼、肉、奶、豆制品）",
+                    "力量训练每周 2–3 次，优先大肌群（深蹲/推/拉）",
+                    "晚睡/压力大可能影响食欲与恢复，尽量规律作息",
+                ]
+                risk_note = "体重偏低可能与营养不足、作息或其他健康因素有关，如持续乏力或体重异常波动，建议咨询专业人士。"
             elif bmi < 24.0:
                 category = "正常"
+                suggestion_title = "建议：保持状态，用习惯巩固健康"
+                suggestions = [
+                    "每周 150 分钟中等强度运动（快走、骑行等）",
+                    "保证睡眠与蛋白质摄入，维持肌肉量",
+                    "体重稳定但腰围上升时，优先做力量训练 + 少糖饮食",
+                ]
+                risk_note = "正常范围也建议关注腰围、体脂和体能状态。"
             elif bmi < 28.0:
                 category = "偏胖"
+                suggestion_title = "建议：温和减脂，先从“可坚持”开始"
+                suggestions = [
+                    "先做到：含糖饮料改为无糖/白水；晚餐减少精制主食",
+                    "每周 3–5 次有氧 + 2 次力量训练（提高代谢）",
+                    "以每周 0.25–0.75 kg 的变化为更可持续目标",
+                ]
+                risk_note = "建议同时参考热量需求（TDEE）制定温和缺口，更容易长期坚持。"
             else:
                 category = "肥胖"
+                suggestion_title = "建议：系统化管理，优先稳定节奏与健康指标"
+                suggestions = [
+                    "先从记录饮食/步数开始，建立可量化习惯",
+                    "优先减少高能量密度食物（油炸、甜食、夜宵）",
+                    "如合并慢病风险（高血压/血糖异常等），建议与专业人士共同制定方案",
+                ]
+                risk_note = "体重管理需要长期策略，建议关注血压、血脂、血糖、腰围等指标。"
+
+            # 健康体重区间（按 18.5–23.9）
+            ideal_min = round(18.5 * h * h, 1)
+            ideal_max = round(23.9 * h * h, 1)
+
+            # 距离区间差值（正数表示需要增/减）
+            to_min = round(ideal_min - weight_kg, 1)
+            to_max = round(weight_kg - ideal_max, 1)
+
+            # 可视化进度条：把 BMI 映射到 15~35 之间
+            # 15 -> 0%，35 -> 100%
+            v = max(15.0, min(35.0, bmi))
+            progress = int(round((v - 15.0) / 20.0 * 100))
+
         except Exception:
             error = "请输入正确的身高/体重数字（例如：170 和 60）"
 
-    return render_template("bmi.html", bmi=bmi, category=category, error=error)
-
+    return render_template(
+        "bmi.html",
+        bmi=bmi,
+        category=category,
+        error=error,
+        height_cm_in=height_cm_in,
+        weight_kg_in=weight_kg_in,
+        ideal_min=ideal_min,
+        ideal_max=ideal_max,
+        to_min=to_min,
+        to_max=to_max,
+        suggestion_title=suggestion_title,
+        suggestions=suggestions,
+        progress=progress,
+        risk_note=risk_note,
+    )
 # 2) 饮水量（简单：30~35 ml/kg）
 @app.route("/water", methods=["GET", "POST"])
 def water_page():
