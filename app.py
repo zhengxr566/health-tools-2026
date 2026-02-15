@@ -6,9 +6,9 @@ from flask import send_from_directory
 app = Flask(__name__)
 
 
-@app.route("/google1234567890abcdef.html")
+@app.route("/google984348f5d29aa2c5.html")
 def google_verify():
-    return send_from_directory(".", "google1234567890abcdef.html")
+    return send_from_directory(".", "google984348f5d29aa2c5.html")
 
 # -----------------------
 # Helpers
