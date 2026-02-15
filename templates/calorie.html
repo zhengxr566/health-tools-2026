@@ -1,38 +1,35 @@
 {% extends "base.html" %}
-{% block title %}每日热量需求 TDEE - 健康工具站{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-6">
 
-    <!-- 工具卡片 -->
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <h1 class="h4 mb-2">每日热量需求（TDEE）</h1>
-        <p class="text-muted mb-3">基于基础代谢率（BMR）与活动水平估算（kcal/天，仅供参考）。</p>
+        <p class="text-muted mb-3">基于 BMR 与活动水平估算（kcal/天，仅供参考）。</p>
 
         <form method="post" class="row g-3">
           <div class="col-12">
             <label class="form-label">性别</label>
             <select name="sex" class="form-select">
-              <option value="male">男</option>
-              <option value="female">女</option>
+              <option value="male" {% if sex_in=='male' %}selected{% endif %}>男</option>
+              <option value="female" {% if sex_in=='female' %}selected{% endif %}>女</option>
             </select>
           </div>
 
           <div class="col-4">
             <label class="form-label">年龄</label>
-            <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in|default('') }}">
+            <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}">
           </div>
 
           <div class="col-4">
             <label class="form-label">身高（cm）</label>
-            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in|default('') }}">
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
           </div>
 
           <div class="col-4">
             <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in|default('') }}">
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
           </div>
 
           <div class="col-12">
@@ -63,33 +60,33 @@
 
         <hr class="my-4">
         <p class="small text-muted mb-0">
-          TDEE 是“你每天大约会消耗多少能量”的估算值，实际会因作息、训练量、体成分等因素波动。
+          TDEE 是估算值，实际会因训练量、睡眠、压力与体成分变化而波动。建议以 2–4 周趋势调整。
         </p>
       </div>
     </div>
 
-    <!-- 说明正文 -->
     <div class="bg-white rounded-3 shadow-sm p-4">
       <h2 class="h6">什么是 TDEE？</h2>
       <p class="text-muted">
-        TDEE（Total Daily Energy Expenditure）是每日总能量消耗，
-        包括基础代谢（BMR）+ 日常活动 + 运动消耗。
-        它常被用于制定减脂、维持体重或增肌期间的饮食热量目标。
+        TDEE（每日总能量消耗）≈ 基础代谢（BMR）+ 日常活动 + 运动消耗。
+        它常用于设定“每日摄入热量目标”，是减脂与增肌计划的核心指标之一。
       </p>
 
-      <h2 class="h6 mt-4">如何用 TDEE 管理体重？</h2>
+      <h2 class="h6 mt-4">如何用 TDEE 制定目标热量？</h2>
       <p class="text-muted">
-        一般来说，想减脂可在 TDEE 基础上减少约 300–500 kcal/天；
-        想增重或增肌可适度增加热量，并配合力量训练与足够蛋白质。
-        建议以“趋势”为主，观察 2–4 周再调整。
+        一般建议：减脂可在 TDEE 基础上减少约 300–500 kcal/天；增肌/增重可温和增加约 200–300 kcal/天。
+        具体需要结合体重趋势、饥饿感与训练强度微调。
       </p>
 
-      <h2 class="h6 mt-4">进一步管理建议</h2>
+      <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
-        <li>先算 <a href="/bmr">基础代谢（BMR）</a> 了解基础消耗</li>
-        <li>再看 <a href="/bmi">BMI 计算</a> 评估体重区间</li>
-        <li>配合 <a href="/water">饮水量</a> 与 <a href="/sleep">睡眠</a> 做习惯管理</li>
+        <li><a href="/deficit">热量缺口与目标热量</a>：把 TDEE 变成可执行的日摄入</li>
+        <li><a href="/protein">蛋白质需求</a>：减脂/增肌更需要稳定蛋白质</li>
+        <li><a href="/steps">步数转热量</a>：提高活动量的简单方法</li>
       </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
   </div>

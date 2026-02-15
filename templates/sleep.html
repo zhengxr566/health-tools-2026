@@ -1,15 +1,12 @@
 {% extends "base.html" %}
-{% block title %}睡眠周期计算 - 健康工具站{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-6">
 
-    <!-- 工具卡片 -->
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <h1 class="h4 mb-2">睡眠周期计算</h1>
-        <p class="text-muted mb-3">按 90 分钟一个周期给出建议时间点（仅供参考）。</p>
+        <p class="text-muted mb-3">按 90 分钟一个周期给出建议时间点（含 15 分钟入睡缓冲，仅供参考）。</p>
 
         <form method="post" class="row g-3">
           <div class="col-12">
@@ -22,8 +19,8 @@
 
           <div class="col-12">
             <label class="form-label">时间（HH:MM）</label>
-            <input name="time_hm" class="form-control" placeholder="例如 23:30" required value="{{ time_hm_in|default('') }}">
-            <div class="form-text">提示：按 24 小时制输入，例如 06:30、23:10。</div>
+            <input name="time_hm" class="form-control" placeholder="例如 23:30" required value="{{ time_hm_in }}">
+            <div class="form-text">提示：24 小时制，例如 06:30、23:10。</div>
           </div>
 
           <div class="col-12">
@@ -48,30 +45,32 @@
 
         <hr class="my-4">
         <p class="small text-muted mb-0">
-          睡眠周期并非严格固定；建议把入睡缓冲（如 10–20 分钟）与个人作息习惯一起考虑。
+          睡眠周期并非严格固定；建议结合总时长、规律作息与睡前习惯综合调整。
         </p>
       </div>
     </div>
 
-    <!-- 说明正文 -->
     <div class="bg-white rounded-3 shadow-sm p-4">
       <h2 class="h6">什么是睡眠周期？</h2>
       <p class="text-muted">
-        人类睡眠通常以约 90 分钟为一个周期，包含浅睡眠、深睡眠与快速眼动阶段。
-        如果在深睡眠阶段被唤醒，往往更容易感觉“睡不醒”。
+        睡眠通常以约 90 分钟为一个周期，包含浅睡眠、深睡眠与快速眼动阶段。
+        如果在深睡眠阶段被打断，醒来可能更疲惫；在周期结束附近醒来通常更清醒。
       </p>
 
-      <h2 class="h6 mt-4">如何利用睡眠周期？</h2>
+      <h2 class="h6 mt-4">怎么用这个工具？</h2>
       <p class="text-muted">
-        你可以尽量把起床时间安排在周期结束附近，再配合稳定作息与减少睡前刺激（例如屏幕、咖啡因），
-        通常更容易获得较好的精神状态。建议同时关注总睡眠时长与规律性。
+        你可以用“我现在要睡”计算推荐起床时间，或用“我想几点起”反推推荐入睡时间。
+        建议同时保证稳定作息与足够时长（多数成人 7–9 小时）。
       </p>
 
-      <h2 class="h6 mt-4">进一步管理建议</h2>
+      <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
-        <li>睡眠与体重管理相关：可结合 <a href="/calorie">每日热量需求</a> 与 <a href="/bmi">BMI</a> 一起观察趋势</li>
-        <li>生活习惯方面：搭配 <a href="/water">饮水量</a> 做基础健康管理</li>
+        <li><a href="/water">饮水量</a>：基础习惯管理</li>
+        <li><a href="/calorie">TDEE</a> 与 <a href="/bmi">BMI</a>：体重管理与生活方式结合</li>
       </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
   </div>

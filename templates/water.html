@@ -1,11 +1,8 @@
 {% extends "base.html" %}
-{% block title %}每日饮水量计算 - 健康工具站{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-6">
 
-    <!-- 工具卡片 -->
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <h1 class="h4 mb-2">每日饮水量计算</h1>
@@ -14,9 +11,8 @@
         <form method="post" class="row g-3">
           <div class="col-12">
             <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in|default('') }}">
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
           </div>
-
           <div class="col-12">
             <button class="btn btn-success w-100">计算</button>
           </div>
@@ -28,8 +24,7 @@
 
         {% if water_ml is not none %}
           <div class="alert alert-info mt-3 mb-0">
-            建议饮水量约：<b>{{ water_ml }} ml/天</b>
-            {% if water_l is not none %}（约 {{ water_l }} L）{% endif %}
+            建议饮水量约：<b>{{ water_ml }} ml/天</b>{% if water_l is not none %}（约 {{ water_l }} L）{% endif %}
           </div>
         {% endif %}
 
@@ -40,25 +35,28 @@
       </div>
     </div>
 
-    <!-- 说明正文 -->
     <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">每日饮水量应该是多少？</h2>
+      <h2 class="h6">饮水量应该怎么理解？</h2>
       <p class="text-muted">
-        常见的粗略估算方式是按体重计算，例如每公斤体重约 30–35 ml/天。
-        如果你运动较多或天气炎热，可能需要在基础建议上额外补充。
+        常见做法是按体重粗略估算，例如每公斤体重约 30–35 ml/天。本工具取中间值做参考，
+        适合作为“最低起点”，再根据运动、出汗和气温做调整。
       </p>
 
-      <h2 class="h6 mt-4">如何判断是否喝够？</h2>
+      <h2 class="h6 mt-4">如何更容易坚持？</h2>
       <p class="text-muted">
-        一种简单方法是观察尿液颜色与口渴感：如果长期偏深、口干明显，
-        可能提示饮水不足。注意“少量多次”通常更容易坚持。
+        建议少量多次、固定场景补水（例如起床后、午餐前、运动后）。若你容易忘记，
+        可以准备带刻度水杯或设置提醒。
       </p>
 
-      <h2 class="h6 mt-4">进一步管理建议</h2>
+      <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
-        <li>配合 <a href="/sleep">睡眠周期</a> 改善恢复与精神状态</li>
-        <li>结合 <a href="/bmi">BMI 计算</a> 与 <a href="/calorie">每日热量需求</a> 做体重管理</li>
+        <li><a href="/sleep">睡眠周期</a>：改善恢复与精神状态</li>
+        <li><a href="/calorie">每日热量需求（TDEE）</a>：体重管理的核心指标</li>
+        <li><a href="/bmi">BMI</a>：快速判断体重区间</li>
       </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
   </div>

@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-{% block title %}BMI 计算器- 健康工具站{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-10 col-lg-8">
+
     <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
-      <h1 class="h4 mb-1">BMI 计算器</h1>
+      <h1 class="h4 mb-1">BMI 计算器（高级版）</h1>
       <p class="text-muted mb-0">除了 BMI 数值，还提供健康体重区间、可视化与行动建议（仅供参考）。</p>
     </div>
 
@@ -54,7 +53,7 @@
             <div class="form-text">提示：此条仅作直观展示（将 BMI 映射到 15–35 的范围）。</div>
           </div>
 
-          <hr>
+          <hr class="my-4">
 
           <h2 class="h6 mb-2">健康体重区间（按 BMI 18.5–23.9）</h2>
           <div class="bg-light rounded-3 p-3">
@@ -71,40 +70,9 @@
                 {% endif %}
               </div>
             {% endif %}
-            <div class="bg-white rounded-3 shadow-sm p-4 mt-3">
-              <h2 class="h6">什么是 BMI？</h2>
-              <p class="text-muted">
-                BMI（身体质量指数）是通过体重（kg）除以身高（m）的平方计算得出的指标，
-                用于评估体重是否处于合理范围。它是一种简便的筛查工具，
-                常用于初步判断体重状况。
-              </p>
-
-              <h2 class="h6 mt-3">BMI 正常范围是多少？</h2>
-              <p class="text-muted">
-                成人常见参考标准为：
-                18.5 以下为偏瘦，
-                18.5–23.9 为正常，
-                24–27.9 为偏胖，
-                28 及以上为肥胖。
-                不同国家标准可能略有差异。
-              </p>
-
-              <h2 class="h6 mt-3">BMI 有哪些局限性？</h2>
-              <p class="text-muted">
-                BMI 无法区分肌肉与脂肪。肌肉量较高的人可能 BMI 偏高但体脂并不高。
-                因此建议结合体脂率、腰围以及生活方式综合评估。
-              </p>
-
-              <h2 class="h6 mt-3">进一步管理建议</h2>
-              <ul class="text-muted mb-0">
-                <li>想控制体重：计算 <a href="/calorie">每日热量需求（TDEE）</a></li>
-                <li>了解基础消耗：查看 <a href="/bmr">基础代谢率（BMR）</a></li>
-                <li>改善生活方式：关注 <a href="/sleep">睡眠</a> 与 <a href="/water">饮水量</a></li>
-              </ul>
-            </div>           
           </div>
 
-          <hr>
+          <hr class="my-4">
 
           <h2 class="h6 mb-2">{{ suggestion_title }}</h2>
           <ul class="mb-2">
@@ -117,31 +85,44 @@
           <div class="mt-3 d-flex flex-wrap gap-2">
             <a class="btn btn-outline-primary btn-sm" href="/bmr">去算 BMR（基础代谢）</a>
             <a class="btn btn-outline-primary btn-sm" href="/calorie">去算 TDEE（每日热量）</a>
-            <a class="btn btn-outline-primary btn-sm" href="/water">去算 饮水量</a>
-            <a class="btn btn-outline-primary btn-sm" href="/sleep">去算 睡眠周期</a>
+            <a class="btn btn-outline-primary btn-sm" href="/bodyfat">去算 体脂率</a>
+            <a class="btn btn-outline-primary btn-sm" href="/waist">看 腰围风险</a>
           </div>
         </div>
       </div>
-
-      <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
-        <h2 class="h6">BMI 参考范围（成人）</h2>
-        <ul class="text-muted mb-0">
-          <li>&lt; 18.5：偏瘦</li>
-          <li>18.5 – 23.9：正常</li>
-          <li>24.0 – 27.9：偏胖</li>
-          <li>≥ 28.0：肥胖</li>
-        </ul>
-      </div>
-
-      <div class="bg-white rounded-3 shadow-sm p-4">
-        <h2 class="h6">常见问题（FAQ）</h2>
-        <div class="mb-2"><b>Q：BMI 正常就一定健康吗？</b><br><span class="text-muted">A：不一定。建议结合腰围、体脂、运动能力与体检指标一起看。</span></div>
-        <div class="mb-2"><b>Q：为什么我 BMI 正常但看起来胖？</b><br><span class="text-muted">A：可能是肌肉量偏低、体脂偏高。力量训练和蛋白质摄入通常更关键。</span></div>
-        <div><b>Q：我应该多久称一次体重？</b><br><span class="text-muted">A：建议固定条件（晨起如厕后）每周 2–3 次观察趋势，不要被单日波动影响。</span></div>
-        <hr>
-        <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。如有疾病或不适请咨询专业人士。</p>
-      </div>
     {% endif %}
+
+    <!-- 说明内容（SEO） -->
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">什么是 BMI？</h2>
+      <p class="text-muted">
+        BMI（身体质量指数）是通过体重（kg）÷ 身高（m）的平方计算得出的常用指标，用于成人体重状况的粗略筛查。
+        BMI 的优点是简单易算，适合快速判断“偏瘦/正常/偏胖/肥胖”等区间；但它并不等于体脂率，也无法反映肌肉量、骨量和脂肪分布。
+      </p>
+
+      <h2 class="h6 mt-4">BMI 正常范围是多少？</h2>
+      <p class="text-muted">
+        常见成人参考：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。建议把 BMI 看作“起点”，
+        再结合腰围、体脂率与体检指标综合评估。
+      </p>
+
+      <h2 class="h6 mt-4">如何用 BMI 做体重管理？</h2>
+      <p class="text-muted">
+        如果你希望减脂或控制体重，建议先计算每日热量需求（TDEE），再制定温和的热量缺口；同时保证足够蛋白质并加入力量训练，
+        更有利于维持代谢与体型。若 BMI 正常，也可以用腰围/体脂率来判断是否需要改善体成分。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/bmr">基础代谢（BMR）</a>：了解基础消耗</li>
+        <li><a href="/calorie">每日热量需求（TDEE）</a>：制定目标热量</li>
+        <li><a href="/bodyfat">体脂率计算</a> 与 <a href="/waist">腰围风险</a>：更接近体成分与脂肪分布</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。如有疾病或不适请咨询专业人士。</p>
+    </div>
+
   </div>
 </div>
 {% endblock %}

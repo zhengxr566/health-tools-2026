@@ -1,12 +1,21 @@
 {% extends "base.html" %}
-{% block title %}隐私政策 - 健康工具站{% endblock %}
 {% block content %}
-<div class="bg-white rounded-3 p-4 shadow-sm">
-  <h1 class="h4">隐私政策</h1>
-  <ul class="text-muted mb-0">
-    <li>本站不会在服务器端保存你输入的身高、体重等数据。</li>
-    <li>为了改进体验，未来可能使用基础访问统计（不含个人敏感信息）。</li>
-    <li>如有疑问，请通过“联系”页面联系我们。</li>
+<div class="bg-white rounded-3 shadow-sm p-4">
+  <h1 class="h4 mb-2">隐私政策</h1>
+  <p class="text-muted">
+    本站不要求注册账号。你在工具中输入的数据仅用于当次计算与结果展示。
+  </p>
+
+  <h2 class="h6 mt-4">数据收集</h2>
+  <ul class="text-muted">
+    <li>我们不会主动收集并出售个人信息。</li>
+    <li>服务器可能会产生基础访问日志（例如 IP、访问时间、浏览器信息）用于安全与维护。</li>
+    <li>若未来接入第三方广告或统计服务，可能会使用 Cookie 或类似技术。</li>
   </ul>
+
+  <h2 class="h6 mt-4">联系我们</h2>
+  <p class="text-muted mb-0">
+    如有隐私相关问题，请通过 <a href="/contact">联系页面</a> 反馈。
+  </p>
 </div>
 {% endblock %}

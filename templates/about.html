@@ -1,10 +1,17 @@
 {% extends "base.html" %}
-{% block title %}关于 - 健康工具站{% endblock %}
 {% block content %}
-<div class="bg-white rounded-3 p-4 shadow-sm">
-  <h1 class="h4">关于本站</h1>
-  <p class="text-muted mb-0">
-    本站提供免费的健康/生活计算工具，帮助你快速得到参考数值。我们不保存你输入的数据。
+<div class="bg-white rounded-3 shadow-sm p-4">
+  <h1 class="h4 mb-2">关于</h1>
+  <p class="text-muted">
+    本站提供常见健康指标与生活方式相关的在线计算工具（如 BMI、BMR、TDEE、体脂率等），
+    并在每个工具页面提供结构化说明与下一步建议，帮助你更容易理解数据与形成行动路径。
   </p>
+
+  <h2 class="h6 mt-4">使用说明</h2>
+  <ul class="text-muted">
+    <li>所有结果为估算与参考，不构成医疗建议。</li>
+    <li>更建议关注长期趋势（2–4 周），而非单日波动。</li>
+    <li>如有慢病、怀孕、或不适症状，请咨询专业人士。</li>
+  </ul>
 </div>
 {% endblock %}

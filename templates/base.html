@@ -1,45 +1,45 @@
 <!doctype html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}健康工具站{% endblock %}</title>
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}">
+  <link rel="canonical" href="{{ meta.canonical }}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ meta.title }}">
+  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ meta.canonical }}">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body class="bg-light">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container">
-    <a class="navbar-brand" href="{{ url_for('home') }}">健康工具站</a>
-
+    <a class="navbar-brand" href="/">健康工具站</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">首页</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">关于</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('privacy') }}">隐私</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">联系</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">工具</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">关于</a></li>
+        <li class="nav-item"><a class="nav-link" href="/privacy">隐私</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">联系</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<main class="container py-4">
+<main class="container">
   {% block content %}{% endblock %}
+  <footer class="mt-4 py-3">
+    <div class="small text-muted">© {{ meta.title.split(" - ")[-1] if " - " in meta.title else "健康工具站" }} · 仅供参考</div>
+  </footer>
 </main>
-
-<footer class="border-top py-4">
-  <div class="container small text-muted">
-    <div>© 2026 健康工具站</div>
-    <div>免责声明：本网站内容与计算结果仅供参考，不构成医疗建议。</div>
-  </div>
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

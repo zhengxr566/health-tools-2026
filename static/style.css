@@ -1,105 +1,45 @@
-/* =========================
-   Minimal Medical Theme
-   ========================= */
-
-/* Base */
 :root{
   --bg: #f6f8fb;
   --surface: #ffffff;
   --text: #0f172a;
   --muted: #64748b;
   --border: #e5e7eb;
-  --brand: #1d4ed8;          /* deep blue */
+  --brand: #1d4ed8;
   --brand-2: #0b3aa4;
   --ok: #0f766e;
-  --warn: #b45309;
-  --danger: #b91c1c;
   --radius: 16px;
 }
 
-html, body{
-  background: var(--bg);
-  color: var(--text);
-}
-
+html, body{ background: var(--bg); color: var(--text); }
 body{
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial;
   letter-spacing: .1px;
 }
-
 a{ color: var(--brand); }
 a:hover{ color: var(--brand-2); }
 
-/* Typography */
-h1,h2,h3,h4,h5,h6{ color: var(--text); }
-.text-muted{ color: var(--muted) !important; }
-.small, .form-text{ color: var(--muted) !important; }
-
-/* Container spacing */
 .container{ max-width: 1100px; }
 main.container{ padding-top: 28px; padding-bottom: 28px; }
 
-/* Navbar */
-.navbar{
-  background: #0b1220 !important;
-}
-.navbar .navbar-brand{
-  font-weight: 650;
-  letter-spacing: .2px;
-}
-.navbar .nav-link{
-  color: rgba(255,255,255,.82) !important;
-}
-.navbar .nav-link:hover{
-  color: rgba(255,255,255,1) !important;
-}
+.navbar{ background: #0b1220 !important; }
+.navbar .navbar-brand{ font-weight: 650; letter-spacing: .2px; }
+.navbar .nav-link{ color: rgba(255,255,255,.82) !important; }
+.navbar .nav-link:hover{ color: rgba(255,255,255,1) !important; }
 
-/* Surfaces */
-.card,
-.bg-white{
+.card, .bg-white{
   border: 1px solid var(--border) !important;
   border-radius: var(--radius) !important;
   box-shadow: 0 1px 0 rgba(15, 23, 42, .02), 0 10px 30px rgba(15, 23, 42, .04) !important;
 }
-
 .card-body{ padding: 18px 18px; }
 
-/* Buttons */
-.btn{
-  border-radius: 12px;
-  font-weight: 600;
-}
-.btn-primary{
-  background: var(--brand);
-  border-color: var(--brand);
-}
-.btn-primary:hover{
-  background: var(--brand-2);
-  border-color: var(--brand-2);
-}
-.btn-success{
-  background: var(--ok);
-  border-color: var(--ok);
-}
-.btn-outline-primary{
-  border-color: rgba(29,78,216,.35);
-  color: var(--brand);
-}
-.btn-outline-primary:hover{
-  background: rgba(29,78,216,.08);
-  border-color: rgba(29,78,216,.55);
-  color: var(--brand);
-}
-.btn-outline-secondary{
-  border-color: rgba(100,116,139,.35);
-  color: #334155;
-}
-.btn-outline-secondary:hover{
-  background: rgba(100,116,139,.08);
-  border-color: rgba(100,116,139,.55);
-}
+.btn{ border-radius: 12px; font-weight: 600; }
+.btn-success{ background: var(--ok); border-color: var(--ok); }
+.btn-primary{ background: var(--brand); border-color: var(--brand); }
+.btn-primary:hover{ background: var(--brand-2); border-color: var(--brand-2); }
+.btn-outline-primary{ border-color: rgba(29,78,216,.35); color: var(--brand); }
+.btn-outline-primary:hover{ background: rgba(29,78,216,.08); border-color: rgba(29,78,216,.55); color: var(--brand); }
 
-/* Inputs */
 .form-control, .form-select, .input-group-text{
   border-radius: 12px;
   border-color: var(--border);
@@ -109,33 +49,14 @@ main.container{ padding-top: 28px; padding-bottom: 28px; }
   box-shadow: 0 0 0 .2rem rgba(29,78,216,.12);
 }
 
-/* Badges */
-.badge{
-  border-radius: 999px;
-  font-weight: 650;
-}
-.badge.text-bg-light{
-  background: rgba(100,116,139,.12) !important;
-  color: #334155 !important;
-}
-
-/* Alerts - make them quieter */
 .alert{
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--surface);
 }
-.alert-info{
-  border-left: 4px solid rgba(29,78,216,.55);
-}
-.alert-success{
-  border-left: 4px solid rgba(15,118,110,.55);
-}
-.alert-warning{
-  border-left: 4px solid rgba(180,83,9,.55);
-}
+.alert-info{ border-left: 4px solid rgba(29,78,216,.55); }
+.alert-warning{ border-left: 4px solid rgba(180,83,9,.55); }
 
-/* Progress */
 .progress{
   height: 10px;
   border-radius: 999px;
@@ -146,13 +67,4 @@ main.container{ padding-top: 28px; padding-bottom: 28px; }
   background: var(--brand);
 }
 
-/* Footer */
-footer{
-  background: transparent;
-}
-footer .container{
-  color: var(--muted);
-}
-
-/* Utility: nicer separators */
 hr{ border-top: 1px solid rgba(15,23,42,.08); }
