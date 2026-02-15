@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% block title %}基础代谢率 BMR - 健康工具站{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-6">
-    <div class="card shadow-sm">
+
+    <!-- 工具卡片 -->
+    <div class="card shadow-sm mb-3">
       <div class="card-body">
         <h1 class="h4 mb-2">基础代谢率（BMR）</h1>
-        <p class="text-muted">使用 Mifflin-St Jeor 公式估算（kcal/天，仅供参考）。</p>
+        <p class="text-muted mb-3">使用 Mifflin-St Jeor 公式估算（kcal/天，仅供参考）。</p>
 
         <form method="post" class="row g-3">
           <div class="col-12">
@@ -16,37 +19,67 @@
               <option value="female">女</option>
             </select>
           </div>
+
           <div class="col-4">
             <label class="form-label">年龄</label>
             <input name="age" class="form-control" inputmode="numeric" required>
           </div>
+
           <div class="col-4">
             <label class="form-label">身高（cm）</label>
             <input name="height_cm" class="form-control" inputmode="decimal" required>
           </div>
+
           <div class="col-4">
             <label class="form-label">体重（kg）</label>
             <input name="weight_kg" class="form-control" inputmode="decimal" required>
           </div>
+
           <div class="col-12">
             <button class="btn btn-success w-100">计算</button>
           </div>
         </form>
 
         {% if error %}
-          <div class="alert alert-warning mt-3">{{ error }}</div>
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
         {% endif %}
 
         {% if bmr is not none %}
-          <div class="alert alert-info mt-3">
+          <div class="alert alert-info mt-3 mb-0">
             你的 BMR 约为：<b>{{ bmr }} kcal/天</b>
           </div>
         {% endif %}
 
-        <hr>
-        <p class="small text-muted mb-0">BMR 是身体维持基本生命活动所需能量，不等于每天实际消耗（实际消耗通常更高）。</p>
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          BMR 是身体维持基本生命活动所需能量，不等于每天实际消耗（实际消耗通常更高）。
+        </p>
       </div>
     </div>
+
+    <!-- 说明正文（不嵌套卡片） -->
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">什么是基础代谢率（BMR）？</h2>
+      <p class="text-muted">
+        基础代谢率是指人体在完全静息状态下维持生命所需的最低能量消耗，
+        包括呼吸、心跳、体温调节等。它通常占日常总消耗的较大比例，
+        是制定饮食与训练计划的重要参考。
+      </p>
+
+      <h2 class="h6 mt-4">BMR 有什么作用？</h2>
+      <p class="text-muted">
+        了解 BMR 可以帮助你估算每日需要多少能量来“维持体重”或“减脂/增肌”。
+        实际每日消耗通常需要在 BMR 基础上乘以活动系数得到 TDEE（每日总消耗）。
+      </p>
+
+      <h2 class="h6 mt-4">进一步管理建议</h2>
+      <ul class="text-muted mb-0">
+        <li>先算 <a href="/calorie">每日热量需求（TDEE）</a>，了解你的总消耗</li>
+        <li>结合 <a href="/bmi">BMI 计算</a> 评估体重区间</li>
+        <li>从习惯入手：<a href="/water">饮水量</a> 与 <a href="/sleep">睡眠周期</a></li>
+      </ul>
+    </div>
+
   </div>
 </div>
 {% endblock %}
