@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}BMI 计算器（高级版）- 健康工具站{% endblock %}
+{% block title %}BMI 计算器- 健康工具站{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-10 col-lg-8">
     <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
-      <h1 class="h4 mb-1">BMI 计算器（高级版）</h1>
+      <h1 class="h4 mb-1">BMI 计算器</h1>
       <p class="text-muted mb-0">除了 BMI 数值，还提供健康体重区间、可视化与行动建议（仅供参考）。</p>
     </div>
 
@@ -71,6 +71,37 @@
                 {% endif %}
               </div>
             {% endif %}
+            <div class="bg-white rounded-3 shadow-sm p-4 mt-3">
+              <h2 class="h6">什么是 BMI？</h2>
+              <p class="text-muted">
+                BMI（身体质量指数）是通过体重（kg）除以身高（m）的平方计算得出的指标，
+                用于评估体重是否处于合理范围。它是一种简便的筛查工具，
+                常用于初步判断体重状况。
+              </p>
+
+              <h2 class="h6 mt-3">BMI 正常范围是多少？</h2>
+              <p class="text-muted">
+                成人常见参考标准为：
+                18.5 以下为偏瘦，
+                18.5–23.9 为正常，
+                24–27.9 为偏胖，
+                28 及以上为肥胖。
+                不同国家标准可能略有差异。
+              </p>
+
+              <h2 class="h6 mt-3">BMI 有哪些局限性？</h2>
+              <p class="text-muted">
+                BMI 无法区分肌肉与脂肪。肌肉量较高的人可能 BMI 偏高但体脂并不高。
+                因此建议结合体脂率、腰围以及生活方式综合评估。
+              </p>
+
+              <h2 class="h6 mt-3">进一步管理建议</h2>
+              <ul class="text-muted mb-0">
+                <li>想控制体重：计算 <a href="/calorie">每日热量需求（TDEE）</a></li>
+                <li>了解基础消耗：查看 <a href="/bmr">基础代谢率（BMR）</a></li>
+                <li>改善生活方式：关注 <a href="/sleep">睡眠</a> 与 <a href="/water">饮水量</a></li>
+              </ul>
+            </div>           
           </div>
 
           <hr>
