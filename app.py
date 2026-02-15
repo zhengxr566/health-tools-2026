@@ -1,8 +1,14 @@
 from __future__ import annotations
 from flask import Flask, render_template, request, Response, url_for
 from math import pow, floor
+from flask import send_from_directory
 
 app = Flask(__name__)
+
+
+@app.route("/google1234567890abcdef.html")
+def google_verify():
+    return send_from_directory(".", "google1234567890abcdef.html")
 
 # -----------------------
 # Helpers
