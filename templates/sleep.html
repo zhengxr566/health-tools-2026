@@ -1,49 +1,79 @@
 {% extends "base.html" %}
-{% block title %}睡眠周期计算器 - 健康工具站{% endblock %}
+{% block title %}睡眠周期计算 - 健康工具站{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-6">
-    <div class="card shadow-sm">
+
+    <!-- 工具卡片 -->
+    <div class="card shadow-sm mb-3">
       <div class="card-body">
-        <h1 class="h4 mb-2">睡眠周期计算器</h1>
-        <p class="text-muted">按 90 分钟一个周期，默认加 15 分钟入睡缓冲（仅供参考）。</p>
+        <h1 class="h4 mb-2">睡眠周期计算</h1>
+        <p class="text-muted mb-3">按 90 分钟一个周期给出建议时间点（仅供参考）。</p>
 
         <form method="post" class="row g-3">
           <div class="col-12">
-            <label class="form-label">模式</label>
+            <label class="form-label">选择模式</label>
             <select name="mode" class="form-select">
-              <option value="wake">我想在这个时间起床</option>
-              <option value="sleep">我准备在这个时间上床睡觉</option>
+              <option value="sleep_now" {% if mode_in=='sleep_now' %}selected{% endif %}>我现在要睡（计算起床时间）</option>
+              <option value="wake_at" {% if mode_in=='wake_at' %}selected{% endif %}>我想几点起（计算入睡时间）</option>
             </select>
           </div>
+
           <div class="col-12">
             <label class="form-label">时间（HH:MM）</label>
-            <input name="time_hhmm" class="form-control" placeholder="例如 23:30" required>
+            <input name="time_hm" class="form-control" placeholder="例如 23:30" required value="{{ time_hm_in|default('') }}">
+            <div class="form-text">提示：按 24 小时制输入，例如 06:30、23:10。</div>
           </div>
+
           <div class="col-12">
             <button class="btn btn-success w-100">计算</button>
           </div>
         </form>
 
         {% if error %}
-          <div class="alert alert-warning mt-3">{{ error }}</div>
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
         {% endif %}
 
-        {% if results and results|length > 0 %}
-          <div class="mt-3">
-            <h2 class="h6">建议时间</h2>
+        {% if times and times|length > 0 %}
+          <div class="alert alert-info mt-3">
+            <div class="fw-semibold mb-2">推荐时间点：</div>
             <ul class="mb-0">
-              {% for r in results %}
-                <li>{{ r }}</li>
+              {% for t in times %}
+                <li><b>{{ t }}</b></li>
               {% endfor %}
             </ul>
           </div>
         {% endif %}
 
-        <hr>
-        <p class="small text-muted mb-0">提示：尽量固定作息；如果经常睡不醒，可能是睡眠质量或时长不足。</p>
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          睡眠周期并非严格固定；建议把入睡缓冲（如 10–20 分钟）与个人作息习惯一起考虑。
+        </p>
       </div>
     </div>
+
+    <!-- 说明正文 -->
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">什么是睡眠周期？</h2>
+      <p class="text-muted">
+        人类睡眠通常以约 90 分钟为一个周期，包含浅睡眠、深睡眠与快速眼动阶段。
+        如果在深睡眠阶段被唤醒，往往更容易感觉“睡不醒”。
+      </p>
+
+      <h2 class="h6 mt-4">如何利用睡眠周期？</h2>
+      <p class="text-muted">
+        你可以尽量把起床时间安排在周期结束附近，再配合稳定作息与减少睡前刺激（例如屏幕、咖啡因），
+        通常更容易获得较好的精神状态。建议同时关注总睡眠时长与规律性。
+      </p>
+
+      <h2 class="h6 mt-4">进一步管理建议</h2>
+      <ul class="text-muted mb-0">
+        <li>睡眠与体重管理相关：可结合 <a href="/calorie">每日热量需求</a> 与 <a href="/bmi">BMI</a> 一起观察趋势</li>
+        <li>生活习惯方面：搭配 <a href="/water">饮水量</a> 做基础健康管理</li>
+      </ul>
+    </div>
+
   </div>
 </div>
 {% endblock %}

@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block title %}每日热量需求 TDEE - 健康工具站{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-12 col-md-9 col-lg-7">
-    <div class="card shadow-sm">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <!-- 工具卡片 -->
+    <div class="card shadow-sm mb-3">
       <div class="card-body">
         <h1 class="h4 mb-2">每日热量需求（TDEE）</h1>
-        <p class="text-muted">先算 BMR，再乘活动系数得到维持热量（kcal/天，仅供参考）。</p>
+        <p class="text-muted mb-3">基于基础代谢率（BMR）与活动水平估算（kcal/天，仅供参考）。</p>
 
         <form method="post" class="row g-3">
-          <div class="col-md-4">
+          <div class="col-12">
             <label class="form-label">性别</label>
             <select name="sex" class="form-select">
               <option value="male">男</option>
@@ -17,30 +20,30 @@
             </select>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-4">
             <label class="form-label">年龄</label>
-            <input name="age" class="form-control" inputmode="numeric" required>
+            <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in|default('') }}">
           </div>
 
-          <div class="col-md-4">
-            <label class="form-label">活动水平</label>
-            <select name="factor" class="form-select">
-              <option value="1.2">久坐（1.2）</option>
-              <option value="1.375">轻度（1.375）</option>
-              <option value="1.55">中度（1.55）</option>
-              <option value="1.725">较高（1.725）</option>
-              <option value="1.9">非常高（1.9）</option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
+          <div class="col-4">
             <label class="form-label">身高（cm）</label>
-            <input name="height_cm" class="form-control" inputmode="decimal" required>
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in|default('') }}">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-4">
             <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in|default('') }}">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">活动水平</label>
+            <select name="activity" class="form-select">
+              <option value="1.2" {% if activity_in=='1.2' %}selected{% endif %}>久坐（几乎不运动）</option>
+              <option value="1.375" {% if activity_in=='1.375' %}selected{% endif %}>轻度（每周 1–3 次）</option>
+              <option value="1.55" {% if activity_in=='1.55' %}selected{% endif %}>中度（每周 3–5 次）</option>
+              <option value="1.725" {% if activity_in=='1.725' %}selected{% endif %}>较高（每周 6–7 次）</option>
+              <option value="1.9" {% if activity_in=='1.9' %}selected{% endif %}>非常高（体力劳动/高强度训练）</option>
+            </select>
           </div>
 
           <div class="col-12">
@@ -49,21 +52,46 @@
         </form>
 
         {% if error %}
-          <div class="alert alert-warning mt-3">{{ error }}</div>
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
         {% endif %}
 
         {% if tdee is not none %}
-          <div class="alert alert-info mt-3">
-            <div>估算 BMR：<b>{{ bmr }} kcal/天</b></div>
-            <div>估算 TDEE（维持热量）：<b>{{ tdee }} kcal/天</b></div>
-            <div class="small text-muted mt-2">减脂一般在维持热量基础上适度减少；增肌一般适度增加（仅供参考）。</div>
+          <div class="alert alert-info mt-3 mb-0">
+            你的 TDEE 约为：<b>{{ tdee }} kcal/天</b>
           </div>
         {% endif %}
 
-        <hr>
-        <p class="small text-muted mb-0">提示：长期身体不适或特殊人群（孕期、慢病等）建议咨询专业人士。</p>
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          TDEE 是“你每天大约会消耗多少能量”的估算值，实际会因作息、训练量、体成分等因素波动。
+        </p>
       </div>
     </div>
+
+    <!-- 说明正文 -->
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">什么是 TDEE？</h2>
+      <p class="text-muted">
+        TDEE（Total Daily Energy Expenditure）是每日总能量消耗，
+        包括基础代谢（BMR）+ 日常活动 + 运动消耗。
+        它常被用于制定减脂、维持体重或增肌期间的饮食热量目标。
+      </p>
+
+      <h2 class="h6 mt-4">如何用 TDEE 管理体重？</h2>
+      <p class="text-muted">
+        一般来说，想减脂可在 TDEE 基础上减少约 300–500 kcal/天；
+        想增重或增肌可适度增加热量，并配合力量训练与足够蛋白质。
+        建议以“趋势”为主，观察 2–4 周再调整。
+      </p>
+
+      <h2 class="h6 mt-4">进一步管理建议</h2>
+      <ul class="text-muted mb-0">
+        <li>先算 <a href="/bmr">基础代谢（BMR）</a> 了解基础消耗</li>
+        <li>再看 <a href="/bmi">BMI 计算</a> 评估体重区间</li>
+        <li>配合 <a href="/water">饮水量</a> 与 <a href="/sleep">睡眠</a> 做习惯管理</li>
+      </ul>
+    </div>
+
   </div>
 </div>
 {% endblock %}
