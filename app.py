@@ -14,7 +14,7 @@ def google_verify():
 # Helpers
 # -----------------------
 SITE_NAME = "健康工具站"
-BASE_URL_ENV = None  # 如果你有自定义域名，后面可改成 "https://xxx.com"
+BASE_URL_ENV = "https://health-tools-2026.onrender.com"
 
 
 def canonical_url(path: str) -> str:
