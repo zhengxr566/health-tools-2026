@@ -886,6 +886,9 @@ def goal_time():
         weeks=weeks,
     )
 
+@app.get("/healthz")
+def healthz():
+    return "OK", 200
 
 if __name__ == "__main__":
     print("Starting Flask...")
