@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8">
+
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
+      <h1 class="h4 mb-1">体脂率计算（US Navy）</h1>
+      <p class="text-muted mb-0">输入身高、颈围、腰围（女性加臀围），用围度公式估算体脂率（仅供参考）。</p>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">性别</label>
+            <select name="sex" class="form-select">
+              <option value="male" {% if sex_in=='male' %}selected{% endif %}>男</option>
+              <option value="female" {% if sex_in=='female' %}selected{% endif %}>女</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">颈围（cm）</label>
+            <input name="neck_cm" class="form-control" inputmode="decimal" required value="{{ neck_cm_in }}">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">腰围（cm）</label>
+            <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">臀围（cm，女性）</label>
+            <input name="hip_cm" class="form-control" inputmode="decimal" value="{{ hip_cm_in }}">
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if bf is not none %}
+          <div class="alert alert-info mt-3 mb-0">
+            估算体脂率：<b>{{ bf }}%</b>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          围度公式是“估算”，会受测量误差与个体差异影响；请以趋势参考为主。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">体脂率为什么比 BMI 更有参考价值？</h2>
+      <p class="text-muted">
+        BMI 只反映身高与体重比例，无法区分肌肉与脂肪；体脂率更接近“脂肪占比”，
+        在体型与健康风险判断上往往更直观。但体脂率同样不是唯一标准，建议结合腰围与体检指标。
+      </p>
+
+      <h2 class="h6 mt-4">如何提高结果的可用性？</h2>
+      <p class="text-muted">
+        尽量在同一时间、同一姿势、同一测量位置重复测量，记录一段时间的变化趋势。
+        如果你正在减脂，可配合目标热量与蛋白质摄入，更容易保持体型变化的稳定性。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/waist">腰围风险（WHtR）</a>：脂肪分布的简单指标</li>
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：从数据到行动</li>
+        <li><a href="/protein">蛋白质需求</a>：减脂期常用策略</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

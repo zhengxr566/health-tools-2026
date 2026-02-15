@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">步数转热量消耗</h1>
+        <p class="text-muted mb-3">按步数与体重粗略估算步行消耗（kcal，仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">步数</label>
+            <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}">
+          </div>
+          <div class="col-12">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if kcal is not none %}
+          <div class="alert alert-info mt-3 mb-0">
+            估算步行消耗约：<b>{{ kcal }} kcal</b>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          该结果为经验估算，受步幅、速度、坡度与个体差异影响较大；更适合用来追踪趋势。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">为什么“步数”是最容易坚持的活动？</h2>
+      <p class="text-muted">
+        相比高强度运动，步行门槛更低、风险更小，且更容易融入生活。很多人通过提高日均步数，
+        就能显著提升日常消耗，并改善精神状态与睡眠质量。
+      </p>
+
+      <h2 class="h6 mt-4">怎么把步数用到减脂计划里？</h2>
+      <p class="text-muted">
+        建议先算 TDEE 与目标热量，然后把“步数”作为提高活动量的手段。
+        与其追求一天爆走，不如稳定增加每天 1000–2000 步，持续 2–4 周观察体重趋势。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：明确日计划</li>
+        <li><a href="/sleep">睡眠周期</a>：恢复好更容易坚持</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

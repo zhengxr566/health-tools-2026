@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">腰围风险（WHtR）</h1>
+        <p class="text-muted mb-3">用 腰围/身高 比值进行简单风险提示（仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-6">
+            <label class="form-label">腰围（cm）</label>
+            <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}">
+          </div>
+          <div class="col-6">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if whtr is not none %}
+          <div class="alert alert-info mt-3 mb-0">
+            你的 WHtR（腰围/身高）≈ <b>{{ whtr }}</b>，提示：<b>{{ level }}</b>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          WHtR 是非常简化的指标，建议与体脂率、BMI、体检指标一起看。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">WHtR 为什么常用？</h2>
+      <p class="text-muted">
+        腰围可以粗略反映腹部脂肪堆积，而腹部脂肪与多种健康风险相关。WHtR（腰围/身高）把身高考虑进来，
+        作为一个快速筛查指标常用于日常自测。一般建议：&lt;0.5 较好，0.5–0.6 需要注意，≥0.6 风险更高。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果提示需要注意，可以从“饮食热量 + 活动量 + 睡眠”三个方向入手：先算 TDEE，设定目标热量，
+        用步数提升日常活动，并保证睡眠恢复，持续 2–4 周观察趋势。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/bodyfat">体脂率</a>：更接近体成分</li>
+        <li><a href="/calorie">TDEE</a> + <a href="/deficit">目标热量</a>：从风险到行动</li>
+        <li><a href="/steps">步数热量</a>：提高日常消耗</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

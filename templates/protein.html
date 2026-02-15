@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">蛋白质需求计算</h1>
+        <p class="text-muted mb-3">按体重与目标给出每日蛋白质建议（g/天，仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">目标</label>
+            <select name="goal" class="form-select">
+              <option value="maintain" {% if goal_in=='maintain' %}selected{% endif %}>日常维持</option>
+              <option value="fat_loss" {% if goal_in=='fat_loss' %}selected{% endif %}>减脂期</option>
+              <option value="muscle_gain" {% if goal_in=='muscle_gain' %}selected{% endif %}>增肌期</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if grams is not none %}
+          <div class="alert alert-info mt-3 mb-0">
+            目标：<b>{{ label }}</b>，建议蛋白质约：<b>{{ grams }} g/天</b>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          蛋白质建议与训练量、体脂水平、年龄等有关；本工具给出的是简化参考范围。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">为什么蛋白质重要？</h2>
+      <p class="text-muted">
+        蛋白质与肌肉合成、饱腹感与恢复有关。减脂期适当提高蛋白质摄入，有助于减少肌肉流失；
+        增肌期则需要足够蛋白质配合力量训练。
+      </p>
+
+      <h2 class="h6 mt-4">如何更容易达到目标？</h2>
+      <p class="text-muted">
+        可以把每日目标分配到每餐，例如一日三餐均匀摄入；优先选择高蛋白食物，并结合蔬菜与主食保持均衡。
+        若你在控制热量，可先用 TDEE 设定总热量，再安排蛋白质比例。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：确定总热量框架</li>
+        <li><a href="/bodyfat">体脂率</a>：更准确评估减脂效果</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

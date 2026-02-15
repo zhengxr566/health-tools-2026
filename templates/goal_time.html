@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">目标体重所需时间</h1>
+        <p class="text-muted mb-3">按每周变化速度估算达到目标体重所需周数（仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-6">
+            <label class="form-label">当前体重（kg）</label>
+            <input name="current_kg" class="form-control" inputmode="decimal" required value="{{ current_in }}">
+          </div>
+          <div class="col-6">
+            <label class="form-label">目标体重（kg）</label>
+            <input name="target_kg" class="form-control" inputmode="decimal" required value="{{ target_in }}">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">每周变化速度（kg/周）</label>
+            <select name="rate" class="form-select">
+              <option value="0.25" {% if rate_in=='0.25' %}selected{% endif %}>0.25（非常温和）</option>
+              <option value="0.5" {% if rate_in=='0.5' %}selected{% endif %}>0.5（常见目标）</option>
+              <option value="0.75" {% if rate_in=='0.75' %}selected{% endif %}>0.75（偏快）</option>
+              <option value="1.0" {% if rate_in=='1.0' %}selected{% endif %}>1.0（较快，需谨慎）</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if weeks is not none %}
+          <div class="alert alert-info mt-3 mb-0">
+            预计需要约：<b>{{ weeks }}</b> 周
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          体重变化不是线性过程，平台期很常见。建议把目标拆分为“趋势”，并配合生活方式调整。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">为什么需要“时间预期”？</h2>
+      <p class="text-muted">
+        很多人减脂失败不是因为方法错，而是因为预期过高。设定合理的速度与周期，
+        有助于减少焦虑与反复。一般建议从温和速度开始，坚持 2–4 周看趋势再调整。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        先计算 TDEE，设定温和的目标热量，并保证足够蛋白质与日常活动量（例如步数）。
+        规律睡眠对长期坚持也非常关键。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：从计划到执行</li>
+        <li><a href="/protein">蛋白质</a> 与 <a href="/steps">步数</a>：更可持续的策略</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

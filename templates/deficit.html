@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">热量缺口与目标热量</h1>
+        <p class="text-muted mb-3">输入 TDEE，估算减脂/维持/增肌的目标日摄入（kcal/天，仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">你的 TDEE（kcal/天）</label>
+            <input name="tdee" class="form-control" inputmode="decimal" required value="{{ tdee_in }}">
+            <div class="form-text">不知道 TDEE？先去算：<a href="/calorie">每日热量需求（TDEE）</a></div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">模式</label>
+            <select name="mode" class="form-select">
+              <option value="loss_easy" {% if mode_in=='loss_easy' %}selected{% endif %}>减脂（温和，-300kcal）</option>
+              <option value="loss_fast" {% if mode_in=='loss_fast' %}selected{% endif %}>减脂（较快，-500kcal）</option>
+              <option value="maintain" {% if mode_in=='maintain' %}selected{% endif %}>维持体重（±0）</option>
+              <option value="gain" {% if mode_in=='gain' %}selected{% endif %}>增重/增肌（+250kcal）</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if target_kcal is not none %}
+          <div class="alert alert-info mt-3 mb-0">
+            模式：<b>{{ label }}</b><br>
+            建议目标热量：<b>{{ target_kcal }} kcal/天</b>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          建议先从温和方案开始，持续 2–4 周观察体重趋势再微调；过度缺口可能难以坚持。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">什么是热量缺口？</h2>
+      <p class="text-muted">
+        热量缺口指“摄入低于消耗”。如果你每天比 TDEE 少摄入约 300–500 kcal，
+        长期更可能出现体重下降趋势。但减脂效果还与睡眠、压力、活动量与饮食结构有关。
+      </p>
+
+      <h2 class="h6 mt-4">如何让计划更可持续？</h2>
+      <p class="text-muted">
+        目标热量只是框架，建议优先保证蛋白质摄入，并用步数提高活动量。
+        同时把注意力放在“趋势”而不是单日波动，减少挫败感。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/protein">蛋白质需求</a>：减脂期常用策略</li>
+        <li><a href="/steps">步数转热量</a>：提高日常消耗</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：估算周期</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

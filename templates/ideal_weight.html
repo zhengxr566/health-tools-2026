@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">理想体重计算</h1>
+        <p class="text-muted mb-3">用多种经典公式给出参考区间（仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">性别</label>
+            <select name="sex" class="form-select">
+              <option value="male" {% if sex_in=='male' %}selected{% endif %}>男</option>
+              <option value="female" {% if sex_in=='female' %}selected{% endif %}>女</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+
+        {% if results %}
+          <div class="alert alert-info mt-3">
+            <div class="fw-semibold mb-2">参考结果（kg）：</div>
+            <ul class="mb-0">
+              <li>Devine：<b>{{ results['Devine'] }}</b></li>
+              <li>Robinson：<b>{{ results['Robinson'] }}</b></li>
+              <li>Miller：<b>{{ results['Miller'] }}</b></li>
+              <li>Hamwi：<b>{{ results['Hamwi'] }}</b></li>
+              <li>平均值：<b>{{ results['Average'] }}</b></li>
+            </ul>
+          </div>
+        {% endif %}
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          理想体重是统计/经验公式的估算，不等于“必须达到”的目标，更建议结合体脂率与生活方式综合判断。
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">理想体重怎么看才合理？</h2>
+      <p class="text-muted">
+        各公式基于不同假设（身高、体型、骨架等），因此结果会有差异。更推荐把它当作“参考点”，
+        再结合 BMI、体脂率与腰围判断是否需要调整体重或体成分。
+      </p>
+
+      <h2 class="h6 mt-4">如果想从当前体重到目标，下一步怎么做？</h2>
+      <p class="text-muted">
+        若你有明确目标，可先计算 TDEE，再设定温和的目标热量与每周变化速度，并持续记录趋势。
+        目标越温和，越容易坚持，也越不容易反弹。
+      </p>
+
+      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：判断“体型/体成分”</li>
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：把目标转成日计划</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：估算周期，减少焦虑</li>
+      </ul>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
