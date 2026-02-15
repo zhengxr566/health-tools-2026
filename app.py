@@ -206,36 +206,39 @@ def robots():
 
 @app.get("/sitemap.xml")
 def sitemap():
-    pages = [
-        "/",
-        "/bmi",
-        "/bmr",
-        "/calorie",
-        "/water",
-        "/sleep",
-        "/bodyfat",
-        "/ideal-weight",
-        "/waist",
-        "/protein",
-        "/steps",
-        "/deficit",
-        "/goal-time",
-        "/about",
-        "/privacy",
-        "/contact",
+    # endpoint 名必须与函数名一致：index、bmi、bmr、calorie...
+    endpoints = [
+        "index",
+        "bmi",
+        "bmr",
+        "calorie",
+        "water",
+        "sleep",
+        "bodyfat",
+        "ideal_weight",
+        "waist",
+        "protein",
+        "steps",
+        "deficit",
+        "goal_time",
+        "about",
+        "privacy",
+        "contact",
     ]
-    # Simple XML sitemap
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
-           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for p in pages:
-        loc = canonical_url(p)
+
+    xml = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    for ep in endpoints:
+        loc = url_for(ep, _external=True)
         xml.append("  <url>")
         xml.append(f"    <loc>{loc}</loc>")
         xml.append("  </url>")
+
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
-
-
 # -----------------------
 # Pages
 # -----------------------
