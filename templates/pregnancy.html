@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}预产期计算器（怀孕到生产时间推算）- 在线推算宝宝出生日期{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h1 class="h4 mb-2">预产期计算器</h1>
+        <p class="text-muted">根据末次月经日期推算怀孕280天后的预产期（仅供参考）。</p>
+
+        <form method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">末次月经第一天</label>
+            <input type="date" name="lmp" class="form-control" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算预产期</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if due_date %}
+          <div class="alert alert-info mt-3">
+            预计预产期为：<b>{{ due_date }}</b>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm p-4">
+      <h2 class="h6">预产期怎么算？</h2>
+      <p class="text-muted">
+        预产期通常按照末次月经第一天起算，加上280天（约40周）进行推算。
+        这是一种医学上常用的估算方法。
+      </p>
+
+      <h2 class="h6 mt-4">怀孕多久生？</h2>
+      <p class="text-muted">
+        正常妊娠周期约为37–42周之间。提前或推迟几天都属于正常现象。
+      </p>
+
+      <h2 class="h6 mt-4">常见问题</h2>
+      <ul class="text-muted">
+        <li>预产期一定准确吗？不是，仅供参考。</li>
+        <li>月经不规律怎么算？建议结合B超检查。</li>
+      </ul>
+
+      <hr>
+      <p class="small text-muted">
+        本页面仅用于科普参考，不构成医疗建议。
+      </p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
