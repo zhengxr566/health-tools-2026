@@ -2,9 +2,9 @@ from __future__ import annotations
 from flask import Flask, render_template, request, Response, url_for
 from math import pow, floor
 from flask import send_from_directory
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
-
 
 @app.route("/google984348f5d29aa2c5.html")
 def google_verify():
@@ -295,6 +295,29 @@ def contact():
     }
     return render_template("contact.html", meta=meta)
 
+# -----------------------
+# Tool: pregnancy
+# -----------------------
+
+@app.route("/pregnancy-due-date", methods=["GET", "POST"])
+def pregnancy_due_date():
+    due_date = None
+    error = None
+
+    if request.method == "POST":
+        try:
+            lmp = request.form.get("lmp")
+            lmp_date = datetime.strptime(lmp, "%Y-%m-%d")
+            due_date = lmp_date + timedelta(days=280)
+            due_date = due_date.strftime("%Y-%m-%d")
+        except:
+            error = "请输入有效的日期"
+
+    return render_template(
+        "pregnancy.html",
+        due_date=due_date,
+        error=error
+    )
 
 # -----------------------
 # Tool: BMI (Advanced)
