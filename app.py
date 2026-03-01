@@ -314,9 +314,14 @@ def pregnancy_due_date():
             due_date = due_date.strftime("%Y-%m-%d")
         except:
             error = "请输入有效的日期"
-
-    return render_template(
-        "pregnancy.html",
+    meta = {
+        "title": "预产期计算器（怀孕到生产时间推算）- 在线推算宝宝出生日期",
+        "description": "输入末次月经日期，推算预产期与孕周（仅供参考）。包含预产期怎么算、怀孕多久生、常见问题与相关工具链接。",
+        "canonical": canonical_url("/pregnancy-due-date"),
+    }
+    return render_template(        
+        "pregnancy_due_date.html",
+        meta=meta,
         due_date=due_date,
         error=error
     )
