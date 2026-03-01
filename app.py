@@ -209,6 +209,7 @@ def sitemap():
     # endpoint 名必须与函数名一致：index、bmi、bmr、calorie...
     endpoints = [
         "index",
+        "pregnancy_due_date",
         "bmi",
         "bmr",
         "calorie",
@@ -250,6 +251,7 @@ def index():
         "canonical": canonical_url("/"),
     }
     tools = [
+        {"name": "预产期计算器", "path": "/pregnancy-due-date", "desc": "末次月经推算预产期与孕周"},
         {"name": "BMI 计算器（高级版）", "path": "/bmi", "desc": "含区间、可视化与建议"},
         {"name": "基础代谢率 BMR", "path": "/bmr", "desc": "Mifflin-St Jeor 公式估算"},
         {"name": "每日热量需求 TDEE", "path": "/calorie", "desc": "活动水平 + BMR 估算"},
