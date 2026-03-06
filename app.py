@@ -1,29 +1,218 @@
 from __future__ import annotations
-from flask import Flask, render_template, request, Response, url_for
-from math import pow, floor
-from flask import send_from_directory
+
 from datetime import datetime, timedelta
+from flask import (
+    Flask,
+    Response,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 
 app = Flask(__name__)
+
+# -----------------------
+# Brand / SEO / Domain
+# -----------------------
+SITE_NAME = "CalmyHealth"
+SITE_NAME_ZH = "CalmyHealth 健康工具"
+BASE_URL_ENV = "https://calmyhealth.com"
+
+OLD_HOSTS = {
+    "health-tools-2026.onrender.com",
+    "www.health-tools-2026.onrender.com",
+}
+
+
+@app.before_request
+def redirect_old_domain():
+    host = request.host.split(":")[0].lower()
+    if host in OLD_HOSTS:
+        qs = f"?{request.query_string.decode()}" if request.query_string else ""
+        return redirect(f"{BASE_URL_ENV}{request.path}{qs}", code=301)
+
 
 @app.route("/google984348f5d29aa2c5.html")
 def google_verify():
     return send_from_directory(".", "google984348f5d29aa2c5.html")
 
+
+def canonical_url(path: str) -> str:
+    return BASE_URL_ENV.rstrip("/") + path
+
+
+# -----------------------
+# Information Architecture
+# -----------------------
+CATEGORY_META = {
+    "weight": {
+        "name": "体重与体型",
+        "description": "BMI、理想体重、体脂率、腰围风险等，适合做体型与体重管理的基础判断。",
+    },
+    "metabolism": {
+        "name": "代谢与热量",
+        "description": "BMR、TDEE、热量缺口与目标热量，适合减脂、维持和增肌规划。",
+    },
+    "nutrition": {
+        "name": "营养摄入",
+        "description": "蛋白质、饮水等日常营养类工具，帮助把健康目标落到每天。",
+    },
+    "activity": {
+        "name": "运动与习惯",
+        "description": "步数、睡眠周期等习惯类工具，适合做轻量管理与日常记录。",
+    },
+    "pregnancy": {
+        "name": "孕期工具",
+        "description": "围绕备孕、孕期和预产期的实用计算工具。",
+    },
+}
+
+TOOLS = [
+    {
+        "endpoint": "pregnancy_due_date",
+        "name": "预产期计算器",
+        "path": "/pregnancy-due-date",
+        "desc": "末次月经推算预产期与孕周",
+        "category": "pregnancy",
+        "featured": True,
+    },
+    {
+        "endpoint": "bmi",
+        "name": "BMI 计算器（高级版）",
+        "path": "/bmi",
+        "desc": "含区间、可视化与建议",
+        "category": "weight",
+        "featured": True,
+    },
+    {
+        "endpoint": "bodyfat",
+        "name": "体脂率计算（US Navy）",
+        "path": "/bodyfat",
+        "desc": "围度估算体脂率",
+        "category": "weight",
+        "featured": True,
+    },
+    {
+        "endpoint": "ideal_weight",
+        "name": "理想体重计算",
+        "path": "/ideal-weight",
+        "desc": "多种经典公式对比",
+        "category": "weight",
+        "featured": False,
+    },
+    {
+        "endpoint": "waist",
+        "name": "腰围风险（WHtR）",
+        "path": "/waist",
+        "desc": "腰围/身高比参考",
+        "category": "weight",
+        "featured": False,
+    },
+    {
+        "endpoint": "bmr",
+        "name": "基础代谢率 BMR",
+        "path": "/bmr",
+        "desc": "Mifflin-St Jeor 公式估算",
+        "category": "metabolism",
+        "featured": True,
+    },
+    {
+        "endpoint": "calorie",
+        "name": "每日热量需求 TDEE",
+        "path": "/calorie",
+        "desc": "活动水平 + BMR 估算",
+        "category": "metabolism",
+        "featured": True,
+    },
+    {
+        "endpoint": "deficit",
+        "name": "热量缺口/目标热量",
+        "path": "/deficit",
+        "desc": "减脂/增肌日摄入建议",
+        "category": "metabolism",
+        "featured": False,
+    },
+    {
+        "endpoint": "goal_time",
+        "name": "目标体重所需时间",
+        "path": "/goal-time",
+        "desc": "按周变化速度估算",
+        "category": "metabolism",
+        "featured": False,
+    },
+    {
+        "endpoint": "protein",
+        "name": "蛋白质需求",
+        "path": "/protein",
+        "desc": "按目标建议摄入",
+        "category": "nutrition",
+        "featured": False,
+    },
+    {
+        "endpoint": "water",
+        "name": "每日饮水量",
+        "path": "/water",
+        "desc": "按体重估算建议",
+        "category": "nutrition",
+        "featured": False,
+    },
+    {
+        "endpoint": "steps",
+        "name": "步数转热量",
+        "path": "/steps",
+        "desc": "粗略估算步行消耗",
+        "category": "activity",
+        "featured": False,
+    },
+    {
+        "endpoint": "sleep",
+        "name": "睡眠周期",
+        "path": "/sleep",
+        "desc": "90 分钟周期时间点",
+        "category": "activity",
+        "featured": False,
+    },
+]
+
+
+def grouped_tools():
+    groups = []
+    for slug, cat in CATEGORY_META.items():
+        cat_tools = [t for t in TOOLS if t["category"] == slug]
+        groups.append(
+            {
+                "slug": slug,
+                "name": cat["name"],
+                "description": cat["description"],
+                "count": len(cat_tools),
+                "tools": cat_tools,
+            }
+        )
+    return groups
+
+
+@app.context_processor
+def inject_global_nav():
+    return {
+        "nav_categories": grouped_tools(),
+        "site_name": SITE_NAME,
+        "site_name_zh": SITE_NAME_ZH,
+    }
+
+
+def meta_for(title: str, description: str, path: str) -> dict:
+    return {
+        "title": title,
+        "description": description,
+        "canonical": canonical_url(path),
+    }
+
+
 # -----------------------
 # Helpers
 # -----------------------
-SITE_NAME = "健康工具站"
-BASE_URL_ENV = "https://health-tools-2026.onrender.com"
-
-
-def canonical_url(path: str) -> str:
-    """Return canonical absolute URL if BASE_URL_ENV set, else relative."""
-    if BASE_URL_ENV:
-        return BASE_URL_ENV.rstrip("/") + path
-    return path
-
-
 def to_float(s: str) -> float | None:
     try:
         return float(str(s).strip())
@@ -51,13 +240,11 @@ def round0(x: float) -> int:
 
 
 def mifflin_st_jeor(sex: str, age: int, height_cm: float, weight_kg: float) -> float:
-    # BMR: male = 10W + 6.25H - 5A + 5; female = 10W + 6.25H - 5A - 161
     base = 10 * weight_kg + 6.25 * height_cm - 5 * age
     return base + (5 if sex == "male" else -161)
 
 
 def bmi_category_cn(bmi: float) -> str:
-    # 常见中国成人参考（你BMI页面也用了这个区间）
     if bmi < 18.5:
         return "偏瘦"
     if bmi < 24.0:
@@ -68,37 +255,39 @@ def bmi_category_cn(bmi: float) -> str:
 
 
 def bmi_progress(bmi: float) -> int:
-    # Map BMI 15-35 to 0-100 for gauge
     p = (bmi - 15.0) / (35.0 - 15.0) * 100.0
     return int(round(clamp(p, 0, 100)))
 
 
-def bodyfat_us_navy(sex: str, height_cm: float, neck_cm: float, waist_cm: float, hip_cm: float | None) -> float:
-    """
-    US Navy body fat estimation
-    This uses log10; formula differs for male/female.
-    """
+def bodyfat_us_navy(
+    sex: str,
+    height_cm: float,
+    neck_cm: float,
+    waist_cm: float,
+    hip_cm: float | None,
+) -> float:
     import math
+
     h = height_cm
     n = neck_cm
     w = waist_cm
     if sex == "male":
-        # %BF = 495 / (1.0324 - 0.19077*log10(waist-neck) + 0.15456*log10(height)) - 450
-        return 495 / (1.0324 - 0.19077 * math.log10(w - n) + 0.15456 * math.log10(h)) - 450
+        return 495 / (
+            1.0324 - 0.19077 * math.log10(w - n) + 0.15456 * math.log10(h)
+        ) - 450
     else:
         if hip_cm is None:
             raise ValueError("female requires hip")
         hip = hip_cm
-        # %BF = 495 / (1.29579 - 0.35004*log10(waist+hip-neck) + 0.22100*log10(height)) - 450
-        return 495 / (1.29579 - 0.35004 * math.log10(w + hip - n) + 0.22100 * math.log10(h)) - 450
+        return 495 / (
+            1.29579
+            - 0.35004 * math.log10(w + hip - n)
+            + 0.22100 * math.log10(h)
+        ) - 450
 
 
 def ideal_weight_methods(height_cm: float, sex: str) -> dict:
-    """
-    Return multiple ideal weight estimates (kg) based on classic formulas.
-    Height in cm.
-    """
-    h_in = height_cm / 2.54  # inches
+    h_in = height_cm / 2.54
     over_5ft = max(0.0, h_in - 60.0)
 
     if sex == "male":
@@ -123,9 +312,7 @@ def ideal_weight_methods(height_cm: float, sex: str) -> dict:
 
 
 def waist_risk(wc_cm: float, height_cm: float) -> tuple[float, str]:
-    """Waist-to-height ratio (WHtR)"""
     whtr = wc_cm / height_cm
-    # 简化分级（常见建议：<0.5较好，0.5-0.6需注意，>=0.6风险更高）
     if whtr < 0.5:
         level = "较好"
     elif whtr < 0.6:
@@ -136,12 +323,6 @@ def waist_risk(wc_cm: float, height_cm: float) -> tuple[float, str]:
 
 
 def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
-    """
-    Simple protein suggestion:
-    - maintain: 1.2 g/kg
-    - fat_loss: 1.6 g/kg
-    - muscle_gain: 1.8 g/kg
-    """
     if goal == "fat_loss":
         gpk = 1.6
         label = "减脂期"
@@ -155,19 +336,11 @@ def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
 
 
 def steps_to_kcal(steps: int, weight_kg: float) -> float:
-    """
-    Rough estimate: kcal per step depends on body weight and stride.
-    A common heuristic: 0.04-0.06 kcal per step for average adult.
-    We'll scale by weight: base 0.05 at 60kg.
-    """
     kcal_per_step = 0.05 * (weight_kg / 60.0)
     return steps * kcal_per_step
 
 
 def deficit_plan(tdee: float, mode: str) -> tuple[int, str]:
-    """
-    Suggest daily target kcal based on simple deficit/surplus.
-    """
     if mode == "loss_fast":
         delta = -500
         label = "减脂（较快）"
@@ -206,101 +379,118 @@ def robots():
 
 @app.get("/sitemap.xml")
 def sitemap():
-    # endpoint 名必须与函数名一致：index、bmi、bmr、calorie...
-    endpoints = [
-        "index",
-        "pregnancy_due_date",
-        "bmi",
-        "bmr",
-        "calorie",
-        "water",
-        "sleep",
-        "bodyfat",
-        "ideal_weight",
-        "waist",
-        "protein",
-        "steps",
-        "deficit",
-        "goal_time",
-        "about",
-        "privacy",
-        "contact",
-    ]
+    core_paths = ["/", "/tools", "/about", "/privacy", "/contact"]
+    category_paths = [f"/category/{slug}" for slug in CATEGORY_META.keys()]
+    tool_paths = [t["path"] for t in TOOLS]
+    all_paths = core_paths + category_paths + tool_paths
 
     xml = [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
 
-    for ep in endpoints:
-        loc = url_for(ep, _external=True)
+    for path in all_paths:
         xml.append("  <url>")
-        xml.append(f"    <loc>{loc}</loc>")
+        xml.append(f"    <loc>{canonical_url(path)}</loc>")
         xml.append("  </url>")
 
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
+
+
 # -----------------------
 # Pages
 # -----------------------
 @app.get("/")
 def index():
-    meta = {
-        "title": f"{SITE_NAME} - 在线健康计算工具（BMI/BMR/TDEE/体脂率等）",
-        "description": "免费在线健康工具站：BMI、基础代谢(BMR)、每日热量需求(TDEE)、体脂率、理想体重、腰围风险、蛋白质需求、步数热量等。结构清晰、支持快速计算与参考说明。",
-        "canonical": canonical_url("/"),
-    }
-    tools = [
-        {"name": "预产期计算器", "path": "/pregnancy-due-date", "desc": "末次月经推算预产期与孕周"},
-        {"name": "BMI 计算器（高级版）", "path": "/bmi", "desc": "含区间、可视化与建议"},
-        {"name": "基础代谢率 BMR", "path": "/bmr", "desc": "Mifflin-St Jeor 公式估算"},
-        {"name": "每日热量需求 TDEE", "path": "/calorie", "desc": "活动水平 + BMR 估算"},
-        {"name": "体脂率计算（US Navy）", "path": "/bodyfat", "desc": "围度估算体脂率"},
-        {"name": "理想体重计算", "path": "/ideal-weight", "desc": "多种经典公式对比"},
-        {"name": "腰围风险（WHtR）", "path": "/waist", "desc": "腰围/身高比参考"},
-        {"name": "蛋白质需求", "path": "/protein", "desc": "按目标建议摄入"},
-        {"name": "步数转热量", "path": "/steps", "desc": "粗略估算步行消耗"},
-        {"name": "热量缺口/目标热量", "path": "/deficit", "desc": "减脂/增肌日摄入建议"},
-        {"name": "目标体重所需时间", "path": "/goal-time", "desc": "按周变化速度估算"},
-        {"name": "每日饮水量", "path": "/water", "desc": "按体重估算建议"},
-        {"name": "睡眠周期", "path": "/sleep", "desc": "90 分钟周期时间点"},
-    ]
-    return render_template("index.html", meta=meta, tools=tools)
+    featured_tools = [t for t in TOOLS if t["featured"]]
+    meta = meta_for(
+        f"{SITE_NAME} - 健康计算工具导航（BMI/BMR/TDEE/体脂率等）",
+        "CalmyHealth 提供 BMI、BMR、TDEE、体脂率、理想体重、腰围风险、蛋白质、睡眠等在线健康计算工具，并按分类组织，适合持续扩展。",
+        "/",
+    )
+    return render_template(
+        "index.html",
+        meta=meta,
+        categories=grouped_tools(),
+        featured_tools=featured_tools,
+        tools=TOOLS,
+        page_kind="home",
+    )
+
+
+@app.get("/tools")
+def tools():
+    meta = meta_for(
+        f"工具导航 - {SITE_NAME}",
+        "按分类浏览 CalmyHealth 的健康工具：体重与体型、代谢与热量、营养摄入、运动与习惯、孕期工具。",
+        "/tools",
+    )
+    return render_template(
+        "tools.html",
+        meta=meta,
+        categories=grouped_tools(),
+        tools=TOOLS,
+        page_kind="tools",
+    )
+
+
+@app.get("/category/<slug>")
+def category_page(slug: str):
+    if slug not in CATEGORY_META:
+        return redirect(url_for("tools"))
+
+    category = CATEGORY_META[slug]
+    category_tools = [t for t in TOOLS if t["category"] == slug]
+
+    meta = meta_for(
+        f"{category['name']}工具 - {SITE_NAME}",
+        f"浏览 {category['name']} 相关健康工具：{category['description']}",
+        f"/category/{slug}",
+    )
+    return render_template(
+        "category.html",
+        meta=meta,
+        category=category,
+        category_tools=category_tools,
+        categories=grouped_tools(),
+        page_kind="category",
+    )
 
 
 @app.get("/about")
 def about():
-    meta = {
-        "title": f"关于 - {SITE_NAME}",
-        "description": "关于健康工具站：提供常见健康指标的在线计算与参考说明，帮助你更好理解数据。",
-        "canonical": canonical_url("/about"),
-    }
+    meta = meta_for(
+        f"关于 - {SITE_NAME}",
+        "关于 CalmyHealth：围绕健康数据理解与工具化场景，持续扩展可读、可用、可导航的健康工具页面。",
+        "/about",
+    )
     return render_template("about.html", meta=meta)
 
 
 @app.get("/privacy")
 def privacy():
-    meta = {
-        "title": f"隐私政策 - {SITE_NAME}",
-        "description": "隐私政策：本网站不要求账号，不出售个人信息；输入数据仅用于当次计算展示（服务器日志除外）。",
-        "canonical": canonical_url("/privacy"),
-    }
+    meta = meta_for(
+        f"隐私政策 - {SITE_NAME}",
+        "隐私政策：CalmyHealth 不要求账号，不出售个人信息；输入数据仅用于当次计算展示（服务器日志除外）。",
+        "/privacy",
+    )
     return render_template("privacy.html", meta=meta)
 
 
 @app.get("/contact")
 def contact():
-    meta = {
-        "title": f"联系 - {SITE_NAME}",
-        "description": "联系页面：反馈建议、Bug 报告与合作咨询。",
-        "canonical": canonical_url("/contact"),
-    }
+    meta = meta_for(
+        f"联系 - {SITE_NAME}",
+        "联系页面：反馈建议、Bug 报告与合作咨询。",
+        "/contact",
+    )
     return render_template("contact.html", meta=meta)
+
 
 # -----------------------
 # Tool: pregnancy
 # -----------------------
-
 @app.route("/pregnancy-due-date", methods=["GET", "POST"])
 def pregnancy_due_date():
     due_date = None
@@ -310,24 +500,25 @@ def pregnancy_due_date():
         try:
             lmp = request.form.get("lmp")
             lmp_date = datetime.strptime(lmp, "%Y-%m-%d")
-            due_date = lmp_date + timedelta(days=280)
-            due_date = due_date.strftime("%Y-%m-%d")
-        except:
+            due_date = (lmp_date + timedelta(days=280)).strftime("%Y-%m-%d")
+        except Exception:
             error = "请输入有效的日期"
-    meta = {
-        "title": "预产期计算器（怀孕到生产时间推算）- 在线推算宝宝出生日期",
-        "description": "输入末次月经日期，推算预产期与孕周（仅供参考）。包含预产期怎么算、怀孕多久生、常见问题与相关工具链接。",
-        "canonical": canonical_url("/pregnancy-due-date"),
-    }
-    return render_template(        
+
+    meta = meta_for(
+        "预产期计算器（怀孕到生产时间推算）- CalmyHealth",
+        "输入末次月经日期，推算预产期与孕周（仅供参考）。包含预产期怎么算、怀孕多久生、常见问题与相关工具链接。",
+        "/pregnancy-due-date",
+    )
+    return render_template(
         "pregnancy_due_date.html",
         meta=meta,
         due_date=due_date,
-        error=error
+        error=error,
     )
 
+
 # -----------------------
-# Tool: BMI (Advanced)
+# Tool: BMI
 # -----------------------
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi():
@@ -359,7 +550,6 @@ def bmi():
             category = bmi_category_cn(bmi_raw)
             progress = bmi_progress(bmi_raw)
 
-            # Ideal range by BMI 18.5–23.9
             ideal_min = round1(18.5 * hm * hm)
             ideal_max = round1(23.9 * hm * hm)
 
@@ -368,7 +558,6 @@ def bmi():
             elif bmi_raw > 23.9:
                 to_max = round1(w - ideal_max)
 
-            # Suggestions
             if bmi_raw < 18.5:
                 suggestions = [
                     "优先保证规律三餐与足够蛋白质摄入。",
@@ -394,11 +583,11 @@ def bmi():
                     "如有慢病或不适，优先咨询专业人士获取个性化建议。",
                 ]
 
-    meta = {
-        "title": "BMI 计算器（高级版）- 健康工具站",
-        "description": "在线 BMI 计算器：支持身高体重输入，输出 BMI 数值、成人参考范围、健康体重区间与行动建议，并推荐 BMR/TDEE 等相关工具。",
-        "canonical": canonical_url("/bmi"),
-    }
+    meta = meta_for(
+        "BMI 计算器（高级版）- CalmyHealth",
+        "在线 BMI 计算器：支持身高体重输入，输出 BMI 数值、成人参考范围、健康体重区间与行动建议，并推荐 BMR/TDEE 等相关工具。",
+        "/bmi",
+    )
 
     return render_template(
         "bmi.html",
@@ -426,7 +615,6 @@ def bmi():
 def bmr():
     error = None
     bmr_val = None
-
     sex_in = "male"
     age_in = ""
     height_cm_in = ""
@@ -453,11 +641,11 @@ def bmr():
         else:
             bmr_val = round0(mifflin_st_jeor(sex_in, age, h, w))
 
-    meta = {
-        "title": "基础代谢率 BMR - 健康工具站",
-        "description": "在线 BMR 计算器：使用 Mifflin-St Jeor 公式估算基础代谢率（kcal/天），并提供用途说明与下一步工具推荐（TDEE、BMI 等）。",
-        "canonical": canonical_url("/bmr"),
-    }
+    meta = meta_for(
+        "基础代谢率 BMR - CalmyHealth",
+        "在线 BMR 计算器：使用 Mifflin-St Jeor 公式估算基础代谢率（kcal/天），并提供用途说明与下一步工具推荐（TDEE、BMI 等）。",
+        "/bmr",
+    )
     return render_template(
         "bmr.html",
         meta=meta,
@@ -471,13 +659,12 @@ def bmr():
 
 
 # -----------------------
-# Tool: TDEE (calorie)
+# Tool: TDEE
 # -----------------------
 @app.route("/calorie", methods=["GET", "POST"])
 def calorie():
     error = None
     tdee_val = None
-
     sex_in = "male"
     age_in = ""
     height_cm_in = ""
@@ -510,11 +697,11 @@ def calorie():
             b = mifflin_st_jeor(sex_in, age, h, w)
             tdee_val = round0(b * act)
 
-    meta = {
-        "title": "每日热量需求 TDEE - 健康工具站",
-        "description": "在线 TDEE 计算器：基于 BMR 与活动水平估算每日总能量消耗，并提供减脂/维持/增肌使用建议与相关工具链接。",
-        "canonical": canonical_url("/calorie"),
-    }
+    meta = meta_for(
+        "每日热量需求 TDEE - CalmyHealth",
+        "在线 TDEE 计算器：基于 BMR 与活动水平估算每日总能量消耗，并提供减脂/维持/增肌使用建议与相关工具链接。",
+        "/calorie",
+    )
     return render_template(
         "calorie.html",
         meta=meta,
@@ -544,15 +731,14 @@ def water():
         if not w or w <= 0 or w > 300:
             error = "请输入正确体重（kg）。"
         else:
-            # 30–35 ml/kg: use 33 as middle
             water_ml = round0(w * 33.0)
             water_l = round1(water_ml / 1000.0)
 
-    meta = {
-        "title": "每日饮水量计算 - 健康工具站",
-        "description": "按体重估算每日饮水量建议（ml/L），并提供影响因素与实践建议。免费在线工具。",
-        "canonical": canonical_url("/water"),
-    }
+    meta = meta_for(
+        "每日饮水量计算 - CalmyHealth",
+        "按体重估算每日饮水量建议（ml/L），并提供影响因素与实践建议。免费在线工具。",
+        "/water",
+    )
     return render_template(
         "water.html",
         meta=meta,
@@ -564,7 +750,7 @@ def water():
 
 
 # -----------------------
-# Tool: Sleep cycle
+# Tool: Sleep
 # -----------------------
 @app.route("/sleep", methods=["GET", "POST"])
 def sleep():
@@ -591,44 +777,49 @@ def sleep():
 
     def add_minutes(h: int, m: int, minutes: int) -> tuple[int, int]:
         total = h * 60 + m + minutes
-        total %= (24 * 60)
+        total %= 24 * 60
         return total // 60, total % 60
 
     if request.method == "POST":
         mode_in = request.form.get("mode", "sleep_now")
         time_hm_in = request.form.get("time_hm", "")
         hm = parse_hm(time_hm_in)
+
         if hm is None:
             error = "请输入正确时间（例如 23:30）。"
         else:
             h, m = hm
-            # include 15 min fall-asleep buffer
             buffer_min = 15
             cycle = 90
-            options = [3, 4, 5, 6]  # cycles
-            times = []
+            options = [3, 4, 5, 6]
+
             if mode_in == "sleep_now":
-                # input is bedtime time
                 start_h, start_m = add_minutes(h, m, buffer_min)
                 for c in options:
                     th, tm = add_minutes(start_h, start_m, c * cycle)
                     times.append(fmt(th, tm))
             else:
-                # input is wake time -> compute bed times
                 for c in options:
                     th, tm = add_minutes(h, m, -(c * cycle) - buffer_min)
                     times.append(fmt(th, tm))
 
-    meta = {
-        "title": "睡眠周期计算 - 健康工具站",
-        "description": "睡眠周期计算器：按 90 分钟周期给出推荐入睡/起床时间点，适合做作息规划（仅供参考）。",
-        "canonical": canonical_url("/sleep"),
-    }
-    return render_template("sleep.html", meta=meta, error=error, mode_in=mode_in, time_hm_in=time_hm_in, times=times)
+    meta = meta_for(
+        "睡眠周期计算 - CalmyHealth",
+        "睡眠周期计算器：按 90 分钟周期给出推荐入睡/起床时间点，适合做作息规划（仅供参考）。",
+        "/sleep",
+    )
+    return render_template(
+        "sleep.html",
+        meta=meta,
+        error=error,
+        mode_in=mode_in,
+        time_hm_in=time_hm_in,
+        times=times,
+    )
 
 
 # -----------------------
-# Tool: Body fat (US Navy)
+# Tool: Body Fat
 # -----------------------
 @app.route("/bodyfat", methods=["GET", "POST"])
 def bodyfat():
@@ -671,11 +862,11 @@ def bodyfat():
         except Exception as e:
             error = str(e)
 
-    meta = {
-        "title": "体脂率计算（US Navy）- 健康工具站",
-        "description": "体脂率计算器：使用 US Navy 围度公式估算体脂率（%），输入身高、颈围、腰围（女性含臀围），并提供解读与下一步建议。",
-        "canonical": canonical_url("/bodyfat"),
-    }
+    meta = meta_for(
+        "体脂率计算（US Navy）- CalmyHealth",
+        "体脂率计算器：使用 US Navy 围度公式估算体脂率（%），输入身高、颈围、腰围（女性含臀围），并提供解读与下一步建议。",
+        "/bodyfat",
+    )
     return render_template(
         "bodyfat.html",
         meta=meta,
@@ -690,7 +881,7 @@ def bodyfat():
 
 
 # -----------------------
-# Tool: Ideal weight
+# Tool: Ideal Weight
 # -----------------------
 @app.route("/ideal-weight", methods=["GET", "POST"])
 def ideal_weight():
@@ -703,6 +894,7 @@ def ideal_weight():
         sex_in = request.form.get("sex", "male")
         height_cm_in = request.form.get("height_cm", "")
         h = to_float(height_cm_in)
+
         if sex_in not in ("male", "female"):
             error = "性别选择不正确。"
         elif not h or h <= 0 or h > 250:
@@ -711,11 +903,11 @@ def ideal_weight():
             res = ideal_weight_methods(h, sex_in)
             results = {k: round1(v) for k, v in res.items()}
 
-    meta = {
-        "title": "理想体重计算 - 健康工具站",
-        "description": "理想体重计算器：根据身高与性别，用 Devine/Robinson/Miller/Hamwi 等公式给出多个估算结果并对比参考。",
-        "canonical": canonical_url("/ideal-weight"),
-    }
+    meta = meta_for(
+        "理想体重计算 - CalmyHealth",
+        "理想体重计算器：根据身高与性别，用 Devine/Robinson/Miller/Hamwi 等公式给出多个估算结果并对比参考。",
+        "/ideal-weight",
+    )
     return render_template(
         "ideal_weight.html",
         meta=meta,
@@ -727,7 +919,7 @@ def ideal_weight():
 
 
 # -----------------------
-# Tool: Waist risk (WHtR)
+# Tool: Waist Risk
 # -----------------------
 @app.route("/waist", methods=["GET", "POST"])
 def waist():
@@ -742,6 +934,7 @@ def waist():
         height_cm_in = request.form.get("height_cm", "")
         wc = to_float(wc_in)
         h = to_float(height_cm_in)
+
         if not wc or wc <= 0:
             error = "请输入正确腰围（cm）。"
         elif not h or h <= 0:
@@ -750,11 +943,11 @@ def waist():
             whtr, level = waist_risk(wc, h)
             whtr = round1(whtr)
 
-    meta = {
-        "title": "腰围风险（WHtR）- 健康工具站",
-        "description": "腰围风险评估：通过腰围/身高比（WHtR）给出简单风险提示，并提供建议与相关工具推荐。",
-        "canonical": canonical_url("/waist"),
-    }
+    meta = meta_for(
+        "腰围风险（WHtR）- CalmyHealth",
+        "腰围风险评估：通过腰围/身高比（WHtR）给出简单风险提示，并提供建议与相关工具推荐。",
+        "/waist",
+    )
     return render_template(
         "waist.html",
         meta=meta,
@@ -781,6 +974,7 @@ def protein():
         weight_kg_in = request.form.get("weight_kg", "")
         goal_in = request.form.get("goal", "maintain")
         w = to_float(weight_kg_in)
+
         if not w or w <= 0 or w > 300:
             error = "请输入正确体重（kg）。"
         elif goal_in not in ("maintain", "fat_loss", "muscle_gain"):
@@ -789,11 +983,11 @@ def protein():
             g, label = protein_grams(w, goal_in)
             grams = round0(g)
 
-    meta = {
-        "title": "蛋白质需求计算 - 健康工具站",
-        "description": "蛋白质需求计算器：按体重与目标（维持/减脂/增肌）给出每日蛋白质摄入建议（g/天），并提供实践建议。",
-        "canonical": canonical_url("/protein"),
-    }
+    meta = meta_for(
+        "蛋白质需求计算 - CalmyHealth",
+        "蛋白质需求计算器：按体重与目标（维持/减脂/增肌）给出每日蛋白质摄入建议（g/天），并提供实践建议。",
+        "/protein",
+    )
     return render_template(
         "protein.html",
         meta=meta,
@@ -806,7 +1000,7 @@ def protein():
 
 
 # -----------------------
-# Tool: Steps -> kcal
+# Tool: Steps
 # -----------------------
 @app.route("/steps", methods=["GET", "POST"])
 def steps():
@@ -820,6 +1014,7 @@ def steps():
         weight_kg_in = request.form.get("weight_kg", "")
         s = to_int(steps_in)
         w = to_float(weight_kg_in)
+
         if s is None or s <= 0 or s > 200000:
             error = "请输入正确步数。"
         elif not w or w <= 0 or w > 300:
@@ -827,11 +1022,11 @@ def steps():
         else:
             kcal = round0(steps_to_kcal(s, w))
 
-    meta = {
-        "title": "步数转热量消耗 - 健康工具站",
-        "description": "步数转热量计算器：按步数与体重粗略估算步行消耗（kcal），并给出使用建议与相关工具链接。",
-        "canonical": canonical_url("/steps"),
-    }
+    meta = meta_for(
+        "步数转热量消耗 - CalmyHealth",
+        "步数转热量计算器：按步数与体重粗略估算步行消耗（kcal），并给出使用建议与相关工具链接。",
+        "/steps",
+    )
     return render_template(
         "steps.html",
         meta=meta,
@@ -843,7 +1038,7 @@ def steps():
 
 
 # -----------------------
-# Tool: Deficit target kcal
+# Tool: Deficit
 # -----------------------
 @app.route("/deficit", methods=["GET", "POST"])
 def deficit():
@@ -857,6 +1052,7 @@ def deficit():
         tdee_in = request.form.get("tdee", "")
         mode_in = request.form.get("mode", "loss_easy")
         tdee_val = to_float(tdee_in)
+
         if not tdee_val or tdee_val <= 0 or tdee_val > 10000:
             error = "请输入正确的 TDEE（kcal/天）。"
         elif mode_in not in ("loss_easy", "loss_fast", "maintain", "gain"):
@@ -864,11 +1060,11 @@ def deficit():
         else:
             target_kcal, label = deficit_plan(tdee_val, mode_in)
 
-    meta = {
-        "title": "热量缺口与目标热量 - 健康工具站",
-        "description": "根据 TDEE 估算减脂/维持/增肌的目标日摄入热量（kcal/天），并提供下一步建议（蛋白质、步数、体重趋势）。",
-        "canonical": canonical_url("/deficit"),
-    }
+    meta = meta_for(
+        "热量缺口与目标热量 - CalmyHealth",
+        "根据 TDEE 估算减脂/维持/增肌的目标日摄入热量（kcal/天），并提供下一步建议（蛋白质、步数、体重趋势）。",
+        "/deficit",
+    )
     return render_template(
         "deficit.html",
         meta=meta,
@@ -881,7 +1077,7 @@ def deficit():
 
 
 # -----------------------
-# Tool: Goal weight time
+# Tool: Goal Time
 # -----------------------
 @app.route("/goal-time", methods=["GET", "POST"])
 def goal_time():
@@ -907,14 +1103,13 @@ def goal_time():
         elif not r or r <= 0 or r > 2.0:
             error = "请输入合理的每周变化速度（建议 0.25–1.0 kg/周）。"
         else:
-            wks = weeks_to_goal(c, t, r)
-            weeks = round1(wks)
+            weeks = round1(weeks_to_goal(c, t, r))
 
-    meta = {
-        "title": "目标体重所需时间 - 健康工具站",
-        "description": "目标体重时间估算：输入当前体重、目标体重与每周变化速度，估算达到目标所需周数，并给出建议与相关工具链接。",
-        "canonical": canonical_url("/goal-time"),
-    }
+    meta = meta_for(
+        "目标体重所需时间 - CalmyHealth",
+        "目标体重时间估算：输入当前体重、目标体重与每周变化速度，估算达到目标所需周数，并给出建议与相关工具链接。",
+        "/goal-time",
+    )
     return render_template(
         "goal_time.html",
         meta=meta,
@@ -925,9 +1120,11 @@ def goal_time():
         weeks=weeks,
     )
 
+
 @app.get("/healthz")
 def healthz():
     return "OK", 200
+
 
 if __name__ == "__main__":
     print("Starting Flask...")

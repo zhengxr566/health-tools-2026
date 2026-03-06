@@ -1,23 +1,149 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="bg-white rounded-3 shadow-sm p-4 mb-3">
-  <h1 class="h4 mb-1">健康工具站</h1>
-  <p class="text-muted mb-0">免费在线健康计算工具：体重管理、代谢、热量、体脂与习惯类工具。所有结果仅供参考。</p>
+
+<div class="bg-white rounded-4 shadow-sm p-4 p-lg-5 mb-4">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-8">
+      <div class="small text-success fw-semibold mb-2">CalmyHealth · 健康工具导航</div>
+      <h1 class="display-6 fw-semibold mb-3">更清晰地理解你的健康数据</h1>
+      <p class="text-muted mb-4">
+        免费在线健康计算工具，覆盖 BMI、BMR、TDEE、体脂率、理想体重、腰围风险、饮水量、蛋白质、睡眠周期等。
+        适合做体重管理、代谢估算、日常习惯调整与孕期基础参考。
+      </p>
+
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-success" href="/tools">查看全部工具</a>
+        <a class="btn btn-outline-secondary" href="/category/weight">先看体重与体型</a>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="bg-light rounded-4 p-4 border h-100">
+        <div class="small text-muted mb-2">站点特点</div>
+        <ul class="mb-0 text-muted small ps-3">
+          <li class="mb-2">按分类组织，找工具更快</li>
+          <li class="mb-2">每个工具都有说明与相关跳转</li>
+          <li class="mb-2">适合持续扩展到 60+ 页面</li>
+          <li class="mb-0">移动端和桌面端都易于浏览</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="row g-3">
-  {% for t in tools %}
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body d-flex flex-column">
-        <div class="h6 mb-1">{{ t.name }}</div>
-        <div class="text-muted small mb-3">{{ t.desc }}</div>
-        <div class="mt-auto">
-          <a class="btn btn-outline-primary btn-sm" href="{{ t.path }}">打开工具</a>
+{% if featured_tools %}
+<div class="mb-4">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <div>
+      <h2 class="h5 mb-1">热门工具</h2>
+      <div class="text-muted small">优先展示最常用的健康计算工具</div>
+    </div>
+    <a class="small text-decoration-none" href="/tools">查看全部工具 →</a>
+  </div>
+
+  <div class="row g-3">
+    {% for t in featured_tools %}
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card shadow-sm border-0 h-100 rounded-4">
+        <div class="card-body d-flex flex-column p-4">
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div class="h6 mb-0">{{ t.name }}</div>
+            <span class="badge text-bg-light border">热门</span>
+          </div>
+          <div class="text-muted small mb-3">{{ t.desc }}</div>
+          <div class="mt-auto">
+            <a class="btn btn-outline-primary btn-sm" href="{{ t.path }}">打开工具</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<div class="mb-4">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <div>
+      <h2 class="h5 mb-1">按分类浏览</h2>
+      <div class="text-muted small">先从类别进入，再选择对应工具</div>
+    </div>
+    <a class="small text-decoration-none" href="/tools">进入完整目录页 →</a>
+  </div>
+
+  <div class="row g-3">
+    {% for cat in categories %}
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card shadow-sm border-0 h-100 rounded-4">
+        <div class="card-body p-4 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+            <h3 class="h6 mb-0">{{ cat.name }}</h3>
+            <span class="badge text-bg-light border">{{ cat.count }} 个工具</span>
+          </div>
+
+          <div class="text-muted small mb-3">{{ cat.description }}</div>
+
+          {% if cat.tools %}
+          <ul class="small text-muted ps-3 mb-3">
+            {% for tool in cat.tools[:4] %}
+            <li class="mb-1">
+              <a class="text-decoration-none" href="{{ tool.path }}">{{ tool.name }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <div class="mt-auto">
+            <a class="btn btn-outline-success btn-sm" href="/category/{{ cat.slug }}">查看分类</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <h2 class="h5 mb-2">工具目录说明</h2>
+      <p class="text-muted mb-0">
+        这个站点采用“分类页 + 工具页”的结构：首页用于快速进入，分类页用于集中浏览某一类工具，
+        单个工具页则提供计算、解释、建议与相关推荐。这样不仅更适合用户浏览，也更适合未来新增更多工具页面。
+      </p>
+    </div>
+    <div class="col-lg-4">
+      <div class="border rounded-4 p-3 bg-light h-100">
+        <div class="small text-muted mb-2">推荐入口</div>
+        <div class="d-grid gap-2">
+          <a class="btn btn-outline-primary btn-sm" href="/bmi">BMI 计算器</a>
+          <a class="btn btn-outline-primary btn-sm" href="/calorie">TDEE 计算器</a>
+          <a class="btn btn-outline-primary btn-sm" href="/bodyfat">体脂率计算器</a>
         </div>
       </div>
     </div>
   </div>
-  {% endfor %}
 </div>
+
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <h2 class="h5 mb-2">这个站点适合谁</h2>
+      <ul class="text-muted small ps-3 mb-0">
+        <li class="mb-2">想快速了解 BMI、体脂率、BMR、TDEE 等常见健康指标的人</li>
+        <li class="mb-2">正在减脂、维持体重或做基础饮食管理的人</li>
+        <li class="mb-2">希望按分类系统浏览健康工具的人</li>
+        <li class="mb-0">需要孕期基础参考、睡眠习惯或日常摄入估算的人</li>
+      </ul>
+    </div>
+    <div class="col-lg-6">
+      <h2 class="h5 mb-2">免责声明</h2>
+      <p class="text-muted small mb-0">
+        本站所有工具与页面内容仅供一般参考，不构成医疗建议，也不能替代医生、营养师或其他专业人士的判断。
+        若你有基础疾病、孕期特殊情况、长期不适或体检异常，请优先咨询专业人士。
+      </p>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
