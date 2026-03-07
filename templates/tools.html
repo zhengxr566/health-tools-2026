@@ -41,7 +41,7 @@
 
   <div class="category-index-grid">
     {% for cat in categories %}
-      <a class="category-index-link" href="#cat-{{ cat.slug }}">
+      <a class="category-index-link" href="/category/{{ cat.slug }}">
         <span>{{ cat.name }}</span>
         <span class="small text-muted">{{ cat.count }}</span>
       </a>
