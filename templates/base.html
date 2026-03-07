@@ -461,7 +461,7 @@
                         <span class="toggle-meta">{{ child.count }}</span>
                       </button>
 
-                      <div class="collapse {% if child.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
+                      <div class="collapse {% if cat.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
                         <div class="sidebar-level-3">
                           {% for tool in child.tools %}
                             <a
@@ -552,7 +552,7 @@
                                     <span class="toggle-meta">{{ child.count }}</span>
                                   </button>
 
-                                  <div class="collapse {% if child.is_open %}show{% endif %}" id="m-child-{{ cat.slug }}-{{ child.slug }}">
+                                  <div class="collapse {% if cat.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
                                     <div class="sidebar-level-3">
                                       {% for tool in child.tools %}
                                         <a
