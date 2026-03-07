@@ -550,10 +550,10 @@ def sitemap():
 # -----------------------
 @app.get("/")
 def index():
-    featured_tools = [t for t in TOOLS if t["featured"]]
+    featured_tools = top_tools(10)
     meta = meta_for(
-        f"{SITE_NAME} - 健康计算工具导航（BMI/BMR/TDEE/体脂率等）",
-        "CalmyHealth 提供 BMI、BMR、TDEE、体脂率、理想体重、腰围风险、蛋白质、睡眠等在线健康计算工具，并按分类组织，适合持续扩展。",
+        f"{SITE_NAME} - 健康计算工具导航",
+        "BMI、TDEE、BMR、体脂率、理想体重、蛋白质、睡眠、预产期等在线健康工具。",
         "/",
     )
     return render_template(
@@ -564,7 +564,6 @@ def index():
         tools=TOOLS,
         page_kind="home",
     )
-
 
 @app.get("/tools")
 def tools():

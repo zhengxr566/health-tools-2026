@@ -1,204 +1,117 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="bg-white rounded-4 shadow-sm p-4 p-lg-5 mb-4">
-  <div class="row align-items-center g-4">
-    <div class="col-lg-8">
-      <div class="small text-success fw-semibold mb-2">CalmyHealth · 健康工具导航</div>
-      <h1 class="display-6 fw-semibold mb-3">更清晰地理解你的健康数据</h1>
-      <p class="text-muted mb-4">
-        免费在线健康计算工具，覆盖 BMI、BMR、TDEE、体脂率、理想体重、腰围风险、饮水量、蛋白质、睡眠周期与孕期基础工具。
-        适合做体重管理、代谢估算、日常习惯调整与健康数据参考。
-      </p>
-
-      <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-success" href="/tools">查看全部工具</a>
-        <a class="btn btn-outline-secondary" href="/category/weight">先看体重与体型</a>
-      </div>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="bg-light rounded-4 p-4 border h-100">
-        <div class="small text-muted mb-2">站点特点</div>
-        <ul class="mb-0 text-muted small ps-3">
-          <li class="mb-2">按分类与子分类组织，找工具更快</li>
-          <li class="mb-2">每个工具都可从目录页和分类页进入</li>
-          <li class="mb-2">适合持续扩展到 60+ 页面</li>
-          <li class="mb-0">移动端和桌面端都易于浏览</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <h1 class="h3 mb-2">健康计算工具导航</h1>
+  <p class="text-muted mb-0">
+    提供 BMI、TDEE、BMR、体脂率、理想体重、腰围风险、蛋白质、睡眠、预产期等常用工具。
+    可按热门工具或分类快速进入。
+  </p>
 </div>
 
 {% if featured_tools %}
-<div class="mb-4">
-  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-    <div>
-      <h2 class="h5 mb-1">热门工具</h2>
-      <div class="text-muted small">优先展示最常用的健康计算工具</div>
-    </div>
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h2 class="h5 mb-0">热门工具</h2>
     <a class="small text-decoration-none" href="/tools">查看全部工具 →</a>
   </div>
 
-  <div class="row g-3">
+  <div class="tool-link-grid">
     {% for t in featured_tools %}
-    <div class="col-12 col-md-6 col-xl-4">
-      <div class="card shadow-sm border-0 h-100 rounded-4">
-        <div class="card-body d-flex flex-column p-4">
-          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
-            <div class="h6 mb-0">{{ t.name }}</div>
-            <span class="badge text-bg-light border">热门</span>
-          </div>
-          <div class="text-muted small mb-3">{{ t.desc }}</div>
-          <div class="mt-auto">
-            <a class="btn btn-outline-primary btn-sm" href="{{ t.path }}">打开工具</a>
-          </div>
-        </div>
-      </div>
-    </div>
+      <a class="tool-link-chip" href="{{ t.path }}">{{ t.name }}</a>
     {% endfor %}
   </div>
 </div>
 {% endif %}
 
-<div class="mb-4">
-  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-    <div>
-      <h2 class="h5 mb-1">按分类浏览</h2>
-      <div class="text-muted small">先从大类进入，再按子分类查找具体工具</div>
-    </div>
-    <a class="small text-decoration-none" href="/tools">进入完整目录页 →</a>
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h2 class="h5 mb-0">全部工具分类</h2>
+    <a class="small text-decoration-none" href="/tools">完整目录页 →</a>
   </div>
 
-  <div class="row g-3">
+  <div class="row g-4">
     {% for cat in categories %}
     <div class="col-12 col-md-6 col-xl-4">
-      <div class="card shadow-sm border-0 h-100 rounded-4">
-        <div class="card-body p-4 d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-            <h3 class="h6 mb-0">{{ cat.name }}</h3>
-            <span class="badge text-bg-light border">{{ cat.count }} 个工具</span>
-          </div>
-
-          <div class="text-muted small mb-3">{{ cat.description }}</div>
-
-          {% if cat.children %}
-          <ul class="small text-muted ps-3 mb-3">
-            {% for child in cat.children %}
-            <li class="mb-1">
-              {{ child.name }}
-              <span class="text-muted">（{{ child.count }}）</span>
-            </li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-
-          <div class="mt-auto">
-            <a class="btn btn-outline-success btn-sm" href="/category/{{ cat.slug }}">查看分类</a>
-          </div>
+      <div class="category-mini-block">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h3 class="h6 mb-0">
+            <a class="text-decoration-none text-dark" href="/category/{{ cat.slug }}">{{ cat.name }}</a>
+          </h3>
+          <span class="small text-muted">{{ cat.count }}</span>
         </div>
+
+        {% if cat.children %}
+          {% for child in cat.children %}
+            <div class="mini-subcat">
+              <div class="mini-subcat-title">{{ child.name }}</div>
+              <div class="mini-link-list">
+                {% for tool in child.tools[:5] %}
+                  <a href="{{ tool.path }}">{{ tool.name }}</a>{% if not loop.last %}<span class="text-muted"> · </span>{% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
 
-<div class="mb-4">
-  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-    <div>
-      <h2 class="h5 mb-1">分类预览</h2>
-      <div class="text-muted small">每个分类下包含多个子分类与工具页面</div>
-    </div>
-    <a class="small text-decoration-none" href="/tools">查看全部分类 →</a>
-  </div>
+<style>
+  .tool-link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.65rem;
+  }
 
-  {% for cat in categories %}
-  <div class="bg-white rounded-4 shadow-sm p-4 mb-3">
-    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
-      <div>
-        <h2 class="h5 mb-1">{{ cat.name }}</h2>
-        <div class="text-muted small">{{ cat.description }}</div>
-      </div>
-      <div class="d-flex gap-2 flex-wrap">
-        <span class="badge text-bg-light border">{{ cat.count }} 个工具</span>
-        <a class="btn btn-outline-secondary btn-sm" href="/category/{{ cat.slug }}">进入分类页</a>
-      </div>
-    </div>
+  .tool-link-chip {
+    display: block;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid #e7edf5;
+    border-radius: 0.8rem;
+    background: #fafcff;
+    text-decoration: none;
+    color: #1f2937;
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
 
-    {% if cat.children %}
-    <div class="row g-3">
-      {% for child in cat.children %}
-      <div class="col-12 col-lg-6">
-        <div class="border rounded-4 p-3 h-100 bg-light">
-          <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-            <div class="fw-semibold">{{ child.name }}</div>
-            <span class="badge text-bg-light border">{{ child.count }}</span>
-          </div>
+  .tool-link-chip:hover {
+    background: #f3f8f5;
+    border-color: #cfe8d8;
+    color: #198754;
+  }
 
-          <div class="small text-muted mb-2">{{ child.description }}</div>
+  .category-mini-block {
+    border-top: 2px solid #eef2f7;
+    padding-top: 0.75rem;
+  }
 
-          {% if child.tools %}
-          <ul class="small text-muted ps-3 mb-0">
-            {% for tool in child.tools[:4] %}
-            <li class="mb-1">
-              <a class="text-decoration-none" href="{{ tool.path }}">{{ tool.name }}</a>
-            </li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          <div class="small text-muted">暂无工具</div>
-          {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
-  {% endfor %}
-</div>
+  .mini-subcat + .mini-subcat {
+    margin-top: 0.85rem;
+  }
 
-<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
-  <div class="row g-4">
-    <div class="col-lg-8">
-      <h2 class="h5 mb-2">工具目录说明</h2>
-      <p class="text-muted mb-0">
-        这个站点采用“首页 + 工具总目录 + 分类页 + 工具页”的结构：首页用于快速进入，工具总目录用于全站浏览，
-        分类页负责聚合同主题工具，具体工具页则提供计算、解释、建议与相关推荐。这样不仅更适合用户浏览，也更适合未来继续扩展更多页面。
-      </p>
-    </div>
-    <div class="col-lg-4">
-      <div class="border rounded-4 p-3 bg-light h-100">
-        <div class="small text-muted mb-2">推荐入口</div>
-        <div class="d-grid gap-2">
-          <a class="btn btn-outline-primary btn-sm" href="/bmi">BMI 计算器</a>
-          <a class="btn btn-outline-primary btn-sm" href="/calorie">TDEE 计算器</a>
-          <a class="btn btn-outline-primary btn-sm" href="/bodyfat">体脂率计算器</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  .mini-subcat-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: #374151;
+  }
 
-<div class="bg-white rounded-4 shadow-sm p-4">
-  <div class="row g-4">
-    <div class="col-lg-6">
-      <h2 class="h5 mb-2">这个站点适合谁</h2>
-      <ul class="text-muted small ps-3 mb-0">
-        <li class="mb-2">想快速了解 BMI、体脂率、BMR、TDEE 等常见健康指标的人</li>
-        <li class="mb-2">正在减脂、维持体重或做基础饮食管理的人</li>
-        <li class="mb-2">希望按分类系统浏览健康工具的人</li>
-        <li class="mb-0">需要孕期基础参考、睡眠习惯或日常摄入估算的人</li>
-      </ul>
-    </div>
-    <div class="col-lg-6">
-      <h2 class="h5 mb-2">免责声明</h2>
-      <p class="text-muted small mb-0">
-        本站所有工具与页面内容仅供一般参考，不构成医疗建议，也不能替代医生、营养师或其他专业人士的判断。
-        若你有基础疾病、孕期特殊情况、长期不适或体检异常，请优先咨询专业人士。
-      </p>
-    </div>
-  </div>
-</div>
+  .mini-link-list {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .mini-link-list a {
+    text-decoration: none;
+  }
+
+  .mini-link-list a:hover {
+    color: #198754;
+  }
+</style>
 
 {% endblock %}
