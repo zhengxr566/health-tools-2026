@@ -56,6 +56,7 @@
       font-weight: 700;
       letter-spacing: 0.2px;
       color: #111827;
+      margin-bottom: 0;
     }
 
     .topbar .nav-link {
@@ -75,24 +76,51 @@
       min-height: calc(100vh - var(--topbar-h));
     }
 
-    .sidebar {
-      background: var(--panel-bg);
-      border-right: 1px solid var(--line);
+    .layout-row {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
       min-height: calc(100vh - var(--topbar-h));
-      height: calc(100vh - var(--topbar-h));
+    }
+
+    .sidebar-panel-wrap {
       position: sticky;
       top: var(--topbar-h);
+      height: calc(100vh - var(--topbar-h));
+      background: var(--panel-bg);
+      border-right: 1px solid var(--line);
+      min-width: 220px;
+      max-width: 480px;
+    }
+
+    .sidebar-panel {
+      background: var(--panel-bg);
+      height: 100%;
       overflow-y: auto;
       padding: 1rem 0.85rem 1.25rem;
     }
 
-    .sidebar::-webkit-scrollbar {
+    .sidebar-panel::-webkit-scrollbar {
       width: 8px;
     }
 
-    .sidebar::-webkit-scrollbar-thumb {
+    .sidebar-panel::-webkit-scrollbar-thumb {
       background: #d8e1ec;
       border-radius: 999px;
+    }
+
+    .sidebar-resizer {
+      position: absolute;
+      top: 0;
+      right: -3px;
+      width: 6px;
+      height: 100%;
+      cursor: col-resize;
+      z-index: 20;
+      background: transparent;
+    }
+
+    .sidebar-resizer:hover {
+      background: rgba(25, 135, 84, 0.12);
     }
 
     .sidebar-title {
@@ -193,31 +221,53 @@
       font-weight: 600;
     }
 
+    .main-panel {
+      min-width: 0;
+    }
+
     .content-wrap {
       padding: 1.25rem 1.5rem 2rem;
     }
 
-    /* 重点：工具站宽布局 */
     .content-inner {
       max-width: 1360px;
       margin: 0 auto;
     }
 
-    /* 可选：文章/说明页窄一点 */
     .content-inner.content-reading {
       max-width: 980px;
-    }
-
-    .page-hero,
-    .surface-card {
-      background: #fff;
-      border-radius: 1rem;
-      box-shadow: var(--shadow-soft);
     }
 
     .mobile-toc {
       display: none;
       margin-bottom: 1rem;
+    }
+
+    .tool-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .tool-col {
+      min-width: 0;
+    }
+
+    .tool-col-form {
+      position: sticky;
+      top: calc(var(--topbar-h) + 1rem);
+    }
+
+    .tool-card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: var(--shadow-soft);
+      padding: 1.25rem;
+    }
+
+    .tool-card + .tool-card {
+      margin-top: 1rem;
     }
 
     .footer-wrap {
@@ -236,6 +286,18 @@
       color: var(--brand);
     }
 
+    body.sidebar-collapsed .layout-row {
+      grid-template-columns: 0 minmax(0, 1fr);
+    }
+
+    body.sidebar-collapsed .sidebar-panel-wrap {
+      min-width: 0;
+      max-width: 0;
+      width: 0;
+      border-right: 0;
+      overflow: hidden;
+    }
+
     @media (min-width: 1200px) {
       .content-wrap {
         padding: 1.4rem 1.75rem 2.25rem;
@@ -243,7 +305,11 @@
     }
 
     @media (max-width: 991.98px) {
-      .sidebar {
+      .layout-row {
+        display: block;
+      }
+
+      .sidebar-panel-wrap {
         display: none;
       }
 
@@ -258,6 +324,14 @@
       .content-inner,
       .content-inner.content-reading {
         max-width: 100%;
+      }
+
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-col-form {
+        position: static;
       }
     }
 
@@ -275,7 +349,12 @@
 <body>
   <nav class="navbar navbar-expand-lg topbar">
     <div class="container-fluid px-3 px-lg-4">
-      <a class="navbar-brand" href="/">{{ site_name or "CalmyHealth" }}</a>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-outline-secondary" type="button" id="sidebarToggle">
+          目录
+        </button>
+        <a class="navbar-brand" href="/">{{ site_name or "CalmyHealth" }}</a>
+      </div>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false" aria-label="切换导航">
         <span class="navbar-toggler-icon"></span>
@@ -303,172 +382,247 @@
     </div>
   </nav>
 
-  <div class="container-fluid site-shell">
-    <div class="row g-0">
-      <!-- Desktop Sidebar -->
-      <aside class="col-lg-3 col-xl-2 sidebar">
-        <div class="sidebar-title">工具目录</div>
+  <div class="container-fluid site-shell" id="siteShell">
+    <div class="layout-row" id="layoutRow">
+      <div class="sidebar-panel-wrap" id="sidebarWrap">
+        <aside class="sidebar-panel" id="sidebarPanel">
+          <div class="sidebar-title">工具目录</div>
 
-        <a class="sidebar-link {% if request.path == '/tools' %}active{% endif %}" href="/tools">
-          全部工具导航
-          <small>按分类查看全部工具</small>
-        </a>
+          <a class="sidebar-link {% if request.path == '/tools' %}active{% endif %}" href="/tools">
+            全部工具导航
+            <small>按分类查看全部工具</small>
+          </a>
 
-        {% for cat in nav_categories %}
-          <div class="sidebar-group">
-            <button
-              class="sidebar-group-toggle d-flex justify-content-between align-items-center"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#cat-{{ cat.slug }}"
-              aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
-              aria-controls="cat-{{ cat.slug }}"
-            >
-              <span>{{ cat.name }}</span>
-              <span class="toggle-meta">{{ cat.count }}</span>
-            </button>
+          {% for cat in nav_categories %}
+            <div class="sidebar-group">
+              <button
+                class="sidebar-group-toggle d-flex justify-content-between align-items-center"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#cat-{{ cat.slug }}"
+                aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
+                aria-controls="cat-{{ cat.slug }}"
+              >
+                <span>{{ cat.name }}</span>
+                <span class="toggle-meta">{{ cat.count }}</span>
+              </button>
 
-            <div class="collapse {% if cat.is_open %}show{% endif %}" id="cat-{{ cat.slug }}">
-              <div class="sidebar-level-2">
-                <a
-                  class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
-                  href="/category/{{ cat.slug }}"
-                >
-                  查看{{ cat.name }}
-                </a>
+              <div class="collapse {% if cat.is_open %}show{% endif %}" id="cat-{{ cat.slug }}">
+                <div class="sidebar-level-2">
+                  <a
+                    class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
+                    href="/category/{{ cat.slug }}"
+                  >
+                    查看{{ cat.name }}
+                  </a>
 
-                {% for child in cat.children %}
-                  <div class="sidebar-subgroup">
-                    <button
-                      class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#child-{{ cat.slug }}-{{ child.slug }}"
-                      aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
-                      aria-controls="child-{{ cat.slug }}-{{ child.slug }}"
-                    >
-                      <span>{{ child.name }}</span>
-                      <span class="toggle-meta">{{ child.count }}</span>
-                    </button>
+                  {% for child in cat.children %}
+                    <div class="sidebar-subgroup">
+                      <button
+                        class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#child-{{ cat.slug }}-{{ child.slug }}"
+                        aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
+                        aria-controls="child-{{ cat.slug }}-{{ child.slug }}"
+                      >
+                        <span>{{ child.name }}</span>
+                        <span class="toggle-meta">{{ child.count }}</span>
+                      </button>
 
-                    <div class="collapse {% if child.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
-                      <div class="sidebar-level-3">
-                        {% for tool in child.tools %}
-                          <a
-                            class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
-                            href="{{ tool.path }}"
-                          >
-                            {{ tool.name }}
-                          </a>
-                        {% endfor %}
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </aside>
-
-      <!-- Main Content -->
-      <main class="col-lg-9 col-xl-10 content-wrap">
-        <div class="content-inner {% if page_kind in ['about', 'privacy', 'contact'] %}content-reading{% endif %}">
-
-          <!-- Mobile TOC -->
-          <div class="mobile-toc">
-            <div class="accordion" id="mobileNavAccordion">
-              <div class="accordion-item border-0 shadow-sm rounded-4 overflow-hidden">
-                <h2 class="accordion-header" id="mobileNavHeading">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavCollapse" aria-expanded="false" aria-controls="mobileNavCollapse">
-                    工具目录
-                  </button>
-                </h2>
-                <div id="mobileNavCollapse" class="accordion-collapse collapse" aria-labelledby="mobileNavHeading" data-bs-parent="#mobileNavAccordion">
-                  <div class="accordion-body p-2 bg-white">
-                    <a class="sidebar-link {% if request.path == '/tools' %}active{% endif %}" href="/tools">
-                      全部工具导航
-                    </a>
-
-                    {% for cat in nav_categories %}
-                      <div class="sidebar-group">
-                        <button
-                          class="sidebar-group-toggle d-flex justify-content-between align-items-center"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#m-cat-{{ cat.slug }}"
-                          aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
-                        >
-                          <span>{{ cat.name }}</span>
-                          <span class="toggle-meta">{{ cat.count }}</span>
-                        </button>
-
-                        <div class="collapse {% if cat.is_open %}show{% endif %}" id="m-cat-{{ cat.slug }}">
-                          <div class="sidebar-level-2">
+                      <div class="collapse {% if child.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
+                        <div class="sidebar-level-3">
+                          {% for tool in child.tools %}
                             <a
-                              class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
-                              href="/category/{{ cat.slug }}"
+                              class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
+                              href="{{ tool.path }}"
                             >
-                              查看{{ cat.name }}
+                              {{ tool.name }}
                             </a>
-
-                            {% for child in cat.children %}
-                              <div class="sidebar-subgroup">
-                                <button
-                                  class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
-                                  type="button"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#m-child-{{ cat.slug }}-{{ child.slug }}"
-                                  aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
-                                >
-                                  <span>{{ child.name }}</span>
-                                  <span class="toggle-meta">{{ child.count }}</span>
-                                </button>
-
-                                <div class="collapse {% if child.is_open %}show{% endif %}" id="m-child-{{ cat.slug }}-{{ child.slug }}">
-                                  <div class="sidebar-level-3">
-                                    {% for tool in child.tools %}
-                                      <a
-                                        class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
-                                        href="{{ tool.path }}"
-                                      >
-                                        {{ tool.name }}
-                                      </a>
-                                    {% endfor %}
-                                  </div>
-                                </div>
-                              </div>
-                            {% endfor %}
-                          </div>
+                          {% endfor %}
                         </div>
                       </div>
-                    {% endfor %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </aside>
+        <div class="sidebar-resizer" id="sidebarResizer"></div>
+      </div>
+
+      <main class="main-panel">
+        <div class="content-wrap">
+          <div class="content-inner {% if page_kind in ['about', 'privacy', 'contact'] %}content-reading{% endif %}">
+
+            <div class="mobile-toc">
+              <div class="accordion" id="mobileNavAccordion">
+                <div class="accordion-item border-0 shadow-sm rounded-4 overflow-hidden">
+                  <h2 class="accordion-header" id="mobileNavHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavCollapse" aria-expanded="false" aria-controls="mobileNavCollapse">
+                      工具目录
+                    </button>
+                  </h2>
+                  <div id="mobileNavCollapse" class="accordion-collapse collapse" aria-labelledby="mobileNavHeading" data-bs-parent="#mobileNavAccordion">
+                    <div class="accordion-body p-2 bg-white">
+                      <a class="sidebar-link {% if request.path == '/tools' %}active{% endif %}" href="/tools">
+                        全部工具导航
+                      </a>
+
+                      {% for cat in nav_categories %}
+                        <div class="sidebar-group">
+                          <button
+                            class="sidebar-group-toggle d-flex justify-content-between align-items-center"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#m-cat-{{ cat.slug }}"
+                            aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
+                          >
+                            <span>{{ cat.name }}</span>
+                            <span class="toggle-meta">{{ cat.count }}</span>
+                          </button>
+
+                          <div class="collapse {% if cat.is_open %}show{% endif %}" id="m-cat-{{ cat.slug }}">
+                            <div class="sidebar-level-2">
+                              <a
+                                class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
+                                href="/category/{{ cat.slug }}"
+                              >
+                                查看{{ cat.name }}
+                              </a>
+
+                              {% for child in cat.children %}
+                                <div class="sidebar-subgroup">
+                                  <button
+                                    class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#m-child-{{ cat.slug }}-{{ child.slug }}"
+                                    aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
+                                  >
+                                    <span>{{ child.name }}</span>
+                                    <span class="toggle-meta">{{ child.count }}</span>
+                                  </button>
+
+                                  <div class="collapse {% if child.is_open %}show{% endif %}" id="m-child-{{ cat.slug }}-{{ child.slug }}">
+                                    <div class="sidebar-level-3">
+                                      {% for tool in child.tools %}
+                                        <a
+                                          class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
+                                          href="{{ tool.path }}"
+                                        >
+                                          {{ tool.name }}
+                                        </a>
+                                      {% endfor %}
+                                    </div>
+                                  </div>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {% block content %}{% endblock %}
+
+            <footer class="footer-wrap">
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                <div class="small text-muted">
+                  © {{ site_name or "CalmyHealth" }} · 健康数据工具仅供参考
+                </div>
+                <div class="small footer-links">
+                  <a href="/tools">工具导航</a>
+                  <a href="/about">关于</a>
+                  <a href="/privacy">隐私</a>
+                  <a href="/contact">联系</a>
+                </div>
+              </div>
+            </footer>
           </div>
-
-          {% block content %}{% endblock %}
-
-          <footer class="footer-wrap">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
-              <div class="small text-muted">
-                © {{ site_name or "CalmyHealth" }} · 健康数据工具仅供参考
-              </div>
-              <div class="small footer-links">
-                <a href="/tools">工具导航</a>
-                <a href="/about">关于</a>
-                <a href="/privacy">隐私</a>
-                <a href="/contact">联系</a>
-              </div>
-            </div>
-          </footer>
         </div>
       </main>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      const body = document.body;
+      const toggleBtn = document.getElementById("sidebarToggle");
+      const resizer = document.getElementById("sidebarResizer");
+
+      const STORAGE_COLLAPSED = "calmyhealth_sidebar_collapsed";
+      const STORAGE_WIDTH = "calmyhealth_sidebar_width";
+
+      const minWidth = 220;
+      const maxWidth = 480;
+      const defaultWidth = 290;
+
+      function setSidebarWidth(width) {
+        const w = Math.max(minWidth, Math.min(maxWidth, width));
+        document.documentElement.style.setProperty("--sidebar-w", w + "px");
+        try {
+          localStorage.setItem(STORAGE_WIDTH, String(w));
+        } catch (e) {}
+      }
+
+      function applyCollapsed(collapsed) {
+        if (collapsed) {
+          body.classList.add("sidebar-collapsed");
+        } else {
+          body.classList.remove("sidebar-collapsed");
+        }
+        try {
+          localStorage.setItem(STORAGE_COLLAPSED, collapsed ? "1" : "0");
+        } catch (e) {}
+      }
+
+      let savedWidth = defaultWidth;
+      let savedCollapsed = false;
+
+      try {
+        savedWidth = parseInt(localStorage.getItem(STORAGE_WIDTH) || defaultWidth, 10);
+        savedCollapsed = localStorage.getItem(STORAGE_COLLAPSED) === "1";
+      } catch (e) {}
+
+      setSidebarWidth(savedWidth);
+      applyCollapsed(savedCollapsed);
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener("click", function () {
+          applyCollapsed(!body.classList.contains("sidebar-collapsed"));
+        });
+      }
+
+      if (resizer) {
+        let dragging = false;
+
+        resizer.addEventListener("mousedown", function (e) {
+          dragging = true;
+          document.body.style.userSelect = "none";
+          document.body.style.cursor = "col-resize";
+          e.preventDefault();
+        });
+
+        window.addEventListener("mousemove", function (e) {
+          if (!dragging) return;
+          setSidebarWidth(e.clientX);
+        });
+
+        window.addEventListener("mouseup", function () {
+          if (!dragging) return;
+          dragging = false;
+          document.body.style.userSelect = "";
+          document.body.style.cursor = "";
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
