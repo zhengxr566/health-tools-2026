@@ -454,14 +454,14 @@
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#child-{{ cat.slug }}-{{ child.slug }}"
-                        aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
+                        aria-expanded="{% if cat.is_open or child.is_open %}true{% else %}false{% endif %}"
                         aria-controls="child-{{ cat.slug }}-{{ child.slug }}"
                       >
                         <span>{{ child.name }}</span>
                         <span class="toggle-meta">{{ child.count }}</span>
                       </button>
 
-                      <div class="collapse {% if cat.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
+                      <div class="collapse {% if cat.is_open or child.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
                         <div class="sidebar-level-3">
                           {% for tool in child.tools %}
                             <a
@@ -546,13 +546,13 @@
                                     type="button"
                                     data-bs-toggle="collapse"
                                     data-bs-target="#m-child-{{ cat.slug }}-{{ child.slug }}"
-                                    aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
+                                    aria-expanded="{% if cat.is_open or child.is_open %}true{% else %}false{% endif %}"
                                   >
                                     <span>{{ child.name }}</span>
                                     <span class="toggle-meta">{{ child.count }}</span>
                                   </button>
 
-                                  <div class="collapse {% if cat.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
+                                  <div class="collapse {% if cat.is_open or child.is_open %}show{% endif %}" id="m-child-{{ cat.slug }}-{{ child.slug }}">
                                     <div class="sidebar-level-3">
                                       {% for tool in child.tools %}
                                         <a
