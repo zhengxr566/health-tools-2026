@@ -1,78 +1,171 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">目标体重所需时间</h1>
-        <p class="text-muted mb-3">按每周变化速度估算达到目标体重所需周数（仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">目标体重所需时间</h1>
+      <p class="text-muted mb-3">
+        按每周变化速度估算达到目标体重所需周数（仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-6">
-            <label class="form-label">当前体重（kg）</label>
-            <input name="current_kg" class="form-control" inputmode="decimal" required value="{{ current_in }}">
-          </div>
-          <div class="col-6">
-            <label class="form-label">目标体重（kg）</label>
-            <input name="target_kg" class="form-control" inputmode="decimal" required value="{{ target_in }}">
-          </div>
+      <form method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">当前体重（kg）</label>
+          <input name="current_kg" class="form-control" inputmode="decimal" required value="{{ current_in }}">
+        </div>
 
-          <div class="col-12">
-            <label class="form-label">每周变化速度（kg/周）</label>
-            <select name="rate" class="form-select">
-              <option value="0.25" {% if rate_in=='0.25' %}selected{% endif %}>0.25（非常温和）</option>
-              <option value="0.5" {% if rate_in=='0.5' %}selected{% endif %}>0.5（常见目标）</option>
-              <option value="0.75" {% if rate_in=='0.75' %}selected{% endif %}>0.75（偏快）</option>
-              <option value="1.0" {% if rate_in=='1.0' %}selected{% endif %}>1.0（较快，需谨慎）</option>
-            </select>
-          </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label">目标体重（kg）</label>
+          <input name="target_kg" class="form-control" inputmode="decimal" required value="{{ target_in }}">
+        </div>
 
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+        <div class="col-12">
+          <label class="form-label">每周变化速度（kg/周）</label>
+          <select name="rate" class="form-select">
+            <option value="0.25" {% if rate_in == '0.25' %}selected{% endif %}>0.25（非常温和）</option>
+            <option value="0.5" {% if rate_in == '0.5' %}selected{% endif %}>0.5（常见目标）</option>
+            <option value="0.75" {% if rate_in == '0.75' %}selected{% endif %}>0.75（偏快）</option>
+            <option value="1.0" {% if rate_in == '1.0' %}selected{% endif %}>1.0（较快，需谨慎）</option>
+          </select>
+        </div>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算所需时间</button>
+        </div>
+      </form>
 
-        {% if weeks is not none %}
-          <div class="alert alert-info mt-3 mb-0">
-            预计需要约：<b>{{ weeks }}</b> 周
-          </div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          体重变化不是线性过程，平台期很常见。建议把目标拆分为“趋势”，并配合生活方式调整。
-        </p>
+    {% if weeks is not none %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">预计所需时间</div>
+          <div class="display-5 fw-semibold mb-0">{{ weeks }} 周</div>
+        </div>
+        <div class="text-muted small">目标体重计划</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        预计需要约：<b>{{ weeks }}</b> 周
+      </div>
+
+      <div class="small text-muted">
+        这是按你选择的每周变化速度做出的估算值。真实变化通常不会完全线性，
+        中途出现平台期、波动或节奏变化都很常见。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果更合理？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">把它当作“时间预期”，不要当作绝对截止日期。</li>
+          <li class="mb-2">如果你是减脂新手，通常建议从温和速度开始。</li>
+          <li class="mb-2">如果中途体重停滞，不一定是失败，可能只是暂时平台期。</li>
+          <li class="mb-0">更重要的是 4–8 周趋势，而不是某一周的单次波动。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入当前体重、目标体重和每周变化速度后，即可查看大致所需时间。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">为什么需要“时间预期”？</h2>
+      <p class="text-muted">
+        很多人减脂或增重失败，不是因为方法本身完全错误，而是因为预期过高。
+        比如希望几周内就看到巨大变化，往往会导致焦虑、过度节食或中途放弃。
+        设定合理的速度与周期，有助于减少挫败感，也更容易长期坚持。
+      </p>
+
+      <h2 class="h6 mt-4">目标体重多久能达到才算合理？</h2>
+      <p class="text-muted">
+        对多数人来说，温和、稳定的变化速度通常更可持续。
+        例如每周变化 0.25–0.5 kg，往往比“追求极快结果”更容易长期执行，
+        也更不容易影响恢复、训练表现和日常生活质量。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么体重变化不是线性的？</h2>
+      <p class="text-muted">
+        体重会受到水分、盐分、碳水储备、作息、压力、训练强度、月经周期和肠道内容物影响。
+        即使你在认真执行计划，体重也可能短期不上不下，甚至暂时回升。
+        这并不意味着计划无效，更重要的是看数周趋势，而不是某几天的数据。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更可持续的做法</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">设定合理速度，而不是只盯“尽快达到”。</li>
+          <li class="mb-2">优先保证睡眠、步数、蛋白质和执行稳定性。</li>
+          <li class="mb-2">把目标拆成阶段，例如先看 4 周、8 周而不是一次看到终点。</li>
+          <li class="mb-0">用趋势图或周平均体重代替单日判断。</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">为什么需要“时间预期”？</h2>
-      <p class="text-muted">
-        很多人减脂失败不是因为方法错，而是因为预期过高。设定合理的速度与周期，
-        有助于减少焦虑与反复。一般建议从温和速度开始，坚持 2–4 周看趋势再调整。
-      </p>
-
-      <h2 class="h6 mt-4">下一步怎么做？</h2>
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
       <p class="text-muted">
         先计算 TDEE，设定温和的目标热量，并保证足够蛋白质与日常活动量（例如步数）。
-        规律睡眠对长期坚持也非常关键。
+        对减脂和增肌来说，规律睡眠与训练恢复同样重要。目标体重只是结果，真正决定结果的是长期可执行的习惯。
       </p>
 
-      <h2 class="h6 mt-4">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：从计划到执行</li>
-        <li><a href="/protein">蛋白质</a> 与 <a href="/steps">步数</a>：更可持续的策略</li>
-      </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+      <h2 class="h6 mt-4">达到目标后怎么办？</h2>
+      <p class="text-muted">
+        达到目标体重后，重点通常不再是继续“往下压”或“继续往上冲”，而是进入更稳定的维持阶段。
+        这时可以把注意力转向体脂率、腰围、体能表现和生活方式稳定性。
+      </p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：从计划到执行</li>
+        <li><a href="/protein">蛋白质需求</a>：减脂 / 增肌期间都很重要</li>
+        <li><a href="/steps">步数转热量</a>：提高日常活动量的简单方式</li>
+        <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：看体重之外的变化</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">每周减 1 公斤是不是太快？</h3>
+      <p class="text-muted">
+        对很多人来说偏快，尤其当体重本身不高时。过快的变化可能影响恢复、情绪和可持续性。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么我体重没变，但围度变小了？</h3>
+      <p class="text-muted">
+        这很常见，尤其在开始训练或生活方式改善后。体重不一定能及时反映身体成分变化，围度和体脂率也值得一起关注。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">目标时间到了还没达到怎么办？</h3>
+      <p class="text-muted">
+        这不一定说明你失败了。更实用的做法是回看过去几周的执行情况，再微调热量、活动量、恢复和计划节奏。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

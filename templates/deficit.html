@@ -1,77 +1,169 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">热量缺口与目标热量</h1>
-        <p class="text-muted mb-3">输入 TDEE，估算减脂/维持/增肌的目标日摄入（kcal/天，仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">热量缺口与目标热量</h1>
+      <p class="text-muted mb-3">
+        输入 TDEE，估算减脂、维持或增肌时的目标日摄入热量（kcal/天，仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">你的 TDEE（kcal/天）</label>
-            <input name="tdee" class="form-control" inputmode="decimal" required value="{{ tdee_in }}">
-            <div class="form-text">不知道 TDEE？先去算：<a href="/calorie">每日热量需求（TDEE）</a></div>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">你的 TDEE（kcal/天）</label>
+          <input name="tdee" class="form-control" inputmode="decimal" required value="{{ tdee_in }}">
+          <div class="form-text">
+            不知道 TDEE？先去算：<a href="/calorie">每日热量需求（TDEE）</a>
           </div>
+        </div>
 
-          <div class="col-12">
-            <label class="form-label">模式</label>
-            <select name="mode" class="form-select">
-              <option value="loss_easy" {% if mode_in=='loss_easy' %}selected{% endif %}>减脂（温和，-300kcal）</option>
-              <option value="loss_fast" {% if mode_in=='loss_fast' %}selected{% endif %}>减脂（较快，-500kcal）</option>
-              <option value="maintain" {% if mode_in=='maintain' %}selected{% endif %}>维持体重（±0）</option>
-              <option value="gain" {% if mode_in=='gain' %}selected{% endif %}>增重/增肌（+250kcal）</option>
-            </select>
-          </div>
+        <div class="col-12">
+          <label class="form-label">模式</label>
+          <select name="mode" class="form-select">
+            <option value="loss_easy" {% if mode_in == 'loss_easy' %}selected{% endif %}>减脂（温和，-300 kcal）</option>
+            <option value="loss_fast" {% if mode_in == 'loss_fast' %}selected{% endif %}>减脂（较快，-500 kcal）</option>
+            <option value="maintain" {% if mode_in == 'maintain' %}selected{% endif %}>维持体重（±0）</option>
+            <option value="gain" {% if mode_in == 'gain' %}selected{% endif %}>增重 / 增肌（+250 kcal）</option>
+          </select>
+        </div>
 
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算目标热量</button>
+        </div>
+      </form>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        {% if target_kcal is not none %}
-          <div class="alert alert-info mt-3 mb-0">
-            模式：<b>{{ label }}</b><br>
-            建议目标热量：<b>{{ target_kcal }} kcal/天</b>
-          </div>
-        {% endif %}
+    {% if target_kcal is not none %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">建议目标热量</div>
+          <div class="display-5 fw-semibold mb-0">{{ target_kcal }} kcal / 天</div>
+        </div>
+        <div class="text-muted small">{{ label }}</div>
+      </div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          建议先从温和方案开始，持续 2–4 周观察体重趋势再微调；过度缺口可能难以坚持。
-        </p>
+      <div class="alert alert-info mt-3 mb-3">
+        模式：<b>{{ label }}</b><br>
+        建议目标热量：<b>{{ target_kcal }} kcal/天</b>
+      </div>
+
+      <div class="small text-muted">
+        这是基于你输入的 TDEE 以及当前模式得出的起始参考值。
+        更实用的做法是执行 2–4 周后，再根据体重、围度、训练表现和饥饿感微调。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">使用建议</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">如果刚开始减脂，通常更建议先从温和缺口开始。</li>
+          <li class="mb-2">如果目标是维持体重，也要关注体重趋势是否稳定。</li>
+          <li class="mb-2">增肌 / 增重不一定要大幅加热量，温和增加通常更可持续。</li>
+          <li class="mb-0">后续最好结合蛋白质摄入、步数与训练情况一起调整。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入你的 TDEE 和目标模式后，即可查看建议目标热量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是热量缺口？</h2>
+      <p class="text-muted">
+        热量缺口指“摄入低于消耗”。如果你每天摄入的热量长期低于自己的 TDEE，
+        体重更可能出现下降趋势。反过来，如果长期高于 TDEE，则更可能出现体重上升趋势。
+        所以在减脂、维持和增肌计划中，目标热量通常是最基础的起点之一。
+      </p>
+
+      <h2 class="h6 mt-4">目标热量和 TDEE 有什么关系？</h2>
+      <p class="text-muted">
+        TDEE 是“你大概每天消耗多少热量”，目标热量则是在这个基础上做加减：
+        减脂时小于 TDEE，维持时接近 TDEE，增肌或增重时略高于 TDEE。
+        因此，TDEE 更像基础盘，目标热量更像执行方案。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">减脂时热量缺口越大越好吗？</h2>
+      <p class="text-muted">
+        不一定。过大的热量缺口虽然短期体重下降更快，但也更容易带来强烈饥饿感、训练状态下降、
+        恢复变差和执行难度提高。对多数人来说，温和缺口通常更容易坚持，也更适合长期稳定减脂。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见参考</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">温和减脂：TDEE - 300 kcal / 天</li>
+          <li class="mb-2">较快减脂：TDEE - 500 kcal / 天</li>
+          <li class="mb-2">维持体重：接近 TDEE</li>
+          <li class="mb-0">温和增肌：TDEE + 200～300 kcal / 天</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">什么是热量缺口？</h2>
+    <div class="tool-card">
+      <h2 class="h6">如何让计划更可持续？</h2>
       <p class="text-muted">
-        热量缺口指“摄入低于消耗”。如果你每天比 TDEE 少摄入约 300–500 kcal，
-        长期更可能出现体重下降趋势。但减脂效果还与睡眠、压力、活动量与饮食结构有关。
+        目标热量只是框架，真正影响结果的是执行的一致性。建议优先保证蛋白质摄入，
+        通过步数或轻量活动提高日常消耗，并把注意力放在 2–4 周趋势，而不是单日体重波动。
       </p>
 
-      <h2 class="h6 mt-4">如何让计划更可持续？</h2>
+      <h2 class="h6 mt-4">为什么明明吃很少，体重也不一定立刻下降？</h2>
       <p class="text-muted">
-        目标热量只是框架，建议优先保证蛋白质摄入，并用步数提高活动量。
-        同时把注意力放在“趋势”而不是单日波动，减少挫败感。
+        体重短期会受水分、碳水储备、盐分、作息、压力、月经周期和肠道内容物影响。
+        所以比起盯着某一天的数字，更适合看 1–4 周的平均趋势。
       </p>
-
-      <h2 class="h6 mt-4">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/protein">蛋白质需求</a>：减脂期常用策略</li>
-        <li><a href="/steps">步数转热量</a>：提高日常消耗</li>
-        <li><a href="/goal-time">目标体重所需时间</a>：估算周期</li>
-      </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/protein">蛋白质需求</a>：减脂 / 增肌期常用策略</li>
+        <li><a href="/steps">步数转热量</a>：提高日常消耗</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：估算体重变化周期</li>
+        <li><a href="/calorie">TDEE</a>：先算每日总消耗，再定目标热量</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">目标热量是不是越低越有效？</h3>
+      <p class="text-muted">
+        不是。过低的目标热量可能导致难以坚持，也会影响恢复和训练表现。更合理的是找到自己能长期执行的区间。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂要不要每天都严格一样？</h3>
+      <p class="text-muted">
+        不一定。很多人更适合用周平均摄入来管理，而不是每天必须完全一致。核心是整体趋势和执行稳定性。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">增肌时是不是吃越多越好？</h3>
+      <p class="text-muted">
+        不是。热量过高不一定让肌肉长得更快，反而可能只是增加脂肪。温和盈余通常更适合大多数人。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

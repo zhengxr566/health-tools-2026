@@ -1,94 +1,184 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">每日热量需求（TDEE）</h1>
-        <p class="text-muted mb-3">基于 BMR 与活动水平估算（kcal/天，仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">每日热量需求（TDEE）</h1>
+      <p class="text-muted mb-3">
+        基于 BMR 与活动水平估算每日总能量消耗（kcal/天，仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">性别</label>
-            <select name="sex" class="form-select">
-              <option value="male" {% if sex_in=='male' %}selected{% endif %}>男</option>
-              <option value="female" {% if sex_in=='female' %}selected{% endif %}>女</option>
-            </select>
-          </div>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">性别</label>
+          <select name="sex" class="form-select">
+            <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男</option>
+            <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
+          </select>
+        </div>
 
-          <div class="col-4">
-            <label class="form-label">年龄</label>
-            <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}">
-          </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label">年龄</label>
+          <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}">
+        </div>
 
-          <div class="col-4">
-            <label class="form-label">身高（cm）</label>
-            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
-          </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+        </div>
 
-          <div class="col-4">
-            <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
-          </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        </div>
 
-          <div class="col-12">
-            <label class="form-label">活动水平</label>
-            <select name="activity" class="form-select">
-              <option value="1.2" {% if activity_in=='1.2' %}selected{% endif %}>久坐（几乎不运动）</option>
-              <option value="1.375" {% if activity_in=='1.375' %}selected{% endif %}>轻度（每周 1–3 次）</option>
-              <option value="1.55" {% if activity_in=='1.55' %}selected{% endif %}>中度（每周 3–5 次）</option>
-              <option value="1.725" {% if activity_in=='1.725' %}selected{% endif %}>较高（每周 6–7 次）</option>
-              <option value="1.9" {% if activity_in=='1.9' %}selected{% endif %}>非常高（体力劳动/高强度训练）</option>
-            </select>
-          </div>
+        <div class="col-12">
+          <label class="form-label">活动水平</label>
+          <select name="activity" class="form-select">
+            <option value="1.2" {% if activity_in == '1.2' %}selected{% endif %}>久坐（几乎不运动）</option>
+            <option value="1.375" {% if activity_in == '1.375' %}selected{% endif %}>轻度活动（每周 1–3 次）</option>
+            <option value="1.55" {% if activity_in == '1.55' %}selected{% endif %}>中度活动（每周 3–5 次）</option>
+            <option value="1.725" {% if activity_in == '1.725' %}selected{% endif %}>较高活动（每周 6–7 次）</option>
+            <option value="1.9" {% if activity_in == '1.9' %}selected{% endif %}>非常高（体力劳动 / 高强度训练）</option>
+          </select>
+        </div>
 
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算 TDEE</button>
+        </div>
+      </form>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        {% if tdee is not none %}
-          <div class="alert alert-info mt-3 mb-0">
-            你的 TDEE 约为：<b>{{ tdee }} kcal/天</b>
-          </div>
-        {% endif %}
+    {% if tdee is not none %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">你的每日总能量消耗</div>
+          <div class="display-5 fw-semibold mb-0">{{ tdee }} kcal / 天</div>
+        </div>
+        <div class="text-muted small">TDEE</div>
+      </div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          TDEE 是估算值，实际会因训练量、睡眠、压力与体成分变化而波动。建议以 2–4 周趋势调整。
-        </p>
+      <div class="alert alert-info mt-3 mb-3">
+        你的 TDEE 约为：<b>{{ tdee }} kcal/天</b>
+      </div>
+
+      <div class="small text-muted">
+        这表示在当前体重、身高、年龄和活动水平下，你每天大约会消耗
+        <b>{{ tdee }} kcal</b>。它通常比 BMR 更接近你的“真实每日消耗”。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">常见目标热量参考</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">维持体重：约 {{ tdee }} kcal / 天</li>
+          <li class="mb-2">温和减脂：约 {{ tdee - 300 if tdee else '' }} ～ {{ tdee - 500 if tdee else '' }} kcal / 天</li>
+          <li class="mb-2">温和增肌：约 {{ tdee + 200 if tdee else '' }} ～ {{ tdee + 300 if tdee else '' }} kcal / 天</li>
+          <li class="mb-0">更适合根据 2–4 周体重趋势持续微调。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入基本信息和活动水平后，即可查看估算的每日热量需求。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是 TDEE？</h2>
+      <p class="text-muted">
+        TDEE（Total Daily Energy Expenditure，每日总能量消耗）是指你一天内大约消耗的总热量。
+        它通常由基础代谢（BMR）、日常活动、运动消耗和食物热效应共同构成。
+        如果你正在减脂、维持体重或增肌，TDEE 往往是设定每日摄入热量目标的起点。
+      </p>
+
+      <h2 class="h6 mt-4">TDEE 和 BMR 有什么区别？</h2>
+      <p class="text-muted">
+        BMR 只表示静息状态下维持生命活动的最低能量消耗，而 TDEE 则进一步把走路、工作、训练、家务和日常活动都考虑进去。
+        所以在多数场景下，TDEE 会比 BMR 更适合用于制定饮食计划。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">如何用 TDEE 制定目标热量？</h2>
+      <p class="text-muted">
+        一般建议：减脂可在 TDEE 基础上减少约 300–500 kcal/天；增肌 / 增重可温和增加约 200–300 kcal/天。
+        具体需要结合体重趋势、饥饿感、训练表现与恢复情况微调。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">实用建议</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">减脂时，不必追求过大热量缺口，稳定更重要。</li>
+          <li class="mb-2">增肌时，热量过高不一定更快，可能只是增加脂肪。</li>
+          <li class="mb-2">活动水平选项不需要绝对精确，关键是后续根据趋势修正。</li>
+          <li class="mb-0">如果体重 2–4 周几乎不变，可以在当前基础上再做小幅调整。</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">什么是 TDEE？</h2>
+    <div class="tool-card">
+      <h2 class="h6">活动水平怎么选更合理？</h2>
       <p class="text-muted">
-        TDEE（每日总能量消耗）≈ 基础代谢（BMR）+ 日常活动 + 运动消耗。
-        它常用于设定“每日摄入热量目标”，是减脂与增肌计划的核心指标之一。
+        很多人会高估自己的活动水平。一个更稳妥的做法是：
+        如果你平时久坐、日常步数不高，即使每周训练几次，也未必属于“很高活动量”。
+        先选择相对保守的档位，再结合体重变化、主观疲劳和饮食执行情况调整，会比一次选得很“理想”更实用。
       </p>
 
-      <h2 class="h6 mt-4">如何用 TDEE 制定目标热量？</h2>
+      <h2 class="h6 mt-4">为什么 TDEE 不是固定值？</h2>
       <p class="text-muted">
-        一般建议：减脂可在 TDEE 基础上减少约 300–500 kcal/天；增肌/增重可温和增加约 200–300 kcal/天。
-        具体需要结合体重趋势、饥饿感与训练强度微调。
+        TDEE 会受睡眠、压力、运动量、步数、体重变化、月经周期、肌肉量和饮食状态影响。
+        所以它更适合作为“起始估算值”，而不是永远不变的标准答案。
       </p>
-
-      <h2 class="h6 mt-4">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/deficit">热量缺口与目标热量</a>：把 TDEE 变成可执行的日摄入</li>
-        <li><a href="/protein">蛋白质需求</a>：减脂/增肌更需要稳定蛋白质</li>
-        <li><a href="/steps">步数转热量</a>：提高活动量的简单方法</li>
-      </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/deficit">热量缺口与目标热量</a>：把 TDEE 变成可执行的日摄入</li>
+        <li><a href="/protein">蛋白质需求</a>：减脂 / 增肌都需要稳定蛋白质</li>
+        <li><a href="/steps">步数转热量</a>：提高活动量的简单方法</li>
+        <li><a href="/bmr">BMR</a>：从基础代谢理解总消耗来源</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">TDEE 计算器准吗？</h3>
+      <p class="text-muted">
+        TDEE 计算器本质上是估算工具，适合做起点。真正更重要的是你在接下来 2–4 周的体重、围度、训练表现和饥饿感变化。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂一定要吃到低于 TDEE 吗？</h3>
+      <p class="text-muted">
+        通常是的。若长期摄入低于 TDEE，体重更可能下降；但缺口过大不一定更好，可能影响坚持、训练和恢复。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">增肌时只看 TDEE 就够了吗？</h3>
+      <p class="text-muted">
+        不够。增肌还要考虑蛋白质摄入、训练刺激、恢复质量和体重增长速度。TDEE 只是热量规划的起点。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}
