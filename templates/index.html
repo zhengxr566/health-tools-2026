@@ -7,8 +7,8 @@
       <div class="small text-success fw-semibold mb-2">CalmyHealth · 健康工具导航</div>
       <h1 class="display-6 fw-semibold mb-3">更清晰地理解你的健康数据</h1>
       <p class="text-muted mb-4">
-        免费在线健康计算工具，覆盖 BMI、BMR、TDEE、体脂率、理想体重、腰围风险、饮水量、蛋白质、睡眠周期等。
-        适合做体重管理、代谢估算、日常习惯调整与孕期基础参考。
+        免费在线健康计算工具，覆盖 BMI、BMR、TDEE、体脂率、理想体重、腰围风险、饮水量、蛋白质、睡眠周期与孕期基础工具。
+        适合做体重管理、代谢估算、日常习惯调整与健康数据参考。
       </p>
 
       <div class="d-flex flex-wrap gap-2">
@@ -21,8 +21,8 @@
       <div class="bg-light rounded-4 p-4 border h-100">
         <div class="small text-muted mb-2">站点特点</div>
         <ul class="mb-0 text-muted small ps-3">
-          <li class="mb-2">按分类组织，找工具更快</li>
-          <li class="mb-2">每个工具都有说明与相关跳转</li>
+          <li class="mb-2">按分类与子分类组织，找工具更快</li>
+          <li class="mb-2">每个工具都可从目录页和分类页进入</li>
           <li class="mb-2">适合持续扩展到 60+ 页面</li>
           <li class="mb-0">移动端和桌面端都易于浏览</li>
         </ul>
@@ -66,7 +66,7 @@
   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
     <div>
       <h2 class="h5 mb-1">按分类浏览</h2>
-      <div class="text-muted small">先从类别进入，再选择对应工具</div>
+      <div class="text-muted small">先从大类进入，再按子分类查找具体工具</div>
     </div>
     <a class="small text-decoration-none" href="/tools">进入完整目录页 →</a>
   </div>
@@ -83,11 +83,12 @@
 
           <div class="text-muted small mb-3">{{ cat.description }}</div>
 
-          {% if cat.tools %}
+          {% if cat.children %}
           <ul class="small text-muted ps-3 mb-3">
-            {% for tool in cat.tools[:4] %}
+            {% for child in cat.children %}
             <li class="mb-1">
-              <a class="text-decoration-none" href="{{ tool.path }}">{{ tool.name }}</a>
+              {{ child.name }}
+              <span class="text-muted">（{{ child.count }}）</span>
             </li>
             {% endfor %}
           </ul>
@@ -103,13 +104,67 @@
   </div>
 </div>
 
+<div class="mb-4">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <div>
+      <h2 class="h5 mb-1">分类预览</h2>
+      <div class="text-muted small">每个分类下包含多个子分类与工具页面</div>
+    </div>
+    <a class="small text-decoration-none" href="/tools">查看全部分类 →</a>
+  </div>
+
+  {% for cat in categories %}
+  <div class="bg-white rounded-4 shadow-sm p-4 mb-3">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+      <div>
+        <h2 class="h5 mb-1">{{ cat.name }}</h2>
+        <div class="text-muted small">{{ cat.description }}</div>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <span class="badge text-bg-light border">{{ cat.count }} 个工具</span>
+        <a class="btn btn-outline-secondary btn-sm" href="/category/{{ cat.slug }}">进入分类页</a>
+      </div>
+    </div>
+
+    {% if cat.children %}
+    <div class="row g-3">
+      {% for child in cat.children %}
+      <div class="col-12 col-lg-6">
+        <div class="border rounded-4 p-3 h-100 bg-light">
+          <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+            <div class="fw-semibold">{{ child.name }}</div>
+            <span class="badge text-bg-light border">{{ child.count }}</span>
+          </div>
+
+          <div class="small text-muted mb-2">{{ child.description }}</div>
+
+          {% if child.tools %}
+          <ul class="small text-muted ps-3 mb-0">
+            {% for tool in child.tools[:4] %}
+            <li class="mb-1">
+              <a class="text-decoration-none" href="{{ tool.path }}">{{ tool.name }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <div class="small text-muted">暂无工具</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
 <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
   <div class="row g-4">
     <div class="col-lg-8">
       <h2 class="h5 mb-2">工具目录说明</h2>
       <p class="text-muted mb-0">
-        这个站点采用“分类页 + 工具页”的结构：首页用于快速进入，分类页用于集中浏览某一类工具，
-        单个工具页则提供计算、解释、建议与相关推荐。这样不仅更适合用户浏览，也更适合未来新增更多工具页面。
+        这个站点采用“首页 + 工具总目录 + 分类页 + 工具页”的结构：首页用于快速进入，工具总目录用于全站浏览，
+        分类页负责聚合同主题工具，具体工具页则提供计算、解释、建议与相关推荐。这样不仅更适合用户浏览，也更适合未来继续扩展更多页面。
       </p>
     </div>
     <div class="col-lg-4">

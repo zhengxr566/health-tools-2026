@@ -71,24 +71,7 @@
     }
 
     .sidebar-group {
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-group-title {
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: #495057;
-      margin-bottom: 0.35rem;
-      padding: 0 0.45rem;
-    }
-
-    .sidebar-group-title a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .sidebar-group-title a:hover {
-      color: var(--brand);
+      margin-bottom: 0.8rem;
     }
 
     .sidebar-link {
@@ -118,6 +101,61 @@
       color: var(--text-soft);
       font-size: 0.8rem;
       margin-top: 0.15rem;
+    }
+
+    .sidebar-group-toggle,
+    .sidebar-subgroup-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      border-radius: 0.6rem;
+      padding: 0.45rem 0.6rem;
+      color: #495057;
+    }
+
+    .sidebar-group-toggle:hover,
+    .sidebar-subgroup-toggle:hover {
+      background: #f3f6fb;
+      color: var(--brand);
+    }
+
+    .sidebar-group-toggle {
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .sidebar-subgroup-toggle {
+      font-size: 0.87rem;
+      font-weight: 600;
+      margin-top: 0.15rem;
+    }
+
+    .sidebar-subgroup {
+      margin: 0.1rem 0 0.35rem;
+    }
+
+    .sidebar-level-2 {
+      padding-left: 0.35rem;
+      border-left: 1px dashed #e5e7eb;
+      margin-left: 0.55rem;
+    }
+
+    .sidebar-level-3 {
+      padding-left: 0.35rem;
+      border-left: 1px dashed #eef2f7;
+      margin-left: 0.55rem;
+    }
+
+    .sidebar-link-tool {
+      font-size: 0.88rem;
+      padding-left: 0.8rem;
+    }
+
+    .toggle-meta {
+      color: var(--text-soft);
+      font-size: 0.78rem;
+      font-weight: 500;
     }
 
     .content-wrap {
@@ -209,18 +247,59 @@
 
         {% for cat in nav_categories %}
           <div class="sidebar-group">
-            <div class="sidebar-group-title">
-              <a href="/category/{{ cat.slug }}">{{ cat.name }}</a>
-            </div>
+            <!-- 一级分类 -->
+            <button
+              class="sidebar-group-toggle d-flex justify-content-between align-items-center"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#cat-{{ cat.slug }}"
+              aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
+              aria-controls="cat-{{ cat.slug }}"
+            >
+              <span>{{ cat.name }}</span>
+              <span class="toggle-meta">{{ cat.count }}</span>
+            </button>
 
-            {% for tool in cat.tools %}
-              <a
-                class="sidebar-link {% if request.path == tool.path %}active{% endif %}"
-                href="{{ tool.path }}"
-              >
-                {{ tool.name }}
-              </a>
-            {% endfor %}
+            <div class="collapse {% if cat.is_open %}show{% endif %}" id="cat-{{ cat.slug }}">
+              <div class="sidebar-level-2">
+                <a
+                  class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
+                  href="/category/{{ cat.slug }}"
+                >
+                  查看{{ cat.name }}
+                </a>
+
+                {% for child in cat.children %}
+                  <div class="sidebar-subgroup">
+                    <!-- 二级子分类 -->
+                    <button
+                      class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#child-{{ cat.slug }}-{{ child.slug }}"
+                      aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
+                      aria-controls="child-{{ cat.slug }}-{{ child.slug }}"
+                    >
+                      <span>{{ child.name }}</span>
+                      <span class="toggle-meta">{{ child.count }}</span>
+                    </button>
+
+                    <div class="collapse {% if child.is_open %}show{% endif %}" id="child-{{ cat.slug }}-{{ child.slug }}">
+                      <div class="sidebar-level-3">
+                        {% for tool in child.tools %}
+                          <a
+                            class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
+                            href="{{ tool.path }}"
+                          >
+                            {{ tool.name }}
+                          </a>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         {% endfor %}
       </aside>
@@ -246,18 +325,55 @@
 
                     {% for cat in nav_categories %}
                       <div class="sidebar-group">
-                        <div class="sidebar-group-title">
-                          <a href="/category/{{ cat.slug }}">{{ cat.name }}</a>
-                        </div>
+                        <button
+                          class="sidebar-group-toggle d-flex justify-content-between align-items-center"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#m-cat-{{ cat.slug }}"
+                          aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
+                        >
+                          <span>{{ cat.name }}</span>
+                          <span class="toggle-meta">{{ cat.count }}</span>
+                        </button>
 
-                        {% for tool in cat.tools %}
-                          <a
-                            class="sidebar-link {% if request.path == tool.path %}active{% endif %}"
-                            href="{{ tool.path }}"
-                          >
-                            {{ tool.name }}
-                          </a>
-                        {% endfor %}
+                        <div class="collapse {% if cat.is_open %}show{% endif %}" id="m-cat-{{ cat.slug }}">
+                          <div class="sidebar-level-2">
+                            <a
+                              class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
+                              href="/category/{{ cat.slug }}"
+                            >
+                              查看{{ cat.name }}
+                            </a>
+
+                            {% for child in cat.children %}
+                              <div class="sidebar-subgroup">
+                                <button
+                                  class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target="#m-child-{{ cat.slug }}-{{ child.slug }}"
+                                  aria-expanded="{% if child.is_open %}true{% else %}false{% endif %}"
+                                >
+                                  <span>{{ child.name }}</span>
+                                  <span class="toggle-meta">{{ child.count }}</span>
+                                </button>
+
+                                <div class="collapse {% if child.is_open %}show{% endif %}" id="m-child-{{ cat.slug }}-{{ child.slug }}">
+                                  <div class="sidebar-level-3">
+                                    {% for tool in child.tools %}
+                                      <a
+                                        class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
+                                        href="{{ tool.path }}"
+                                      >
+                                        {{ tool.name }}
+                                      </a>
+                                    {% endfor %}
+                                  </div>
+                                </div>
+                              </div>
+                            {% endfor %}
+                          </div>
+                        </div>
                       </div>
                     {% endfor %}
                   </div>

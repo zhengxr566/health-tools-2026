@@ -49,49 +49,76 @@ def canonical_url(path: str) -> str:
 CATEGORY_META = {
     "weight": {
         "name": "体重与体型",
-        "description": "BMI、理想体重、体脂率、腰围风险等，适合做体型与体重管理的基础判断。",
+        "description": "BMI、体脂、理想体重、围度相关工具",
+        "children": {
+            "bmi_weight": {
+                "name": "BMI与体重",
+                "description": "BMI、理想体重、目标体重",
+            },
+            "body_shape": {
+                "name": "体脂与围度",
+                "description": "体脂率、腰围、腰臀比等",
+            },
+        },
     },
     "metabolism": {
         "name": "代谢与热量",
-        "description": "BMR、TDEE、热量缺口与目标热量，适合减脂、维持和增肌规划。",
+        "description": "BMR、TDEE、热量目标",
+        "children": {
+            "base_energy": {
+                "name": "基础代谢",
+                "description": "BMR、静息消耗",
+            },
+            "calorie_plan": {
+                "name": "热量规划",
+                "description": "TDEE、热量缺口、目标时间",
+            },
+        },
     },
     "nutrition": {
         "name": "营养摄入",
-        "description": "蛋白质、饮水等日常营养类工具，帮助把健康目标落到每天。",
+        "description": "蛋白质、饮水、宏量营养",
+        "children": {
+            "daily_intake": {
+                "name": "日常摄入",
+                "description": "蛋白质、饮水量",
+            },
+        },
     },
     "activity": {
         "name": "运动与习惯",
-        "description": "步数、睡眠周期等习惯类工具，适合做轻量管理与日常记录。",
+        "description": "步数、睡眠、活动习惯",
+        "children": {
+            "exercise": {
+                "name": "运动消耗",
+                "description": "步数与能量消耗",
+            },
+            "sleep_habit": {
+                "name": "作息与睡眠",
+                "description": "睡眠周期与习惯",
+            },
+        },
     },
     "pregnancy": {
         "name": "孕期工具",
-        "description": "围绕备孕、孕期和预产期的实用计算工具。",
+        "description": "预产期与孕周相关",
+        "children": {
+            "pregnancy_basic": {
+                "name": "基础孕期",
+                "description": "预产期、孕周",
+            },
+        },
     },
 }
 
 TOOLS = [
-    {
-        "endpoint": "pregnancy_due_date",
-        "name": "预产期计算器",
-        "path": "/pregnancy-due-date",
-        "desc": "末次月经推算预产期与孕周",
-        "category": "pregnancy",
-        "featured": True,
-    },
     {
         "endpoint": "bmi",
         "name": "BMI 计算器（高级版）",
         "path": "/bmi",
         "desc": "含区间、可视化与建议",
         "category": "weight",
-        "featured": True,
-    },
-    {
-        "endpoint": "bodyfat",
-        "name": "体脂率计算（US Navy）",
-        "path": "/bodyfat",
-        "desc": "围度估算体脂率",
-        "category": "weight",
+        "subgroup": "bmi_weight",
         "featured": True,
     },
     {
@@ -100,7 +127,26 @@ TOOLS = [
         "path": "/ideal-weight",
         "desc": "多种经典公式对比",
         "category": "weight",
+        "subgroup": "bmi_weight",
         "featured": False,
+    },
+    {
+        "endpoint": "goal_time",
+        "name": "目标体重所需时间",
+        "path": "/goal-time",
+        "desc": "按周变化速度估算",
+        "category": "weight",
+        "subgroup": "bmi_weight",
+        "featured": False,
+    },
+    {
+        "endpoint": "bodyfat",
+        "name": "体脂率计算（US Navy）",
+        "path": "/bodyfat",
+        "desc": "围度估算体脂率",
+        "category": "weight",
+        "subgroup": "body_shape",
+        "featured": True,
     },
     {
         "endpoint": "waist",
@@ -108,6 +154,7 @@ TOOLS = [
         "path": "/waist",
         "desc": "腰围/身高比参考",
         "category": "weight",
+        "subgroup": "body_shape",
         "featured": False,
     },
     {
@@ -116,6 +163,7 @@ TOOLS = [
         "path": "/bmr",
         "desc": "Mifflin-St Jeor 公式估算",
         "category": "metabolism",
+        "subgroup": "base_energy",
         "featured": True,
     },
     {
@@ -124,6 +172,7 @@ TOOLS = [
         "path": "/calorie",
         "desc": "活动水平 + BMR 估算",
         "category": "metabolism",
+        "subgroup": "calorie_plan",
         "featured": True,
     },
     {
@@ -132,14 +181,7 @@ TOOLS = [
         "path": "/deficit",
         "desc": "减脂/增肌日摄入建议",
         "category": "metabolism",
-        "featured": False,
-    },
-    {
-        "endpoint": "goal_time",
-        "name": "目标体重所需时间",
-        "path": "/goal-time",
-        "desc": "按周变化速度估算",
-        "category": "metabolism",
+        "subgroup": "calorie_plan",
         "featured": False,
     },
     {
@@ -148,6 +190,7 @@ TOOLS = [
         "path": "/protein",
         "desc": "按目标建议摄入",
         "category": "nutrition",
+        "subgroup": "daily_intake",
         "featured": False,
     },
     {
@@ -156,6 +199,7 @@ TOOLS = [
         "path": "/water",
         "desc": "按体重估算建议",
         "category": "nutrition",
+        "subgroup": "daily_intake",
         "featured": False,
     },
     {
@@ -164,6 +208,7 @@ TOOLS = [
         "path": "/steps",
         "desc": "粗略估算步行消耗",
         "category": "activity",
+        "subgroup": "exercise",
         "featured": False,
     },
     {
@@ -172,24 +217,126 @@ TOOLS = [
         "path": "/sleep",
         "desc": "90 分钟周期时间点",
         "category": "activity",
+        "subgroup": "sleep_habit",
         "featured": False,
+    },
+    {
+        "endpoint": "pregnancy_due_date",
+        "name": "预产期计算器",
+        "path": "/pregnancy-due-date",
+        "desc": "末次月经推算预产期与孕周",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": True,
     },
 ]
 
+from flask import request
 
-def grouped_tools():
+def grouped_tools(current_path=None):
+    """
+    Return 3-level navigation data for sidebar / tools pages.
+
+    Structure:
+    [
+        {
+            "slug": "weight",
+            "name": "体重与体型",
+            "description": "...",
+            "count": 5,
+            "is_open": True,
+            "children": [
+                {
+                    "slug": "bmi_weight",
+                    "name": "BMI与体重",
+                    "description": "...",
+                    "count": 3,
+                    "is_open": True,
+                    "tools": [
+                        {
+                            "endpoint": "bmi",
+                            "name": "BMI 计算器",
+                            "path": "/bmi",
+                            "desc": "...",
+                            "category": "weight",
+                            "subgroup": "bmi_weight",
+                            "featured": True,
+                            "is_active": True,
+                        }
+                    ],
+                }
+            ],
+        }
+    ]
+    """
+
+    if current_path is None:
+        try:
+            current_path = request.path
+        except RuntimeError:
+            current_path = ""
+
     groups = []
-    for slug, cat in CATEGORY_META.items():
-        cat_tools = [t for t in TOOLS if t["category"] == slug]
-        groups.append(
-            {
-                "slug": slug,
-                "name": cat["name"],
-                "description": cat["description"],
-                "count": len(cat_tools),
-                "tools": cat_tools,
-            }
+
+    for cat_slug, cat_meta in CATEGORY_META.items():
+        children = []
+
+        for child_slug, child_meta in cat_meta.get("children", {}).items():
+            # 取出当前分类 + 子分类下的工具
+            child_tools = [
+                t.copy()
+                for t in TOOLS
+                if t.get("category") == cat_slug and t.get("subgroup") == child_slug
+            ]
+
+            # 给每个工具标记当前是否激活
+            for tool in child_tools:
+                tool["is_active"] = (tool.get("path") == current_path)
+
+            # 热门工具排前面，再按名称排序
+            child_tools = sorted(
+                child_tools,
+                key=lambda x: (
+                    not x.get("featured", False),  # featured=True 排前
+                    x.get("name", "")
+                )
+            )
+
+            # 如果这个子分类没有工具，可以选择跳过
+            if not child_tools:
+                continue
+
+            child_is_open = any(tool["is_active"] for tool in child_tools)
+
+            children.append({
+                "slug": child_slug,
+                "name": child_meta.get("name", child_slug),
+                "description": child_meta.get("description", ""),
+                "count": len(child_tools),
+                "is_open": child_is_open,
+                "tools": child_tools,
+            })
+
+        # 分类总数
+        total_count = sum(child["count"] for child in children)
+
+        # 分类是否展开：
+        # 1. 当前路径是这个分类页 /category/<slug>
+        # 2. 或者它下面有子分类已展开
+        cat_is_open = (
+            current_path == f"/category/{cat_slug}"
+            or any(child["is_open"] for child in children)
         )
+
+        groups.append({
+            "slug": cat_slug,
+            "name": cat_meta.get("name", cat_slug),
+            "description": cat_meta.get("description", ""),
+            "count": total_count,
+            "is_open": cat_is_open,
+            "children": children,
+        })
+
     return groups
 
 
@@ -437,23 +584,23 @@ def tools():
 
 @app.get("/category/<slug>")
 def category_page(slug: str):
-    if slug not in CATEGORY_META:
+    nav_groups = grouped_tools()
+    current_cat = next((c for c in nav_groups if c["slug"] == slug), None)
+
+    if current_cat is None:
         return redirect(url_for("tools"))
 
-    category = CATEGORY_META[slug]
-    category_tools = [t for t in TOOLS if t["category"] == slug]
-
     meta = meta_for(
-        f"{category['name']}工具 - {SITE_NAME}",
-        f"浏览 {category['name']} 相关健康工具：{category['description']}",
+        f"{current_cat['name']}工具 - {SITE_NAME}",
+        f"浏览 {current_cat['name']} 相关健康工具：{current_cat['description']}",
         f"/category/{slug}",
     )
+
     return render_template(
         "category.html",
         meta=meta,
-        category=category,
-        category_tools=category_tools,
-        categories=grouped_tools(),
+        current_cat=current_cat,
+        categories=nav_groups,
         page_kind="category",
     )
 
