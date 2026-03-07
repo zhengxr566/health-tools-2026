@@ -97,6 +97,7 @@
       height: 100%;
       overflow-y: auto;
       padding: 1rem 0.85rem 1.25rem;
+      scroll-behavior: auto;
     }
 
     .sidebar-panel::-webkit-scrollbar {
@@ -602,9 +603,12 @@
       const body = document.body;
       const toggleBtn = document.getElementById("sidebarToggle");
       const resizer = document.getElementById("sidebarResizer");
+      const sidebar = document.getElementById("sidebarPanel");
 
       const STORAGE_COLLAPSED = "calmyhealth_sidebar_collapsed";
       const STORAGE_WIDTH = "calmyhealth_sidebar_width";
+      const STORAGE_SCROLL = "calmyhealth_sidebar_scroll";
+      const STORAGE_LAST_PATH = "calmyhealth_sidebar_last_path";
 
       const minWidth = 220;
       const maxWidth = 480;
@@ -666,6 +670,70 @@
           dragging = false;
           document.body.style.userSelect = "";
           document.body.style.cursor = "";
+        });
+      }
+
+      if (sidebar) {
+        let restoreDone = false;
+
+        function restoreSidebarPosition() {
+          if (restoreDone) return;
+          restoreDone = true;
+
+          let savedScroll = null;
+          let savedPath = null;
+
+          try {
+            savedScroll = localStorage.getItem(STORAGE_SCROLL);
+            savedPath = localStorage.getItem(STORAGE_LAST_PATH);
+          } catch (e) {}
+
+          if (savedScroll !== null && savedPath) {
+            sidebar.scrollTop = parseInt(savedScroll, 10) || 0;
+            return;
+          }
+
+          const activeLink = sidebar.querySelector(".sidebar-link.active");
+          if (activeLink) {
+            const sidebarRect = sidebar.getBoundingClientRect();
+            const activeRect = activeLink.getBoundingClientRect();
+
+            if (activeRect.top < sidebarRect.top || activeRect.bottom > sidebarRect.bottom) {
+              const offset = activeLink.offsetTop - sidebar.clientHeight * 0.35;
+              sidebar.scrollTop = Math.max(0, offset);
+            }
+          }
+        }
+
+        window.addEventListener("load", function () {
+          setTimeout(restoreSidebarPosition, 0);
+        });
+
+        sidebar.addEventListener("scroll", function () {
+          try {
+            localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
+          } catch (e) {}
+        });
+
+        const sidebarLinks = sidebar.querySelectorAll("a");
+        sidebarLinks.forEach(function (link) {
+          link.addEventListener("click", function () {
+            try {
+              localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
+              localStorage.setItem(STORAGE_LAST_PATH, window.location.pathname);
+            } catch (e) {}
+          });
+        });
+
+        const collapseToggles = sidebar.querySelectorAll("[data-bs-toggle='collapse']");
+        collapseToggles.forEach(function (toggle) {
+          toggle.addEventListener("click", function () {
+            setTimeout(function () {
+              try {
+                localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
+              } catch (e) {}
+            }, 250);
+          });
         });
       }
     })();

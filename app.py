@@ -577,6 +577,7 @@ def tools():
         meta=meta,
         categories=grouped_tools(),
         tools=TOOLS,
+        top_tools=top_tools(10),
         page_kind="tools",
     )
 
