@@ -344,10 +344,10 @@ def grouped_tools(current_path=None):
 def inject_global_nav():
     return {
         "nav_categories": grouped_tools(),
+        "top_tools": top_tools(10),
         "site_name": SITE_NAME,
         "site_name_zh": SITE_NAME_ZH,
     }
-
 
 def meta_for(title: str, description: str, path: str) -> dict:
     return {
@@ -581,6 +581,15 @@ def tools():
         page_kind="tools",
     )
 
+def top_tools(limit=10):
+    ranked = sorted(
+        TOOLS,
+        key=lambda x: (
+            not x.get("featured", False),
+            x.get("name", "")
+        )
+    )
+    return ranked[:limit]
 
 @app.get("/category/<slug>")
 def category_page(slug: str):

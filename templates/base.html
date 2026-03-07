@@ -131,6 +131,16 @@
       color: #111827;
     }
 
+    .sidebar-section-title {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: #4b5563;
+      margin: 0.8rem 0 0.35rem;
+      padding: 0 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     .sidebar-group {
       margin-bottom: 0.8rem;
     }
@@ -163,6 +173,10 @@
       color: var(--text-soft);
       font-size: 0.78rem;
       margin-top: 0.12rem;
+    }
+
+    .sidebar-link-top {
+      font-size: 0.9rem;
     }
 
     .sidebar-group-toggle,
@@ -393,6 +407,22 @@
             <small>按分类查看全部工具</small>
           </a>
 
+          {% if top_tools %}
+          <div class="sidebar-section-title">热门工具</div>
+          <div class="sidebar-group">
+            {% for tool in top_tools %}
+              <a
+                class="sidebar-link sidebar-link-top {% if request.path == tool.path %}active{% endif %}"
+                href="{{ tool.path }}"
+              >
+                {{ loop.index }}. {{ tool.name }}
+              </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="sidebar-section-title">分类目录</div>
+
           {% for cat in nav_categories %}
             <div class="sidebar-group">
               <button
@@ -469,6 +499,22 @@
                       <a class="sidebar-link {% if request.path == '/tools' %}active{% endif %}" href="/tools">
                         全部工具导航
                       </a>
+
+                      {% if top_tools %}
+                      <div class="sidebar-section-title">热门工具</div>
+                      <div class="sidebar-group">
+                        {% for tool in top_tools %}
+                          <a
+                            class="sidebar-link sidebar-link-top {% if request.path == tool.path %}active{% endif %}"
+                            href="{{ tool.path }}"
+                          >
+                            {{ loop.index }}. {{ tool.name }}
+                          </a>
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+
+                      <div class="sidebar-section-title">分类目录</div>
 
                       {% for cat in nav_categories %}
                         <div class="sidebar-group">
