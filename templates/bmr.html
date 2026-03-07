@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="tool-layout">
-  <!-- 左侧：表单 -->
+  <!-- 左侧：计算器 + 结果 -->
   <div class="tool-col tool-col-form">
     <div class="tool-card">
       <h1 class="h4 mb-2">基础代谢率（BMR）</h1>
@@ -42,81 +42,77 @@
       {% if error %}
         <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
       {% endif %}
+    </div>
 
-      <div class="mt-3 small text-muted">
-        提示：BMR 是静息状态下的基础能量消耗，不等于你每天的真实总消耗。
+    {% if bmr is not none %}
+    <div class="tool-card">
+      <div class="text-muted small">你的基础代谢率</div>
+      <div class="display-5 fw-semibold mb-2">{{ bmr }} kcal / 天</div>
+
+      <div class="alert alert-info mb-3">
+        你的 BMR 约为：<b>{{ bmr }} kcal/天</b>
+      </div>
+
+      <div class="small text-muted">
+        这表示在完全静息状态下，你每天大约会消耗 <b>{{ bmr }} kcal</b>
+        来维持呼吸、心跳、体温等基本生命活动。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="small text-muted">
+        注意：BMR 不等于每日总消耗。实际消耗通常更高，因为还包括活动、运动和食物消化。
       </div>
     </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入性别、年龄、身高和体重后，即可查看估算结果。
+      </div>
+    </div>
+    {% endif %}
   </div>
 
-  <!-- 右侧：结果 + 说明 -->
+  <!-- 右侧：解释 -->
   <div class="tool-col tool-col-result">
     <div class="tool-card">
-      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-        <div>
-          <div class="text-muted small">你的基础代谢率</div>
-          <div class="display-6 fw-semibold mb-0">
-            {% if bmr is not none %}
-              {{ bmr }}
-            {% else %}
-              --
-            {% endif %}
-          </div>
-        </div>
-        <div class="text-muted small">kcal / 天</div>
-      </div>
-
-      {% if bmr is not none %}
-        <div class="alert alert-info mb-0">
-          你的 BMR 约为：<b>{{ bmr }} kcal/天</b>
-        </div>
-      {% else %}
-        <div class="text-muted">
-          输入年龄、性别、身高和体重后，即可查看估算结果。
-        </div>
-      {% endif %}
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6 mb-2">结果怎么理解？</h2>
-      <p class="text-muted mb-3">
-        BMR（基础代谢率）是人体在完全静息状态下，为维持呼吸、心跳、体温等基本生命活动所需的最低能量消耗。
-        对大多数人来说，BMR 占每日总消耗的较大比例。
+      <h2 class="h6">什么是基础代谢率（BMR）？</h2>
+      <p class="text-muted">
+        基础代谢率（BMR）是人体在完全静息状态下维持生命活动所需的最低能量消耗。
+        它通常包括呼吸、血液循环、体温调节等基本生理过程，是日常总消耗的重要组成部分。
       </p>
 
-      <div class="bg-light rounded-3 p-3">
+      <h2 class="h6 mt-4">BMR 有什么作用？</h2>
+      <p class="text-muted">
+        了解 BMR 后，通常还需要结合活动水平计算
+        <a href="/calorie">TDEE（每日总消耗）</a>，
+        才能更合理地设定“减脂 / 维持 / 增肌”的目标热量。
+        单看 BMR 容易低估真实消耗。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
         <div class="fw-semibold mb-2">使用建议</div>
         <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">如果你想减脂或增肌，建议继续计算 TDEE（每日总消耗）。</li>
-          <li class="mb-2">单看 BMR 容易低估真实消耗，因为日常活动、运动和消化也会消耗热量。</li>
-          <li class="mb-0">更合理的做法是：先看 BMR，再结合活动水平制定目标热量。</li>
+          <li class="mb-2">减脂时不要直接按 BMR 吃，通常应先算 TDEE。</li>
+          <li class="mb-2">体重变化长期不明显时，可以结合 TDEE 和热量缺口一起看。</li>
+          <li class="mb-0">如果你也关心体型，可以继续看 BMI 和体脂率。</li>
         </ul>
       </div>
     </div>
 
     <div class="tool-card">
-      <h2 class="h6">什么是基础代谢率（BMR）？</h2>
-      <p class="text-muted">
-        基础代谢率（BMR）是人体在完全静息状态下维持生命活动所需的最低能量消耗。
-        它通常是体重管理、饮食规划和热量估算的起点。
-      </p>
-
-      <h2 class="h6 mt-4">BMR 有什么作用？</h2>
-      <p class="text-muted">
-        了解 BMR 后，通常还需要结合活动水平计算 TDEE（每日总消耗），才能更合理地设定“减脂 / 维持 / 增肌”的目标热量。
-        BMR 更适合做基础参考，而不是直接作为每日摄入标准。
-      </p>
-
-      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <h2 class="h6 mt-0">相关工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/calorie">每日热量需求（TDEE）</a>：从 BMR 推到总消耗</li>
         <li><a href="/deficit">目标热量（热量缺口）</a>：减脂 / 增肌日摄入建议</li>
-        <li><a href="/bmi">BMI</a>、<a href="/bodyfat">体脂率</a>：从结果到体型判断</li>
+        <li><a href="/bmi">BMI</a>、<a href="/bodyfat">体脂率</a>：从热量到体型判断</li>
       </ul>
+    </div>
 
-      <hr class="my-4">
+    <div class="tool-card">
+      <h2 class="h6 mt-0">免责声明</h2>
       <p class="small text-muted mb-0">
-        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+        本页面与计算结果仅供参考，不构成医疗建议。如有慢病、孕期、体检异常或长期不适，请咨询专业人士。
       </p>
     </div>
   </div>
