@@ -1,80 +1,179 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">理想体重计算</h1>
-        <p class="text-muted mb-3">用多种经典公式给出参考区间（仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">理想体重计算</h1>
+      <p class="text-muted mb-3">
+        用多种经典公式估算理想体重范围，帮助你把“目标体重”看得更合理（仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">性别</label>
-            <select name="sex" class="form-select">
-              <option value="male" {% if sex_in=='male' %}selected{% endif %}>男</option>
-              <option value="female" {% if sex_in=='female' %}selected{% endif %}>女</option>
-            </select>
-          </div>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">性别</label>
+          <select name="sex" class="form-select">
+            <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男</option>
+            <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
+          </select>
+        </div>
 
-          <div class="col-12">
-            <label class="form-label">身高（cm）</label>
-            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
-          </div>
+        <div class="col-12">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+        </div>
 
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算理想体重</button>
+        </div>
+      </form>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        {% if results %}
-          <div class="alert alert-info mt-3">
-            <div class="fw-semibold mb-2">参考结果（kg）：</div>
-            <ul class="mb-0">
-              <li>Devine：<b>{{ results['Devine'] }}</b></li>
-              <li>Robinson：<b>{{ results['Robinson'] }}</b></li>
-              <li>Miller：<b>{{ results['Miller'] }}</b></li>
-              <li>Hamwi：<b>{{ results['Hamwi'] }}</b></li>
-              <li>平均值：<b>{{ results['Average'] }}</b></li>
-            </ul>
-          </div>
-        {% endif %}
+    {% if results %}
+    <div class="tool-card">
+      <div class="text-muted small">参考结果（kg）</div>
+      <div class="display-6 fw-semibold mb-3">{{ results['Average'] }} kg</div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          理想体重是统计/经验公式的估算，不等于“必须达到”的目标，更建议结合体脂率与生活方式综合判断。
-        </p>
+      <div class="alert alert-info mb-3">
+        平均参考值：<b>{{ results['Average'] }} kg</b>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead>
+            <tr class="text-muted">
+              <th>公式</th>
+              <th>结果（kg）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Devine</td>
+              <td><b>{{ results['Devine'] }}</b></td>
+            </tr>
+            <tr>
+              <td>Robinson</td>
+              <td><b>{{ results['Robinson'] }}</b></td>
+            </tr>
+            <tr>
+              <td>Miller</td>
+              <td><b>{{ results['Miller'] }}</b></td>
+            </tr>
+            <tr>
+              <td>Hamwi</td>
+              <td><b>{{ results['Hamwi'] }}</b></td>
+            </tr>
+            <tr class="table-light">
+              <td>平均值</td>
+              <td><b>{{ results['Average'] }}</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="small text-muted">
+        理想体重是统计 / 经验公式的估算，不等于“必须达到”的体重，更建议把它当作一个参考区间或参考点。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        选择性别并输入身高后，即可查看多种经典公式下的理想体重参考值。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">理想体重怎么看才合理？</h2>
+      <p class="text-muted">
+        各种理想体重公式基于不同假设，例如身高、体型、骨架大小和历史人群样本，因此结果往往会有差异。
+        更合理的做法不是把某个数字当成“必须达到的标准”，而是把它看作一个参考范围，再结合 BMI、体脂率、腰围和生活方式综合判断。
+      </p>
+
+      <h2 class="h6 mt-4">理想体重是不是越接近越好？</h2>
+      <p class="text-muted">
+        不一定。对于有训练习惯、肌肉量较高、骨架较大或生活目标不同的人来说，
+        仅仅追求某个“理想体重数字”并不一定最适合。长期可维持、体能状态好、体脂水平合理，通常比单一体重数字更重要。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这些公式有什么区别？</h2>
+      <p class="text-muted">
+        Devine、Robinson、Miller、Hamwi 都是常见的理想体重经验公式，常用于医学参考、药物剂量估算或一般体重参考。
+        因为建立年代、样本和假设不同，所以计算结果不会完全一致。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">怎么理解多个结果？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">不要只盯着某一个公式结果。</li>
+          <li class="mb-2">多个公式相近时，可把平均值作为参考点。</li>
+          <li class="mb-2">如果结果差异较大，更建议结合 BMI 和体脂率一起看。</li>
+          <li class="mb-0">最终目标体重应考虑你的生活方式、体型和长期可持续性。</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">理想体重怎么看才合理？</h2>
+    <div class="tool-card">
+      <h2 class="h6">如果想从当前体重到目标，下一步怎么做？</h2>
       <p class="text-muted">
-        各公式基于不同假设（身高、体型、骨架等），因此结果会有差异。更推荐把它当作“参考点”，
-        再结合 BMI、体脂率与腰围判断是否需要调整体重或体成分。
-      </p>
-
-      <h2 class="h6 mt-4">如果想从当前体重到目标，下一步怎么做？</h2>
-      <p class="text-muted">
-        若你有明确目标，可先计算 TDEE，再设定温和的目标热量与每周变化速度，并持续记录趋势。
+        如果你已经有明确目标体重，下一步通常不是“马上极端减重”，而是先计算 TDEE，
+        再设定温和的目标热量与每周变化速度，并持续记录趋势。
         目标越温和，越容易坚持，也越不容易反弹。
       </p>
 
-      <h2 class="h6 mt-4">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：判断“体型/体成分”</li>
-        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：把目标转成日计划</li>
-        <li><a href="/goal-time">目标体重所需时间</a>：估算周期，减少焦虑</li>
-      </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
+      <h2 class="h6 mt-4">目标体重应该看体重还是体型？</h2>
+      <p class="text-muted">
+        很多人真正想改善的是“体型”和“状态”，而不只是体重数字。
+        所以比起只盯体重，更建议结合体脂率、腰围、力量水平、体能和日常精神状态来判断变化是否值得。
+      </p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：判断体型与体成分</li>
+        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：把目标转成日计划</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：估算周期，减少焦虑</li>
+        <li><a href="/waist">腰围风险</a>：补充判断脂肪分布</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">理想体重是不是标准体重？</h3>
+      <p class="text-muted">
+        很多人会把理想体重、标准体重混着说，但它们本质上都只是参考概念，并不代表你必须达到某个唯一数字。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么我的理想体重比想象中低 / 高？</h3>
+      <p class="text-muted">
+        因为公式是根据平均经验建立的，不会完全考虑你的骨架、肌肉量、训练状态和个人偏好，所以结果偏高或偏低都很常见。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">应该直接把平均值当目标吗？</h3>
+      <p class="text-muted">
+        更建议把平均值当作“参考点”，再结合 BMI、体脂率、腰围和可持续性来决定是否真的需要调整体重。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

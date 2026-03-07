@@ -1,68 +1,168 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">腰围风险（WHtR）</h1>
-        <p class="text-muted mb-3">用 腰围/身高 比值进行简单风险提示（仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">腰围风险（WHtR）</h1>
+      <p class="text-muted mb-3">
+        用腰围 / 身高比值（WHtR）做简单风险提示，帮助快速了解腹部脂肪相关风险（仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-6">
-            <label class="form-label">腰围（cm）</label>
-            <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}">
-          </div>
-          <div class="col-6">
-            <label class="form-label">身高（cm）</label>
-            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
-          </div>
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+      <form method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">腰围（cm）</label>
+          <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}">
+        </div>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+        <div class="col-12 col-md-6">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+        </div>
 
-        {% if whtr is not none %}
-          <div class="alert alert-info mt-3 mb-0">
-            你的 WHtR（腰围/身高）≈ <b>{{ whtr }}</b>，提示：<b>{{ level }}</b>
-          </div>
-        {% endif %}
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算 WHtR</button>
+        </div>
+      </form>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          WHtR 是非常简化的指标，建议与体脂率、BMI、体检指标一起看。
-        </p>
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if whtr is not none %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">你的腰围 / 身高比值</div>
+          <div class="display-5 fw-semibold mb-0">{{ whtr }}</div>
+        </div>
+        <div class="text-muted small">WHtR</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        你的 WHtR（腰围 / 身高）≈ <b>{{ whtr }}</b><br>
+        提示：<b>{{ level }}</b>
+      </div>
+
+      <div class="small text-muted">
+        WHtR 是一种非常简化但实用的腹部脂肪筛查指标，更适合用于自测和长期趋势观察。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">常见参考</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">&lt; 0.5：通常较好</li>
+          <li class="mb-2">0.5 – 0.6：需要注意</li>
+          <li class="mb-2">≥ 0.6：风险更高</li>
+          <li class="mb-0">更建议结合体脂率、BMI 和体检指标一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入腰围和身高后，即可查看你的 WHtR 结果和简单风险提示。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">WHtR 为什么常用？</h2>
+      <p class="text-muted">
+        腰围可以粗略反映腹部脂肪堆积，而腹部脂肪与多种健康风险密切相关。
+        WHtR（Waist-to-Height Ratio，腰围 / 身高比）把“腰围”与“身高”结合起来，
+        因此比单看腰围数字更有参考价值，也比只看体重更接近脂肪分布问题。
+      </p>
+
+      <h2 class="h6 mt-4">WHtR 和 BMI 有什么区别？</h2>
+      <p class="text-muted">
+        BMI 更关注体重与身高的比例，但不能区分脂肪和肌肉，也不反映脂肪主要堆积在哪里。
+        WHtR 更强调“腹部脂肪分布”，所以很多时候它能补充 BMI 看不到的信息。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么腹部脂肪更值得注意？</h2>
+      <p class="text-muted">
+        腹部脂肪，尤其是内脏脂肪，通常与代谢健康风险更相关。
+        所以在很多日常健康管理场景里，腰围和 WHtR 都被当作非常实用的快速筛查指标。
+        它不代表医学诊断，但能帮助你尽早关注趋势。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">怎么理解 WHtR 的价值？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">它比单看体重更能反映腹部脂肪问题。</li>
+          <li class="mb-2">它比只看腰围更公平，因为同时考虑了身高。</li>
+          <li class="mb-2">它特别适合做简单自测和长期趋势跟踪。</li>
+          <li class="mb-0">但它仍然只是“筛查指标”，不是最终诊断。</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">WHtR 为什么常用？</h2>
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
       <p class="text-muted">
-        腰围可以粗略反映腹部脂肪堆积，而腹部脂肪与多种健康风险相关。WHtR（腰围/身高）把身高考虑进来，
-        作为一个快速筛查指标常用于日常自测。一般建议：&lt;0.5 较好，0.5–0.6 需要注意，≥0.6 风险更高。
+        如果结果提示需要注意，可以从“饮食热量 + 活动量 + 睡眠恢复”三个方向入手：
+        先计算 <a href="/calorie">TDEE</a>，设定 <a href="/deficit">目标热量</a>，
+        用 <a href="/steps">步数</a> 提高日常活动量，并保持相对规律的作息，
+        持续 2–4 周观察体重、腰围和体脂率变化。
       </p>
 
-      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <h2 class="h6 mt-4">腰围下降比体重下降更重要吗？</h2>
       <p class="text-muted">
-        如果提示需要注意，可以从“饮食热量 + 活动量 + 睡眠”三个方向入手：先算 TDEE，设定目标热量，
-        用步数提升日常活动，并保证睡眠恢复，持续 2–4 周观察趋势。
+        对很多人来说，腰围变化往往比体重数字更能反映腹部脂肪趋势。
+        有时体重变化不大，但腰围下降，说明体型和脂肪分布可能正在改善。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">如何更准确地测量腰围？</h2>
+      <p class="text-muted">
+        为了让结果更有可比性，建议每次都在相似条件下测量，例如早晨空腹、自然站立、呼气后放松状态。
+        软尺应贴合身体但不要勒紧，并尽量保持测量位置一致。
       </p>
 
       <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
-        <li><a href="/bodyfat">体脂率</a>：更接近体成分</li>
+        <li><a href="/bodyfat">体脂率</a>：更接近体成分变化</li>
         <li><a href="/calorie">TDEE</a> + <a href="/deficit">目标热量</a>：从风险到行动</li>
         <li><a href="/steps">步数热量</a>：提高日常消耗</li>
+        <li><a href="/bmi">BMI</a>：补充基础体重筛查信息</li>
       </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">WHtR 一定比 BMI 更好吗？</h3>
+      <p class="text-muted">
+        不一定是“完全替代”，但在关注腹部脂肪分布时，WHtR 往往能提供比 BMI 更直接的信息。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">腰围正常是不是就没问题？</h3>
+      <p class="text-muted">
+        不一定。健康风险需要结合体脂率、体检指标、生活方式和家族史等多方面综合判断。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">多久测一次比较合适？</h3>
+      <p class="text-muted">
+        多数人每周或每两周记录一次就足够，重点是方法一致，方便看长期趋势。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

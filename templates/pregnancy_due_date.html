@@ -1,61 +1,147 @@
 {% extends "base.html" %}
-{% block title %}预产期计算器（怀孕到生产时间推算）- 在线推算宝宝出生日期{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">预产期计算器</h1>
-        <p class="text-muted">根据末次月经日期推算怀孕280天后的预产期（仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">预产期计算器</h1>
+      <p class="text-muted mb-3">
+        根据末次月经第一天推算怀孕 280 天后的预产期（仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">末次月经第一天</label>
-            <input type="date" name="lmp" class="form-control" required>
-          </div>
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算预产期</button>
-          </div>
-        </form>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">末次月经第一天</label>
+          <input type="date" name="lmp" class="form-control" required>
+        </div>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3">{{ error }}</div>
-        {% endif %}
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算预产期</button>
+        </div>
+      </form>
 
-        {% if due_date %}
-          <div class="alert alert-info mt-3">
-            预计预产期为：<b>{{ due_date }}</b>
-          </div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if due_date %}
+    <div class="tool-card">
+      <div class="text-muted small">预计预产期</div>
+      <div class="display-6 fw-semibold mb-3">{{ due_date }}</div>
+
+      <div class="alert alert-info mb-3">
+        预计预产期为：<b>{{ due_date }}</b>
+      </div>
+
+      <div class="small text-muted">
+        这是按末次月经第一天加 280 天推算得到的常见估算结果，
+        更适合作为初步参考，而不是绝对准确的分娩日期。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果更合理？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">预产期是估算日期，不是“必须当天生产”。</li>
+          <li class="mb-2">提前或推迟几天，甚至 1–2 周，都可能属于正常范围。</li>
+          <li class="mb-2">如果月经周期不规律，实际孕周可能和计算值有偏差。</li>
+          <li class="mb-0">医生通常会结合超声检查进一步判断孕周和预产期。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        选择末次月经第一天后，即可查看预计预产期。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">预产期怎么算？</h2>
+      <p class="text-muted">
+        预产期通常按照末次月经第一天起算，加上 280 天（约 40 周）进行推算。
+        这是医学上常用的基础估算方法，也常被称为按孕周推算预产期。
+      </p>
+
+      <h2 class="h6 mt-4">为什么是 280 天？</h2>
+      <p class="text-muted">
+        因为医学上通常从末次月经第一天开始计算孕周，而不是从排卵或受孕当天开始。
+        所以常见的完整妊娠周期会被记为约 40 周，也就是大约 280 天。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">怀孕多久生才算正常？</h2>
+      <p class="text-muted">
+        正常妊娠周期大致在 37–42 周之间。也就是说，很多孕妇并不会刚好在预产期当天生产，
+        提前或推迟几天都很常见。预产期更像一个“参考时间点”，而不是固定交付日期。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见理解</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">预产期当天生，只是其中一种情况。</li>
+          <li class="mb-2">不少人会在预产期前后 1–2 周分娩。</li>
+          <li class="mb-0">医生会结合产检、B 超和胎儿发育情况综合判断。</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">预产期怎么算？</h2>
+    <div class="tool-card">
+      <h2 class="h6">月经不规律还能算吗？</h2>
       <p class="text-muted">
-        预产期通常按照末次月经第一天起算，加上280天（约40周）进行推算。
-        这是一种医学上常用的估算方法。
+        可以作为大致参考，但准确性会下降。如果月经周期不规律、记不清末次月经日期，
+        或者排卵时间和平时差异较大，建议结合早孕期 B 超结果判断孕周与预产期。
       </p>
 
-      <h2 class="h6 mt-4">怀孕多久生？</h2>
+      <h2 class="h6 mt-4">预产期会调整吗？</h2>
       <p class="text-muted">
-        正常妊娠周期约为37–42周之间。提前或推迟几天都属于正常现象。
-      </p>
-
-      <h2 class="h6 mt-4">常见问题</h2>
-      <ul class="text-muted">
-        <li>预产期一定准确吗？不是，仅供参考。</li>
-        <li>月经不规律怎么算？建议结合B超检查。</li>
-      </ul>
-
-      <hr>
-      <p class="small text-muted">
-        本页面仅用于科普参考，不构成医疗建议。
+        会。临床上如果早孕期超声显示的孕周与按月经推算差异较大，医生可能会对预产期做进一步修正。
       </p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">预产期一定准确吗？</h3>
+      <p class="text-muted">
+        不是。它只是一个常见医学估算值，主要用于帮助理解孕周和安排后续产检节奏。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">受孕日期和预产期有直接关系吗？</h3>
+      <p class="text-muted">
+        有，但多数情况下临床不会直接按“受孕当天”来算，而是按末次月经第一天作为统一起点。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个计算结果能替代医生判断吗？</h3>
+      <p class="text-muted">
+        不能。这个页面只适合初步参考，正式孕周与预产期仍应以医生检查和产检结果为准。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关内容建议</h2>
+      <ul class="text-muted mb-0">
+        <li>记录产检时间和孕周变化，帮助更好理解孕期节奏。</li>
+        <li>如月经周期不规律，尽早结合早孕 B 超确认孕周。</li>
+        <li>可将预产期作为安排孕期检查、准备待产事项的参考时间点。</li>
+      </ul>
+
+      <hr class="my-4">
+
+      <p class="small text-muted mb-0">
+        本页面仅用于科普参考，不构成医疗建议。如有孕期疑问、腹痛、出血或其他不适，请及时咨询医生。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

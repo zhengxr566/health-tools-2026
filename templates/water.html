@@ -1,51 +1,127 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">每日饮水量计算</h1>
-        <p class="text-muted mb-3">按体重估算基础饮水建议（仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">每日饮水量计算</h1>
+      <p class="text-muted mb-3">
+        按体重估算基础饮水建议，帮助你快速了解每天大概需要喝多少水（仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
-          </div>
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        </div>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算每日饮水量</button>
+        </div>
+      </form>
 
-        {% if water_ml is not none %}
-          <div class="alert alert-info mt-3 mb-0">
-            建议饮水量约：<b>{{ water_ml }} ml/天</b>{% if water_l is not none %}（约 {{ water_l }} L）{% endif %}
-          </div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          饮水需求会受气温、出汗、运动、饮食盐分等影响；本结果为基础估算值。
-        </p>
+    {% if water_ml is not none %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">建议饮水量</div>
+          <div class="display-5 fw-semibold mb-0">{{ water_ml }} ml / 天</div>
+        </div>
+        <div class="text-muted small">
+          {% if water_l is not none %}约 {{ water_l }} L{% endif %}
+        </div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        建议饮水量约：<b>{{ water_ml }} ml/天</b>{% if water_l is not none %}（约 {{ water_l }} L）{% endif %}
+      </div>
+
+      <div class="small text-muted">
+        这是按体重做出的基础估算值，更适合作为起点参考。
+        实际饮水需求还会受到气温、活动量、出汗、饮食结构和个体差异影响。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么更实用地看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">先把它当作“基础目标”，再按运动和天气增减。</li>
+          <li class="mb-2">如果你平时喝水很少，先逐步增加，比一次性提升更容易坚持。</li>
+          <li class="mb-2">喝水不一定越多越好，关键是够用、规律、适合自己。</li>
+          <li class="mb-0">更建议少量多次，而不是等口渴了再猛喝。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入体重后，即可查看基础饮水建议值。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">饮水量应该怎么理解？</h2>
+      <p class="text-muted">
+        常见做法是按体重粗略估算饮水量，例如每公斤体重约 30–35 ml / 天。
+        这类计算更适合做“日常基础参考”，帮助你知道自己大概应该喝多少水，
+        但并不代表所有情况都必须严格照着执行。
+      </p>
+
+      <h2 class="h6 mt-4">为什么喝水需求会变化？</h2>
+      <p class="text-muted">
+        因为饮水需求不仅和体重有关，还会受到天气温度、出汗量、运动时长、饮食盐分、咖啡因摄入、
+        生活节奏和个体代谢差异影响。所以同一个人不同季节、不同活动量下，饮水需求都可能不一样。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">每天喝多少水才算够？</h2>
+      <p class="text-muted">
+        对多数人来说，能够保持日常精神状态、口腔不明显干燥、尿液颜色不过深，
+        通常说明饮水大体够用。比起追求某个非常精确的数字，更重要的是长期保持稳定、足够的补水习惯。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见补水场景</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">起床后补一点水</li>
+          <li class="mb-2">午餐和晚餐前后适量补水</li>
+          <li class="mb-2">运动前后根据出汗情况增加补水</li>
+          <li class="mb-0">天气热、空调房久坐时也别忽略喝水</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">饮水量应该怎么理解？</h2>
+    <div class="tool-card">
+      <h2 class="h6">如何更容易坚持喝水？</h2>
       <p class="text-muted">
-        常见做法是按体重粗略估算，例如每公斤体重约 30–35 ml/天。本工具取中间值做参考，
-        适合作为“最低起点”，再根据运动、出汗和气温做调整。
+        对很多人来说，不是“不知道该喝多少”，而是“总是忘记喝”。更实用的方法通常是把补水放进固定场景里，
+        例如起床后、工作开始前、午饭前、运动后，或者准备带刻度的水杯，帮助自己更直观看到当天进度。
       </p>
 
-      <h2 class="h6 mt-4">如何更容易坚持？</h2>
+      <h2 class="h6 mt-4">减脂和体重管理时为什么也要关注饮水？</h2>
       <p class="text-muted">
-        建议少量多次、固定场景补水（例如起床后、午餐前、运动后）。若你容易忘记，
-        可以准备带刻度水杯或设置提醒。
+        足够的饮水有助于维持日常状态、活动表现和饮食执行感受。对一些人来说，规律喝水还能帮助区分“口渴”和“想吃东西”的感觉，
+        让日常饮食管理更稳定。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">喝水越多越好吗？</h2>
+      <p class="text-muted">
+        不一定。饮水太少可能影响状态，但过量饮水也并不一定更健康。更重要的是在合适范围内，根据环境和身体感觉灵活调整。
+        如果你有特殊疾病、肾脏问题、心血管问题或被医生特别要求限制饮水，应以专业建议为准。
       </p>
 
       <h2 class="h6 mt-4">相关工具推荐</h2>
@@ -53,12 +129,34 @@
         <li><a href="/sleep">睡眠周期</a>：改善恢复与精神状态</li>
         <li><a href="/calorie">每日热量需求（TDEE）</a>：体重管理的核心指标</li>
         <li><a href="/bmi">BMI</a>：快速判断体重区间</li>
+        <li><a href="/steps">步数转热量</a>：把活动量和生活习惯一起管理</li>
       </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">每天一定要喝 8 杯水吗？</h3>
+      <p class="text-muted">
+        不一定。8 杯水只是一个很常见的简化说法，真正更适合的饮水量仍然和体重、活动量、气候与个体差异有关。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">喝咖啡、喝茶算不算饮水？</h3>
+      <p class="text-muted">
+        从液体摄入角度看，它们也属于补水来源的一部分，但如果你摄入较多咖啡因，更建议同时保持规律喝白水的习惯。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">运动后要额外补多少水？</h3>
+      <p class="text-muted">
+        通常应根据运动时长、出汗量和环境温度灵活调整。出汗明显时，基础饮水量往往需要额外增加。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

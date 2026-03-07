@@ -1,78 +1,165 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">睡眠周期计算</h1>
-        <p class="text-muted mb-3">按 90 分钟一个周期给出建议时间点（含 15 分钟入睡缓冲，仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">睡眠周期计算</h1>
+      <p class="text-muted mb-3">
+        按 90 分钟一个周期给出建议时间点（含 15 分钟入睡缓冲，仅供参考）。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">选择模式</label>
-            <select name="mode" class="form-select">
-              <option value="sleep_now" {% if mode_in=='sleep_now' %}selected{% endif %}>我现在要睡（计算起床时间）</option>
-              <option value="wake_at" {% if mode_in=='wake_at' %}selected{% endif %}>我想几点起（计算入睡时间）</option>
-            </select>
-          </div>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">选择模式</label>
+          <select name="mode" class="form-select">
+            <option value="sleep_now" {% if mode_in == 'sleep_now' %}selected{% endif %}>我现在要睡（计算起床时间）</option>
+            <option value="wake_at" {% if mode_in == 'wake_at' %}selected{% endif %}>我想几点起（计算入睡时间）</option>
+          </select>
+        </div>
 
-          <div class="col-12">
-            <label class="form-label">时间（HH:MM）</label>
-            <input name="time_hm" class="form-control" placeholder="例如 23:30" required value="{{ time_hm_in }}">
-            <div class="form-text">提示：24 小时制，例如 06:30、23:10。</div>
-          </div>
+        <div class="col-12">
+          <label class="form-label">时间（HH:MM）</label>
+          <input name="time_hm" class="form-control" placeholder="例如 23:30" required value="{{ time_hm_in }}">
+          <div class="form-text">提示：24 小时制，例如 06:30、23:10。</div>
+        </div>
 
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算推荐时间</button>
+        </div>
+      </form>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        {% if times and times|length > 0 %}
-          <div class="alert alert-info mt-3">
-            <div class="fw-semibold mb-2">推荐时间点：</div>
-            <ul class="mb-0">
-              {% for t in times %}
-                <li><b>{{ t }}</b></li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
+    {% if times and times|length > 0 %}
+    <div class="tool-card">
+      <div class="text-muted small">推荐时间点</div>
+      <div class="alert alert-info mt-3 mb-3">
+        <div class="fw-semibold mb-2">建议参考：</div>
+        <ul class="mb-0">
+          {% for t in times %}
+            <li><b>{{ t }}</b></li>
+          {% endfor %}
+        </ul>
+      </div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          睡眠周期并非严格固定；建议结合总时长、规律作息与睡前习惯综合调整。
-        </p>
+      <div class="small text-muted">
+        这些时间点基于“约 90 分钟一个睡眠周期 + 约 15 分钟入睡缓冲”估算而来，
+        更适合作为作息安排参考，而不是绝对标准。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么更实用地看结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">优先选择你最容易长期坚持的作息时间。</li>
+          <li class="mb-2">即使时间点合适，睡眠总时长不足也可能仍然疲惫。</li>
+          <li class="mb-2">如果最近压力大、作息乱，结果只能作为粗略参考。</li>
+          <li class="mb-0">建议搭配固定起床时间使用，通常更容易改善作息。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        选择模式并输入时间后，即可查看推荐的入睡或起床时间点。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是睡眠周期？</h2>
+      <p class="text-muted">
+        睡眠通常由多个周期组成，每个周期大约持续 90 分钟，通常包含浅睡眠、深睡眠和快速眼动睡眠（REM）等阶段。
+        如果在深睡眠阶段被强行叫醒，醒来时更可能感觉头昏、疲惫和反应慢；如果在一个周期结束附近醒来，通常会相对更清醒。
+      </p>
+
+      <h2 class="h6 mt-4">睡眠周期计算器是怎么算的？</h2>
+      <p class="text-muted">
+        这个工具会在输入时间基础上，加入大约 15 分钟的入睡缓冲，再按 90 分钟一个周期向前或向后推算。
+        它适合帮助你规划“几点睡更容易几点起”或“想几点起时，几点准备睡更合适”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么有时睡很久还是很累？</h2>
+      <p class="text-muted">
+        睡眠质量不仅和总时长有关，还与入睡时间、是否频繁醒来、压力水平、睡前习惯、光照和作息规律有关。
+        有些人虽然睡了很久，但如果睡眠中断多、入睡过晚、昼夜节律混乱，醒来仍然会感觉疲惫。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见影响因素</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">睡前长时间看手机或接触强光</li>
+          <li class="mb-2">咖啡、茶、酒精或过晚进食</li>
+          <li class="mb-2">压力大、焦虑或作息不固定</li>
+          <li class="mb-0">卧室环境过亮、过热或噪音较多</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">什么是睡眠周期？</h2>
+    <div class="tool-card">
+      <h2 class="h6">怎么用这个工具更有效？</h2>
       <p class="text-muted">
-        睡眠通常以约 90 分钟为一个周期，包含浅睡眠、深睡眠与快速眼动阶段。
-        如果在深睡眠阶段被打断，醒来可能更疲惫；在周期结束附近醒来通常更清醒。
+        你可以用“我现在要睡”来估算几个更适合起床的时间点，也可以用“我想几点起”反推更适合入睡的时间。
+        多数成人通常仍建议保证 7–9 小时左右总睡眠时间，因此这个工具更适合与“总时长”一起考虑，而不是只追求周期整齐。
       </p>
 
-      <h2 class="h6 mt-4">怎么用这个工具？</h2>
+      <h2 class="h6 mt-4">睡眠规律比计算结果更重要吗？</h2>
       <p class="text-muted">
-        你可以用“我现在要睡”计算推荐起床时间，或用“我想几点起”反推推荐入睡时间。
-        建议同时保证稳定作息与足够时长（多数成人 7–9 小时）。
+        通常是的。对于多数人来说，规律的入睡和起床时间，比偶尔算出一个“完美时间点”更重要。
+        如果你能长期保持相对固定的作息，睡眠质量往往比单纯依赖计算器更稳定。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">睡眠不足会影响什么？</h2>
+      <p class="text-muted">
+        长期睡眠不足可能影响注意力、情绪、恢复、训练表现、食欲调节和日常精力水平。
+        对正在减脂或做健康管理的人来说，睡眠质量往往也会影响体重趋势、饥饿感和执行力。
       </p>
 
       <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/water">饮水量</a>：基础习惯管理</li>
-        <li><a href="/calorie">TDEE</a> 与 <a href="/bmi">BMI</a>：体重管理与生活方式结合</li>
+        <li><a href="/calorie">TDEE</a>：睡眠与恢复也会影响日常状态和活动量</li>
+        <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：从体重管理角度看生活方式</li>
       </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">睡眠周期一定是 90 分钟吗？</h3>
+      <p class="text-muted">
+        不一定。90 分钟只是常见平均值，不同人的周期长度可能有差异，所以这个工具属于估算工具。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">是不是只要按周期醒来就一定精神好？</h3>
+      <p class="text-muted">
+        不是。作息规律、睡眠总时长、睡眠质量和压力状态同样很重要。周期时间点只是一个辅助参考。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合天天用吗？</h3>
+      <p class="text-muted">
+        可以作为作息安排参考，但更重要的是借此逐渐建立稳定的睡眠习惯，而不是每天反复依赖计算结果。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。如长期失眠、白天极度嗜睡或睡眠严重受影响，建议咨询专业人士。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}

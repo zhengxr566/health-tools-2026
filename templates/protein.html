@@ -1,73 +1,180 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-12 col-md-8 col-lg-6">
 
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <h1 class="h4 mb-2">蛋白质需求计算</h1>
-        <p class="text-muted mb-3">按体重与目标给出每日蛋白质建议（g/天，仅供参考）。</p>
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">蛋白质需求计算</h1>
+      <p class="text-muted mb-3">
+        按体重与目标估算每日蛋白质建议（g/天，仅供参考），适合日常维持、减脂期与增肌期使用。
+      </p>
 
-        <form method="post" class="row g-3">
-          <div class="col-12">
-            <label class="form-label">体重（kg）</label>
-            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
-          </div>
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        </div>
 
-          <div class="col-12">
-            <label class="form-label">目标</label>
-            <select name="goal" class="form-select">
-              <option value="maintain" {% if goal_in=='maintain' %}selected{% endif %}>日常维持</option>
-              <option value="fat_loss" {% if goal_in=='fat_loss' %}selected{% endif %}>减脂期</option>
-              <option value="muscle_gain" {% if goal_in=='muscle_gain' %}selected{% endif %}>增肌期</option>
-            </select>
-          </div>
+        <div class="col-12">
+          <label class="form-label">目标</label>
+          <select name="goal" class="form-select">
+            <option value="maintain" {% if goal_in == 'maintain' %}selected{% endif %}>日常维持</option>
+            <option value="fat_loss" {% if goal_in == 'fat_loss' %}selected{% endif %}>减脂期</option>
+            <option value="muscle_gain" {% if goal_in == 'muscle_gain' %}selected{% endif %}>增肌期</option>
+          </select>
+        </div>
 
-          <div class="col-12">
-            <button class="btn btn-success w-100">计算</button>
-          </div>
-        </form>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算蛋白质需求</button>
+        </div>
+      </form>
 
-        {% if error %}
-          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-        {% endif %}
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-        {% if grams is not none %}
-          <div class="alert alert-info mt-3 mb-0">
-            目标：<b>{{ label }}</b>，建议蛋白质约：<b>{{ grams }} g/天</b>
-          </div>
-        {% endif %}
+    {% if grams is not none %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">建议蛋白质摄入</div>
+          <div class="display-5 fw-semibold mb-0">{{ grams }} g / 天</div>
+        </div>
+        <div class="text-muted small">{{ label }}</div>
+      </div>
 
-        <hr class="my-4">
-        <p class="small text-muted mb-0">
-          蛋白质建议与训练量、体脂水平、年龄等有关；本工具给出的是简化参考范围。
-        </p>
+      <div class="alert alert-info mt-3 mb-3">
+        目标：<b>{{ label }}</b><br>
+        建议蛋白质约：<b>{{ grams }} g/天</b>
+      </div>
+
+      <div class="small text-muted">
+        这是按体重和目标做出的简化估算值，适合作为起点参考。
+        后续可以结合训练量、饱腹感、恢复情况和总热量安排做微调。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么更容易达成？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">把每日目标分配到 3–4 餐，通常比一餐集中吃更容易。</li>
+          <li class="mb-2">先保证主餐有明确蛋白质来源，再考虑加餐补足。</li>
+          <li class="mb-2">减脂期更适合优先选高蛋白、相对低热量的食物。</li>
+          <li class="mb-0">增肌期除了蛋白质，也别忽略总热量和力量训练。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入体重并选择目标后，即可查看建议的每日蛋白质摄入量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">为什么蛋白质重要？</h2>
+      <p class="text-muted">
+        蛋白质与肌肉合成、组织修复、恢复、饱腹感和日常饮食稳定性密切相关。
+        对减脂人群来说，适当提高蛋白质摄入通常有助于减少肌肉流失、提升饱腹感；
+        对增肌人群来说，足够蛋白质则是力量训练适应的重要基础之一。
+      </p>
+
+      <h2 class="h6 mt-4">蛋白质需求是按什么算的？</h2>
+      <p class="text-muted">
+        最常见的简化方法是按体重估算每日蛋白质摄入量，也就是“每公斤体重摄入多少克蛋白质”。
+        不同目标下，这个参考值通常不同：日常维持较低，减脂和增肌阶段通常更高。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">减脂、维持、增肌的蛋白质需求有什么区别？</h2>
+      <p class="text-muted">
+        日常维持时，蛋白质主要用于满足基础功能和一般恢复；减脂时，因为总热量下降，
+        适当提高蛋白质摄入通常更有利于保留瘦体重和控制饥饿感；增肌时则需要在训练刺激和总热量基础上，
+        通过足够蛋白质支持肌肉恢复和适应。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">简单理解</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">维持：够用、稳定、容易长期执行。</li>
+          <li class="mb-2">减脂：更重视保肌和饱腹感。</li>
+          <li class="mb-2">增肌：更重视恢复与训练配合。</li>
+          <li class="mb-0">最终都要结合总热量和生活方式一起看。</li>
+        </ul>
       </div>
     </div>
 
-    <div class="bg-white rounded-3 shadow-sm p-4">
-      <h2 class="h6">为什么蛋白质重要？</h2>
+    <div class="tool-card">
+      <h2 class="h6">如何更容易达到目标？</h2>
       <p class="text-muted">
-        蛋白质与肌肉合成、饱腹感与恢复有关。减脂期适当提高蛋白质摄入，有助于减少肌肉流失；
-        增肌期则需要足够蛋白质配合力量训练。
+        很多人不是“完全不知道要吃多少蛋白质”，而是“知道目标但做不到”。
+        更实用的做法通常是：把目标拆到每餐，优先保证早餐、午餐、晚餐都出现明确蛋白质来源，
+        再按需要用加餐补足，而不是把所有压力放到最后一餐。
       </p>
 
-      <h2 class="h6 mt-4">如何更容易达到目标？</h2>
+      <h2 class="h6 mt-4">减脂时是不是蛋白质越高越好？</h2>
       <p class="text-muted">
-        可以把每日目标分配到每餐，例如一日三餐均匀摄入；优先选择高蛋白食物，并结合蔬菜与主食保持均衡。
-        若你在控制热量，可先用 TDEE 设定总热量，再安排蛋白质比例。
+        不一定。蛋白质很重要，但并不是越高越好。过高摄入可能让饮食安排变得难坚持，
+        也可能挤占其他营养和总热量空间。对多数人来说，合理、稳定、能长期执行的蛋白质安排更重要。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">高蛋白饮食怎么安排更实用？</h2>
+      <p class="text-muted">
+        如果你想更容易吃够蛋白质，可以优先从常见高蛋白食物入手，例如鸡蛋、奶制品、鱼虾、鸡胸肉、瘦牛肉、豆制品等。
+        同时注意整体饮食结构，不要只看蛋白质数字，还要考虑总热量、碳水、脂肪和蔬菜摄入的平衡。
       </p>
 
-      <h2 class="h6 mt-4">相关工具推荐</h2>
+      <h2 class="h6 mt-4">每天每餐都要一样多吗？</h2>
+      <p class="text-muted">
+        不需要完全一样。更重要的是一天总量大致达到目标，并让大部分餐次都有一定蛋白质来源。
+        对很多人来说，三餐相对均匀分配，通常比“白天很少、晚上一次补很多”更容易坚持。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：确定总热量框架</li>
         <li><a href="/bodyfat">体脂率</a>：更准确评估减脂效果</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：从目标到周期安排</li>
+        <li><a href="/steps">步数转热量</a>：配合提高日常消耗</li>
       </ul>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">免责声明：本页面与计算结果仅供参考，不构成医疗建议。</p>
     </div>
 
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">蛋白质一定要靠蛋白粉吗？</h3>
+      <p class="text-muted">
+        不一定。很多人完全可以通过正常饮食达到目标。蛋白粉更像一种方便补充方式，而不是必须品。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">不训练也需要关注蛋白质吗？</h3>
+      <p class="text-muted">
+        需要。即使不做系统训练，蛋白质仍然与饱腹感、恢复和基础营养有关，只是目标通常不需要像增肌期那样高。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂时蛋白质不够会怎样？</h3>
+      <p class="text-muted">
+        对一些人来说，蛋白质不足可能让饱腹感更差，也更不利于在热量缺口下维持肌肉量和恢复状态。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
   </div>
 </div>
+
 {% endblock %}
