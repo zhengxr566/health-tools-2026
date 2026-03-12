@@ -2,124 +2,184 @@
 {% block content %}
 
 <div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">受孕日期推算器（宝宝大概什么时候怀上的）</h1>
+      <p class="text-muted mb-3">
+        根据末次月经第一天，推算可能的受孕日期，并同步给出预产期参考（仅供参考）。
+      </p>
 
-<div class="tool-col tool-col-form">
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">末次月经第一天</label>
+          <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+        </div>
 
-<div class="tool-card">
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算受孕日期</button>
+        </div>
+      </form>
 
-<h1 class="h4 mb-2">受孕日期推算器</h1>
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-<p class="text-muted">
-根据末次月经推算宝宝可能的受孕时间。
-</p>
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">可能受孕日期</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.conception_date }}</div>
+        </div>
+        <div class="text-muted small">按常见医学估算</div>
+      </div>
 
-<form method="post" class="row g-3">
+      <div class="alert alert-info mt-3 mb-3">
+        宝宝可能的大致受孕日期为：<b>{{ result.conception_date }}</b><br>
+        预计预产期参考：<b>{{ result.due_date }}</b>
+      </div>
 
-<div class="col-12">
-<label class="form-label">末次月经第一天</label>
-<input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
-</div>
+      <div class="small text-muted mb-2">受孕与预产期关系示意</div>
+      <div class="bg-light rounded-3 p-3">
+        <div class="small text-muted mb-2">受孕日期通常大约发生在预产期前 266 天左右</div>
 
-<div class="col-12">
-<button class="btn btn-success w-100">
-计算受孕日期
-</button>
-</div>
+        <div class="position-relative" style="height: 16px; background:#e9ecef; border-radius:999px; overflow:hidden;">
+          <div style="position:absolute; left:0; top:0; height:100%; width:5%; background:#198754;"></div>
+          <div style="position:absolute; left:5%; top:0; height:100%; width:95%; background:#cfe2ff;"></div>
+        </div>
 
-</form>
+        <div class="d-flex justify-content-between small text-muted mt-2">
+          <span>受孕</span>
+          <span>孕期进展</span>
+          <span>预产期</span>
+        </div>
+      </div>
 
-{% if error %}
-<div class="alert alert-warning mt-3">{{ error }}</div>
-{% endif %}
+      <hr class="my-3">
 
-</div>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">推算受孕日期</div>
+            <div class="fw-semibold">{{ result.conception_date }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">预计预产期</div>
+            <div class="fw-semibold">{{ result.due_date }}</div>
+          </div>
+        </div>
+      </div>
 
-{% if result %}
+      <hr class="my-3">
 
-<div class="tool-card">
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">下一步建议</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">如果你更关心“当前怀孕到第几周”，可以继续使用 <a href="/pregnancy-week">怀孕周数计算器</a>。</li>
+          <li class="mb-2">如果你更关心“什么时候更容易受孕”，可以回到 <a href="/ovulation">排卵期计算器</a>。</li>
+          <li class="mb-0">如果你更关心“什么时候可能生产”，可以继续看 <a href="/pregnancy-due-date">预产期计算器</a>。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        选择末次月经第一天后，即可查看可能的受孕日期和预产期参考。
+      </div>
+    </div>
+    {% endif %}
+  </div>
 
-<div class="alert alert-info">
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">受孕日期是怎么算出来的？</h2>
+      <p class="text-muted">
+        医学上常见的简化估算方法是：受孕通常发生在排卵附近，而排卵时间在规律周期中常常接近末次月经后约 14 天。
+        因此很多受孕日期推算器都会基于末次月经第一天加上大约 14 天来估算。
+      </p>
 
-可能受孕日期：
+      <h2 class="h6 mt-4">计算公式说明</h2>
+      <div class="bg-light rounded-3 p-3 small">
+        受孕日期 ≈ 末次月经第一天 + 14 天
+      </div>
 
-<b>{{ result.conception_date }}</b>
+      <p class="text-muted mt-3">
+        如果已知预产期，也常见反推方式为：
+      </p>
 
-</div>
+      <div class="bg-light rounded-3 p-3 small">
+        受孕日期 ≈ 预产期 − 266 天
+      </div>
+    </div>
 
-<div class="text-muted">
+    <div class="tool-card">
+      <h2 class="h6">为什么受孕日期和怀孕周数不一样？</h2>
+      <p class="text-muted">
+        这是很多人都会混淆的地方。怀孕周数通常从末次月经第一天开始算，而不是从真正受孕那天开始算。
+        所以你看到的“孕 6 周”“孕 8 周”，并不代表已经受孕了 6 或 8 周，真实受孕时间通常会更晚一些。
+      </p>
 
-预计预产期：
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">简单理解</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">孕周：从末次月经第一天起算</li>
+          <li class="mb-2">受孕：通常发生在排卵附近</li>
+          <li class="mb-0">所以受孕日期往往会晚于“怀孕开始计算的日期”</li>
+        </ul>
+      </div>
+    </div>
 
-<b>{{ result.due_date }}</b>
+    <div class="tool-card">
+      <h2 class="h6">这个结果什么时候误差会更大？</h2>
+      <p class="text-muted">
+        如果月经周期不规律、排卵提前或推迟、记不清末次月经日期，或者存在特殊生理情况，
+        受孕日期推算结果的误差会更大。所以这类工具更适合作为“估算”和“时间范围参考”，而不是严格医学确认。
+      </p>
 
-</div>
+      <h2 class="h6 mt-4">这个工具适合谁？</h2>
+      <p class="text-muted">
+        适合想大致了解宝宝可能是什么时候怀上的用户，也适合把受孕、排卵、孕周和预产期串起来理解整个孕期时间线的人。
+      </p>
+    </div>
 
-</div>
+    <div class="tool-card">
+      <h2 class="h6">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/ovulation">排卵期计算器</a>：更早一步看什么时候更容易受孕</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：查看现在怀孕到哪一周</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：推算预计生产日期</li>
+      </ul>
+    </div>
 
-{% endif %}
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
 
-</div>
+      <h3 class="h6 mt-3 mb-1">受孕日期可以精确到某一天吗？</h3>
+      <p class="text-muted">
+        很难。多数情况下它更适合作为一个大致估算值，而不是绝对精确日期。
+      </p>
 
+      <h3 class="h6 mt-3 mb-1">受孕日期和排卵日一定一样吗？</h3>
+      <p class="text-muted">
+        不一定，但通常会比较接近，因为受孕通常发生在排卵附近。
+      </p>
 
-<div class="tool-col tool-col-result">
+      <h3 class="h6 mt-3 mb-1">这个结果能替代医生判断吗？</h3>
+      <p class="text-muted">
+        不能。正式判断仍应结合检查结果与医生建议。
+      </p>
 
-<div class="tool-card">
-
-<h2 class="h6">受孕日期怎么算？</h2>
-
-<p class="text-muted">
-
-医学上通常认为排卵发生在下次月经前约14天，
-因此受孕时间通常接近排卵日。
-
-</p>
-
-</div>
-
-
-<div class="tool-card">
-
-<h2 class="h6">常见计算公式</h2>
-
-<div class="bg-light p-3 rounded small">
-
-受孕日期 ≈ 末次月经 + 14天
-
-</div>
-
-<p class="text-muted mt-2">
-
-如果已知预产期，也可以反推：
-
-</p>
-
-<div class="bg-light p-3 rounded small">
-
-受孕日期 ≈ 预产期 − 266天
-
-</div>
-
-</div>
-
-
-<div class="tool-card">
-
-<h2 class="h6">相关孕期工具</h2>
-
-<ul class="text-muted">
-
-<li><a href="/ovulation">排卵期计算器</a></li>
-
-<li><a href="/pregnancy-week">怀孕周数计算器</a></li>
-
-<li><a href="/pregnancy-due-date">预产期计算器</a></li>
-
-</ul>
-
-</div>
-
-</div>
-
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

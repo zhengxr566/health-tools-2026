@@ -2,125 +2,193 @@
 {% block content %}
 
 <div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">排卵期计算器（易孕期与排卵日预测）</h1>
+      <p class="text-muted mb-3">
+        输入末次月经第一天和月经周期长度，预测排卵日、易孕期和下次月经日期（仅供参考）。
+      </p>
 
-<div class="tool-col tool-col-form">
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">末次月经第一天</label>
+          <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+        </div>
 
-<div class="tool-card">
+        <div class="col-12">
+          <label class="form-label">月经周期长度（天）</label>
+          <input type="number" name="cycle" class="form-control" min="21" max="45" required value="{{ cycle_in }}">
+          <div class="form-text">常见周期约 21–45 天，若周期明显不规律，结果仅适合作为粗略参考。</div>
+        </div>
 
-<h1 class="h4 mb-2">排卵期计算器</h1>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算排卵期</button>
+        </div>
+      </form>
 
-<p class="text-muted">
-输入末次月经日期和周期长度，预测排卵日和易孕期。
-</p>
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-<form method="post" class="row g-3">
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">预计排卵日</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.ovulation_day }}</div>
+        </div>
+        <div class="text-muted small">易孕期预测</div>
+      </div>
 
-<div class="col-12">
-<label class="form-label">末次月经第一天</label>
-<input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
-</div>
+      <div class="alert alert-info mt-3 mb-3">
+        易孕期预计为：<b>{{ result.fertile_start }}</b> ～ <b>{{ result.fertile_end }}</b><br>
+        排卵日预计为：<b>{{ result.ovulation_day }}</b>
+      </div>
 
-<div class="col-12">
-<label class="form-label">月经周期（天）</label>
-<input type="number" name="cycle" class="form-control" value="{{ cycle_in }}">
-</div>
+      <div class="small text-muted mb-2">周期时间线（示意）</div>
+      <div class="bg-light rounded-3 p-3">
+        <div class="small text-muted mb-2">从末次月经 → 易孕期 → 排卵日 → 下次月经</div>
 
-<div class="col-12">
-<button class="btn btn-success w-100">
-计算排卵期
-</button>
-</div>
+        <div class="position-relative" style="height: 16px; background:#e9ecef; border-radius: 999px; overflow:hidden;">
+          <div style="position:absolute; left:0; top:0; height:100%; width:18%; background:#cfe2ff;"></div>
+          <div style="position:absolute; left:35%; top:0; height:100%; width:24%; background:#ffe69c;"></div>
+          <div style="position:absolute; left:49%; top:-3px; width:10px; height:22px; background:#198754; border-radius:999px;"></div>
+        </div>
 
-</form>
+        <div class="d-flex justify-content-between small text-muted mt-2">
+          <span>月经开始</span>
+          <span>易孕期</span>
+          <span>排卵</span>
+          <span>下次月经</span>
+        </div>
+      </div>
 
-{% if error %}
-<div class="alert alert-warning mt-3">{{ error }}</div>
-{% endif %}
+      <hr class="my-3">
 
-</div>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">易孕期开始</div>
+            <div class="fw-semibold">{{ result.fertile_start }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">易孕期结束</div>
+            <div class="fw-semibold">{{ result.fertile_end }}</div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="bg-light rounded-3 p-3">
+            <div class="small text-muted">预计下次月经</div>
+            <div class="fw-semibold">{{ result.next_period }}</div>
+          </div>
+        </div>
+      </div>
 
-{% if result %}
+      <hr class="my-3">
 
-<div class="tool-card">
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">下一步建议</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">如果你是在备孕，可结合排卵日前几天到排卵日附近一起参考。</li>
+          <li class="mb-2">如果已经怀孕，可继续使用 <a href="/conception-date">受孕日期推算器</a>、<a href="/pregnancy-week">怀孕周数计算器</a>。</li>
+          <li class="mb-0">如果月经周期不规律，建议把结果和基础体温、排卵试纸或医生建议一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入末次月经日期和月经周期后，即可查看预计排卵日、易孕期范围和下次月经日期。
+      </div>
+    </div>
+    {% endif %}
+  </div>
 
-<div class="alert alert-info">
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">排卵期怎么算？</h2>
+      <p class="text-muted">
+        常见估算方法是：排卵通常发生在下一次月经前大约 14 天左右。因此如果已知末次月经日期和平均月经周期长度，
+        就可以大致反推出排卵日和易孕期范围。
+      </p>
 
-排卵日预计为：
+      <h2 class="h6 mt-4">计算公式说明</h2>
+      <div class="bg-light rounded-3 p-3 small">
+        排卵日 ≈ 末次月经第一天 +（周期长度 − 14）天
+      </div>
+      <p class="text-muted mt-3 mb-0">
+        易孕期一般会覆盖排卵日前 5 天到排卵后约 1 天，因为精子和卵子的存活时间并不完全一样。
+      </p>
+    </div>
 
-<b>{{ result.ovulation_day }}</b>
+    <div class="tool-card">
+      <h2 class="h6">什么是易孕期？</h2>
+      <p class="text-muted">
+        易孕期通常指更容易受孕的那几天，一般围绕排卵日前后展开。很多人在搜索“排卵期计算器”时，其实真正关心的是
+        “什么时候更容易怀孕”，所以工具里同时展示排卵日和易孕期会更实用。
+      </p>
 
-</div>
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">简单理解</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">排卵日：卵子释放的大致日期</li>
+          <li class="mb-2">易孕期：排卵日前几天到排卵后短时间</li>
+          <li class="mb-0">月经周期越稳定，预测通常越有参考价值</li>
+        </ul>
+      </div>
+    </div>
 
-<ul class="text-muted">
+    <div class="tool-card">
+      <h2 class="h6">这个结果为什么不是绝对准确？</h2>
+      <p class="text-muted">
+        因为排卵并不总是严格发生在固定的一天。压力、作息、疾病、旅行、体重变化、激素波动和周期不规律都可能让排卵时间提前或推迟。
+        所以这类工具更适合做“估算”和“时间范围提醒”，而不是绝对诊断。
+      </p>
 
-<li>易孕期开始：{{ result.fertile_start }}</li>
+      <h2 class="h6 mt-4">什么时候更适合结合其他方法？</h2>
+      <p class="text-muted">
+        如果你周期不规律，或者对时间判断要求更高，可以结合基础体温、宫颈黏液变化、排卵试纸和医生建议一起看。
+      </p>
+    </div>
 
-<li>易孕期结束：{{ result.fertile_end }}</li>
+    <div class="tool-card">
+      <h2 class="h6">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/conception-date">受孕日期推算器</a>：推算宝宝可能大概什么时候怀上的</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：查看当前孕周与孕期阶段</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：推算预计分娩日期</li>
+      </ul>
+    </div>
 
-<li>预计下次月经：{{ result.next_period }}</li>
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
 
-</ul>
+      <h3 class="h6 mt-3 mb-1">排卵日一定在周期第 14 天吗？</h3>
+      <p class="text-muted">
+        不一定。第 14 天只是 28 天周期中的常见估算值，不同人的排卵时间可能不同。
+      </p>
 
-</div>
+      <h3 class="h6 mt-3 mb-1">易孕期只有一天吗？</h3>
+      <p class="text-muted">
+        不是。易孕期通常是一个时间段，而不是单独某一天。
+      </p>
 
-{% endif %}
+      <h3 class="h6 mt-3 mb-1">月经不规律还能用吗？</h3>
+      <p class="text-muted">
+        可以做初步参考，但误差通常更大，更建议配合其他方法。
+      </p>
 
-</div>
-
-
-<div class="tool-col tool-col-result">
-
-<div class="tool-card">
-
-<h2 class="h6">什么是排卵期？</h2>
-
-<p class="text-muted">
-
-排卵期是女性月经周期中卵子从卵巢释放的时间。  
-在排卵前几天到排卵后约1天，是最容易怀孕的时间段。
-
-</p>
-
-</div>
-
-
-<div class="tool-card">
-
-<h2 class="h6">排卵日怎么算？</h2>
-
-<p class="text-muted">
-
-医学上常见估算方法：
-
-</p>
-
-<div class="bg-light p-3 rounded small">
-
-排卵日 ≈ 下次月经前14天
-
-</div>
-
-</div>
-
-
-<div class="tool-card">
-
-<h2 class="h6">相关工具</h2>
-
-<ul class="text-muted">
-
-<li><a href="/pregnancy-due-date">预产期计算器</a></li>
-
-<li><a href="/pregnancy-week">怀孕周数计算器</a></li>
-
-<li><a href="/tools">全部健康工具</a></li>
-
-</ul>
-
-</div>
-
-</div>
-
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
