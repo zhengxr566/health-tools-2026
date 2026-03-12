@@ -255,6 +255,15 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": True,
     },
+    {
+        "endpoint": "pregnancy_weight",
+        "name": "孕期体重增长计算器",
+        "path": "/pregnancy-weight",
+        "desc": "根据BMI计算孕期体重增长范围",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": True,
+    },
 ]
 
 from flask import request
@@ -610,7 +619,30 @@ def conception_info(lmp_date: date) -> dict:
         "conception_date": conception_date.strftime("%Y-%m-%d"),
         "due_date": due_date.strftime("%Y-%m-%d"),
     }
+def pregnancy_weight_gain(height_cm: float, weight_kg: float) -> dict:
 
+    height_m = height_cm / 100
+    bmi = weight_kg / (height_m ** 2)
+
+    if bmi < 18.5:
+        low, high = 12.5, 18
+        category = "偏瘦"
+    elif bmi < 25:
+        low, high = 11.5, 16
+        category = "正常"
+    elif bmi < 30:
+        low, high = 7, 11.5
+        category = "偏高"
+    else:
+        low, high = 5, 9
+        category = "肥胖"
+
+    return {
+        "bmi": round(bmi, 1),
+        "category": category,
+        "low": low,
+        "high": high
+    }
 # -----------------------
 # SEO: robots + sitemap
 # -----------------------
@@ -883,6 +915,44 @@ def conception_date():
         page_kind="tool",
     )
 
+@app.route("/pregnancy-weight", methods=["GET", "POST"])
+def pregnancy_weight():
+
+    error = None
+    result = None
+    height_in = ""
+    weight_in = ""
+
+    if request.method == "POST":
+
+        height_in = request.form.get("height_cm", "")
+        weight_in = request.form.get("weight_kg", "")
+
+        try:
+
+            height = float(height_in)
+            weight = float(weight_in)
+
+            result = pregnancy_weight_gain(height, weight)
+
+        except Exception:
+            error = "请输入有效身高和体重"
+
+    meta = {
+        "title": "孕期体重增长计算器（Pregnancy Weight Gain Calculator）",
+        "description": "根据孕前BMI计算孕期建议体重增长范围，并提供医学参考标准。",
+        "canonical": canonical_url("/pregnancy-weight"),
+    }
+
+    return render_template(
+        "pregnancy_weight.html",
+        meta=meta,
+        result=result,
+        error=error,
+        height_in=height_in,
+        weight_in=weight_in,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: BMI
 # -----------------------

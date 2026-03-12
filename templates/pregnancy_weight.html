@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+
+<div class="tool-col tool-col-form">
+
+<div class="tool-card">
+
+<h1 class="h4 mb-2">孕期体重增长计算器</h1>
+
+<p class="text-muted">
+根据孕前BMI估算整个孕期建议的体重增长范围。
+</p>
+
+<form method="post" class="row g-3">
+
+<div class="col-12">
+<label class="form-label">身高（cm）</label>
+<input name="height_cm" class="form-control" required value="{{ height_in }}">
+</div>
+
+<div class="col-12">
+<label class="form-label">孕前体重（kg）</label>
+<input name="weight_kg" class="form-control" required value="{{ weight_in }}">
+</div>
+
+<div class="col-12">
+<button class="btn btn-success w-100">
+计算体重增长范围
+</button>
+</div>
+
+</form>
+
+{% if error %}
+<div class="alert alert-warning mt-3">{{ error }}</div>
+{% endif %}
+
+</div>
+
+{% if result %}
+
+<div class="tool-card">
+
+<div class="alert alert-info">
+
+你的 BMI 为：
+
+<b>{{ result.bmi }}</b>
+
+</div>
+
+<p class="text-muted">
+
+BMI分类：
+
+<b>{{ result.category }}</b>
+
+</p>
+
+<p class="text-muted">
+
+建议孕期总增重：
+
+<b>{{ result.low }} – {{ result.high }} kg</b>
+
+</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+<div class="tool-col tool-col-result">
+
+<div class="tool-card">
+
+<h2 class="h6">孕期体重增长多少正常？</h2>
+
+<p class="text-muted">
+
+孕期体重增长与孕前BMI密切相关。医学指南建议根据孕前体重情况制定不同的体重增长范围。
+
+</p>
+
+</div>
+
+
+<div class="tool-card">
+
+<h2 class="h6">BMI计算公式</h2>
+
+<div class="bg-light p-3 rounded small">
+
+BMI = 体重(kg) / 身高(m)²
+
+</div>
+
+</div>
+
+
+<div class="tool-card">
+
+<h2 class="h6">相关孕期工具</h2>
+
+<ul class="text-muted">
+
+<li><a href="/ovulation">排卵期计算器</a></li>
+
+<li><a href="/conception-date">受孕日期推算器</a></li>
+
+<li><a href="/pregnancy-week">怀孕周数计算器</a></li>
+
+<li><a href="/pregnancy-due-date">预产期计算器</a></li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
