@@ -1,6 +1,5 @@
 from __future__ import annotations
-
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from flask import (
     Flask,
     Response,
@@ -229,6 +228,16 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": True,
     },
+    {
+        "endpoint": "pregnancy_week",
+        "name": "怀孕周数计算器",
+        "path": "/pregnancy-week",
+        "desc": "计算当前孕周、孕期阶段与预产期",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": True,
+    },
+
 ]
 
 from flask import request
@@ -510,6 +519,45 @@ def weeks_to_goal(current_kg: float, target_kg: float, rate_kg_per_week: float) 
         return float("inf")
     return diff / rate_kg_per_week
 
+# Pregnancy
+def pregnancy_week_info(lmp_date: date) -> dict:
+    """
+    Calculate pregnancy week info based on LMP (last menstrual period).
+    Medical convention: pregnancy starts from the first day of LMP.
+    Full term is about 280 days / 40 weeks.
+    """
+    today = date.today()
+    days_pregnant = (today - lmp_date).days
+
+    if days_pregnant < 0:
+        raise ValueError("末次月经日期不能晚于今天。")
+
+    week = days_pregnant // 7
+    day_in_week = days_pregnant % 7
+
+    due_date = lmp_date + timedelta(days=280)
+    days_left = (due_date - today).days
+
+    if week < 13:
+        trimester = "孕早期"
+    elif week < 28:
+        trimester = "孕中期"
+    else:
+        trimester = "孕晚期"
+
+    progress = max(0, min(100, round(days_pregnant / 280 * 100)))
+
+    return {
+        "today": today.strftime("%Y-%m-%d"),
+        "days_pregnant": days_pregnant,
+        "week": week,
+        "day_in_week": day_in_week,
+        "due_date": due_date.strftime("%Y-%m-%d"),
+        "days_left": days_left,
+        "trimester": trimester,
+        "progress": progress,
+    }
+
 
 # -----------------------
 # SEO: robots + sitemap
@@ -670,6 +718,40 @@ def pregnancy_due_date():
         meta=meta,
         due_date=due_date,
         error=error,
+    )
+
+@app.route("/pregnancy-week", methods=["GET", "POST"])
+def pregnancy_week():
+    error = None
+    lmp_in = ""
+    result = None
+
+    if request.method == "POST":
+        lmp_in = request.form.get("lmp", "").strip()
+
+        try:
+            if not lmp_in:
+                raise ValueError("请输入末次月经日期。")
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            result = pregnancy_week_info(lmp_date)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效日期。"
+
+    meta = {
+        "title": "怀孕周数计算器（实时孕周与预产期）- 健康工具站",
+        "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，并提供公式说明与相关孕期工具。",
+        "canonical": canonical_url("/pregnancy-week"),
+    }
+
+    return render_template(
+        "pregnancy_week.html",
+        meta=meta,
+        error=error,
+        lmp_in=lmp_in,
+        result=result,
+        page_kind="tool",
     )
 
 

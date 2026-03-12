@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">怀孕周数计算器</h1>
+      <p class="text-muted mb-3">
+        输入末次月经第一天，即可计算当前孕周、孕期阶段、预产期与 40 周进度（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">末次月经第一天</label>
+          <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算怀孕周数</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前孕周</div>
+          <div class="display-6 fw-semibold mb-0">
+            {{ result.week }} 周 {% if result.day_in_week > 0 %}+ {{ result.day_in_week }} 天{% endif %}
+          </div>
+        </div>
+        <div class="text-muted small">{{ result.trimester }}</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        你目前大约处于：<b>{{ result.week }} 周 {% if result.day_in_week > 0 %}+ {{ result.day_in_week }} 天{% endif %}</b><br>
+        预计预产期：<b>{{ result.due_date }}</b>
+      </div>
+
+      <div class="small text-muted mb-2">孕期进度（按 40 周 / 280 天估算）</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+      <div class="small text-muted">
+        已完成约 {{ result.progress }}%
+        {% if result.days_left >= 0 %}
+          ，距离预产期约还有 {{ result.days_left }} 天。
+        {% else %}
+          ，已超过预产期约 {{ result.days_left|abs }} 天。
+        {% endif %}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">孕周通常按末次月经第一天开始计算，而不是按受孕日计算。</li>
+          <li class="mb-2">40 周是常见完整孕期参考，实际分娩时间可能提前或推迟。</li>
+          <li class="mb-2">如果月经周期不规律，结果更适合作为初步参考。</li>
+          <li class="mb-0">正式孕周与预产期建议结合医生检查和超声结果判断。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        选择末次月经第一天后，即可查看当前怀孕周数、孕期阶段与预产期。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">怀孕周数怎么算？</h2>
+      <p class="text-muted">
+        医学上通常从末次月经第一天开始计算孕周，而不是从排卵日或受孕日开始。
+        因此，“怀孕周数”本质上是从末次月经起点算到今天为止已经过了多少天，再换算成多少周。
+      </p>
+
+      <h2 class="h6 mt-4">计算公式是什么？</h2>
+      <p class="text-muted">
+        常见简化公式如下：
+      </p>
+
+      <div class="bg-light rounded-3 p-3 small">
+        孕周 = （今天日期 − 末次月经第一天） ÷ 7
+      </div>
+
+      <p class="text-muted mt-3 mb-0">
+        例如，从末次月经第一天到今天已经过了 70 天，那么当前孕周大约是 10 周。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">孕期阶段怎么划分？</h2>
+      <p class="text-muted">
+        孕期通常分为三个阶段，也叫三个 trimester（孕期阶段）：
+      </p>
+
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>孕早期：</b>1–12 周</li>
+        <li class="mb-2"><b>孕中期：</b>13–27 周</li>
+        <li class="mb-0"><b>孕晚期：</b>28–40 周</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        不同阶段，产检安排、身体感受和关注重点通常不同，所以知道自己当前孕周会更有帮助。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么孕周和实际受孕时间不一样？</h2>
+      <p class="text-muted">
+        因为临床上为了统一计算标准，通常从末次月经第一天开始算孕周。
+        这意味着“怀孕 2 周左右”时，很多人其实还没有真正受孕。也正因为如此，
+        按孕周计算出来的数字，通常会比按实际受孕时间算出来更大一些。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">什么时候结果可能不那么准？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">月经周期不规律</li>
+          <li class="mb-2">记不清末次月经日期</li>
+          <li class="mb-2">排卵时间和平常差异较大</li>
+          <li class="mb-0">需要结合早孕期超声进一步确认孕周</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个结果能做什么？</h2>
+      <p class="text-muted">
+        怀孕周数不仅能帮助你理解自己当前处于孕期哪个阶段，也能帮助安排后续产检、理解预产期、估算剩余时间，
+        以及阅读孕期相关内容时更容易对照当前进度。
+      </p>
+
+      <h2 class="h6 mt-4">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：从末次月经推算宝宝出生日期</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：查看当前孕周与孕期阶段</li>
+        <li><a href="/tools">更多孕期与健康工具</a>：继续查看相关页面</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">怀孕周数和宝宝实际发育天数一样吗？</h3>
+      <p class="text-muted">
+        不完全一样。孕周通常从末次月经第一天开始算，所以会比真正受孕后的天数更长一些。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能替代医院判断吗？</h3>
+      <p class="text-muted">
+        不能。这个工具适合做初步参考，正式孕周、预产期和发育情况仍应以医生检查为准。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">如果已经知道预产期，还需要算孕周吗？</h3>
+      <p class="text-muted">
+        需要。预产期更像终点，孕周则能帮助你理解当前进度和后续阶段安排，两者常常需要一起看。
+      </p>
+
+      <hr class="my-4">
+
+      <p class="small text-muted mb-0">
+        本页面仅用于科普参考，不构成医疗建议。如有出血、腹痛、孕期不适或检查疑问，请及时咨询医生。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
