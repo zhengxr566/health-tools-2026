@@ -261,7 +261,7 @@ TOOLS = [
         "path": "/pregnancy-weight",
         "desc": "根据BMI计算孕期体重增长范围",
         "category": "pregnancy",
-        "subgroup": "pregnancy_health",
+        "subgroup": "pregnancy_basic",
         "featured": True,
     },
 ]
