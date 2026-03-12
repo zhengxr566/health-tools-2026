@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+
+<div class="tool-col tool-col-form">
+
+<div class="tool-card">
+
+<h1 class="h4 mb-2">受孕日期推算器</h1>
+
+<p class="text-muted">
+根据末次月经推算宝宝可能的受孕时间。
+</p>
+
+<form method="post" class="row g-3">
+
+<div class="col-12">
+<label class="form-label">末次月经第一天</label>
+<input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+</div>
+
+<div class="col-12">
+<button class="btn btn-success w-100">
+计算受孕日期
+</button>
+</div>
+
+</form>
+
+{% if error %}
+<div class="alert alert-warning mt-3">{{ error }}</div>
+{% endif %}
+
+</div>
+
+{% if result %}
+
+<div class="tool-card">
+
+<div class="alert alert-info">
+
+可能受孕日期：
+
+<b>{{ result.conception_date }}</b>
+
+</div>
+
+<div class="text-muted">
+
+预计预产期：
+
+<b>{{ result.due_date }}</b>
+
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+<div class="tool-col tool-col-result">
+
+<div class="tool-card">
+
+<h2 class="h6">受孕日期怎么算？</h2>
+
+<p class="text-muted">
+
+医学上通常认为排卵发生在下次月经前约14天，
+因此受孕时间通常接近排卵日。
+
+</p>
+
+</div>
+
+
+<div class="tool-card">
+
+<h2 class="h6">常见计算公式</h2>
+
+<div class="bg-light p-3 rounded small">
+
+受孕日期 ≈ 末次月经 + 14天
+
+</div>
+
+<p class="text-muted mt-2">
+
+如果已知预产期，也可以反推：
+
+</p>
+
+<div class="bg-light p-3 rounded small">
+
+受孕日期 ≈ 预产期 − 266天
+
+</div>
+
+</div>
+
+
+<div class="tool-card">
+
+<h2 class="h6">相关孕期工具</h2>
+
+<ul class="text-muted">
+
+<li><a href="/ovulation">排卵期计算器</a></li>
+
+<li><a href="/pregnancy-week">怀孕周数计算器</a></li>
+
+<li><a href="/pregnancy-due-date">预产期计算器</a></li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

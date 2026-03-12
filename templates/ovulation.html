@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+
+<div class="tool-col tool-col-form">
+
+<div class="tool-card">
+
+<h1 class="h4 mb-2">排卵期计算器</h1>
+
+<p class="text-muted">
+输入末次月经日期和周期长度，预测排卵日和易孕期。
+</p>
+
+<form method="post" class="row g-3">
+
+<div class="col-12">
+<label class="form-label">末次月经第一天</label>
+<input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+</div>
+
+<div class="col-12">
+<label class="form-label">月经周期（天）</label>
+<input type="number" name="cycle" class="form-control" value="{{ cycle_in }}">
+</div>
+
+<div class="col-12">
+<button class="btn btn-success w-100">
+计算排卵期
+</button>
+</div>
+
+</form>
+
+{% if error %}
+<div class="alert alert-warning mt-3">{{ error }}</div>
+{% endif %}
+
+</div>
+
+{% if result %}
+
+<div class="tool-card">
+
+<div class="alert alert-info">
+
+排卵日预计为：
+
+<b>{{ result.ovulation_day }}</b>
+
+</div>
+
+<ul class="text-muted">
+
+<li>易孕期开始：{{ result.fertile_start }}</li>
+
+<li>易孕期结束：{{ result.fertile_end }}</li>
+
+<li>预计下次月经：{{ result.next_period }}</li>
+
+</ul>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+<div class="tool-col tool-col-result">
+
+<div class="tool-card">
+
+<h2 class="h6">什么是排卵期？</h2>
+
+<p class="text-muted">
+
+排卵期是女性月经周期中卵子从卵巢释放的时间。  
+在排卵前几天到排卵后约1天，是最容易怀孕的时间段。
+
+</p>
+
+</div>
+
+
+<div class="tool-card">
+
+<h2 class="h6">排卵日怎么算？</h2>
+
+<p class="text-muted">
+
+医学上常见估算方法：
+
+</p>
+
+<div class="bg-light p-3 rounded small">
+
+排卵日 ≈ 下次月经前14天
+
+</div>
+
+</div>
+
+
+<div class="tool-card">
+
+<h2 class="h6">相关工具</h2>
+
+<ul class="text-muted">
+
+<li><a href="/pregnancy-due-date">预产期计算器</a></li>
+
+<li><a href="/pregnancy-week">怀孕周数计算器</a></li>
+
+<li><a href="/tools">全部健康工具</a></li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

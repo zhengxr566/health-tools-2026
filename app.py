@@ -237,6 +237,15 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": True,
     },
+    {
+        "endpoint": "ovulation",
+        "name": "排卵期计算器",
+        "path": "/ovulation",
+        "desc": "预测排卵日与易孕期",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": True,
+    },
 
 ]
 
@@ -558,6 +567,41 @@ def pregnancy_week_info(lmp_date: date) -> dict:
         "progress": progress,
     }
 
+#排卵期
+def ovulation_info(lmp_date: date, cycle_length: int) -> dict:
+    """
+    Calculate ovulation day and fertile window.
+    Ovulation usually occurs ~14 days before next period.
+    """
+
+    ovulation_day = lmp_date + timedelta(days=(cycle_length - 14))
+
+    fertile_start = ovulation_day - timedelta(days=5)
+    fertile_end = ovulation_day + timedelta(days=1)
+
+    next_period = lmp_date + timedelta(days=cycle_length)
+
+    return {
+        "ovulation_day": ovulation_day.strftime("%Y-%m-%d"),
+        "fertile_start": fertile_start.strftime("%Y-%m-%d"),
+        "fertile_end": fertile_end.strftime("%Y-%m-%d"),
+        "next_period": next_period.strftime("%Y-%m-%d"),
+    }
+
+def conception_info(lmp_date: date) -> dict:
+    """
+    Estimate conception date based on LMP.
+    Ovulation usually occurs about 14 days after LMP.
+    """
+
+    conception_date = lmp_date + timedelta(days=14)
+
+    due_date = lmp_date + timedelta(days=280)
+
+    return {
+        "conception_date": conception_date.strftime("%Y-%m-%d"),
+        "due_date": due_date.strftime("%Y-%m-%d"),
+    }
 
 # -----------------------
 # SEO: robots + sitemap
@@ -754,6 +798,47 @@ def pregnancy_week():
         page_kind="tool",
     )
 
+@app.route("/ovulation", methods=["GET", "POST"])
+def ovulation():
+
+    error = None
+    result = None
+    lmp_in = ""
+    cycle_in = "28"
+
+    if request.method == "POST":
+
+        lmp_in = request.form.get("lmp", "").strip()
+        cycle_in = request.form.get("cycle", "28")
+
+        try:
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            cycle_length = int(cycle_in)
+
+            if cycle_length < 21 or cycle_length > 45:
+                raise ValueError("月经周期通常在21–45天之间")
+
+            result = ovulation_info(lmp_date, cycle_length)
+
+        except Exception as e:
+            error = str(e)
+
+    meta = {
+        "title": "排卵期计算器（易孕期与排卵日预测）",
+        "description": "输入末次月经和周期长度，计算排卵日、易孕期和下次月经日期。",
+        "canonical": canonical_url("/ovulation"),
+    }
+
+    return render_template(
+        "ovulation.html",
+        meta=meta,
+        result=result,
+        error=error,
+        lmp_in=lmp_in,
+        cycle_in=cycle_in,
+        page_kind="tool",
+    )
 
 # -----------------------
 # Tool: BMI
