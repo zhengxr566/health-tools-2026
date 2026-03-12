@@ -246,7 +246,15 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": True,
     },
-
+    {
+        "endpoint": "conception_date",
+        "name": "受孕日期推算器",
+        "path": "/conception-date",
+        "desc": "推算宝宝可能受孕时间",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": True,
+    },
 ]
 
 from flask import request
@@ -837,6 +845,41 @@ def ovulation():
         error=error,
         lmp_in=lmp_in,
         cycle_in=cycle_in,
+        page_kind="tool",
+    )
+
+@app.route("/conception-date", methods=["GET", "POST"])
+def conception_date():
+
+    error = None
+    result = None
+    lmp_in = ""
+
+    if request.method == "POST":
+
+        lmp_in = request.form.get("lmp", "").strip()
+
+        try:
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+
+            result = conception_info(lmp_date)
+
+        except Exception:
+            error = "请输入有效日期"
+
+    meta = {
+        "title": "受孕日期推算器（宝宝大概什么时候怀上的）",
+        "description": "根据末次月经推算可能的受孕日期，同时显示预产期参考。",
+        "canonical": canonical_url("/conception-date"),
+    }
+
+    return render_template(
+        "conception_date.html",
+        meta=meta,
+        result=result,
+        error=error,
+        lmp_in=lmp_in,
         page_kind="tool",
     )
 
