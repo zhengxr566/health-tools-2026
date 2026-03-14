@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">步数转步行时间计算器（这些步数大概要走多久）</h1>
+      <p class="text-muted mb-3">
+        输入步数和步行速度，快速估算这些步数大概要花多少时间走完。适合作为日常活动、减脂计划和步数目标安排的参考。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">步数</label>
+          <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">步行速度</label>
+          <select name="pace" class="form-select">
+            <option value="slow" {% if pace_in == 'slow' %}selected{% endif %}>较慢步速</option>
+            <option value="normal" {% if pace_in == 'normal' %}selected{% endif %}>常见步速</option>
+            <option value="fast" {% if pace_in == 'fast' %}selected{% endif %}>较快步速</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算步行时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">估算结果</div>
+      <div class="h3 mb-2">
+        {% if result.hours > 0 %}
+          {{ result.hours }} 小时 {{ result.minutes }} 分
+        {% else %}
+          {{ result.minutes }} 分
+        {% endif %}
+      </div>
+      <div class="text-muted small mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        你输入的 <b>{{ steps_in }} 步</b>，按 <b>{{ result.label }}</b> 估算，<br>
+        大约需要：<b>
+          {% if result.hours > 0 %}
+            {{ result.hours }} 小时 {{ result.minutes }} 分
+          {% else %}
+            {{ result.minutes }} 分
+          {% endif %}
+        </b>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">估算步频</div>
+        <div class="small text-muted">约 {{ result.spm }} 步 / 分钟</div>
+      </div>
+
+      <div class="small text-muted">
+        这个结果适合作为日常活动参考，不代表跑步机、GPS 或手表记录的精确运动时间。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入步数并选择步行速度后，即可查看这些步数大概要走多久。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">10000 步大概要走多久？</h2>
+      <p class="text-muted">
+        这是很多人记录步数后最常问的问题之一。和“10000 步大概多少公里”一样，答案并不是固定数字，
+        因为同样的步数，不同人的步频、步幅和走路速度都会不一样。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，步数转步行时间计算器的作用，就是把“今天走了多少步”进一步换算成“今天大概要花多少时间在走路上”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        步行时间 = 步数 ÷ 每分钟步数
+      </div>
+
+      <p class="text-muted mb-2">本工具采用的站内简化步频参考：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">较慢步速：80 步 / 分钟</li>
+        <li class="mb-2">常见步速：100 步 / 分钟</li>
+        <li class="mb-0">较快步速：120 步 / 分钟</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这样可以把不同步行节奏下的大致时间，换算成更容易理解的分钟和小时。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么同样的步数，有人走得更快？</h2>
+      <p class="text-muted">
+        因为步数只反映“走了多少步”，不直接等于花了多少时间。有人走路更快、步频更高，完成同样步数所需时间就更短；
+        有人走路偏慢、途中停顿更多，花的时间就会更长。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">步数适合看活动量大小</li>
+          <li class="mb-2">时间适合看“今天到底花了多久在走路”</li>
+          <li class="mb-2">距离适合帮助你理解“今天走了多远”</li>
+          <li class="mb-0">热量适合帮助你连接减脂和日常消耗</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合把你的步数目标转成更现实的日常安排。比如你知道自己一天想走 8000 步、10000 步、12000 步，
+        那就可以反过来估算：这大概要占用多少时间，自己是不是更适合分散到通勤、午休和晚饭后完成。
+      </p>
+
+      <h2 class="h6 mt-4">相关活动工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/steps-distance">步数转距离计算器</a>：估算这些步数大概等于多少公里</li>
+        <li><a href="/steps">步数转热量</a>：估算这些步数大概消耗多少热量</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：看日常总消耗框架</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：把活动量接到减脂计划里</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：把活动和体重目标周期结合起来看</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">10000 步一定要走 100 分钟吗？</h3>
+      <p class="text-muted">
+        不一定。那只是按 100 步 / 分钟的常见步速估算。你走得更快或更慢，结果都会不同。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果和手表记录时间不一样正常吗？</h3>
+      <p class="text-muted">
+        正常。手表、手机和运动平台通常会记录暂停、速度变化、GPS 轨迹等因素，而这个工具是简化估算模型。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和活动管理吗？</h3>
+      <p class="text-muted">
+        很适合。因为它能把抽象的步数目标直接转成更现实的“要花多少时间”。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

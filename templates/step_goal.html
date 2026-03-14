@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">每日步数目标计算器（想减脂或维持体重，每天走多少步更合适）</h1>
+      <p class="text-muted mb-3">
+        输入你当前的日均步数和目标，快速估算每天更适合的步数目标。适合作为减脂、维持体重和提升活动量的执行参考。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">当前日均步数</label>
+          <input name="current_steps" class="form-control" inputmode="numeric" required value="{{ current_steps_in }}" placeholder="例如 6000">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">目标</label>
+          <select name="goal" class="form-select">
+            <option value="maintain" {% if goal_in == 'maintain' %}selected{% endif %}>维持体重 / 保持活跃</option>
+            <option value="fat_loss" {% if goal_in == 'fat_loss' %}selected{% endif %}>减脂导向</option>
+            <option value="active_upgrade" {% if goal_in == 'active_upgrade' %}selected{% endif %}>提升活动量</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算每日步数目标</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">推荐目标</div>
+      <div class="h3 mb-2">{{ "{:,}".format(result.target_steps) }} 步 / 天</div>
+      <div class="text-muted small mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        结合你当前的日均步数，建议目标约为：<b>{{ "{:,}".format(result.target_steps) }} 步 / 天</b>
+      </div>
+
+      <div class="small text-muted mb-2">目标参考强度</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-2">结果摘要</div>
+        <div class="small text-muted mb-2">建议增加：<b>{{ "{:,}".format(result.extra_steps) }} 步 / 天</b></div>
+        <div class="small text-muted">粗略活动消耗参考：<b>{{ result.estimated_kcal }} kcal / 天</b></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这个目标更适合作为“执行起点”，而不是要求你从第一天就完全达到。</li>
+          <li class="mb-2">如果你目前步数偏低，通常更适合循序渐进增加，而不是一下子跳太高。</li>
+          <li class="mb-2">比起某一天暴走很多步，更有价值的是把目标变成可以长期维持的日常习惯。</li>
+          <li class="mb-0">建议结合 <a href="/steps">步数转热量</a>、<a href="/steps-distance">步数转距离计算器</a> 和 <a href="/steps-time">步数转步行时间计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入当前日均步数并选择目标后，即可查看更适合你的每日步数目标。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">每天应该走多少步才合适？</h2>
+      <p class="text-muted">
+        这是很多人在开始做活动管理、减脂或维持体重时最常问的问题之一。问题在于，“合适的步数”并不是所有人都一样。
+        同样是 10000 步，对一个平时只走 3000 步的人来说可能过高；但对一个本来就经常活动的人来说，又可能只是日常水平。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，每日步数目标计算器的重点不是给所有人同一个数字，而是从你的当前水平出发，给出一个更现实、更容易执行的步数目标。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        每日步数目标 = 当前日均步数 + 目标增量
+      </div>
+
+      <p class="text-muted mb-2">本工具采用的站内简化参考：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">维持活跃：在当前基础上适度增加</li>
+        <li class="mb-2">提升活动量：比维持型再往上一步</li>
+        <li class="mb-0">减脂导向：通常给更明显的步数提升空间</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        同时还会设置一个基础下限参考，让结果更适合作为“可执行目标”，而不是只在当前步数上做很小波动。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">步数目标为什么不能一开始定太高？</h2>
+      <p class="text-muted">
+        因为对大多数人来说，真正决定效果的，不是“某一天能不能走到很高步数”，而是能不能把步数目标变成长期习惯。
+        如果目标一下设得太高，通常更容易在几天后掉回原点。相反，一个略有挑战但能持续执行的目标，往往更有价值。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先看自己现在平均走多少步</li>
+          <li class="mb-2">再给自己一个现实可执行的提升空间</li>
+          <li class="mb-2">如果习惯还没稳定，不一定需要一开始就追求很高目标</li>
+          <li class="mb-0">长期稳定，通常比短期冲刺更重要</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">步数目标和减脂有什么关系？</h2>
+      <p class="text-muted">
+        对很多人来说，步数目标最大的价值在于：它比“我要多运动”更具体，也比“我要每天消耗更多热量”更容易执行。
+        把步数目标建立起来后，再结合热量缺口和日常饮食，通常会更容易形成完整的体重管理路径。
+      </p>
+
+      <h2 class="h6 mt-4">相关活动工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/steps">步数转热量</a>：估算这些步数大概消耗多少热量</li>
+        <li><a href="/steps-distance">步数转距离计算器</a>：估算这些步数大概等于多少公里</li>
+        <li><a href="/steps-time">步数转步行时间计算器</a>：估算这些步数大概要走多久</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：先看日常总消耗框架</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：把步数目标接到减脂计划里</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：把活动量和目标周期结合起来看</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">每天一定要走到同一个数字吗？</h3>
+      <p class="text-muted">
+        不一定。这个结果更适合作为“平均目标”，帮助你形成大致节奏，而不是要求每天一模一样。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂是不是步数越高越好？</h3>
+      <p class="text-muted">
+        不一定。对大多数人来说，更重要的是目标是否现实、是否能长期坚持，以及是否和整体饮食计划协调。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合久坐上班族吗？</h3>
+      <p class="text-muted">
+        很适合。因为它会从你当前水平出发，而不是直接给出一个脱离现实的步数数字。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

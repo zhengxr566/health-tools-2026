@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">步数转距离计算器（10000步大概是多少公里）</h1>
+      <p class="text-muted mb-3">
+        输入步数、身高和性别，快速估算这些步数大概等于多少米、多少公里。适合作为步行、减脂和日常活动管理的参考。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">步数</label>
+          <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例如 170">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">性别</label>
+          <select name="sex" class="form-select">
+            <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男</option>
+            <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算步数距离</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">估算结果</div>
+      <div class="h3 mb-2">{{ result.distance_km }} km</div>
+      <div class="text-muted small mb-3">约 {{ result.distance_m }} 米</div>
+
+      <div class="alert alert-info mb-3">
+        你输入的 <b>{{ steps_in }} 步</b>，大约等于：<b>{{ result.distance_km }} 公里</b>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">估算步幅</div>
+        <div class="small text-muted">约 {{ result.stride_cm }} cm / 步</div>
+      </div>
+
+      <div class="small text-muted">
+        这个结果适合作为日常步行和活动量管理的参考，不代表精确 GPS 距离。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入步数、身高和性别后，即可查看这些步数大概等于多少公里。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">10000 步大概是多少公里？</h2>
+      <p class="text-muted">
+        这是很多人最常搜的问题之一。答案并不是固定的，因为同样是 10000 步，不同身高、步幅和走路习惯的人，实际距离会有差别。
+        一般来说，步幅越长，同样的步数走出来的距离也会更长。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，步数转距离计算器的意义就在于：把抽象的“今天走了多少步”，换成更容易理解的“今天大概走了多少公里”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        距离 = 步数 × 步幅
+      </div>
+
+      <p class="text-muted mb-2">本工具使用的站内简化步幅公式：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">男性步幅 ≈ 身高 × 0.415</li>
+        <li class="mb-0">女性步幅 ≈ 身高 × 0.413</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        然后再把每一步的步幅累加，换算成米和公里。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么同样的步数，有人走得更远？</h2>
+      <p class="text-muted">
+        因为步数只是“走了多少步”，并不直接等于固定距离。身高更高、腿更长、步幅更大的人，通常同样 10000 步会比步幅较短的人走得更远。
+        此外，走路速度、坡度和日常走路习惯也会影响实际距离。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">步数适合看活动量趋势</li>
+          <li class="mb-2">距离适合帮助你更直观理解“今天到底走了多远”</li>
+          <li class="mb-2">两者结合起来，比只看一个数字更有用</li>
+          <li class="mb-0">如果你在做减脂或体能管理，距离和热量通常都值得一起看</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合想把步数目标变得更具体的人。比如你今天走了 8000 步、10000 步、12000 步，用公里来理解，会比单纯看步数更有画面感。
+        它也很适合和热量消耗、每日活动目标、减脂计划一起使用。
+      </p>
+
+      <h2 class="h6 mt-4">相关活动工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/steps">步数转热量</a>：估算这些步数大概消耗多少热量</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：看日常总消耗框架</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：把活动量接到减脂计划里</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：把运动和目标周期结合起来看</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">10000 步一定是固定公里数吗？</h3>
+      <p class="text-muted">
+        不是。不同身高和步幅的人，10000 步对应的距离通常会不一样。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果和手机 / 手表显示不一样正常吗？</h3>
+      <p class="text-muted">
+        正常。手机、手表、GPS 和步数模型本来就不是同一套算法，所以结果会有差异。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和日常活动管理吗？</h3>
+      <p class="text-muted">
+        很适合。因为它能把抽象的步数转成更直观的距离，更方便做目标管理。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

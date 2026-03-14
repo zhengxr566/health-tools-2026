@@ -48,7 +48,7 @@ def canonical_url(path: str) -> str:
 CATEGORY_META = {
     # 1. 体重与体型
     # ========= 1.1. BMI与体重 ======= 
-    ## 1.1.1 BMI 1.1.2. 理想体重 1.1.3 目标体重
+    ## 1.1.1 BMI 1.1.2. 理想体重 1.1.3 目标体重时间
     # ========= 1.2. 体脂与围度 =======  
     ## 1.2.1 体脂率 1.2.2. 腰围风险
     "weight": {
@@ -67,9 +67,9 @@ CATEGORY_META = {
     },
     # 2. 代谢与热量
     # ========= 2.1. 基础代谢 ======= 
-    ## 
+    ## 2.1.1 基础代谢率BMR
     # ========= 2.2. 热量规划 ======= 
-    ## 
+    ## 2.2.1 每日热量需求 2.2.2 热量缺口 
     "metabolism": {
         "name": "代谢与热量",
         "description": "BMR、TDEE、热量目标",
@@ -113,11 +113,13 @@ CATEGORY_META = {
     },
     # 4. 运动与习惯
     # ========= 4.1. 运动消耗 ======= 
-    ## 
+    ## 4.1.1 步数转热量 4.1.2 步数转距离 4.1.3 步数转步行时间
+    ## 4.1.4 每日步数目标 4.1.5 活动量等级 4.1.6 跑步消耗计算器
     # ========= 4.2. 睡眠时间 ======= 
-    ## 
+    ## 4.2.1 睡眠周期 4.2.2 睡眠需求 4.2.3 睡眠时长 4.2.4 补觉时间 4.2.5 午睡时间
     # ========= 4.3. 睡眠质量 ======= 
-    ## 
+    ## 4.3.1 睡眠债 4.3.2 睡眠效率 4.3.3 咖啡因截止时间 4.3.4 时差恢复
+    ## 4.3.5 作息类型
 
     "activity": {
         "name": "运动与习惯",
@@ -139,9 +141,10 @@ CATEGORY_META = {
     },
     # 5. 孕期工具
     # ========= 5.1. 基础孕期 ======= 
-    ## 
+    ## 5.1.1 预产期计算 5.1.2 怀孕周数 5.1.3 预测排卵日 5.1.4 受孕日期
     # ========= 5.2. 孕期健康 ======= 
-    ## 
+    ## 5.2.1 孕期体重增长 5.2.2 孕期热量需求 5.2.3 孕期蛋白质
+    ## 5.2.4 胎儿发育周数 5.2.5 孕期饮水量
 
     "pregnancy": {
         "name": "孕期工具",
@@ -218,6 +221,8 @@ TOOLS = [
     # =============== 
     # 2. 代谢与热量 
     # ================
+    # ========= 2.1. 基础代谢 ======= 
+    # 2.1.1 基础代谢率
     {
         "endpoint": "bmr",
         "name": "基础代谢率 BMR",
@@ -227,6 +232,8 @@ TOOLS = [
         "subgroup": "base_energy",
         "featured": True,
     },
+    # ========= 2.2. 热量规划 ======= 
+    ## 2.2.1 每日热量需求 
     {
         "endpoint": "calorie",
         "name": "每日热量需求 TDEE",
@@ -236,6 +243,7 @@ TOOLS = [
         "subgroup": "calorie_plan",
         "featured": True,
     },
+    ## 2.2.2 热量缺口 
     {
         "endpoint": "deficit",
         "name": "热量缺口/目标热量",
@@ -332,7 +340,9 @@ TOOLS = [
         "subgroup": "meal_planning",
         "featured": False,
     },
-
+    # 4. 运动与习惯
+    # ========= 4.1. 运动消耗 ======= 
+    ## 4.1.1 步数转热量
     {
         "endpoint": "steps",
         "name": "步数转热量",
@@ -342,6 +352,49 @@ TOOLS = [
         "subgroup": "exercise",
         "featured": False,
     },
+    # 4.1.2 步数转距离
+    {
+        "endpoint": "steps_distance",
+        "name": "步数转距离计算器",
+        "path": "/steps-distance",
+        "desc": "估算步数大概等于多少公里",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": True,
+    },
+    # 4.1.3 步数转步行时间
+    {
+        "endpoint": "steps_time",
+        "name": "步数转步行时间计算器",
+        "path": "/steps-time",
+        "desc": "估算这些步数大概要走多久",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": True,
+    },
+    # 4.1.4 每日步数目标
+    {
+        "endpoint": "step_goal",
+        "name": "每日步数目标计算器",
+        "path": "/step-goal",
+        "desc": "按目标估算每天建议走多少步",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": False,
+    },
+    # 4.1.5 活动量等级
+    {
+        "endpoint": "activity_level",
+        "name": "活动量等级计算器",
+        "path": "/activity-level",
+        "desc": "判断你属于哪种日常活动水平",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": True,
+    },
+    # 4.1.6 跑步消耗计算器
+    # ========= 4.2. 睡眠时间 ======= 
+    # 4.2.1 睡眠周期
     {
         "endpoint": "sleep",
         "name": "睡眠周期",
@@ -351,7 +404,7 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
-
+    # 4.2.2 睡眠需求
     {
         "endpoint": "sleep_need",
         "name": "睡眠需求计算器",
@@ -361,7 +414,7 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": True,
     },
-
+    # 4.2.3 睡眠时长
     {
         "endpoint": "sleep_duration",
         "name": "睡眠时长计算器",
@@ -371,17 +424,7 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
-
-    {
-        "endpoint": "sleep_debt",
-        "name": "睡眠债计算器",
-        "path": "/sleep-debt",
-        "desc": "估算一周累计少睡了多少小时",
-        "category": "activity",
-        "subgroup": "sleep_quality",
-        "featured": True,
-    },
-
+    # 4.2.4 补觉时间
     {
         "endpoint": "sleep_recovery",
         "name": "补觉时间计算器",
@@ -391,7 +434,7 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
-
+    # 4.2.5 午睡时间
     {
         "endpoint": "nap_time",
         "name": "午睡时间计算器",
@@ -401,7 +444,18 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
-
+    # ========= 4.3. 睡眠质量 ======= 
+    # 4.3.1 睡眠债
+    {
+        "endpoint": "sleep_debt",
+        "name": "睡眠债计算器",
+        "path": "/sleep-debt",
+        "desc": "估算一周累计少睡了多少小时",
+        "category": "activity",
+        "subgroup": "sleep_quality",
+        "featured": True,
+    },
+    # 4.3.2 睡眠效率
     {
         "endpoint": "sleep_efficiency",
         "name": "睡眠效率计算器",
@@ -411,7 +465,7 @@ TOOLS = [
         "subgroup": "sleep_quality",
         "featured": True,
     },
-
+    # 4.3.3 咖啡因截止时间
     {
         "endpoint": "caffeine_cutoff",
         "name": "咖啡因截止时间计算器",
@@ -421,7 +475,7 @@ TOOLS = [
         "subgroup": "sleep_quality",
         "featured": True,
     },
-
+    # 4.3.4 时差恢复
     {
         "endpoint": "jet_lag",
         "name": "时差恢复计算器",
@@ -431,7 +485,7 @@ TOOLS = [
         "subgroup": "sleep_quality",
         "featured": True,
     },
-
+    # 4.3.5 作息类型
     {
         "endpoint": "chronotype",
         "name": "作息类型测试",
@@ -441,6 +495,9 @@ TOOLS = [
         "subgroup": "sleep_quality",
         "featured": True,
     },
+    # 5. 孕期工具
+    # ========= 5.1. 基础孕期 ======= 
+    # 5.1.1 预产期计算
     {
         "endpoint": "pregnancy_due_date",
         "name": "预产期计算器",
@@ -450,6 +507,7 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": True,
     },
+    # 5.1.2 怀孕周数
     {
         "endpoint": "pregnancy_week",
         "name": "怀孕周数计算器",
@@ -459,6 +517,7 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": False,
     },
+    # 5.1.3 预测排卵日
     {
         "endpoint": "ovulation",
         "name": "排卵期计算器",
@@ -468,6 +527,7 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": False,
     },
+    # 5.1.4 受孕日期
     {
         "endpoint": "conception_date",
         "name": "受孕日期推算器",
@@ -477,6 +537,8 @@ TOOLS = [
         "subgroup": "pregnancy_basic",
         "featured": False,
     },
+    # ========= 5.2. 孕期健康 ======= 
+    # 5.2.1 孕期体重增长
     {
         "endpoint": "pregnancy_weight",
         "name": "孕期体重增长计算器",
@@ -486,7 +548,7 @@ TOOLS = [
         "subgroup": "pregnancy_health",
         "featured": False,
     },
-
+    # 5.2.2 孕期热量需求
     {
         "endpoint": "pregnancy_calorie",
         "name": "孕期热量需求计算器",
@@ -496,7 +558,7 @@ TOOLS = [
         "subgroup": "pregnancy_health",
         "featured": False,
     },
-
+    # 5.2.3 孕期蛋白质
     {
         "endpoint": "pregnancy_protein",
         "name": "孕期蛋白质需求计算器",
@@ -506,6 +568,7 @@ TOOLS = [
         "subgroup": "pregnancy_health",
         "featured": False,
     },
+    # 5.2.4 胎儿发育周数
     {
         "endpoint": "fetal_development",
         "name": "胎儿发育周数图",
@@ -515,7 +578,7 @@ TOOLS = [
         "subgroup": "pregnancy_health",
         "featured": True,
     },
-
+    # 5.2.5 孕期饮水量
     {
         "endpoint": "pregnancy_water",
         "name": "孕期饮水量计算器",
@@ -1003,12 +1066,130 @@ def fiber_need(kcal: float, sex: str) -> dict:
         "progress": progress,
         "rule_text": "按每 1000 kcal 约 14 g 膳食纤维的站内简化规则估算",
     }
+# 3.1.6. 盐摄入
+def salt_estimate(
+    home_meals: int,
+    takeout_meals: int,
+    soup_bowls: int,
+    processed_servings: int,
+    snack_servings: int,
+) -> dict:
+    """
+    Very simplified site estimator for daily salt intake.
 
+    Estimated salt sources (g/day):
+    - home meal: 1.5 g
+    - takeout / restaurant meal: 3.0 g
+    - soup / broth bowl: 1.5 g
+    - processed food serving: 1.2 g
+    - salty snack serving: 0.8 g
+    """
+
+    vals = [home_meals, takeout_meals, soup_bowls, processed_servings, snack_servings]
+    if any(v < 0 or v > 20 for v in vals):
+        raise ValueError("请输入合理的份数。")
+
+    total_salt = (
+        home_meals * 1.5
+        + takeout_meals * 3.0
+        + soup_bowls * 1.5
+        + processed_servings * 1.2
+        + snack_servings * 0.8
+    )
+
+    total_salt = round1(total_salt)
+
+    if total_salt <= 5:
+        level = "大致在常见控制范围内"
+        progress = 45
+    elif total_salt <= 7:
+        level = "略高，值得注意"
+        progress = 70
+    else:
+        level = "偏高"
+        progress = 90
+
+    return {
+        "total_salt": total_salt,
+        "level": level,
+        "progress": progress,
+        "rule_text": "本工具采用站内简化估算模型，根据常见高盐食物场景粗略估算每日盐摄入。",
+    }
+# ========== 4.1. 运动消耗 ==========
+# 4.1.1 步数转热量
 def steps_to_kcal(steps: int, weight_kg: float) -> float:
     kcal_per_step = 0.05 * (weight_kg / 60.0)
     return steps * kcal_per_step
+# 4.1.2 步数转距离
+def steps_to_distance(steps: int, height_cm: float, sex: str) -> dict:
+    """
+    Estimate walking distance from step count.
 
+    Simple stride model:
+    - male stride length ≈ height * 0.415
+    - female stride length ≈ height * 0.413
 
+    result:
+    - distance_m
+    - distance_km
+    """
+
+    if steps <= 0 or steps > 200000:
+        raise ValueError("请输入合理的步数。")
+    if height_cm <= 0 or height_cm > 250:
+        raise ValueError("请输入合理的身高（cm）。")
+    if sex not in ("male", "female"):
+        raise ValueError("性别选择不正确。")
+
+    stride_factor = 0.415 if sex == "male" else 0.413
+    stride_cm = height_cm * stride_factor
+    distance_m = steps * stride_cm / 100.0
+    distance_km = distance_m / 1000.0
+
+    return {
+        "stride_cm": round1(stride_cm),
+        "distance_m": round0(distance_m),
+        "distance_km": round1(distance_km),
+    }
+# 4.1.3 步数转步行时间
+def steps_to_time(steps: int, pace: str) -> dict:
+    """
+    Estimate walking time from steps.
+
+    pace:
+    - slow:   80 steps/min
+    - normal: 100 steps/min
+    - fast:   120 steps/min
+    """
+
+    if steps <= 0 or steps > 200000:
+        raise ValueError("请输入合理的步数。")
+
+    if pace == "slow":
+        spm = 80
+        label = "较慢步速"
+    elif pace == "fast":
+        spm = 120
+        label = "较快步速"
+    else:
+        spm = 100
+        label = "常见步速"
+
+    total_minutes = steps / spm
+    hours = int(total_minutes // 60)
+    minutes = int(round(total_minutes % 60))
+
+    if minutes == 60:
+        hours += 1
+        minutes = 0
+
+    return {
+        "label": label,
+        "spm": spm,
+        "total_minutes": round1(total_minutes),
+        "hours": hours,
+        "minutes": minutes,
+    }
 def deficit_plan(tdee: float, mode: str) -> tuple[int, str]:
     if mode == "loss_fast":
         delta = -500
@@ -1025,7 +1206,140 @@ def deficit_plan(tdee: float, mode: str) -> tuple[int, str]:
     target = max(1200, int(round(tdee + delta)))
     return target, label
 
+# 4.1.4 每日步数目标
+def step_goal_plan(current_steps: int, goal: str) -> dict:
+    """
+    Simple step goal estimator for daily planning.
 
+    goal:
+    - maintain: keep active
+    - fat_loss: moderate step increase
+    - active_upgrade: improve activity habit
+
+    Returns:
+    - target_steps
+    - extra_steps
+    - estimated_kcal (rough, based on average 0.04 kcal/step)
+    """
+
+    if current_steps < 0 or current_steps > 100000:
+        raise ValueError("请输入合理的当前日均步数。")
+
+    if goal == "fat_loss":
+        extra_steps = 3000
+        label = "减脂导向"
+        progress = 80
+    elif goal == "active_upgrade":
+        extra_steps = 2000
+        label = "提升活动量"
+        progress = 65
+    else:
+        extra_steps = 1000
+        label = "维持活跃"
+        progress = 50
+
+    # floor by goal
+    if goal == "fat_loss":
+        base_floor = 8000
+    elif goal == "active_upgrade":
+        base_floor = 7000
+    else:
+        base_floor = 6000
+
+    target_steps = max(base_floor, current_steps + extra_steps)
+
+    # rough estimate
+    kcal = round0(target_steps * 0.04)
+
+    return {
+        "label": label,
+        "target_steps": target_steps,
+        "extra_steps": target_steps - current_steps,
+        "estimated_kcal": kcal,
+        "progress": progress,
+    }
+# 4.1.5 活动量等级
+def activity_level_info(steps_per_day: int, exercise_days: int, sit_hours: float) -> dict:
+    """
+    Estimate daily activity level using a simple site rule.
+
+    Inputs:
+    - steps_per_day: average daily steps
+    - exercise_days: exercise sessions per week
+    - sit_hours: average sitting hours per day
+
+    Output:
+    - level
+    - tdee_factor_hint
+    """
+
+    if steps_per_day < 0 or steps_per_day > 100000:
+        raise ValueError("请输入合理的日均步数。")
+    if exercise_days < 0 or exercise_days > 14:
+        raise ValueError("请输入合理的每周运动天数。")
+    if sit_hours < 0 or sit_hours > 24:
+        raise ValueError("请输入合理的久坐时长。")
+
+    score = 0
+
+    if steps_per_day < 5000:
+        score += 0
+    elif steps_per_day < 8000:
+        score += 1
+    elif steps_per_day < 11000:
+        score += 2
+    else:
+        score += 3
+
+    if exercise_days <= 1:
+        score += 0
+    elif exercise_days <= 3:
+        score += 1
+    elif exercise_days <= 5:
+        score += 2
+    else:
+        score += 3
+
+    if sit_hours >= 10:
+        score -= 1
+    elif sit_hours <= 6:
+        score += 1
+
+    if score <= 1:
+        level = "久坐型"
+        desc = "你的整体日常活动量偏低，通常更接近久坐生活方式。"
+        factor = "1.2 左右"
+        progress = 25
+    elif score <= 3:
+        level = "轻度活动"
+        desc = "你有一定活动量，但整体仍属于轻度活动范围。"
+        factor = "1.375 左右"
+        progress = 45
+    elif score <= 5:
+        level = "中度活动"
+        desc = "你的日常步数和运动频率已经达到中等活动水平。"
+        factor = "1.55 左右"
+        progress = 65
+    elif score <= 7:
+        level = "较高活动"
+        desc = "你的日常活动量较高，通常已经明显高于普通久坐人群。"
+        factor = "1.725 左右"
+        progress = 82
+    else:
+        level = "高活动量"
+        desc = "你的活动频率和步数都较高，更接近高活动状态。"
+        factor = "1.9 左右"
+        progress = 92
+
+    return {
+        "level": level,
+        "desc": desc,
+        "factor": factor,
+        "progress": progress,
+    }
+# 4.1.6 跑步消耗计算器
+# ========= 1.1. BMI与体重 ======= 
+#1.1.3 目标体重时间
 def weeks_to_goal(current_kg: float, target_kg: float, rate_kg_per_week: float) -> float:
     diff = abs(target_kg - current_kg)
     if rate_kg_per_week <= 0:
@@ -1405,7 +1719,8 @@ def sleep_recovery_info(debt_hours: float, recovery_ratio: float) -> dict:
         "level": level,
         "progress": progress,
     }
-
+# ========= 4.2. 睡眠时间 ======= 
+# 4.2.3 睡眠时长
 def sleep_duration_info(bed_hm: str, wake_hm: str, target_hours: float = 8.0) -> dict:
     """
     Calculate sleep duration from bedtime to wake time.
@@ -1851,323 +2166,12 @@ def contact():
         "/contact",
     )
     return render_template("contact.html", meta=meta)
-
-
-# -----------------------
-# Tool: pregnancy
-# -----------------------
-@app.route("/pregnancy-due-date", methods=["GET", "POST"])
-def pregnancy_due_date():
-    due_date = None
-    error = None
-
-    if request.method == "POST":
-        try:
-            lmp = request.form.get("lmp")
-            lmp_date = datetime.strptime(lmp, "%Y-%m-%d")
-            due_date = (lmp_date + timedelta(days=280)).strftime("%Y-%m-%d")
-        except Exception:
-            error = "请输入有效的日期"
-
-    meta = meta_for(
-        "预产期计算器（怀孕到生产时间推算）- CalmyHealth",
-        "输入末次月经日期，推算预产期与孕周（仅供参考）。包含预产期怎么算、怀孕多久生、常见问题与相关工具链接。",
-        "/pregnancy-due-date",
-    )
-    return render_template(
-        "pregnancy_due_date.html",
-        meta=meta,
-        due_date=due_date,
-        error=error,
-    )
-
-@app.route("/pregnancy-week", methods=["GET", "POST"])
-def pregnancy_week():
-    error = None
-    lmp_in = ""
-    result = None
-
-    if request.method == "POST":
-        lmp_in = request.form.get("lmp", "").strip()
-
-        try:
-            if not lmp_in:
-                raise ValueError("请输入末次月经日期。")
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            result = pregnancy_week_info(lmp_date)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效日期。"
-
-    meta = {
-        "title": "怀孕周数计算器（实时孕周与预产期）- 健康工具站",
-        "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，并提供公式说明与相关孕期工具。",
-        "canonical": canonical_url("/pregnancy-week"),
-    }
-
-    return render_template(
-        "pregnancy_week.html",
-        meta=meta,
-        error=error,
-        lmp_in=lmp_in,
-        result=result,
-        page_kind="tool",
-    )
-
-@app.route("/ovulation", methods=["GET", "POST"])
-def ovulation():
-
-    error = None
-    result = None
-    lmp_in = ""
-    cycle_in = "28"
-
-    if request.method == "POST":
-
-        lmp_in = request.form.get("lmp", "").strip()
-        cycle_in = request.form.get("cycle", "28")
-
-        try:
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            cycle_length = int(cycle_in)
-
-            if cycle_length < 21 or cycle_length > 45:
-                raise ValueError("月经周期通常在21–45天之间")
-
-            result = ovulation_info(lmp_date, cycle_length)
-
-        except Exception as e:
-            error = str(e)
-
-    meta = {
-        "title": "排卵期计算器（易孕期与排卵日预测）",
-        "description": "输入末次月经和周期长度，计算排卵日、易孕期和下次月经日期。",
-        "canonical": canonical_url("/ovulation"),
-    }
-
-    return render_template(
-        "ovulation.html",
-        meta=meta,
-        result=result,
-        error=error,
-        lmp_in=lmp_in,
-        cycle_in=cycle_in,
-        page_kind="tool",
-    )
-
-@app.route("/conception-date", methods=["GET", "POST"])
-def conception_date():
-
-    error = None
-    result = None
-    lmp_in = ""
-
-    if request.method == "POST":
-
-        lmp_in = request.form.get("lmp", "").strip()
-
-        try:
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-
-            result = conception_info(lmp_date)
-
-        except Exception:
-            error = "请输入有效日期"
-
-    meta = {
-        "title": "受孕日期推算器（宝宝大概什么时候怀上的）",
-        "description": "根据末次月经推算可能的受孕日期，同时显示预产期参考。",
-        "canonical": canonical_url("/conception-date"),
-    }
-
-    return render_template(
-        "conception_date.html",
-        meta=meta,
-        result=result,
-        error=error,
-        lmp_in=lmp_in,
-        page_kind="tool",
-    )
-
-@app.route("/pregnancy-weight", methods=["GET", "POST"])
-def pregnancy_weight():
-
-    error = None
-    result = None
-    height_in = ""
-    weight_in = ""
-
-    if request.method == "POST":
-
-        height_in = request.form.get("height_cm", "")
-        weight_in = request.form.get("weight_kg", "")
-
-        try:
-
-            height = float(height_in)
-            weight = float(weight_in)
-
-            result = pregnancy_weight_gain(height, weight)
-
-        except Exception:
-            error = "请输入有效身高和体重"
-
-    meta = {
-        "title": "孕期体重增长计算器（Pregnancy Weight Gain Calculator）",
-        "description": "根据孕前BMI计算孕期建议体重增长范围，并提供医学参考标准。",
-        "canonical": canonical_url("/pregnancy-weight"),
-    }
-
-    return render_template(
-        "pregnancy_weight.html",
-        meta=meta,
-        result=result,
-        error=error,
-        height_in=height_in,
-        weight_in=weight_in,
-        page_kind="tool",
-    )
-
-@app.route("/fetal-development", methods=["GET", "POST"])
-def fetal_development():
-    error = None
-    week_in = ""
-    result = None
-
-    if request.method == "POST":
-        week_in = request.form.get("week", "").strip()
-
-        try:
-            week = int(week_in)
-            result = fetal_development_data(week)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效的孕周。"
-
-    meta = {
-        "title": "胎儿发育周数图（孕周发育进度查询）- CalmyHealth",
-        "description": "输入孕周，查看胎儿发育阶段、40周进度和本周常见发育特点，并推荐相关孕期工具。",
-        "canonical": canonical_url("/fetal-development"),
-    }
-
-    return render_template(
-        "fetal_development.html",
-        meta=meta,
-        error=error,
-        week_in=week_in,
-        result=result,
-        page_kind="tool",
-    )
-
-@app.route("/pregnancy-calorie", methods=["GET", "POST"])
-def pregnancy_calorie():
-    error = None
-    base_kcal_in = ""
-    trimester_in = "first"
-    result = None
-
-    if request.method == "POST":
-        base_kcal_in = request.form.get("base_kcal", "").strip()
-        trimester_in = request.form.get("trimester", "first")
-
-        try:
-            base_kcal = float(base_kcal_in)
-
-            if base_kcal <= 0 or base_kcal > 10000:
-                raise ValueError("请输入合理的基础热量（kcal/天）。")
-
-            result = pregnancy_calorie_need(base_kcal, trimester_in)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "孕期热量需求计算器（不同孕期每天该吃多少热量）- CalmyHealth",
-        "description": "输入基础每日热量并选择孕期阶段，估算孕早期、孕中期、孕晚期每天建议摄入热量，并附公式说明、图表展示与相关孕期工具。",
-        "canonical": canonical_url("/pregnancy-calorie"),
-    }
-
-    return render_template(
-        "pregnancy_calorie.html",
-        meta=meta,
-        error=error,
-        base_kcal_in=base_kcal_in,
-        trimester_in=trimester_in,
-        result=result,
-        page_kind="tool",
-    )
-
-@app.route("/pregnancy-protein", methods=["GET", "POST"])
-def pregnancy_protein():
-    error = None
-    weight_kg_in = ""
-    trimester_in = "first"
-    result = None
-
-    if request.method == "POST":
-        weight_kg_in = request.form.get("weight_kg", "").strip()
-        trimester_in = request.form.get("trimester", "first")
-
-        try:
-            weight_kg = float(weight_kg_in)
-            result = pregnancy_protein_need(weight_kg, trimester_in)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "孕期蛋白质需求计算器（怀孕后每天蛋白质该吃多少）- CalmyHealth",
-        "description": "输入体重并选择孕期阶段，估算孕期每天蛋白质摄入建议，并附公式说明、结果图示和相关孕期工具内链。",
-        "canonical": canonical_url("/pregnancy-protein"),
-    }
-
-    return render_template(
-        "pregnancy_protein.html",
-        meta=meta,
-        error=error,
-        weight_kg_in=weight_kg_in,
-        trimester_in=trimester_in,
-        result=result,
-        page_kind="tool",
-    )
-
-@app.route("/pregnancy-water", methods=["GET", "POST"])
-def pregnancy_water():
-    error = None
-    weight_kg_in = ""
-    trimester_in = "first"
-    result = None
-
-    if request.method == "POST":
-        weight_kg_in = request.form.get("weight_kg", "").strip()
-        trimester_in = request.form.get("trimester", "first")
-
-        try:
-            weight_kg = float(weight_kg_in)
-            result = pregnancy_water_need(weight_kg, trimester_in)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "孕期饮水量计算器（怀孕后每天建议喝多少水）- CalmyHealth",
-        "description": "输入体重并选择孕期阶段，估算孕期每天建议饮水量，并附结果说明、公式解释和相关孕期工具内链。",
-        "canonical": canonical_url("/pregnancy-water"),
-    }
-
-    return render_template(
-        "pregnancy_water.html",
-        meta=meta,
-        error=error,
-        weight_kg_in=weight_kg_in,
-        trimester_in=trimester_in,
-        result=result,
-        page_kind="tool",
-    )
-
 # -----------------------
 # Tool: BMI
 # -----------------------
+# 1. 体重与体型
+# ========= 1.1. BMI与体重 ======= 
+## 1.1.1 BMI (Route)
 @app.route("/bmi", methods=["GET", "POST"])
 def bmi():
     error = None
@@ -2257,8 +2261,368 @@ def bmi():
 
 
 # -----------------------
+# Tool: Deficit
+# -----------------------
+# 2. 代谢与热量
+# ========= 2.2. 热量规划 ======= 
+## 2.2.1 热量缺口
+@app.route("/deficit", methods=["GET", "POST"])
+def deficit():
+    error = None
+    tdee_in = ""
+    mode_in = "loss_easy"
+    target_kcal = None
+    label = None
+
+    if request.method == "POST":
+        tdee_in = request.form.get("tdee", "")
+        mode_in = request.form.get("mode", "loss_easy")
+        tdee_val = to_float(tdee_in)
+
+        if not tdee_val or tdee_val <= 0 or tdee_val > 10000:
+            error = "请输入正确的 TDEE（kcal/天）。"
+        elif mode_in not in ("loss_easy", "loss_fast", "maintain", "gain"):
+            error = "模式选择不正确。"
+        else:
+            target_kcal, label = deficit_plan(tdee_val, mode_in)
+
+    meta = meta_for(
+        "热量缺口与目标热量 - CalmyHealth",
+        "根据 TDEE 估算减脂/维持/增肌的目标日摄入热量（kcal/天），并提供下一步建议（蛋白质、步数、体重趋势）。",
+        "/deficit",
+    )
+    return render_template(
+        "deficit.html",
+        meta=meta,
+        error=error,
+        tdee_in=tdee_in,
+        mode_in=mode_in,
+        target_kcal=target_kcal,
+        label=label,
+    )
+# -----------------------
+# Tool: pregnancy
+# -----------------------
+# 5. 孕期工具
+# ========= 5.1. 基础孕期 ======= 
+## 5.1.1 预产期计算
+@app.route("/pregnancy-due-date", methods=["GET", "POST"])
+def pregnancy_due_date():
+    due_date = None
+    error = None
+
+    if request.method == "POST":
+        try:
+            lmp = request.form.get("lmp")
+            lmp_date = datetime.strptime(lmp, "%Y-%m-%d")
+            due_date = (lmp_date + timedelta(days=280)).strftime("%Y-%m-%d")
+        except Exception:
+            error = "请输入有效的日期"
+
+    meta = meta_for(
+        "预产期计算器（怀孕到生产时间推算）- CalmyHealth",
+        "输入末次月经日期，推算预产期与孕周（仅供参考）。包含预产期怎么算、怀孕多久生、常见问题与相关工具链接。",
+        "/pregnancy-due-date",
+    )
+    return render_template(
+        "pregnancy_due_date.html",
+        meta=meta,
+        due_date=due_date,
+        error=error,
+    )
+# 5.1.2 怀孕周数
+@app.route("/pregnancy-week", methods=["GET", "POST"])
+def pregnancy_week():
+    error = None
+    lmp_in = ""
+    result = None
+
+    if request.method == "POST":
+        lmp_in = request.form.get("lmp", "").strip()
+
+        try:
+            if not lmp_in:
+                raise ValueError("请输入末次月经日期。")
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            result = pregnancy_week_info(lmp_date)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效日期。"
+
+    meta = {
+        "title": "怀孕周数计算器（实时孕周与预产期）- 健康工具站",
+        "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，并提供公式说明与相关孕期工具。",
+        "canonical": canonical_url("/pregnancy-week"),
+    }
+
+    return render_template(
+        "pregnancy_week.html",
+        meta=meta,
+        error=error,
+        lmp_in=lmp_in,
+        result=result,
+        page_kind="tool",
+    )
+# 5.1.3 预测排卵日
+@app.route("/ovulation", methods=["GET", "POST"])
+def ovulation():
+
+    error = None
+    result = None
+    lmp_in = ""
+    cycle_in = "28"
+
+    if request.method == "POST":
+
+        lmp_in = request.form.get("lmp", "").strip()
+        cycle_in = request.form.get("cycle", "28")
+
+        try:
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            cycle_length = int(cycle_in)
+
+            if cycle_length < 21 or cycle_length > 45:
+                raise ValueError("月经周期通常在21–45天之间")
+
+            result = ovulation_info(lmp_date, cycle_length)
+
+        except Exception as e:
+            error = str(e)
+
+    meta = {
+        "title": "排卵期计算器（易孕期与排卵日预测）",
+        "description": "输入末次月经和周期长度，计算排卵日、易孕期和下次月经日期。",
+        "canonical": canonical_url("/ovulation"),
+    }
+
+    return render_template(
+        "ovulation.html",
+        meta=meta,
+        result=result,
+        error=error,
+        lmp_in=lmp_in,
+        cycle_in=cycle_in,
+        page_kind="tool",
+    )
+# 5.1.4 受孕日期
+@app.route("/conception-date", methods=["GET", "POST"])
+def conception_date():
+
+    error = None
+    result = None
+    lmp_in = ""
+
+    if request.method == "POST":
+
+        lmp_in = request.form.get("lmp", "").strip()
+
+        try:
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+
+            result = conception_info(lmp_date)
+
+        except Exception:
+            error = "请输入有效日期"
+
+    meta = {
+        "title": "受孕日期推算器（宝宝大概什么时候怀上的）",
+        "description": "根据末次月经推算可能的受孕日期，同时显示预产期参考。",
+        "canonical": canonical_url("/conception-date"),
+    }
+
+    return render_template(
+        "conception_date.html",
+        meta=meta,
+        result=result,
+        error=error,
+        lmp_in=lmp_in,
+        page_kind="tool",
+    )
+# ========= 5.2. 孕期健康 ======= 
+# 5.2.1 孕期体重增长
+@app.route("/pregnancy-weight", methods=["GET", "POST"])
+def pregnancy_weight():
+
+    error = None
+    result = None
+    height_in = ""
+    weight_in = ""
+
+    if request.method == "POST":
+
+        height_in = request.form.get("height_cm", "")
+        weight_in = request.form.get("weight_kg", "")
+
+        try:
+
+            height = float(height_in)
+            weight = float(weight_in)
+
+            result = pregnancy_weight_gain(height, weight)
+
+        except Exception:
+            error = "请输入有效身高和体重"
+
+    meta = {
+        "title": "孕期体重增长计算器（Pregnancy Weight Gain Calculator）",
+        "description": "根据孕前BMI计算孕期建议体重增长范围，并提供医学参考标准。",
+        "canonical": canonical_url("/pregnancy-weight"),
+    }
+
+    return render_template(
+        "pregnancy_weight.html",
+        meta=meta,
+        result=result,
+        error=error,
+        height_in=height_in,
+        weight_in=weight_in,
+        page_kind="tool",
+    )
+# 5.2.2 孕期热量需求 
+@app.route("/pregnancy-calorie", methods=["GET", "POST"])
+def pregnancy_calorie():
+    error = None
+    base_kcal_in = ""
+    trimester_in = "first"
+    result = None
+
+    if request.method == "POST":
+        base_kcal_in = request.form.get("base_kcal", "").strip()
+        trimester_in = request.form.get("trimester", "first")
+
+        try:
+            base_kcal = float(base_kcal_in)
+
+            if base_kcal <= 0 or base_kcal > 10000:
+                raise ValueError("请输入合理的基础热量（kcal/天）。")
+
+            result = pregnancy_calorie_need(base_kcal, trimester_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "孕期热量需求计算器（不同孕期每天该吃多少热量）- CalmyHealth",
+        "description": "输入基础每日热量并选择孕期阶段，估算孕早期、孕中期、孕晚期每天建议摄入热量，并附公式说明、图表展示与相关孕期工具。",
+        "canonical": canonical_url("/pregnancy-calorie"),
+    }
+
+    return render_template(
+        "pregnancy_calorie.html",
+        meta=meta,
+        error=error,
+        base_kcal_in=base_kcal_in,
+        trimester_in=trimester_in,
+        result=result,
+        page_kind="tool",
+    )
+# 5.2.3 孕期蛋白质
+@app.route("/pregnancy-protein", methods=["GET", "POST"])
+def pregnancy_protein():
+    error = None
+    weight_kg_in = ""
+    trimester_in = "first"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        trimester_in = request.form.get("trimester", "first")
+
+        try:
+            weight_kg = float(weight_kg_in)
+            result = pregnancy_protein_need(weight_kg, trimester_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "孕期蛋白质需求计算器（怀孕后每天蛋白质该吃多少）- CalmyHealth",
+        "description": "输入体重并选择孕期阶段，估算孕期每天蛋白质摄入建议，并附公式说明、结果图示和相关孕期工具内链。",
+        "canonical": canonical_url("/pregnancy-protein"),
+    }
+
+    return render_template(
+        "pregnancy_protein.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        trimester_in=trimester_in,
+        result=result,
+        page_kind="tool",
+    )
+# 5.2.4 胎儿发育周数
+@app.route("/fetal-development", methods=["GET", "POST"])
+def fetal_development():
+    error = None
+    week_in = ""
+    result = None
+
+    if request.method == "POST":
+        week_in = request.form.get("week", "").strip()
+
+        try:
+            week = int(week_in)
+            result = fetal_development_data(week)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效的孕周。"
+
+    meta = {
+        "title": "胎儿发育周数图（孕周发育进度查询）- CalmyHealth",
+        "description": "输入孕周，查看胎儿发育阶段、40周进度和本周常见发育特点，并推荐相关孕期工具。",
+        "canonical": canonical_url("/fetal-development"),
+    }
+
+    return render_template(
+        "fetal_development.html",
+        meta=meta,
+        error=error,
+        week_in=week_in,
+        result=result,
+        page_kind="tool",
+    )
+# 5.2.5 孕期饮水量
+@app.route("/pregnancy-water", methods=["GET", "POST"])
+def pregnancy_water():
+    error = None
+    weight_kg_in = ""
+    trimester_in = "first"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        trimester_in = request.form.get("trimester", "first")
+
+        try:
+            weight_kg = float(weight_kg_in)
+            result = pregnancy_water_need(weight_kg, trimester_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "孕期饮水量计算器（怀孕后每天建议喝多少水）- CalmyHealth",
+        "description": "输入体重并选择孕期阶段，估算孕期每天建议饮水量，并附结果说明、公式解释和相关孕期工具内链。",
+        "canonical": canonical_url("/pregnancy-water"),
+    }
+
+    return render_template(
+        "pregnancy_water.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        trimester_in=trimester_in,
+        result=result,
+        page_kind="tool",
+    )
+
+
+# -----------------------
 # Tool: BMR
 # -----------------------
+# 2. 代谢与热量
+# ========= 2.1. 基础代谢 ======= 
+## 2.1.1 基础代谢率BMR
 @app.route("/bmr", methods=["GET", "POST"])
 def bmr():
     error = None
@@ -2305,10 +2669,58 @@ def bmr():
         weight_kg_in=weight_kg_in,
     )
 
+# -----------------------
+# Tool: Goal Time
+# -----------------------
+# 1. 体重与体型
+# ========= 1.1. BMI与体重 ======= 
+# 1.1.3 目标体重 (Route)
+@app.route("/goal-time", methods=["GET", "POST"])
+def goal_time():
+    error = None
+    current_in = ""
+    target_in = ""
+    rate_in = "0.5"
+    weeks = None
+
+    if request.method == "POST":
+        current_in = request.form.get("current_kg", "")
+        target_in = request.form.get("target_kg", "")
+        rate_in = request.form.get("rate", "0.5")
+
+        c = to_float(current_in)
+        t = to_float(target_in)
+        r = to_float(rate_in)
+
+        if not c or c <= 0 or c > 300:
+            error = "请输入正确当前体重（kg）。"
+        elif not t or t <= 0 or t > 300:
+            error = "请输入正确目标体重（kg）。"
+        elif not r or r <= 0 or r > 2.0:
+            error = "请输入合理的每周变化速度（建议 0.25–1.0 kg/周）。"
+        else:
+            weeks = round1(weeks_to_goal(c, t, r))
+
+    meta = meta_for(
+        "目标体重所需时间 - CalmyHealth",
+        "目标体重时间估算：输入当前体重、目标体重与每周变化速度，估算达到目标所需周数，并给出建议与相关工具链接。",
+        "/goal-time",
+    )
+    return render_template(
+        "goal_time.html",
+        meta=meta,
+        error=error,
+        current_in=current_in,
+        target_in=target_in,
+        rate_in=rate_in,
+        weeks=weeks,
+    )
 
 # -----------------------
 # Tool: TDEE
 # -----------------------
+# ========= 2.2. 热量规划 ======= 
+## 2.2.1 每日热量需求 
 @app.route("/calorie", methods=["GET", "POST"])
 def calorie():
     error = None
@@ -2366,6 +2778,9 @@ def calorie():
 # -----------------------
 # Tool: Water
 # -----------------------
+# 3. 营养摄入
+# ========= 3.1. 日常摄入 ======= 
+## 3.1.1. 饮水
 @app.route("/water", methods=["GET", "POST"])
 def water():
     error = None
@@ -2400,6 +2815,8 @@ def water():
 # -----------------------
 # Tool: Sleep
 # -----------------------
+# ========= 4.2. 睡眠时间 ======= 
+## 4.2.1 睡眠周期
 @app.route("/sleep", methods=["GET", "POST"])
 def sleep():
     error = None
@@ -2464,9 +2881,8 @@ def sleep():
         time_hm_in=time_hm_in,
         times=times,
     )
-
-
-
+# ========= 4.3. 睡眠质量 ======= 
+## 4.3.1 睡眠债
 @app.route("/sleep-debt", methods=["GET", "POST"])
 def sleep_debt():
     error = None
@@ -2506,7 +2922,8 @@ def sleep_debt():
         result=result,
         page_kind="tool",
     )
-
+# ========= 4.2. 睡眠时间 ======= 
+## 4.2.4 补觉时间 (Route)
 @app.route("/sleep-recovery", methods=["GET", "POST"])
 def sleep_recovery():
     error = None
@@ -2540,7 +2957,7 @@ def sleep_recovery():
         result=result,
         page_kind="tool",
     )
-
+# 4.2.3 睡眠时长
 @app.route("/sleep-duration", methods=["GET", "POST"])
 def sleep_duration():
     error = None
@@ -2580,7 +2997,7 @@ def sleep_duration():
         result=result,
         page_kind="tool",
     )
-
+# 4.2.5 午睡时间
 @app.route("/nap-time", methods=["GET", "POST"])
 def nap_time():
     error = None
@@ -2612,7 +3029,8 @@ def nap_time():
         result=result,
         page_kind="tool",
     )
-
+# ========= 4.3. 睡眠质量 ======= 
+# 4.3.4 时差恢复
 @app.route("/jet-lag", methods=["GET", "POST"])
 def jet_lag():
     error = None
@@ -2645,7 +3063,7 @@ def jet_lag():
         result=result,
         page_kind="tool",
     )
-
+# 4.3.5 作息类型
 @app.route("/chronotype", methods=["GET", "POST"])
 def chronotype():
     error = None
@@ -2690,6 +3108,7 @@ def chronotype():
 # -----------------------
 # Tool: Body Fat
 # -----------------------
+
 @app.route("/bodyfat", methods=["GET", "POST"])
 def bodyfat():
     error = None
@@ -2940,6 +3359,8 @@ def waist():
 # -----------------------
 # Tool: Daily intake
 # -----------------------
+# ========= 3.1. 日常摄入 ======= 
+# 3.1.2. 蛋白质
 @app.route("/protein", methods=["GET", "POST"])
 def protein():
     error = None
@@ -2976,7 +3397,7 @@ def protein():
         label=label,
     )
 
-# ======= 2.2. 宏量营养 ============
+# ======= 3.2. 宏量营养 ============
 # 3.2.1. 宏量营养
 @app.route("/macro", methods=["GET", "POST"])
 def macro():
@@ -3165,9 +3586,60 @@ def fiber():
         result=result,
         page_kind="tool",
     )
+
+# 3.1.6. 盐摄入 (Route)
+@app.route("/salt", methods=["GET", "POST"])
+def salt():
+    error = None
+    home_in = "2"
+    takeout_in = "1"
+    soup_in = "0"
+    processed_in = "1"
+    snack_in = "0"
+    result = None
+
+    if request.method == "POST":
+        home_in = request.form.get("home_meals", "2").strip()
+        takeout_in = request.form.get("takeout_meals", "1").strip()
+        soup_in = request.form.get("soup_bowls", "0").strip()
+        processed_in = request.form.get("processed_servings", "1").strip()
+        snack_in = request.form.get("snack_servings", "0").strip()
+
+        try:
+            result = salt_estimate(
+                int(home_in),
+                int(takeout_in),
+                int(soup_in),
+                int(processed_in),
+                int(snack_in),
+            )
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "盐摄入估算器（你每天吃盐会不会太多）- CalmyHealth",
+        "description": "根据家常菜、外卖、汤、加工食品和咸味零食的份数，粗略估算每天盐摄入是否偏高，并给出日常调整建议。",
+        "canonical": canonical_url("/salt"),
+    }
+
+    return render_template(
+        "salt.html",
+        meta=meta,
+        error=error,
+        home_in=home_in,
+        takeout_in=takeout_in,
+        soup_in=soup_in,
+        processed_in=processed_in,
+        snack_in=snack_in,
+        result=result,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: Steps
 # -----------------------
+# 4. 运动与习惯
+# ========= 4.1. 运动消耗 ======= 
+# 4.1.1 步数转热量
 @app.route("/steps", methods=["GET", "POST"])
 def steps():
     error = None
@@ -3201,90 +3673,153 @@ def steps():
         weight_kg_in=weight_kg_in,
         kcal=kcal,
     )
-
-
-# -----------------------
-# Tool: Deficit
-# -----------------------
-@app.route("/deficit", methods=["GET", "POST"])
-def deficit():
+# 4.1.2 步数转距离 (Route)
+@app.route("/steps-distance", methods=["GET", "POST"])
+def steps_distance():
     error = None
-    tdee_in = ""
-    mode_in = "loss_easy"
-    target_kcal = None
-    label = None
+    steps_in = "10000"
+    height_cm_in = ""
+    sex_in = "male"
+    result = None
 
     if request.method == "POST":
-        tdee_in = request.form.get("tdee", "")
-        mode_in = request.form.get("mode", "loss_easy")
-        tdee_val = to_float(tdee_in)
+        steps_in = request.form.get("steps", "10000").strip()
+        height_cm_in = request.form.get("height_cm", "").strip()
+        sex_in = request.form.get("sex", "male").strip()
 
-        if not tdee_val or tdee_val <= 0 or tdee_val > 10000:
-            error = "请输入正确的 TDEE（kcal/天）。"
-        elif mode_in not in ("loss_easy", "loss_fast", "maintain", "gain"):
-            error = "模式选择不正确。"
-        else:
-            target_kcal, label = deficit_plan(tdee_val, mode_in)
+        try:
+            steps_val = int(steps_in)
+            height_val = float(height_cm_in)
+            result = steps_to_distance(steps_val, height_val, sex_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
 
-    meta = meta_for(
-        "热量缺口与目标热量 - CalmyHealth",
-        "根据 TDEE 估算减脂/维持/增肌的目标日摄入热量（kcal/天），并提供下一步建议（蛋白质、步数、体重趋势）。",
-        "/deficit",
-    )
+    meta = {
+        "title": "步数转距离计算器（10000步大概是多少公里）- CalmyHealth",
+        "description": "输入步数、身高和性别，估算步数大概等于多少米、多少公里，并了解步数与距离的换算逻辑。",
+        "canonical": canonical_url("/steps-distance"),
+    }
+
     return render_template(
-        "deficit.html",
+        "steps_distance.html",
         meta=meta,
         error=error,
-        tdee_in=tdee_in,
-        mode_in=mode_in,
-        target_kcal=target_kcal,
-        label=label,
+        steps_in=steps_in,
+        height_cm_in=height_cm_in,
+        sex_in=sex_in,
+        result=result,
+        page_kind="tool",
     )
-
-
-# -----------------------
-# Tool: Goal Time
-# -----------------------
-@app.route("/goal-time", methods=["GET", "POST"])
-def goal_time():
+# 4.1.3 步数转步行时间 (Route)
+@app.route("/steps-time", methods=["GET", "POST"])
+def steps_time():
     error = None
-    current_in = ""
-    target_in = ""
-    rate_in = "0.5"
-    weeks = None
+    steps_in = "10000"
+    pace_in = "normal"
+    result = None
 
     if request.method == "POST":
-        current_in = request.form.get("current_kg", "")
-        target_in = request.form.get("target_kg", "")
-        rate_in = request.form.get("rate", "0.5")
+        steps_in = request.form.get("steps", "10000").strip()
+        pace_in = request.form.get("pace", "normal").strip()
 
-        c = to_float(current_in)
-        t = to_float(target_in)
-        r = to_float(rate_in)
+        try:
+            steps_val = int(steps_in)
+            result = steps_to_time(steps_val, pace_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
 
-        if not c or c <= 0 or c > 300:
-            error = "请输入正确当前体重（kg）。"
-        elif not t or t <= 0 or t > 300:
-            error = "请输入正确目标体重（kg）。"
-        elif not r or r <= 0 or r > 2.0:
-            error = "请输入合理的每周变化速度（建议 0.25–1.0 kg/周）。"
-        else:
-            weeks = round1(weeks_to_goal(c, t, r))
+    meta = {
+        "title": "步数转步行时间计算器（这些步数大概要走多久）- CalmyHealth",
+        "description": "输入步数和步行速度，估算这些步数大概要走多久，帮助你更直观地理解每日步数和活动时间。",
+        "canonical": canonical_url("/steps-time"),
+    }
 
-    meta = meta_for(
-        "目标体重所需时间 - CalmyHealth",
-        "目标体重时间估算：输入当前体重、目标体重与每周变化速度，估算达到目标所需周数，并给出建议与相关工具链接。",
-        "/goal-time",
-    )
     return render_template(
-        "goal_time.html",
+        "steps_time.html",
         meta=meta,
         error=error,
-        current_in=current_in,
-        target_in=target_in,
-        rate_in=rate_in,
-        weeks=weeks,
+        steps_in=steps_in,
+        pace_in=pace_in,
+        result=result,
+        page_kind="tool",
     )
+# 4.1.4 每日步数目标
+@app.route("/step-goal", methods=["GET", "POST"])
+def step_goal():
+    error = None
+    current_steps_in = "6000"
+    goal_in = "maintain"
+    result = None
+
+    if request.method == "POST":
+        current_steps_in = request.form.get("current_steps", "6000").strip()
+        goal_in = request.form.get("goal", "maintain").strip()
+
+        try:
+            current_steps_val = int(current_steps_in)
+            if goal_in not in ("maintain", "fat_loss", "active_upgrade"):
+                raise ValueError("目标选择不正确。")
+
+            result = step_goal_plan(current_steps_val, goal_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "每日步数目标计算器（想减脂或维持体重，每天走多少步更合适）- CalmyHealth",
+        "description": "输入你当前日均步数和目标，估算每天更适合的步数目标，并帮助你把活动量目标变得更清晰、更容易执行。",
+        "canonical": canonical_url("/step-goal"),
+    }
+
+    return render_template(
+        "step_goal.html",
+        meta=meta,
+        error=error,
+        current_steps_in=current_steps_in,
+        goal_in=goal_in,
+        result=result,
+        page_kind="tool",
+    )
+# 4.1.5 活动量等级
+@app.route("/activity-level", methods=["GET", "POST"])
+def activity_level():
+    error = None
+    steps_in = "7000"
+    exercise_days_in = "2"
+    sit_hours_in = "8"
+    result = None
+
+    if request.method == "POST":
+        steps_in = request.form.get("steps_per_day", "7000").strip()
+        exercise_days_in = request.form.get("exercise_days", "2").strip()
+        sit_hours_in = request.form.get("sit_hours", "8").strip()
+
+        try:
+            result = activity_level_info(
+                int(steps_in),
+                int(exercise_days_in),
+                float(sit_hours_in),
+            )
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "活动量等级计算器（你属于久坐、轻度还是中度活动）- CalmyHealth",
+        "description": "输入日均步数、每周运动天数和久坐时长，估算你的活动量等级，并帮助理解自己更接近久坐、轻度还是中度活动。",
+        "canonical": canonical_url("/activity-level"),
+    }
+
+    return render_template(
+        "activity_level.html",
+        meta=meta,
+        error=error,
+        steps_in=steps_in,
+        exercise_days_in=exercise_days_in,
+        sit_hours_in=sit_hours_in,
+        result=result,
+        page_kind="tool",
+    )
+# 4.1.6 跑步消耗计算器
 
 
 @app.get("/healthz")
