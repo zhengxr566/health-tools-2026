@@ -76,11 +76,19 @@ CATEGORY_META = {
     },
     "nutrition": {
         "name": "营养摄入",
-        "description": "蛋白质、饮水、宏量营养",
+        "description": "饮水、蛋白质、宏量营养与饮食分配工具",
         "children": {
             "daily_intake": {
                 "name": "日常摄入",
-                "description": "蛋白质、饮水量",
+                "description": "饮水、蛋白质、碳水、脂肪、纤维",
+            },
+            "macro_nutrition": {
+                "name": "宏量营养",
+                "description": "蛋白质、碳水、脂肪的整体分配",
+            },
+            "meal_planning": {
+                "name": "饮食分配",
+                "description": "三餐、餐次与目标导向分配",
             },
         },
     },
@@ -209,6 +217,62 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": False,
     },
+
+    {
+        "endpoint": "carbs",
+        "name": "碳水化合物需求计算器",
+        "path": "/carbs",
+        "desc": "估算每天建议摄入多少碳水",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": True,
+    },
+    {
+        "endpoint": "fat-intake",
+        "name": "脂肪摄入计算器",
+        "path": "/fat-intake",
+        "desc": "估算每天建议摄入多少脂肪",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": False,
+    },
+    {
+        "endpoint": "fiber",
+        "name": "膳食纤维计算器",
+        "path": "/fiber",
+        "desc": "查看每天建议纤维摄入量",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": False,
+    },
+    {
+        "endpoint": "macro",
+        "name": "宏量营养素计算器",
+        "path": "/macro",
+        "desc": "分配蛋白质、碳水和脂肪",
+        "category": "nutrition",
+        "subgroup": "macro_nutrition",
+        "featured": True,
+    },
+    {
+        "endpoint": "meal-split",
+        "name": "餐次分配计算器",
+        "path": "/meal-split",
+        "desc": "把每日热量和蛋白质分配到三餐",
+        "category": "nutrition",
+        "subgroup": "meal_planning",
+        "featured": False,
+    },
+    {
+        "endpoint": "salt",
+        "name": "盐摄入估算器",
+        "path": "/salt",
+        "desc": "估算每日盐摄入是否偏高",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": False,
+    },
+
     {
         "endpoint": "steps",
         "name": "步数转热量",
@@ -227,13 +291,34 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
+
+    {
+        "endpoint": "sleep_need",
+        "name": "睡眠需求计算器",
+        "path": "/sleep-need",
+        "desc": "按年龄查看建议睡眠时长",
+        "category": "activity",
+        "subgroup": "sleep_time",
+        "featured": True,
+    },
+
+    {
+        "endpoint": "sleep_duration",
+        "name": "睡眠时长计算器",
+        "path": "/sleep-duration",
+        "desc": "计算从几点睡到几点起一共睡了多久",
+        "category": "activity",
+        "subgroup": "sleep_time",
+        "featured": False,
+    },
+
     {
         "endpoint": "sleep_debt",
         "name": "睡眠债计算器",
         "path": "/sleep-debt",
         "desc": "估算一周累计少睡了多少小时",
         "category": "activity",
-        "subgroup": "sleep_time",
+        "subgroup": "sleep_quality",
         "featured": True,
     },
 
@@ -248,16 +333,6 @@ TOOLS = [
     },
 
     {
-        "endpoint": "sleep_duration",
-        "name": "睡眠时长计算器",
-        "path": "/sleep-duration",
-        "desc": "计算从几点睡到几点起一共睡了多久",
-        "category": "activity",
-        "subgroup": "sleep_time",
-        "featured": False,
-    },
-
-    {
         "endpoint": "nap_time",
         "name": "午睡时间计算器",
         "path": "/nap-time",
@@ -265,16 +340,6 @@ TOOLS = [
         "category": "activity",
         "subgroup": "sleep_quality",
         "featured": False,
-    },
-
-    {
-        "endpoint": "sleep_need",
-        "name": "睡眠需求计算器",
-        "path": "/sleep-need",
-        "desc": "按年龄查看建议睡眠时长",
-        "category": "activity",
-        "subgroup": "sleep_time",
-        "featured": True,
     },
 
     {
@@ -287,7 +352,35 @@ TOOLS = [
         "featured": True,
     },
 
-    
+    {
+        "endpoint": "caffeine_cutoff",
+        "name": "咖啡因截止时间计算器",
+        "path": "/caffeine-cutoff",
+        "desc": "估算今晚想睡好最晚几点别再喝咖啡",
+        "category": "activity",
+        "subgroup": "sleep_quality",
+        "featured": True,
+    },
+
+    {
+        "endpoint": "jet_lag",
+        "name": "时差恢复计算器",
+        "path": "/jet-lag",
+        "desc": "估算跨时区后大概要几天恢复作息",
+        "category": "activity",
+        "subgroup": "sleep_quality",
+        "featured": True,
+    },
+
+    {
+        "endpoint": "chronotype",
+        "name": "作息类型测试",
+        "path": "/chronotype",
+        "desc": "测试你更像早鸟型还是夜猫型",
+        "category": "activity",
+        "subgroup": "sleep_quality",
+        "featured": True,
+    },
     {
         "endpoint": "pregnancy_due_date",
         "name": "预产期计算器",
@@ -1260,7 +1353,118 @@ def sleep_efficiency_info(
         "level": level,
     }
 
+def caffeine_cutoff_info(sleep_hm: str, cutoff_hours: float = 6.0) -> dict:
+    """
+    Estimate caffeine cutoff time before bed.
+    Simple educational logic:
+    cutoff time = bedtime - cutoff_hours
+    """
 
+    def parse_hm(s: str) -> tuple[int, int]:
+        s = s.strip()
+        if ":" not in s:
+            raise ValueError("请输入正确时间格式，例如 23:00。")
+        hh, mm = s.split(":", 1)
+        h = int(hh)
+        m = int(mm)
+        if h < 0 or h > 23 or m < 0 or m > 59:
+            raise ValueError("请输入正确时间。")
+        return h, m
+
+    def add_minutes(h: int, m: int, minutes: int) -> tuple[int, int]:
+        total = h * 60 + m + minutes
+        total %= 24 * 60
+        return total // 60, total % 60
+
+    def fmt(h: int, m: int) -> str:
+        return f"{h:02d}:{m:02d}"
+
+    if cutoff_hours <= 0 or cutoff_hours > 12:
+        raise ValueError("请输入合理的截止时长。")
+
+    h, m = parse_hm(sleep_hm)
+    cutoff_min = int(round(cutoff_hours * 60))
+    ch, cm = add_minutes(h, m, -cutoff_min)
+
+    return {
+        "sleep_time": sleep_hm,
+        "cutoff_time": fmt(ch, cm),
+        "cutoff_hours": round(cutoff_hours, 1),
+    }
+
+def jet_lag_info(timezones_crossed: int, direction: str) -> dict:
+    """
+    Estimate jet lag recovery time with a simple practical rule.
+
+    direction:
+    - east: harder, about 1 day per timezone
+    - west: easier, about 1 day per 2 timezones
+    """
+
+    if timezones_crossed < 0 or timezones_crossed > 24:
+        raise ValueError("请输入合理的跨时区数量。")
+
+    if direction == "east":
+        days_needed = float(timezones_crossed)
+        label = "向东飞"
+        note = "向东飞通常更难适应，因为需要更早入睡和更早起床。"
+    elif direction == "west":
+        days_needed = round(timezones_crossed / 2.0, 1)
+        label = "向西飞"
+        note = "向西飞通常相对更容易，因为很多人更容易晚睡一点。"
+    else:
+        raise ValueError("飞行方向选择不正确。")
+
+    if timezones_crossed == 0:
+        level = "几乎没有明显时差"
+    elif days_needed <= 2:
+        level = "短期可适应"
+    elif days_needed <= 5:
+        level = "中等恢复期"
+    else:
+        level = "恢复时间可能较长"
+
+    progress = 0 if timezones_crossed == 0 else min(100, max(10, round(days_needed / 10 * 100)))
+
+    return {
+        "label": label,
+        "days_needed": days_needed,
+        "note": note,
+        "level": level,
+        "progress": progress,
+    }
+
+def chronotype_result(score: int) -> dict:
+    """
+    Simple chronotype scoring.
+    Lower score => earlier rhythm
+    Higher score => later rhythm
+    """
+
+    if score <= 7:
+        return {
+            "type": "早鸟型",
+            "title": "你更偏早鸟型作息",
+            "desc": "你通常更适合较早进入状态，也更容易在早些时候入睡和起床。",
+            "tip": "尽量把重要任务安排在上午，保持固定起床时间通常更适合你。",
+            "window": "推荐作息倾向：较早睡、较早起",
+        }
+    elif score <= 11:
+        return {
+            "type": "中间型",
+            "title": "你更偏中间型作息",
+            "desc": "你的作息弹性相对更大，既不会特别早，也不会特别晚，更容易适应常见日程。",
+            "tip": "重点不是极端早睡或晚睡，而是尽量保持节律稳定。",
+            "window": "推荐作息倾向：中等时间入睡和起床",
+        }
+    else:
+        return {
+            "type": "夜猫型",
+            "title": "你更偏夜猫型作息",
+            "desc": "你可能在傍晚到夜间更容易进入状态，也更不容易太早入睡。",
+            "tip": "如果必须早起，建议提前几天慢慢前移作息，而不是突然强行早睡。",
+            "window": "推荐作息倾向：较晚睡、较晚起",
+        }
 # -----------------------
 # Pages
 # -----------------------
@@ -2120,6 +2324,80 @@ def nap_time():
         page_kind="tool",
     )
 
+@app.route("/jet-lag", methods=["GET", "POST"])
+def jet_lag():
+    error = None
+    zones_in = "6"
+    direction_in = "east"
+    result = None
+
+    if request.method == "POST":
+        zones_in = request.form.get("timezones_crossed", "6").strip()
+        direction_in = request.form.get("direction", "east").strip()
+
+        try:
+            timezones_crossed = int(zones_in)
+            result = jet_lag_info(timezones_crossed, direction_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "时差恢复计算器（跨时区后大概要几天恢复作息）- CalmyHealth",
+        "description": "输入跨越的时区数量和飞行方向，估算时差恢复所需天数，并了解向东飞、向西飞对睡眠节律的不同影响。",
+        "canonical": canonical_url("/jet-lag"),
+    }
+
+    return render_template(
+        "jet_lag.html",
+        meta=meta,
+        error=error,
+        zones_in=zones_in,
+        direction_in=direction_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/chronotype", methods=["GET", "POST"])
+def chronotype():
+    error = None
+    result = None
+    answers = {
+        "sleepy_time": "2",
+        "wake_without_alarm": "2",
+        "best_focus": "2",
+        "weekend_shift": "2",
+        "morning_feeling": "2",
+    }
+
+    if request.method == "POST":
+        try:
+            answers["sleepy_time"] = request.form.get("sleepy_time", "2").strip()
+            answers["wake_without_alarm"] = request.form.get("wake_without_alarm", "2").strip()
+            answers["best_focus"] = request.form.get("best_focus", "2").strip()
+            answers["weekend_shift"] = request.form.get("weekend_shift", "2").strip()
+            answers["morning_feeling"] = request.form.get("morning_feeling", "2").strip()
+
+            score = sum(int(v) for v in answers.values())
+            result = chronotype_result(score)
+            result["score"] = score
+
+        except Exception:
+            error = "请完成所有选项后再提交。"
+
+    meta = {
+        "title": "作息类型测试（你是早鸟型还是夜猫型）- CalmyHealth",
+        "description": "通过几个简单问题测试你更像早鸟型、夜猫型还是中间型作息，并查看更适合自己的睡眠节律建议。",
+        "canonical": canonical_url("/chronotype"),
+    }
+
+    return render_template(
+        "chronotype.html",
+        meta=meta,
+        error=error,
+        result=result,
+        answers=answers,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: Body Fat
 # -----------------------
@@ -2207,6 +2485,39 @@ def sleep_need():
         meta=meta,
         error=error,
         age_in=age_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/caffeine-cutoff", methods=["GET", "POST"])
+def caffeine_cutoff():
+    error = None
+    sleep_in = "23:00"
+    cutoff_in = "6"
+    result = None
+
+    if request.method == "POST":
+        sleep_in = request.form.get("sleep_hm", "23:00").strip()
+        cutoff_in = request.form.get("cutoff_hours", "6").strip()
+
+        try:
+            cutoff_hours = float(cutoff_in)
+            result = caffeine_cutoff_info(sleep_in, cutoff_hours)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "咖啡因截止时间计算器（今晚想睡好，最晚几点别再喝咖啡）- CalmyHealth",
+        "description": "输入今晚预计睡觉时间，估算最晚几点后尽量不要再摄入咖啡因，帮助减少咖啡、茶、能量饮料对睡眠的影响。",
+        "canonical": canonical_url("/caffeine-cutoff"),
+    }
+
+    return render_template(
+        "caffeine_cutoff.html",
+        meta=meta,
+        error=error,
+        sleep_in=sleep_in,
+        cutoff_in=cutoff_in,
         result=result,
         page_kind="tool",
     )

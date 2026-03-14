@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：测试 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">作息类型测试（你是早鸟型还是夜猫型）</h1>
+      <p class="text-muted mb-3">
+        通过几个简单问题，看看你的生物节律更偏早鸟型、夜猫型，还是中间型作息。结果仅供一般参考。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">1. 如果不被打扰，你通常什么时候开始明显犯困？</label>
+          <select name="sleepy_time" class="form-select">
+            <option value="1" {% if answers.sleepy_time == '1' %}selected{% endif %}>21:00 前后</option>
+            <option value="2" {% if answers.sleepy_time == '2' %}selected{% endif %}>22:00–23:30</option>
+            <option value="3" {% if answers.sleepy_time == '3' %}selected{% endif %}>23:30 之后</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">2. 如果不设闹钟，你通常会自然醒在什么时候？</label>
+          <select name="wake_without_alarm" class="form-select">
+            <option value="1" {% if answers.wake_without_alarm == '1' %}selected{% endif %}>06:00–07:00</option>
+            <option value="2" {% if answers.wake_without_alarm == '2' %}selected{% endif %}>07:00–08:30</option>
+            <option value="3" {% if answers.wake_without_alarm == '3' %}selected{% endif %}>08:30 之后</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">3. 你通常在一天中的什么时候最容易进入专注状态？</label>
+          <select name="best_focus" class="form-select">
+            <option value="1" {% if answers.best_focus == '1' %}selected{% endif %}>上午</option>
+            <option value="2" {% if answers.best_focus == '2' %}selected{% endif %}>下午</option>
+            <option value="3" {% if answers.best_focus == '3' %}selected{% endif %}>傍晚到夜间</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">4. 周末如果没有安排，你的作息通常会怎么变化？</label>
+          <select name="weekend_shift" class="form-select">
+            <option value="1" {% if answers.weekend_shift == '1' %}selected{% endif %}>变化很小，还是比较早睡早起</option>
+            <option value="2" {% if answers.weekend_shift == '2' %}selected{% endif %}>会稍微晚一点</option>
+            <option value="3" {% if answers.weekend_shift == '3' %}selected{% endif %}>会明显晚睡晚起</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">5. 你对早起的感受更接近哪一种？</label>
+          <select name="morning_feeling" class="form-select">
+            <option value="1" {% if answers.morning_feeling == '1' %}selected{% endif %}>大多时候还好，能较快进入状态</option>
+            <option value="2" {% if answers.morning_feeling == '2' %}selected{% endif %}>一般，需要一点时间清醒</option>
+            <option value="3" {% if answers.morning_feeling == '3' %}selected{% endif %}>通常比较痛苦，早晨很难启动</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">查看作息类型结果</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">测试结果</div>
+      <div class="h4 mb-2">{{ result.title }}</div>
+      <div class="text-muted small mb-3">得分：{{ result.score }}</div>
+
+      <div class="alert alert-info mb-3">
+        你的作息类型更接近：<b>{{ result.type }}</b>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">结果解读</div>
+        <div class="small text-muted">{{ result.desc }}</div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">作息倾向</div>
+        <div class="small text-muted">{{ result.window }}</div>
+      </div>
+
+      <div class="small text-muted">
+        <b>建议：</b>{{ result.tip }}
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        完成 5 个问题后，即可查看你更偏哪种作息类型。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是作息类型？</h2>
+      <p class="text-muted">
+        作息类型通常可以理解为：一个人在自然状态下，更倾向于什么时候清醒、什么时候犯困、什么时候更容易专注。
+        有些人更像“早鸟型”，习惯早些睡、早些起；有些人更像“夜猫型”，晚上更清醒，早晨启动更困难；还有很多人其实处在中间型。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，作息类型测试并不是给你贴标签，而是帮助你更好地理解自己的生物节律倾向。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个测试是怎么判断的？</h2>
+      <p class="text-muted">
+        这类测试通常会从几个日常问题入手，比如：你什么时候开始犯困、没有闹钟时会几点醒、什么时候最容易专注、
+        周末会不会明显晚睡晚起、以及你对早起的适应程度。把这些行为倾向放在一起，就能大致看出你更偏早型还是晚型。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">本工具的简化判断逻辑</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">较低分：更偏早鸟型</li>
+          <li class="mb-2">中间分：更偏中间型</li>
+          <li class="mb-0">较高分：更偏夜猫型</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">早鸟型和夜猫型，谁更健康？</h2>
+      <p class="text-muted">
+        不能简单说哪一种一定更健康。更重要的通常不是“你偏早还是偏晚”，而是你的作息能不能和现实生活节奏相对协调，
+        以及这种节奏是否长期稳定。如果一个夜猫型的人被迫长期极早起床，反而更容易觉得累；相反，如果作息倾向和日程更匹配，通常会更容易维持状态。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先了解自己的节律倾向</li>
+          <li class="mb-2">再决定该顺着它，还是需要逐步调整</li>
+          <li class="mb-2">如果必须和现实作息对齐，通常要慢慢改，而不是突然硬切</li>
+          <li class="mb-0">规律性通常比“完美型作息”更重要</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个测试适合怎么用？</h2>
+      <p class="text-muted">
+        它适合作为睡眠板块里的“自我认知型工具”。你可以先看自己更偏哪种作息类型，再结合睡眠需求、睡眠债、时长、睡眠效率、
+        甚至时差恢复等工具一起看，就能更容易理解：自己是因为睡不够，还是因为作息时间和天生节律不太匹配。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep-need">睡眠需求计算器</a>：按年龄看建议睡眠时长</li>
+        <li><a href="/sleep-duration">睡眠时长计算器</a>：看你实际睡了多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：看最近是否长期少睡</li>
+        <li><a href="/sleep-efficiency">睡眠效率计算器</a>：看躺床时间里有多少真正睡着了</li>
+        <li><a href="/jet-lag">时差恢复计算器</a>：跨时区后大概要几天恢复作息</li>
+        <li><a href="/caffeine-cutoff">咖啡因截止时间计算器</a>：避免晚上摄入咖啡因影响睡眠</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个测试结果会一直不变吗？</h3>
+      <p class="text-muted">
+        不一定。作息倾向可能会随着年龄、工作节奏、生活习惯和长期环境变化而出现一定改变。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">夜猫型是不是就不适合早起工作？</h3>
+      <p class="text-muted">
+        不是绝对不适合，但通常需要更多时间适应，也更适合用渐进方式调整作息，而不是突然大改。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个测试能替代专业评估吗？</h3>
+      <p class="text-muted">
+        不能。它更适合作为一般参考和自我观察工具，不替代正式医学或专业睡眠评估。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

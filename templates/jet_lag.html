@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">时差恢复计算器（跨时区后大概要几天恢复作息）</h1>
+      <p class="text-muted mb-3">
+        输入跨越的时区数量和飞行方向，估算大概需要几天来恢复作息，帮助你更直观地理解时差对睡眠的影响。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">跨越时区数量</label>
+          <input name="timezones_crossed" class="form-control" inputmode="numeric" required value="{{ zones_in }}" placeholder="例如 6">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">飞行方向</label>
+          <select name="direction" class="form-select">
+            <option value="east" {% if direction_in == 'east' %}selected{% endif %}>向东飞</option>
+            <option value="west" {% if direction_in == 'west' %}selected{% endif %}>向西飞</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算时差恢复时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">{{ result.label }}</div>
+      <div class="h3 mb-2">{{ result.days_needed }} 天</div>
+      <div class="text-muted small mb-3">{{ result.level }}</div>
+
+      <div class="alert alert-info mb-3">
+        按这套简化估算，你这次跨时区后大约需要：<b>{{ result.days_needed }} 天</b><br>
+        才能逐步适应新的作息节律。
+      </div>
+
+      <div class="small text-muted mb-2">恢复期参考</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-2">结果说明</div>
+        <div class="small text-muted">{{ result.note }}</div>
+      </div>
+
+      <div class="small text-muted">
+        这个结果适合作为旅行前后的作息安排参考，不代表每个人都会严格按同样速度恢复。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入跨越时区数量和飞行方向后，即可查看大概的时差恢复天数。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是时差反应？</h2>
+      <p class="text-muted">
+        时差反应通常出现在快速跨越多个时区之后。你的手表已经到了新时间，但身体内部的睡眠—清醒节律、
+        饥饿感、困倦感和精神状态，往往还停留在原来的时区，所以会出现白天犯困、晚上睡不着、早醒或者整天节奏混乱的感觉。
+      </p>
+
+      <p class="text-muted mb-0">
+        这也是为什么很多人会感觉“人已经到了，但作息还没到”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        向东飞：约每跨 1 个时区需要 1 天恢复
+      </div>
+
+      <div class="bg-light rounded-3 p-3 small">
+        向西飞：约每跨 2 个时区需要 1 天恢复
+      </div>
+
+      <p class="text-muted mt-3 mb-0">
+        这是一套非常常见、适合工具站使用的简化经验规则，重点是帮助你做旅行和作息安排，而不是给出医学诊断。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么向东飞通常更难恢复？</h2>
+      <p class="text-muted">
+        因为向东飞通常意味着你需要更早睡觉、更早起床。对很多人来说，把自己的节律往前拨，会比往后拖更难适应。
+        这也是为什么很多人从亚洲飞美国某些方向、或者从欧洲飞亚洲时，会明显感觉更难睡。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">向东飞：常常更像“强行早睡早起”</li>
+          <li class="mb-2">向西飞：常常更像“晚睡一点”</li>
+          <li class="mb-2">跨越时区越多，恢复压力通常越大</li>
+          <li class="mb-0">出差和短期旅行时，提前知道恢复期很有用</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合在出发前先估算：自己到达后大概要几天才能比较自然地进入新时区节奏。这样你可以更现实地安排工作、会议、考试、
+        演讲、比赛、旅行强度，或者决定是否需要在出发前几天就开始慢慢调整作息。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
+        <li><a href="/sleep-duration">睡眠时长计算器</a>：看实际睡了多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：最近有没有长期少睡</li>
+        <li><a href="/sleep-recovery">补觉时间计算器</a>：估算恢复作息大概要多久</li>
+        <li><a href="/caffeine-cutoff">咖啡因截止时间计算器</a>：避免临近睡前咖啡因干扰</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果一定准确吗？</h3>
+      <p class="text-muted">
+        不一定。它是简化估算，更适合作为旅行规划参考，而不是保证每个人都会按同样速度恢复。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">短途旅行也要算时差吗？</h3>
+      <p class="text-muted">
+        如果跨越时区不多，或者停留时间很短，时差影响可能不会特别明显，但对敏感人群仍可能有影响。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">除了睡觉，时差还会影响什么？</h3>
+      <p class="text-muted">
+        还可能影响白天精神状态、食欲、专注力和整体作息节奏。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

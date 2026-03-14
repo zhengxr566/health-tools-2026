@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">咖啡因截止时间计算器（今晚想睡好，最晚几点别再喝咖啡）</h1>
+      <p class="text-muted mb-3">
+        输入今晚预计睡觉时间，估算最晚几点后尽量不要再摄入咖啡因，帮助减少咖啡、茶、可乐和能量饮料对睡眠的影响。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">预计睡觉时间（HH:MM）</label>
+          <input name="sleep_hm" class="form-control" required value="{{ sleep_in }}" placeholder="例如 23:00">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">提前多久停止咖啡因（小时）</label>
+          <input name="cutoff_hours" class="form-control" inputmode="decimal" required value="{{ cutoff_in }}" placeholder="例如 6">
+          <div class="form-text">常见睡眠建议会以 5–6 小时作为一个常用参考范围。</div>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算咖啡因截止时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">建议截止时间</div>
+      <div class="h3 mb-2">{{ result.cutoff_time }}</div>
+
+      <div class="alert alert-info mb-3">
+        如果你计划 <b>{{ result.sleep_time }}</b> 左右睡觉，<br>
+        那么建议最晚在 <b>{{ result.cutoff_time }}</b> 前后停止摄入咖啡因。
+      </div>
+
+      <div class="small text-muted mb-3">
+        这个结果基于“睡前约 {{ result.cutoff_hours }} 小时尽量避免咖啡因”的常见睡眠卫生参考逻辑。
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这不是严格医学处方，而是帮助你安排日常喝咖啡时间的实用参考。</li>
+          <li class="mb-2">如果你本身对咖啡因更敏感，实际可能需要更早停止。</li>
+          <li class="mb-2">咖啡、浓茶、可乐、能量饮料和部分功能饮料都可能带来咖啡因摄入。</li>
+          <li class="mb-0">建议结合 <a href="/sleep-duration">睡眠时长计算器</a> 和 <a href="/sleep-debt">睡眠债计算器</a> 一起看作息影响。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入今晚预计睡觉时间后，即可查看建议的咖啡因截止时间。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">为什么睡前喝咖啡容易影响睡眠？</h2>
+      <p class="text-muted">
+        咖啡因是一种兴奋剂，接近睡前摄入时，可能让人更难放松、入睡更慢，或者影响夜间睡眠连续性。Sleep Foundation 的睡眠资料也提到，临近睡前摄入咖啡因会让入睡和整夜休息都更受影响。:contentReference[oaicite:1]{index=1}
+      </p>
+
+      <p class="text-muted mb-0">
+        很多人以为“我喝完还是能睡着”，但真正受影响的，不一定只是“能不能睡着”，还可能包括入睡速度、夜里是否更容易醒、以及第二天精神状态。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        咖啡因截止时间 = 预计睡觉时间 − 提前停止时长
+      </div>
+
+      <p class="text-muted">
+        例如，如果你计划 23:00 睡觉，并把截止时长设为 6 小时，那么建议大约在 17:00 前后停止摄入咖啡因。
+      </p>
+
+      <p class="text-muted mb-0">
+        NHS 体系中的睡眠建议材料常见“睡前约 5–6 小时避免咖啡因”的说法，另一些 NHS 睡眠资料也提到咖啡因的影响通常会持续数小时，平均大约 6 小时。:contentReference[oaicite:2]{index=2}
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">是不是所有人都应该用同一个截止时间？</h2>
+      <p class="text-muted">
+        不一定。FDA 也提醒，咖啡因的影响会因体重、药物使用、健康状况和个人敏感度而不同。对多数健康成年人来说，FDA 常引用的“通常不过量”的参考值约为每天 400 mg，但个体差异仍然很大。:contentReference[oaicite:3]{index=3}
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先用 5–6 小时前停止作为基础参考</li>
+          <li class="mb-2">如果你对咖啡因很敏感，可以再提前一些</li>
+          <li class="mb-2">如果最近睡眠变差，也可以尝试更早停用观察变化</li>
+          <li class="mb-0">重点不是“完全不能喝”，而是要避开离睡觉太近</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">哪些饮料和食物也要注意？</h2>
+      <p class="text-muted">
+        不只是咖啡。浓茶、可乐、能量饮料，以及某些功能饮料和补充剂也可能带来咖啡因摄入。FDA 对纯咖啡因和高浓度咖啡因产品也有明确警示，因为这类产品可能带来明显风险。:contentReference[oaicite:4]{index=4}
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
+        <li><a href="/sleep-duration">睡眠时长计算器</a>：看昨晚到底睡了多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：看最近是不是长期少睡</li>
+        <li><a href="/sleep-recovery">补觉时间计算器</a>：估算大概要补多久</li>
+        <li><a href="/sleep-need">睡眠需求计算器</a>：按年龄看常见建议睡眠范围</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">晚上喝茶也算吗？</h3>
+      <p class="text-muted">
+        通常也要算。茶饮里往往也含有咖啡因，尤其是浓茶、奶茶或功能茶饮。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">我喝咖啡后还是能睡着，说明没影响吗？</h3>
+      <p class="text-muted">
+        不一定。咖啡因不只影响“能不能睡着”，也可能影响入睡速度、夜间清醒情况和第二天恢复感。:contentReference[oaicite:5]{index=5}
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具能替代医生建议吗？</h3>
+      <p class="text-muted">
+        不能。它更适合作为一般睡眠习惯调整参考，不替代个体化医疗建议。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
