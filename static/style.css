@@ -68,3 +68,119 @@ main.container{ padding-top: 28px; padding-bottom: 28px; }
 }
 
 hr{ border-top: 1px solid rgba(15,23,42,.08); }
+
+/* =========================
+   Tool page layout
+   ========================= */
+
+.tool-layout{
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.tool-col{
+  min-width: 0;
+}
+
+.tool-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .02), 0 10px 30px rgba(15, 23, 42, .04);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* 左侧工具区跟随滚动 */
+.tool-col-form{
+  position: sticky;
+  top: 20px;
+  align-self: start;
+}
+
+/* 避免右侧内容太宽时阅读吃力 */
+.tool-col-result{
+  min-width: 0;
+}
+
+.tool-col-result .tool-card p,
+.tool-col-result .tool-card li{
+  line-height: 1.75;
+}
+
+/* 首屏标题和描述更紧凑一点 */
+.tool-card h1,
+.tool-card h2,
+.tool-card h3{
+  line-height: 1.35;
+}
+
+/* 让结果数字更突出 */
+.tool-card .display-5{
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* 列表更清爽 */
+.tool-card ul{
+  padding-left: 1.1rem;
+}
+
+.tool-card li{
+  margin-bottom: .45rem;
+}
+
+/* 右侧卡片里的浅色块和整体风格统一 */
+.tool-card .bg-light{
+  background: #f8fafc !important;
+  border: 1px solid rgba(15, 23, 42, .05);
+}
+
+/* 超大屏稍微拉开 */
+@media (min-width: 1200px){
+  .tool-layout{
+    grid-template-columns: minmax(340px, 430px) minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+
+/* 中等屏幕降低 sticky 压迫感 */
+@media (max-width: 991.98px){
+  .tool-layout{
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .tool-col-form{
+    position: static;
+    top: auto;
+  }
+
+  .tool-card{
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+}
+
+/* 小屏进一步优化触控体验 */
+@media (max-width: 575.98px){
+  main.container{
+    padding-top: 18px;
+    padding-bottom: 20px;
+  }
+
+  .tool-card{
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .tool-card .display-5{
+    font-size: 2.1rem;
+  }
+
+  .tool-layout{
+    gap: 14px;
+  }
+}
