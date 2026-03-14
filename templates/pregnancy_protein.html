@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">孕期蛋白质需求计算器（怀孕后每天蛋白质该吃多少）</h1>
+      <p class="text-muted mb-3">
+        输入当前体重并选择孕期阶段，估算每天蛋白质摄入建议，帮助更直观地安排孕期饮食（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">当前体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例如 60">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">孕期阶段</label>
+          <select name="trimester" class="form-select">
+            <option value="first" {% if trimester_in == 'first' %}selected{% endif %}>孕早期（1–12 周）</option>
+            <option value="second" {% if trimester_in == 'second' %}selected{% endif %}>孕中期（13–27 周）</option>
+            <option value="third" {% if trimester_in == 'third' %}selected{% endif %}>孕晚期（28–40 周）</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算孕期蛋白质需求</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card result-pop">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前阶段</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.label }}</div>
+        </div>
+        <div class="text-muted small">蛋白质建议</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        建议每日蛋白质：<b>{{ result.grams }} g/天</b><br>
+        采用站内简化系数：<b>{{ result.gpk }} g/kg</b>
+      </div>
+
+      <div class="small text-muted mb-2">孕期阶段示意</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+      <div class="small text-muted">
+        当前所选阶段：{{ result.label }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">当前体重</div>
+            <div class="fw-semibold mt-1">{{ weight_kg_in }} kg</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">简化系数</div>
+            <div class="fw-semibold mt-1">{{ result.gpk }} g/kg</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">本工具使用站内简化公式估算蛋白质需求，更适合做日常参考，不是临床处方。</li>
+          <li class="mb-2">真正需求还会受孕周、食欲、体重变化、活动量和医生建议影响。</li>
+          <li class="mb-2">孕期饮食不只是“吃够蛋白质”，还要关注整体均衡和食物来源。</li>
+          <li class="mb-0">建议结合 <a href="/pregnancy-calorie">孕期热量需求计算器</a> 和 <a href="/pregnancy-weight">孕期体重增长计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入体重并选择孕期阶段后，即可查看每日蛋白质建议值。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">怀孕后为什么更要关注蛋白质？</h2>
+      <p class="text-muted">
+        孕期通常需要比平时更高的多种营养摄入，以支持母体健康和胎儿正常发育。官方孕期营养资料也会强调，健康饮食应覆盖足够的蛋白质来源，如肉、鱼、豆类、坚果和奶制品等。:contentReference[oaicite:1]{index=1}
+      </p>
+
+      <h2 class="h6 mt-4">蛋白质在孕期主要有什么作用？</h2>
+      <p class="text-muted">
+        蛋白质常被用来支持组织生长、修复和整体营养平衡。在孕期场景里，它通常会和胎儿发育、母体组织变化以及饮食结构完整性一起被关注。:contentReference[oaicite:2]{index=2}
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small">
+        孕期蛋白质建议 = 当前体重（kg） × 站内简化系数（g/kg）
+      </div>
+
+      <p class="text-muted mt-3 mb-2">本工具采用的站内简化系数：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">孕早期：1.0 g/kg</li>
+        <li class="mb-2">孕中期：1.1 g/kg</li>
+        <li class="mb-0">孕晚期：1.2 g/kg</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这是一套为了工具使用体验而设计的简化估算模型，适合做日常参考和页面内链衔接，不替代个体化营养指导。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">是不是怀孕后只要一直加蛋白质就可以？</h2>
+      <p class="text-muted">
+        不是。孕期饮食更强调整体均衡，而不是只盯住单一营养素。WHO 的孕期营养建议会把蛋白质放在健康饮食组成中，但同时也强调足够能量、维生素和矿物质，以及多样化食物来源。:contentReference[oaicite:3]{index=3}
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先看每天大概需要多少蛋白质</li>
+          <li class="mb-2">再把蛋白质分散到三餐和加餐中</li>
+          <li class="mb-2">同时结合总热量、体重增长和孕周一起看</li>
+          <li class="mb-0">不要把“高蛋白”当成唯一目标</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">孕期是不是需要“吃两个人的量”？</h2>
+      <p class="text-muted">
+        主流孕期健康资料通常不支持“怀孕就要从一开始吃两个人的量”这种说法。NHS 也明确提醒，这是一种常见误解，更重要的是吃得均衡、质量合适，并根据阶段做适度调整。:contentReference[oaicite:4]{index=4}
+      </p>
+
+      <h2 class="h6 mt-4">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/pregnancy-calorie">孕期热量需求计算器</a>：看不同孕期每天该吃多少热量</li>
+        <li><a href="/pregnancy-weight">孕期体重增长计算器</a>：看整体体重管理区间</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：确认当前处于哪个阶段</li>
+        <li><a href="/fetal-development">胎儿发育周数图</a>：结合孕周看发育进度</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：推算预计分娩日期</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能直接当营养处方吗？</h3>
+      <p class="text-muted">
+        不能。它更适合作为日常参考起点，实际仍应结合医生或营养专业人士建议。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">蛋白质越高越好吗？</h3>
+      <p class="text-muted">
+        不一定。孕期营养的核心是均衡和适合自己，而不是单一营养素越多越好。:contentReference[oaicite:5]{index=5}
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这和普通蛋白质计算器有什么区别？</h3>
+      <p class="text-muted">
+        这个页面把孕期阶段纳入考虑，并且和孕期热量、体重增长、胎儿发育工具形成完整内链路径。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .result-pop {
+    animation: resultPop 0.45s ease;
+  }
+
+  @keyframes resultPop {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+{% endblock %}

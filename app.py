@@ -313,6 +313,26 @@ TOOLS = [
         "subgroup": "pregnancy_health",
         "featured": True,
     },
+
+    {
+        "endpoint": "pregnancy_protein",
+        "name": "孕期蛋白质需求计算器",
+        "path": "/pregnancy-protein",
+        "desc": "估算怀孕后每天蛋白质该吃多少",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": False,
+    },
+
+    {
+        "endpoint": "pregnancy_water",
+        "name": "孕期饮水量计算器",
+        "path": "/pregnancy-water",
+        "desc": "估算怀孕后每天建议喝多少水",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": False,
+    },
 ]
 
 from flask import request
@@ -786,6 +806,83 @@ def pregnancy_calorie_need(base_kcal: float, trimester: str) -> dict:
         "target": target,
         "progress": progress_map[trimester],
     }
+
+def pregnancy_protein_need(weight_kg: float, trimester: str) -> dict:
+    """
+    Simple site formula for pregnancy protein needs.
+    This is a simplified estimator for educational use, not a clinical prescription.
+
+    Base formula:
+    - first trimester: 1.0 g/kg
+    - second trimester: 1.1 g/kg
+    - third trimester: 1.2 g/kg
+    """
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+
+    if trimester == "first":
+        gpk = 1.0
+        label = "孕早期"
+        progress = 20
+    elif trimester == "second":
+        gpk = 1.1
+        label = "孕中期"
+        progress = 55
+    elif trimester == "third":
+        gpk = 1.2
+        label = "孕晚期"
+        progress = 85
+    else:
+        raise ValueError("孕期阶段选择不正确。")
+
+    grams = round0(weight_kg * gpk)
+
+    return {
+        "label": label,
+        "gpk": round(gpk, 1),
+        "grams": grams,
+        "progress": progress,
+    }
+
+def pregnancy_water_need(weight_kg: float, trimester: str) -> dict:
+    """
+    Simple site formula for pregnancy water needs.
+    Educational estimate only.
+
+    Base formula:
+    - first trimester: 35 ml/kg
+    - second trimester: 38 ml/kg
+    - third trimester: 40 ml/kg
+    """
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+
+    if trimester == "first":
+        ml_per_kg = 35
+        label = "孕早期"
+        progress = 20
+    elif trimester == "second":
+        ml_per_kg = 38
+        label = "孕中期"
+        progress = 55
+    elif trimester == "third":
+        ml_per_kg = 40
+        label = "孕晚期"
+        progress = 85
+    else:
+        raise ValueError("孕期阶段选择不正确。")
+
+    water_ml = round0(weight_kg * ml_per_kg)
+    water_l = round1(water_ml / 1000.0)
+
+    return {
+        "label": label,
+        "ml_per_kg": ml_per_kg,
+        "water_ml": water_ml,
+        "water_l": water_l,
+        "progress": progress,
+    }
+
 # -----------------------
 # SEO: robots + sitemap
 # -----------------------
@@ -1160,6 +1257,72 @@ def pregnancy_calorie():
         meta=meta,
         error=error,
         base_kcal_in=base_kcal_in,
+        trimester_in=trimester_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/pregnancy-protein", methods=["GET", "POST"])
+def pregnancy_protein():
+    error = None
+    weight_kg_in = ""
+    trimester_in = "first"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        trimester_in = request.form.get("trimester", "first")
+
+        try:
+            weight_kg = float(weight_kg_in)
+            result = pregnancy_protein_need(weight_kg, trimester_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "孕期蛋白质需求计算器（怀孕后每天蛋白质该吃多少）- CalmyHealth",
+        "description": "输入体重并选择孕期阶段，估算孕期每天蛋白质摄入建议，并附公式说明、结果图示和相关孕期工具内链。",
+        "canonical": canonical_url("/pregnancy-protein"),
+    }
+
+    return render_template(
+        "pregnancy_protein.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        trimester_in=trimester_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/pregnancy-water", methods=["GET", "POST"])
+def pregnancy_water():
+    error = None
+    weight_kg_in = ""
+    trimester_in = "first"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        trimester_in = request.form.get("trimester", "first")
+
+        try:
+            weight_kg = float(weight_kg_in)
+            result = pregnancy_water_need(weight_kg, trimester_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "孕期饮水量计算器（怀孕后每天建议喝多少水）- CalmyHealth",
+        "description": "输入体重并选择孕期阶段，估算孕期每天建议饮水量，并附结果说明、公式解释和相关孕期工具内链。",
+        "canonical": canonical_url("/pregnancy-water"),
+    }
+
+    return render_template(
+        "pregnancy_water.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
         trimester_in=trimester_in,
         result=result,
         page_kind="tool",

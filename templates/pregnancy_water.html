@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">孕期饮水量计算器（怀孕后每天建议喝多少水）</h1>
+      <p class="text-muted mb-3">
+        输入当前体重并选择孕期阶段，估算每天建议饮水量，帮助更直观地安排孕期补水（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">当前体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例如 60">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">孕期阶段</label>
+          <select name="trimester" class="form-select">
+            <option value="first" {% if trimester_in == 'first' %}selected{% endif %}>孕早期（1–12 周）</option>
+            <option value="second" {% if trimester_in == 'second' %}selected{% endif %}>孕中期（13–27 周）</option>
+            <option value="third" {% if trimester_in == 'third' %}selected{% endif %}>孕晚期（28–40 周）</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算孕期饮水量</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前阶段</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.label }}</div>
+        </div>
+        <div class="text-muted small">补水建议</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        建议每日饮水量：<b>{{ result.water_ml }} ml/天</b><br>
+        约合：<b>{{ result.water_l }} L/天</b>
+      </div>
+
+      <div class="small text-muted mb-2">孕期阶段示意</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+      <div class="small text-muted">
+        当前所选阶段：{{ result.label }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.6rem;">💧</div>
+            <div class="small text-muted mt-1">建议饮水</div>
+            <div class="fw-semibold mt-1">{{ result.water_ml }} ml</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.6rem;">🥤</div>
+            <div class="small text-muted mt-1">约合升数</div>
+            <div class="fw-semibold mt-1">{{ result.water_l }} L</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.6rem;">📏</div>
+            <div class="small text-muted mt-1">简化系数</div>
+            <div class="fw-semibold mt-1">{{ result.ml_per_kg }} ml/kg</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是按体重和孕期阶段估算出的基础补水参考值，不是绝对固定标准。</li>
+          <li class="mb-2">天气、出汗、运动、饮食盐分、孕吐和个体差异都会影响真实饮水需求。</li>
+          <li class="mb-2">比起一次性喝很多，更实用的是分散到一天里持续补水。</li>
+          <li class="mb-0">建议结合 <a href="/pregnancy-calorie">孕期热量需求计算器</a> 和 <a href="/pregnancy-weight">孕期体重增长计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入体重并选择孕期阶段后，即可查看每天建议饮水量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">怀孕后为什么更要关注喝水？</h2>
+      <p class="text-muted">
+        孕期常常比平时更需要关注补水，因为母体状态、代谢变化、血容量变化以及整体生理负担都会让“规律喝水”变得更重要。
+        对很多人来说，孕期补水不只是口渴时才想到，而是要主动安排成日常习惯。
+      </p>
+
+      <h2 class="h6 mt-4">孕期补水和普通喝水有什么区别？</h2>
+      <p class="text-muted">
+        从工具角度看，孕期补水通常会把体重和孕期阶段一起考虑。虽然本工具采用的是站内简化公式，但它的意义在于帮助你建立
+        “孕期要更主动补水”的意识，而不是只靠口渴感觉来判断。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small">
+        孕期建议饮水量 = 当前体重（kg） × 站内简化系数（ml/kg）
+      </div>
+
+      <p class="text-muted mt-3 mb-2">本工具采用的站内简化系数：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">孕早期：35 ml/kg</li>
+        <li class="mb-2">孕中期：38 ml/kg</li>
+        <li class="mb-0">孕晚期：40 ml/kg</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这是一套为了页面使用体验设计的简化估算模型，适合做日常参考，不替代个体化医学建议。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">是不是喝水越多越好？</h2>
+      <p class="text-muted">
+        不是。补水的关键不是“越多越好”，而是足够、规律并适合自己。很多人真正需要改进的不是一次喝太多，
+        而是一天里总是忘记喝，或者长期喝得偏少。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先知道自己大概每天要喝多少</li>
+          <li class="mb-2">再把总量拆分到早、中、晚和两餐之间</li>
+          <li class="mb-2">运动后、天气热、出汗多时适度增加</li>
+          <li class="mb-0">不要等非常口渴了才想起补水</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">孕期补水和哪些工具一起看更有用？</h2>
+      <p class="text-muted">
+        孕期饮水量最好不要单独看。它和热量、蛋白质、体重增长、孕周阶段通常是一起变化、一起管理的。
+        所以把这些工具串起来用，会比单独只看一个结果更实用。
+      </p>
+
+      <h2 class="h6 mt-4">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/pregnancy-calorie">孕期热量需求计算器</a>：看不同孕期每天该吃多少热量</li>
+        <li><a href="/pregnancy-protein">孕期蛋白质需求计算器</a>：估算每天蛋白质该吃多少</li>
+        <li><a href="/pregnancy-weight">孕期体重增长计算器</a>：看整体体重管理范围</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：确认当前处于哪个阶段</li>
+        <li><a href="/fetal-development">胎儿发育周数图</a>：结合孕周看发育进度</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能直接当医生建议吗？</h3>
+      <p class="text-muted">
+        不能。它更适合作为一般参考起点，实际补水安排仍建议结合医生建议和个人情况。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">孕吐严重时还适合按这个数字喝吗？</h3>
+      <p class="text-muted">
+        孕吐、天气、运动和身体不适都会影响实际饮水需求与耐受情况，所以这类情况更需要个体化调整。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这和普通饮水量计算器有什么区别？</h3>
+      <p class="text-muted">
+        这个工具把孕期阶段纳入考虑，并且和孕期热量、蛋白质、体重增长、胎儿发育工具形成了完整内链路径。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
