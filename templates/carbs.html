@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">碳水化合物需求计算器（每天大概要吃多少碳水）</h1>
+      <p class="text-muted mb-3">
+        输入体重并选择目标，快速估算每天建议摄入多少碳水化合物，适合作为减脂、维持或增肌饮食安排的参考起点。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例如 60">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">目标</label>
+          <select name="goal" class="form-select">
+            <option value="fat_loss" {% if goal_in == 'fat_loss' %}selected{% endif %}>减脂期</option>
+            <option value="maintain" {% if goal_in == 'maintain' %}selected{% endif %}>维持期</option>
+            <option value="muscle_gain" {% if goal_in == 'muscle_gain' %}selected{% endif %}>增肌期</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算碳水需求</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">当前模式</div>
+      <div class="h4 mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        建议每日碳水化合物：<b>{{ result.grams }} g/天</b><br>
+        折合热量约：<b>{{ result.kcal }} kcal/天</b>
+      </div>
+
+      <div class="small text-muted mb-2">当前目标下的参考强度</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">简化参考系数</div>
+        <div class="small text-muted">{{ result.gpk }} g/kg 体重</div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是按体重和目标给出的简化估算，更适合作为起点，而不是绝对标准。</li>
+          <li class="mb-2">减脂、维持和增肌阶段，对碳水的需求通常并不完全一样。</li>
+          <li class="mb-2">真正适合你的碳水摄入，还会受到训练量、活动水平、饥饿感和饮食习惯影响。</li>
+          <li class="mb-0">建议结合 <a href="/macro">宏量营养素计算器</a>、<a href="/protein">蛋白质需求</a> 和 <a href="/calorie">TDEE</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入体重并选择目标后，即可查看建议的每日碳水化合物摄入量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">碳水化合物为什么重要？</h2>
+      <p class="text-muted">
+        碳水化合物是很多人日常饮食中的主要供能来源之一。很多人在做饮食计划时，会先问“每天吃多少热量”，
+        但真正落到执行层面时，还会继续问：这些热量里，到底该留多少给碳水。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，碳水化合物需求计算器的价值，在于把“要不要吃碳水”这个模糊问题，变成“每天大概吃多少克更合适”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        每日碳水需求（g） = 体重（kg） × 简化系数（g/kg）
+      </div>
+
+      <div class="bg-light rounded-3 p-3 small">
+        碳水热量（kcal） = 碳水克数 × 4
+      </div>
+
+      <p class="text-muted mt-3 mb-2">本工具使用的站内简化系数：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">减脂期：3.0 g/kg</li>
+        <li class="mb-2">维持期：4.0 g/kg</li>
+        <li class="mb-0">增肌期：5.0 g/kg</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">减脂是不是碳水越低越好？</h2>
+      <p class="text-muted">
+        不一定。很多人一提到减脂就先想“少吃碳水”，但真正更重要的通常是总热量是否合理、蛋白质是否足够，以及这个饮食方案能不能长期执行。
+        对一部分人来说，碳水太低反而更难坚持，训练状态和饱腹感也可能变差。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先把总热量方向定下来</li>
+          <li class="mb-2">再看碳水是不是和目标匹配</li>
+          <li class="mb-2">如果运动量更大，通常更需要给碳水留空间</li>
+          <li class="mb-0">对多数人来说，“可执行”比“极端低碳”更重要</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">增肌和维持为什么通常会给更多碳水？</h2>
+      <p class="text-muted">
+        因为在维持期和增肌期，很多人希望整体能量更稳定，尤其在有训练安排时，碳水通常更容易承担“为日常活动和训练供能”的角色。
+        这个工具用的是站内简化参考，目的是让你先有一个容易上手的范围。
+      </p>
+
+      <h2 class="h6 mt-4">相关营养工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/macro">宏量营养素计算器</a>：整体看蛋白质、碳水、脂肪分配</li>
+        <li><a href="/protein">蛋白质需求</a>：单独看蛋白质建议摄入</li>
+        <li><a href="/water">每日饮水量</a>：补充看基础摄入</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：先确定总热量</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：先确定减脂或增肌目标热量</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">我一定要严格按这个数字吃吗？</h3>
+      <p class="text-muted">
+        不一定。这个结果更适合作为起点，帮助你先建立一个大致的饮食结构。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">碳水吃多了就一定会胖吗？</h3>
+      <p class="text-muted">
+        不能简单这么理解。多数情况下，更关键的还是整体热量平衡和长期饮食习惯。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合健身和减脂人群吗？</h3>
+      <p class="text-muted">
+        适合。它特别适合想把“总热量目标”进一步拆成更具体可执行摄入量的人。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

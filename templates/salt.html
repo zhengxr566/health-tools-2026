@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">盐摄入估算器（你每天吃盐会不会太多）</h1>
+      <p class="text-muted mb-3">
+        根据你一天里常见的高盐饮食场景，粗略估算每日盐摄入量，帮助你更直观地判断自己是不是吃得偏咸。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">家常菜餐数</label>
+          <input name="home_meals" class="form-control" inputmode="numeric" required value="{{ home_in }}" placeholder="例如 2">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">外卖 / 餐馆餐数</label>
+          <input name="takeout_meals" class="form-control" inputmode="numeric" required value="{{ takeout_in }}" placeholder="例如 1">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">汤 / 汤面 / 汤底份数</label>
+          <input name="soup_bowls" class="form-control" inputmode="numeric" required value="{{ soup_in }}" placeholder="例如 1">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">加工食品份数（火腿、香肠、腌制品等）</label>
+          <input name="processed_servings" class="form-control" inputmode="numeric" required value="{{ processed_in }}" placeholder="例如 1">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">咸味零食份数</label>
+          <input name="snack_servings" class="form-control" inputmode="numeric" required value="{{ snack_in }}" placeholder="例如 0">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">估算盐摄入</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">估算结果</div>
+      <div class="h3 mb-2">{{ result.total_salt }} g/天</div>
+      <div class="text-muted small mb-3">{{ result.level }}</div>
+
+      <div class="alert alert-info mb-3">
+        你这一天的估算盐摄入约为：<b>{{ result.total_salt }} g</b>
+      </div>
+
+      <div class="small text-muted mb-2">结果参考</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">估算规则</div>
+        <div class="small text-muted">{{ result.rule_text }}</div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是按常见饮食场景做的粗略估算，更适合帮助你判断“是不是整体偏咸”。</li>
+          <li class="mb-2">外卖、汤底和加工食品，通常比很多人想象中更容易把盐摄入推高。</li>
+          <li class="mb-2">如果结果偏高，往往不需要一下子完全清淡，而是先找出最主要的高盐来源。</li>
+          <li class="mb-0">建议结合 <a href="/water">每日饮水量</a>、<a href="/fiber">膳食纤维计算器</a> 和 <a href="/meal-split">餐次分配计算器</a> 一起看日常饮食结构。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入一天里常见的高盐饮食场景后，即可查看粗略的每日盐摄入估算结果。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">为什么很多人会不知不觉吃盐过多？</h2>
+      <p class="text-muted">
+        因为盐摄入并不只来自“做饭时放了多少盐”。很多人真正的高盐来源，其实是外卖、餐馆菜、汤底、加工食品、调味汁和咸味零食。
+        所以即使你觉得自己“口味还好”，实际每天吃进去的盐也可能已经比想象中高。
+      </p>
+
+      <p class="text-muted mb-0">
+        这也是为什么盐摄入估算器更适合按“饮食场景”来做，而不是要求每个人都精确称量调味料。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的估算逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        每日盐摄入 = 家常菜 + 外卖 / 餐馆 + 汤类 + 加工食品 + 咸味零食
+      </div>
+
+      <p class="text-muted mb-2">本工具采用的站内简化估算值：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">家常菜每餐约 1.5 g</li>
+        <li class="mb-2">外卖 / 餐馆每餐约 3.0 g</li>
+        <li class="mb-2">汤 / 汤面 / 汤底每份约 1.5 g</li>
+        <li class="mb-2">加工食品每份约 1.2 g</li>
+        <li class="mb-0">咸味零食每份约 0.8 g</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这是为了让估算更容易操作，不是精确到化学分析级别的盐摄入追踪。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">盐吃多了，一定是做饭放盐太多吗？</h2>
+      <p class="text-muted">
+        不一定。对很多人来说，最主要的问题并不是家里做饭放盐过多，而是外卖频率高、喜欢喝汤、常吃加工食品，
+        或者零食和蘸料叠加太多。真正实用的做法，通常不是只盯着“盐罐子”，而是看整天的饮食来源结构。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先看哪一类食物最容易把盐推高</li>
+          <li class="mb-2">优先减少外卖、汤底或加工食品的频率</li>
+          <li class="mb-2">比起一次性全部改掉，更有效的是先抓最明显来源</li>
+          <li class="mb-0">“整体偏咸”往往比“某一顿偏咸”更值得注意</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合快速判断自己平时是不是整体吃得偏咸，尤其适合外卖较多、常喝汤、常吃加工食品的人。
+        你可以先用这个工具看大致情况，再去调整最主要的高盐来源，而不是一开始就要求自己完全清淡到难以坚持。
+      </p>
+
+      <h2 class="h6 mt-4">相关营养工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/water">每日饮水量</a>：补充看基础摄入习惯</li>
+        <li><a href="/fiber">膳食纤维计算器</a>：补充看饮食结构完整性</li>
+        <li><a href="/meal-split">餐次分配计算器</a>：把总热量和蛋白质落实到三餐</li>
+        <li><a href="/macro">宏量营养素计算器</a>：整体看蛋白质、碳水、脂肪分配</li>
+        <li><a href="/carbs">碳水化合物需求计算器</a>：查看每日碳水建议</li>
+        <li><a href="/fat-intake">脂肪摄入计算器</a>：查看每日脂肪建议</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果准确吗？</h3>
+      <p class="text-muted">
+        它是粗略估算，不是实验室测量值，更适合作为“日常饮食提醒工具”。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">只要少放盐就够了吗？</h3>
+      <p class="text-muted">
+        不一定。很多人的主要高盐来源其实来自外卖、加工食品、汤底和调味品，而不是单纯做饭放盐。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和体重管理人群吗？</h3>
+      <p class="text-muted">
+        适合。因为它能帮助你把“热量和宏量营养”之外的饮食结构问题也补上。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

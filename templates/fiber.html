@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">膳食纤维计算器（每天需要多少纤维）</h1>
+      <p class="text-muted mb-3">
+        输入每日热量和性别，快速估算每天建议摄入多少膳食纤维，适合作为日常饮食结构调整的参考起点。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">每日总热量（kcal/天）</label>
+          <input name="kcal" class="form-control" inputmode="decimal" required value="{{ kcal_in }}" placeholder="例如 2200">
+          <div class="form-text">
+            不知道总热量？可以先用 <a href="/calorie">每日热量需求 TDEE</a> 估算。
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">性别</label>
+          <select name="sex" class="form-select">
+            <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男</option>
+            <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算膳食纤维需求</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">建议摄入量</div>
+      <div class="h3 mb-2">{{ result.grams }} g/天</div>
+      <div class="text-muted small mb-3">{{ result.level }}</div>
+
+      <div class="alert alert-info mb-3">
+        建议每日膳食纤维摄入约：<b>{{ result.grams }} g/天</b>
+      </div>
+
+      <div class="small text-muted mb-2">当前参考等级</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">估算规则</div>
+        <div class="small text-muted">{{ result.rule_text }}</div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是帮助你理解日常饮食结构的简化参考值，不是必须精确到每一克。</li>
+          <li class="mb-2">如果你平时蔬菜、水果、豆类和全谷物摄入偏少，实际膳食纤维通常也会偏低。</li>
+          <li class="mb-2">比起一次性猛补，更实用的是在日常三餐中慢慢增加富含纤维的食物。</li>
+          <li class="mb-0">建议结合 <a href="/water">每日饮水量</a>、<a href="/carbs">碳水化合物需求计算器</a> 和 <a href="/macro">宏量营养素计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入每日热量和性别后，即可查看建议的每日膳食纤维摄入量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">膳食纤维为什么重要？</h2>
+      <p class="text-muted">
+        膳食纤维通常不会像蛋白质、碳水和脂肪那样被频繁讨论，但它在日常饮食结构里非常重要。很多人热量、蛋白质、碳水都在算，
+        却忽略了纤维摄入可能长期不足。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，膳食纤维计算器的价值就在于：把一个平时容易被忽略的营养维度，变成一个更直观的“每天大概要吃多少”的参考数字。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算规则</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        膳食纤维建议量 = 每 1000 kcal 约 14 g 纤维
+      </div>
+
+      <p class="text-muted">
+        本工具还额外加了一个更容易理解的下限参考：
+      </p>
+
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">男性：不低于约 30 g/天</li>
+        <li class="mb-0">女性：不低于约 25 g/天</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这是为了让结果更适合作为日常饮食工具使用，而不是只给出一个抽象的热量换算数字。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么很多人纤维摄入不够？</h2>
+      <p class="text-muted">
+        因为膳食纤维不像蛋白质那样容易被“高蛋白”“健身饮食”反复提到，也不像热量那样经常被数字化记录。
+        但只要蔬菜、水果、豆类、全谷物吃得不够，纤维摄入就很容易偏低。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先知道每天大概需要多少纤维</li>
+          <li class="mb-2">再看自己的饮食里哪些食物来源明显不够</li>
+          <li class="mb-2">与其追求某一天吃很多，不如在每天三餐里持续增加</li>
+          <li class="mb-0">纤维通常更适合靠长期习惯补上</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">膳食纤维和减脂、维持体重有什么关系？</h2>
+      <p class="text-muted">
+        很多人在做减脂或维持体重饮食时，会重点关注总热量和蛋白质；但纤维常常也会影响整体饮食结构、饱腹感体验和长期执行感受。
+        所以它虽然不像热量那样直接被记录，却是很多饮食计划里很值得补上的一环。
+      </p>
+
+      <h2 class="h6 mt-4">相关营养工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/macro">宏量营养素计算器</a>：整体看蛋白质、碳水、脂肪分配</li>
+        <li><a href="/carbs">碳水化合物需求计算器</a>：和纤维一起看碳水结构更完整</li>
+        <li><a href="/fat-intake">脂肪摄入计算器</a>：补齐三大营养素结构</li>
+        <li><a href="/protein">蛋白质需求</a>：看日常蛋白质建议摄入</li>
+        <li><a href="/water">每日饮水量</a>：补充看基础摄入习惯</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：先估算总热量</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">我一定要严格按这个数字吃吗？</h3>
+      <p class="text-muted">
+        不一定。这个结果更适合作为方向参考，帮助你判断自己平时是不是吃得明显偏少。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">膳食纤维是不是越多越好？</h3>
+      <p class="text-muted">
+        也不是。对大多数人来说，更重要的是循序渐进、长期稳定地提高，而不是突然吃得特别多。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和体重管理人群吗？</h3>
+      <p class="text-muted">
+        很适合。因为它能帮助你把热量和宏量营养之外，补上“饮食结构”这一块。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

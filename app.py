@@ -46,8 +46,13 @@ def canonical_url(path: str) -> str:
 # Information Architecture
 # -----------------------
 CATEGORY_META = {
+    # 1. 体重与体型
+    # ========= 1.1. BMI与体重 ======= 
+    ## 1.1.1 BMI 1.1.2. 理想体重 1.1.3 目标体重
+    # ========= 1.2. 体脂与围度 =======  
+    ## 1.2.1 体脂率 1.2.2. 腰围风险
     "weight": {
-        "name": "体重与体型",
+        "name": "体重与体型", 
         "description": "BMI、体脂、理想体重、围度相关工具",
         "children": {
             "bmi_weight": {
@@ -60,6 +65,11 @@ CATEGORY_META = {
             },
         },
     },
+    # 2. 代谢与热量
+    # ========= 2.1. 基础代谢 ======= 
+    ## 
+    # ========= 2.2. 热量规划 ======= 
+    ## 
     "metabolism": {
         "name": "代谢与热量",
         "description": "BMR、TDEE、热量目标",
@@ -74,12 +84,21 @@ CATEGORY_META = {
             },
         },
     },
+
+    # 3. 营养摄入
+    # ========= 3.1. 日常摄入 ======= 
+    ## 3.1.1. 饮水 3.1.2. 蛋白质  3.1.3. 碳水 3.1.4. 脂肪摄入 3.1.5. 膳食纤维
+    ## 3.1.6. 盐摄入
+    # ========= 3.2. 宏量营养 ======= 
+    ## 3.2.1. 宏量营养 3.2.2. 餐次分配
+    # 3.3 饮食分配
+    ## 3.3.1. 餐次分配
     "nutrition": {
-        "name": "营养摄入",
+        "name": "营养摄入", 
         "description": "饮水、蛋白质、宏量营养与饮食分配工具",
         "children": {
             "daily_intake": {
-                "name": "日常摄入",
+                "name": "日常摄入", 
                 "description": "饮水、蛋白质、碳水、脂肪、纤维",
             },
             "macro_nutrition": {
@@ -92,6 +111,14 @@ CATEGORY_META = {
             },
         },
     },
+    # 4. 运动与习惯
+    # ========= 4.1. 运动消耗 ======= 
+    ## 
+    # ========= 4.2. 睡眠时间 ======= 
+    ## 
+    # ========= 4.3. 睡眠质量 ======= 
+    ## 
+
     "activity": {
         "name": "运动与习惯",
         "description": "步数、睡眠、活动习惯",
@@ -110,6 +137,12 @@ CATEGORY_META = {
             },
         },
     },
+    # 5. 孕期工具
+    # ========= 5.1. 基础孕期 ======= 
+    ## 
+    # ========= 5.2. 孕期健康 ======= 
+    ## 
+
     "pregnancy": {
         "name": "孕期工具",
         "description": "排卵、受孕、孕周、预产期与孕期健康管理",
@@ -127,7 +160,11 @@ CATEGORY_META = {
 }
 
 TOOLS = [
-    # ========= 体重与体型 ===========
+    # =============== 
+    # 1. 体重与体型 
+    # ================
+    # ========= 1.1. BMI与体重 ======= 
+    # 1.1.1 BMI
     {
         "endpoint": "bmi",
         "name": "BMI 计算器",
@@ -137,6 +174,7 @@ TOOLS = [
         "subgroup": "bmi_weight",
         "featured": True,
     },
+    # 1.1.2. 理想体重
     {
         "endpoint": "ideal_weight",
         "name": "理想体重计算",
@@ -146,6 +184,7 @@ TOOLS = [
         "subgroup": "bmi_weight",
         "featured": False,
     },
+    # 1.1.3 目标体重
     {
         "endpoint": "goal_time",
         "name": "目标体重所需时间",
@@ -155,6 +194,8 @@ TOOLS = [
         "subgroup": "bmi_weight",
         "featured": False,
     },
+    # ========= 1.2. 体脂与围度 ==============
+    # 1.2.1 体脂率
     {
         "endpoint": "bodyfat",
         "name": "体脂率计算（US Navy）",
@@ -164,6 +205,7 @@ TOOLS = [
         "subgroup": "body_shape",
         "featured": True,
     },
+    # 1.2.2. 腰围风险
     {
         "endpoint": "waist",
         "name": "腰围风险（WHtR）",
@@ -173,6 +215,9 @@ TOOLS = [
         "subgroup": "body_shape",
         "featured": False,
     },
+    # =============== 
+    # 2. 代谢与热量 
+    # ================
     {
         "endpoint": "bmr",
         "name": "基础代谢率 BMR",
@@ -200,15 +245,11 @@ TOOLS = [
         "subgroup": "calorie_plan",
         "featured": False,
     },
-    {
-        "endpoint": "protein",
-        "name": "蛋白质需求",
-        "path": "/protein",
-        "desc": "按目标建议摄入",
-        "category": "nutrition",
-        "subgroup": "daily_intake",
-        "featured": False,
-    },
+    # ===============
+    # 3. 营养摄入 (TOOLS)
+    # ================
+    # ========= 3.1. 日常摄入 ===========
+    # 3.1.1. 饮水
     {
         "endpoint": "water",
         "name": "每日饮水量",
@@ -218,7 +259,17 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": False,
     },
-
+    # 3.1.2. 蛋白质
+    {
+        "endpoint": "protein",
+        "name": "蛋白质需求",
+        "path": "/protein",
+        "desc": "按目标建议摄入",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": False,
+    },
+    # 3.1.3. 碳水
     {
         "endpoint": "carbs",
         "name": "碳水化合物需求计算器",
@@ -228,6 +279,7 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": True,
     },
+    # 3.1.4. 脂肪摄入
     {
         "endpoint": "fat-intake",
         "name": "脂肪摄入计算器",
@@ -237,6 +289,7 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": False,
     },
+    # 3.1.5. 膳食纤维
     {
         "endpoint": "fiber",
         "name": "膳食纤维计算器",
@@ -246,6 +299,19 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": False,
     },
+    # 3.1.6. 盐摄入
+    {
+        "endpoint": "salt",
+        "name": "盐摄入估算器",
+        "path": "/salt",
+        "desc": "估算每日盐摄入是否偏高",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": False,
+    },
+
+    # ========= 3.2. 宏量营养 ===========
+    # 3.2.1. 宏量营养
     {
         "endpoint": "macro",
         "name": "宏量营养素计算器",
@@ -255,6 +321,8 @@ TOOLS = [
         "subgroup": "macro_nutrition",
         "featured": True,
     },
+    # ========= 3.3. 饮食分配 ===========
+    # 3.2.2. 餐次分配
     {
         "endpoint": "meal-split",
         "name": "餐次分配计算器",
@@ -262,15 +330,6 @@ TOOLS = [
         "desc": "把每日热量和蛋白质分配到三餐",
         "category": "nutrition",
         "subgroup": "meal_planning",
-        "featured": False,
-    },
-    {
-        "endpoint": "salt",
-        "name": "盐摄入估算器",
-        "path": "/salt",
-        "desc": "估算每日盐摄入是否偏高",
-        "category": "nutrition",
-        "subgroup": "daily_intake",
         "featured": False,
     },
 
@@ -706,18 +765,15 @@ def waist_risk(wc_cm: float, height_cm: float) -> tuple[float, str]:
     return whtr, level
 
 
-def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
-    if goal == "fat_loss":
-        gpk = 1.6
-        label = "减脂期"
-    elif goal == "muscle_gain":
-        gpk = 1.8
-        label = "增肌期"
-    else:
-        gpk = 1.2
-        label = "日常维持"
-    return weight_kg * gpk, label
+# =============
+# 3. 营养摄入
+# =============
 
+# ========= 3.1. 日常摄入 =======
+# 3.1.1. 饮水
+
+# ========= 3.2. 宏量营养 ======= 
+# 3.2.1. 宏量营养
 def macro_split(tdee: float, goal: str) -> dict:
     """
     Simple macro split by goal.
@@ -758,6 +814,194 @@ def macro_split(tdee: float, goal: str) -> dict:
         "protein_ratio": int(round(p_ratio * 100)),
         "carbs_ratio": int(round(c_ratio * 100)),
         "fat_ratio": int(round(f_ratio * 100)),
+    }
+# 3.2.2. 餐次分配
+def meal_split_plan(total_kcal: float, protein_g: float, pattern: str) -> dict:
+    """
+    Split daily calories and protein across 3 meals.
+
+    patterns:
+    - balanced: breakfast 30 / lunch 35 / dinner 35
+    - light_dinner: breakfast 30 / lunch 40 / dinner 30
+    - big_dinner: breakfast 25 / lunch 30 / dinner 45
+    """
+
+    if total_kcal <= 0 or total_kcal > 10000:
+        raise ValueError("请输入合理的每日热量（kcal/天）。")
+    if protein_g <= 0 or protein_g > 500:
+        raise ValueError("请输入合理的蛋白质（g/天）。")
+
+    if pattern == "light_dinner":
+        ratios = [0.30, 0.40, 0.30]
+        label = "晚餐较轻"
+    elif pattern == "big_dinner":
+        ratios = [0.25, 0.30, 0.45]
+        label = "晚餐较重"
+    else:
+        ratios = [0.30, 0.35, 0.35]
+        label = "均衡三餐"
+
+    # protein split: keep relatively even, but slightly follow meal pattern
+    raw_protein = [protein_g * r for r in ratios]
+
+    breakfast_kcal = round0(total_kcal * ratios[0])
+    lunch_kcal = round0(total_kcal * ratios[1])
+    dinner_kcal = round0(total_kcal * ratios[2])
+
+    breakfast_p = round0(raw_protein[0])
+    lunch_p = round0(raw_protein[1])
+    dinner_p = round0(raw_protein[2])
+
+    # adjust rounding drift
+    kcal_diff = round0(total_kcal) - (breakfast_kcal + lunch_kcal + dinner_kcal)
+    dinner_kcal += kcal_diff
+
+    protein_diff = round0(protein_g) - (breakfast_p + lunch_p + dinner_p)
+    dinner_p += protein_diff
+
+    return {
+        "label": label,
+        "breakfast_kcal": breakfast_kcal,
+        "lunch_kcal": lunch_kcal,
+        "dinner_kcal": dinner_kcal,
+        "breakfast_p": breakfast_p,
+        "lunch_p": lunch_p,
+        "dinner_p": dinner_p,
+        "breakfast_ratio": int(round(ratios[0] * 100)),
+        "lunch_ratio": int(round(ratios[1] * 100)),
+        "dinner_ratio": int(round(ratios[2] * 100)),
+    }
+# 3.1.2. 蛋白质
+def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
+    if goal == "fat_loss":
+        gpk = 1.6
+        label = "减脂期"
+    elif goal == "muscle_gain":
+        gpk = 1.8
+        label = "增肌期"
+    else:
+        gpk = 1.2
+        label = "日常维持"
+    return weight_kg * gpk, label
+
+# 3.1.3. 碳水
+def carbs_need(weight_kg: float, goal: str) -> dict:
+    """
+    Simple carb recommendation by body weight and goal.
+    Educational estimate only.
+
+    g/kg reference:
+    - fat_loss: 3.0
+    - maintain: 4.0
+    - muscle_gain: 5.0
+    """
+
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+
+    if goal == "fat_loss":
+        gpk = 3.0
+        label = "减脂期"
+        progress = 45
+    elif goal == "muscle_gain":
+        gpk = 5.0
+        label = "增肌期"
+        progress = 80
+    else:
+        gpk = 4.0
+        label = "维持期"
+        progress = 60
+
+    grams = round0(weight_kg * gpk)
+    kcal = round0(grams * 4)
+
+    return {
+        "label": label,
+        "gpk": round1(gpk),
+        "grams": grams,
+        "kcal": kcal,
+        "progress": progress,
+    }
+
+# 3.1.4. 脂肪摄入
+def fat_need(weight_kg: float, goal: str) -> dict:
+    """
+    Simple fat recommendation by body weight and goal.
+    Educational estimate only.
+
+    g/kg reference:
+    - fat_loss: 0.8
+    - maintain: 1.0
+    - muscle_gain: 1.1
+    """
+
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+
+    if goal == "fat_loss":
+        gpk = 0.8
+        label = "减脂期"
+        progress = 45
+    elif goal == "muscle_gain":
+        gpk = 1.1
+        label = "增肌期"
+        progress = 75
+    else:
+        gpk = 1.0
+        label = "维持期"
+        progress = 60
+
+    grams = round0(weight_kg * gpk)
+    kcal = round0(grams * 9)
+
+    return {
+        "label": label,
+        "gpk": round1(gpk),
+        "grams": grams,
+        "kcal": kcal,
+        "progress": progress,
+    }
+
+# 3.1.5. 膳食纤维
+def fiber_need(kcal: float, sex: str) -> dict:
+    """
+    Simple fiber recommendation for site use.
+
+    Base logic:
+    - general rule: 14 g fiber per 1000 kcal
+    - with a simple floor:
+        male   >= 30 g/day
+        female >= 25 g/day
+    """
+
+    if kcal <= 0 or kcal > 10000:
+        raise ValueError("请输入合理的每日热量（kcal/天）。")
+
+    if sex not in ("male", "female"):
+        raise ValueError("性别选择不正确。")
+
+    base = kcal / 1000.0 * 14.0
+    floor_val = 30.0 if sex == "male" else 25.0
+    grams = round0(max(base, floor_val))
+
+    if grams < 25:
+        level = "基础参考"
+        progress = 45
+    elif grams < 30:
+        level = "常见参考"
+        progress = 60
+    elif grams < 35:
+        level = "较充足参考"
+        progress = 75
+    else:
+        level = "较高参考"
+        progress = 85
+
+    return {
+        "grams": grams,
+        "level": level,
+        "progress": progress,
+        "rule_text": "按每 1000 kcal 约 14 g 膳食纤维的站内简化规则估算",
     }
 
 def steps_to_kcal(steps: int, weight_kg: float) -> float:
@@ -1507,9 +1751,12 @@ def chronotype_result(score: int) -> dict:
             "tip": "如果必须早起，建议提前几天慢慢前移作息，而不是突然强行早睡。",
             "window": "推荐作息倾向：较晚睡、较晚起",
         }
+
+
 # -----------------------
-# Pages
+# 3. Pages
 # -----------------------
+
 @app.get("/")
 def index():
     featured_tools = top_tools(10)
@@ -2729,6 +2976,8 @@ def protein():
         label=label,
     )
 
+# ======= 2.2. 宏量营养 ============
+# 3.2.1. 宏量营养
 @app.route("/macro", methods=["GET", "POST"])
 def macro():
     error = None
@@ -2762,6 +3011,157 @@ def macro():
         error=error,
         tdee_in=tdee_in,
         goal_in=goal_in,
+        result=result,
+        page_kind="tool",
+    )
+
+# 3.2.2. 餐次分配
+@app.route("/meal-split", methods=["GET", "POST"])
+def meal_split():
+    error = None
+    kcal_in = ""
+    protein_in = ""
+    pattern_in = "balanced"
+    result = None
+
+    if request.method == "POST":
+        kcal_in = request.form.get("kcal", "").strip()
+        protein_in = request.form.get("protein_g", "").strip()
+        pattern_in = request.form.get("pattern", "balanced").strip()
+
+        try:
+            kcal_val = float(kcal_in)
+            protein_val = float(protein_in)
+
+            if pattern_in not in ("balanced", "light_dinner", "big_dinner"):
+                raise ValueError("分配模式不正确。")
+
+            result = meal_split_plan(kcal_val, protein_val, pattern_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "餐次分配计算器（一天三餐怎么分配热量和蛋白质）- CalmyHealth",
+        "description": "输入每日总热量和蛋白质目标，把一天三餐的热量与蛋白质分配得更清楚，适合减脂、维持和增肌饮食安排参考。",
+        "canonical": canonical_url("/meal-split"),
+    }
+
+    return render_template(
+        "meal_split.html",
+        meta=meta,
+        error=error,
+        kcal_in=kcal_in,
+        protein_in=protein_in,
+        pattern_in=pattern_in,
+        result=result,
+        page_kind="tool",
+    )
+# 3.1.3. 碳水 (Route)
+@app.route("/carbs", methods=["GET", "POST"])
+def carbs():
+    error = None
+    weight_kg_in = ""
+    goal_in = "maintain"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        goal_in = request.form.get("goal", "maintain").strip()
+
+        try:
+            weight_kg = float(weight_kg_in)
+            if goal_in not in ("fat_loss", "maintain", "muscle_gain"):
+                raise ValueError("目标选择不正确。")
+
+            result = carbs_need(weight_kg, goal_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "碳水化合物需求计算器（每天大概要吃多少碳水）- CalmyHealth",
+        "description": "输入体重并选择目标，估算每天建议摄入多少碳水化合物，适合减脂、维持和增肌饮食参考。",
+        "canonical": canonical_url("/carbs"),
+    }
+
+    return render_template(
+        "carbs.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        goal_in=goal_in,
+        result=result,
+        page_kind="tool",
+    )
+
+# 3.1.4. 脂肪摄入 (Route)
+@app.route("/fat-intake", methods=["GET", "POST"])
+def fat_intake():
+    error = None
+    weight_kg_in = ""
+    goal_in = "maintain"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        goal_in = request.form.get("goal", "maintain").strip()
+
+        try:
+            weight_kg = float(weight_kg_in)
+            if goal_in not in ("fat_loss", "maintain", "muscle_gain"):
+                raise ValueError("目标选择不正确。")
+
+            result = fat_need(weight_kg, goal_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "脂肪摄入计算器（每天建议吃多少脂肪）- CalmyHealth",
+        "description": "输入体重并选择目标，估算每天建议摄入多少脂肪，适合作为减脂、维持和增肌饮食的参考起点。",
+        "canonical": canonical_url("/fat-intake"),
+    }
+
+    return render_template(
+        "fat_intake.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        goal_in=goal_in,
+        result=result,
+        page_kind="tool",
+    )
+# 3.1.5. 膳食纤维 (Route)
+@app.route("/fiber", methods=["GET", "POST"])
+def fiber():
+    error = None
+    kcal_in = ""
+    sex_in = "male"
+    result = None
+
+    if request.method == "POST":
+        kcal_in = request.form.get("kcal", "").strip()
+        sex_in = request.form.get("sex", "male").strip()
+
+        try:
+            kcal_val = float(kcal_in)
+            result = fiber_need(kcal_val, sex_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "膳食纤维计算器（每天需要多少纤维）- CalmyHealth",
+        "description": "输入每日热量和性别，估算每天建议摄入多少膳食纤维，并了解膳食纤维在日常饮食中的作用。",
+        "canonical": canonical_url("/fiber"),
+    }
+
+    return render_template(
+        "fiber.html",
+        meta=meta,
+        error=error,
+        kcal_in=kcal_in,
+        sex_in=sex_in,
         result=result,
         page_kind="tool",
     )

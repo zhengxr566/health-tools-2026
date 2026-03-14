@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">餐次分配计算器（一天三餐怎么分配热量和蛋白质）</h1>
+      <p class="text-muted mb-3">
+        输入每日总热量和蛋白质目标，把早餐、午餐、晚餐的安排拆得更清楚，帮助你把“每天该吃多少”进一步落实成“每餐怎么吃”。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">每日总热量（kcal/天）</label>
+          <input name="kcal" class="form-control" inputmode="decimal" required value="{{ kcal_in }}" placeholder="例如 2200">
+          <div class="form-text">
+            不知道热量？先用 <a href="/calorie">TDEE</a> 或 <a href="/deficit">目标热量</a> 计算。
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">每日蛋白质目标（g/天）</label>
+          <input name="protein_g" class="form-control" inputmode="decimal" required value="{{ protein_in }}" placeholder="例如 120">
+          <div class="form-text">
+            不知道蛋白质？先用 <a href="/protein">蛋白质需求</a> 估算。
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">分配模式</label>
+          <select name="pattern" class="form-select">
+            <option value="balanced" {% if pattern_in == 'balanced' %}selected{% endif %}>均衡三餐</option>
+            <option value="light_dinner" {% if pattern_in == 'light_dinner' %}selected{% endif %}>晚餐较轻</option>
+            <option value="big_dinner" {% if pattern_in == 'big_dinner' %}selected{% endif %}>晚餐较重</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算餐次分配</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">当前模式</div>
+      <div class="h4 mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        已按 <b>{{ result.label }}</b> 模式，把每日热量和蛋白质分配到三餐。
+      </div>
+
+      <div class="small text-muted mb-2">三餐热量占比</div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small mb-1">
+          <span>早餐</span><span>{{ result.breakfast_ratio }}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ result.breakfast_ratio }}%"></div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small mb-1">
+          <span>午餐</span><span>{{ result.lunch_ratio }}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ result.lunch_ratio }}%"></div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small mb-1">
+          <span>晚餐</span><span>{{ result.dinner_ratio }}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ result.dinner_ratio }}%"></div>
+        </div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-2">建议分配结果</div>
+
+        <div class="small text-muted mb-2">
+          早餐：<b>{{ result.breakfast_kcal }} kcal</b> · <b>{{ result.breakfast_p }} g 蛋白质</b>
+        </div>
+        <div class="small text-muted mb-2">
+          午餐：<b>{{ result.lunch_kcal }} kcal</b> · <b>{{ result.lunch_p }} g 蛋白质</b>
+        </div>
+        <div class="small text-muted">
+          晚餐：<b>{{ result.dinner_kcal }} kcal</b> · <b>{{ result.dinner_p }} g 蛋白质</b>
+        </div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是帮助你把“每天总量”拆成“每餐安排”的简化参考，不是必须精确执行到每一餐一模一样。</li>
+          <li class="mb-2">如果你早餐吃得少、晚餐更重，或者作息和训练安排不同，可以在这个基础上微调。</li>
+          <li class="mb-2">对大多数人来说，先把三餐框架搭起来，比追求非常复杂的饮食计划更容易坚持。</li>
+          <li class="mb-0">建议结合 <a href="/macro">宏量营养素计算器</a>、<a href="/protein">蛋白质需求</a> 和 <a href="/calorie">TDEE</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入每日总热量、蛋白质目标并选择分配模式后，即可查看早餐、午餐、晚餐的大致安排。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">为什么还要做“餐次分配”？</h2>
+      <p class="text-muted">
+        很多人已经知道自己每天大概要吃多少热量、多少蛋白质，但真正开始执行时，仍然会卡在一个更实际的问题上：
+        <b>这些数字到底怎么分配到早餐、午餐、晚餐？</b>
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，餐次分配计算器的意义就是把“每天总量”进一步拆成“每餐大概怎么吃”，让饮食计划更容易落地。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        每餐热量 = 每日总热量 × 对应餐次占比
+      </div>
+
+      <div class="bg-light rounded-3 p-3 small">
+        每餐蛋白质 = 每日蛋白质目标 × 对应餐次占比
+      </div>
+
+      <p class="text-muted mt-3 mb-2">本工具提供 3 种简化分配模式：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>均衡三餐：</b>30% / 35% / 35%</li>
+        <li class="mb-2"><b>晚餐较轻：</b>30% / 40% / 30%</li>
+        <li class="mb-0"><b>晚餐较重：</b>25% / 30% / 45%</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">三餐一定要平均分吗？</h2>
+      <p class="text-muted">
+        不一定。很多人一开始会以为“三餐平均分”最标准，但真正适合你的方式，通常和工作时间、训练安排、食欲习惯、家庭生活节奏都有关系。
+        有些人早餐吃得少、午餐更重；有些人晚餐更容易安排得完整。这就是为什么餐次分配更适合做“参考框架”，而不是死板规定。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先有一个可以执行的三餐框架</li>
+          <li class="mb-2">再根据生活节奏微调每餐比重</li>
+          <li class="mb-2">不要因为追求“最完美分配”而迟迟无法开始</li>
+          <li class="mb-0">能长期做到的分配方式，通常比理论最优更重要</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">蛋白质为什么也要分到每餐？</h2>
+      <p class="text-muted">
+        因为很多人虽然知道自己“每天要吃够蛋白质”，但如果全都堆到一餐，执行上往往反而更困难。把蛋白质分散到三餐，
+        通常更容易安排，也更容易让日常饮食结构稳定下来。
+      </p>
+
+      <h2 class="h6 mt-4">相关营养工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/protein">蛋白质需求</a>：先看每天总蛋白质建议值</li>
+        <li><a href="/macro">宏量营养素计算器</a>：整体看蛋白质、碳水、脂肪分配</li>
+        <li><a href="/carbs">碳水化合物需求计算器</a>：补充看每天建议碳水</li>
+        <li><a href="/fat-intake">脂肪摄入计算器</a>：补充看每天建议脂肪</li>
+        <li><a href="/fiber">膳食纤维计算器</a>：补充看饮食结构完整性</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：先确定减脂或增肌目标热量</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">我一定要严格按照每餐数字吃吗？</h3>
+      <p class="text-muted">
+        不一定。这个结果更适合作为执行参考，让你知道每餐大概应该落在哪个区间。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">如果我平时不吃早餐怎么办？</h3>
+      <p class="text-muted">
+        也可以把早餐的部分重新分配到午餐和晚餐。重点是总量和长期执行，而不是形式必须完全一样。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和增肌人群吗？</h3>
+      <p class="text-muted">
+        很适合。因为它会把抽象的“总热量和总蛋白质”进一步拆成更具体的每餐安排。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
