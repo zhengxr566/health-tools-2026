@@ -50,7 +50,7 @@ CATEGORY_META = {
     # ========= 1.1. BMI与体重 ======= 
     ## 1.1.1 BMI 1.1.2. 理想体重 1.1.3 目标体重时间
     # ========= 1.2. 体脂与围度 =======  
-    ## 1.2.1 体脂率 1.2.2. 腰围风险
+    ## 1.2.1 体脂率 1.2.2. 腰围风险 1.2.3. 腰臀比
     "weight": {
         "name": "体重与体型", 
         "description": "BMI、体脂、理想体重、围度相关工具",
@@ -217,6 +217,16 @@ TOOLS = [
         "category": "weight",
         "subgroup": "body_shape",
         "featured": False,
+    },
+    # 1.2.3. 腰臀比
+    {
+        "endpoint": "whr",
+        "name": "腰臀比计算器（WHR）",
+        "path": "/whr",
+        "desc": "腰围与臀围比例参考",
+        "category": "weight",
+        "subgroup": "body_shape",
+        "featured": True,
     },
     # =============== 
     # 2. 代谢与热量 
@@ -393,6 +403,15 @@ TOOLS = [
         "featured": True,
     },
     # 4.1.6 跑步消耗计算器
+    {
+        "endpoint": "running_kcal",
+        "name": "跑步消耗计算器",
+        "path": "/running-kcal",
+        "desc": "按时间和速度估算跑步热量消耗",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": True,
+    },
     # ========= 4.2. 睡眠时间 ======= 
     # 4.2.1 睡眠周期
     {
@@ -816,7 +835,7 @@ def ideal_weight_methods(height_cm: float, sex: str) -> dict:
         "Average": avg,
     }
 
-
+# 1.2.2. 腰围风险
 def waist_risk(wc_cm: float, height_cm: float) -> tuple[float, str]:
     whtr = wc_cm / height_cm
     if whtr < 0.5:
@@ -826,7 +845,67 @@ def waist_risk(wc_cm: float, height_cm: float) -> tuple[float, str]:
     else:
         level = "风险较高"
     return whtr, level
+# 1.2.3. 腰臀比
+def whr_info(waist_cm: float, hip_cm: float, sex: str) -> dict:
+    """
+    Waist-to-Hip Ratio (WHR) calculator.
 
+    Simple reference:
+    male:
+        < 0.90   -> 较低风险
+        < 1.00   -> 需要注意
+        >= 1.00  -> 风险较高
+
+    female:
+        < 0.80   -> 较低风险
+        < 0.85   -> 需要注意
+        >= 0.85  -> 风险较高
+    """
+
+    if waist_cm <= 0 or waist_cm > 300:
+        raise ValueError("请输入合理的腰围（cm）。")
+    if hip_cm <= 0 or hip_cm > 300:
+        raise ValueError("请输入合理的臀围（cm）。")
+    if sex not in ("male", "female"):
+        raise ValueError("性别选择不正确。")
+
+    ratio = waist_cm / hip_cm
+    ratio_rounded = round1(ratio)
+
+    if sex == "male":
+        if ratio < 0.90:
+            level = "较低风险"
+            progress = 38
+        elif ratio < 1.00:
+            level = "需要注意"
+            progress = 68
+        else:
+            level = "风险较高"
+            progress = 88
+    else:
+        if ratio < 0.80:
+            level = "较低风险"
+            progress = 35
+        elif ratio < 0.85:
+            level = "需要注意"
+            progress = 65
+        else:
+            level = "风险较高"
+            progress = 88
+
+    if sex == "male":
+        ref_text = "男性常见参考：WHR < 0.90 通常更理想，0.90–0.99 需要注意，≥ 1.00 风险更高。"
+    else:
+        ref_text = "女性常见参考：WHR < 0.80 通常更理想，0.80–0.84 需要注意，≥ 0.85 风险更高。"
+
+    return {
+        "ratio": ratio_rounded,
+        "level": level,
+        "progress": progress,
+        "ref_text": ref_text,
+        "waist_cm": round1(waist_cm),
+        "hip_cm": round1(hip_cm),
+    }
 
 # =============
 # 3. 营养摄入
@@ -1338,6 +1417,46 @@ def activity_level_info(steps_per_day: int, exercise_days: int, sit_hours: float
         "progress": progress,
     }
 # 4.1.6 跑步消耗计算器
+def running_kcal_estimate(weight_kg: float, minutes: float, pace: str) -> dict:
+    """
+    Estimate running calories using simple MET values.
+
+    pace:
+    - easy:  MET 8.3
+    - normal: MET 9.8
+    - fast:  MET 11.0
+
+    kcal = MET * weight_kg * hours
+    """
+
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+    if minutes <= 0 or minutes > 600:
+        raise ValueError("请输入合理的跑步时间（分钟）。")
+
+    if pace == "easy":
+        met = 8.3
+        label = "轻松跑"
+        progress = 45
+    elif pace == "fast":
+        met = 11.0
+        label = "较快跑"
+        progress = 85
+    else:
+        met = 9.8
+        label = "常见配速"
+        progress = 65
+
+    hours = minutes / 60.0
+    kcal = round0(met * weight_kg * hours)
+
+    return {
+        "label": label,
+        "met": met,
+        "kcal": kcal,
+        "minutes": round1(minutes),
+        "progress": progress,
+    }
 # ========= 1.1. BMI与体重 ======= 
 #1.1.3 目标体重时间
 def weeks_to_goal(current_kg: float, target_kg: float, rate_kg_per_week: float) -> float:
@@ -3820,7 +3939,42 @@ def activity_level():
         page_kind="tool",
     )
 # 4.1.6 跑步消耗计算器
+@app.route("/running-kcal", methods=["GET", "POST"])
+def running_kcal():
+    error = None
+    weight_kg_in = ""
+    minutes_in = "30"
+    pace_in = "normal"
+    result = None
 
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        minutes_in = request.form.get("minutes", "30").strip()
+        pace_in = request.form.get("pace", "normal").strip()
+
+        try:
+            weight_val = float(weight_kg_in)
+            minutes_val = float(minutes_in)
+            result = running_kcal_estimate(weight_val, minutes_val, pace_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "跑步消耗计算器（跑步30分钟大概消耗多少热量）- CalmyHealth",
+        "description": "输入体重、跑步时间和速度，估算跑步大概消耗多少热量，并帮助理解跑步和日常活动量之间的关系。",
+        "canonical": canonical_url("/running-kcal"),
+    }
+
+    return render_template(
+        "running_kcal.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        minutes_in=minutes_in,
+        pace_in=pace_in,
+        result=result,
+        page_kind="tool",
+    )
 
 @app.get("/healthz")
 def healthz():

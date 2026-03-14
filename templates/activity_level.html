@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">活动量等级计算器（你属于久坐、轻度还是中度活动）</h1>
+      <p class="text-muted mb-3">
+        输入你的日均步数、每周运动天数和久坐时长，快速估算你更接近久坐、轻度活动还是中度活动水平。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">日均步数</label>
+          <input name="steps_per_day" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 7000">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">每周运动天数</label>
+          <input name="exercise_days" class="form-control" inputmode="numeric" required value="{{ exercise_days_in }}" placeholder="例如 2">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">平均每天久坐时长（小时）</label>
+          <input name="sit_hours" class="form-control" inputmode="decimal" required value="{{ sit_hours_in }}" placeholder="例如 8">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算活动量等级</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">估算结果</div>
+      <div class="h3 mb-2">{{ result.level }}</div>
+      <div class="text-muted small mb-3">{{ result.desc }}</div>
+
+      <div class="alert alert-info mb-3">
+        按你填写的情况估算，你目前更接近：<b>{{ result.level }}</b>
+      </div>
+
+      <div class="small text-muted mb-2">活动量参考等级</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">TDEE 活动系数参考</div>
+        <div class="small text-muted">{{ result.factor }}</div>
+      </div>
+
+      <div class="small text-muted">
+        这个结果更适合作为日常活动量判断参考，帮助你理解自己在 TDEE、减脂和步数目标里大概属于什么水平。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入日均步数、每周运动天数和久坐时长后，即可查看你的活动量等级。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是活动量等级？</h2>
+      <p class="text-muted">
+        很多人知道自己“最近不太动”或者“我还算有在运动”，但真正问到自己到底属于久坐、轻度活动还是中度活动时，往往并没有清晰概念。
+        活动量等级计算器的作用，就是把这种模糊感受变成一个更直观的结果。
+      </p>
+
+      <p class="text-muted mb-0">
+        它并不是要给你下结论，而是帮助你更好地理解：你的日常步数、运动频率和久坐时长放在一起，大概属于什么水平。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的判断逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        活动量等级 = 日均步数 + 每周运动频率 + 久坐时长 的综合简化判断
+      </div>
+
+      <p class="text-muted mb-2">本工具主要参考 3 个维度：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">你平时平均每天走多少步</li>
+        <li class="mb-2">你每周大概运动几天</li>
+        <li class="mb-0">你每天坐着的时间大概有多久</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这是一套适合工具站使用的简化模型，重点是帮助你做日常活动管理，而不是替代专业运动评估。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么“有运动”不一定就代表活动量高？</h2>
+      <p class="text-muted">
+        因为有些人虽然每周会去健身几次，但除此之外大部分时间都处于久坐状态；也有人不做正式训练，但每天走很多路、整体活动量反而更高。
+        所以只看“有没有运动”还不够，通常要把步数、久坐和训练频率一起看。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">步数反映你平时有没有动起来</li>
+          <li class="mb-2">运动天数反映你有没有主动安排活动</li>
+          <li class="mb-2">久坐时长反映你是不是大部分时间都静止</li>
+          <li class="mb-0">三者一起看，通常比只看一个数字更有意义</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合在做 TDEE 估算、减脂计划、步数目标设定之前，先判断一下自己目前到底属于什么活动水平。因为很多人最大的问题不是“不会算热量”，
+        而是压根不清楚自己平时属于久坐、轻度还是中度活动，结果一开始就把热量估得太高或太低。
+      </p>
+
+      <h2 class="h6 mt-4">相关活动工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/calorie">每日热量需求 TDEE</a>：活动量等级能帮助理解 TDEE 活动系数</li>
+        <li><a href="/step-goal">每日步数目标计算器</a>：看你每天适合定多少步</li>
+        <li><a href="/steps">步数转热量</a>：估算步数对应的活动消耗</li>
+        <li><a href="/steps-distance">步数转距离计算器</a>：把步数换成公里更直观</li>
+        <li><a href="/steps-time">步数转步行时间计算器</a>：把步数换成时间更好执行</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：把活动量和减脂计划接起来看</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">久坐型是不是就一定不健康？</h3>
+      <p class="text-muted">
+        这个工具不做医学判断，它只是帮助你理解自己目前的活动模式更偏向哪一类。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">如果我每周运动 3 次，还会是轻度活动吗？</h3>
+      <p class="text-muted">
+        有可能。因为还要结合你的日均步数和久坐时长一起看，不是只看运动次数。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能直接拿去套 TDEE 吗？</h3>
+      <p class="text-muted">
+        可以作为理解和初步参考，但仍建议结合你自己的体重变化趋势去微调。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

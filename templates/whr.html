@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container">
+  <div class="page-header">
+    <h1>腰臀比计算器（WHR）</h1>
+    <p class="page-desc">
+      输入腰围、臀围和性别，计算腰臀比（Waist-to-Hip Ratio, WHR），用于粗略了解脂肪分布情况。
+    </p>
+  </div>
+
+  <div class="card">
+    <form method="post" class="tool-form">
+      <div class="form-row">
+        <label for="sex">性别</label>
+        <select id="sex" name="sex">
+          <option value="male" {% if sex_in == "male" %}selected{% endif %}>男性</option>
+          <option value="female" {% if sex_in == "female" %}selected{% endif %}>女性</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="waist_cm">腰围（cm）</label>
+        <input
+          id="waist_cm"
+          name="waist_cm"
+          type="number"
+          step="0.1"
+          min="1"
+          placeholder="例如 78"
+          value="{{ waist_cm_in }}"
+          required
+        >
+      </div>
+
+      <div class="form-row">
+        <label for="hip_cm">臀围（cm）</label>
+        <input
+          id="hip_cm"
+          name="hip_cm"
+          type="number"
+          step="0.1"
+          min="1"
+          placeholder="例如 96"
+          value="{{ hip_cm_in }}"
+          required
+        >
+      </div>
+
+      <div class="form-actions">
+        <button type="submit">开始计算</button>
+      </div>
+    </form>
+  </div>
+
+  {% if error %}
+  <div class="card error-card">
+    <p>{{ error }}</p>
+  </div>
+  {% endif %}
+
+  {% if result %}
+  <div class="card result-card">
+    <h2>计算结果</h2>
+
+    <div class="result-main">
+      <div class="result-number">{{ result.ratio }}</div>
+      <div class="result-label">你的腰臀比（WHR）</div>
+    </div>
+
+    <div class="progress-wrap" aria-label="风险进度">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ result.progress }}%;"></div>
+      </div>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="result-item-label">结果等级</div>
+        <div class="result-item-value">{{ result.level }}</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-label">腰围</div>
+        <div class="result-item-value">{{ result.waist_cm }} cm</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-label">臀围</div>
+        <div class="result-item-value">{{ result.hip_cm }} cm</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <p><strong>参考说明：</strong>{{ result.ref_text }}</p>
+      <p>
+        腰臀比主要用于观察脂肪更偏向集中在腹部，还是相对分布在臀部和下半身。
+        一般来说，腰臀比越高，越值得进一步关注腰围、体脂率和整体生活方式。
+      </p>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="card content-card">
+    <h2>腰臀比怎么算？</h2>
+    <p>公式很简单：</p>
+    <p><strong>腰臀比（WHR） = 腰围 ÷ 臀围</strong></p>
+    <p>
+      例如，腰围 78 cm，臀围 96 cm，那么：
+      <strong>78 ÷ 96 = 0.81</strong>
+    </p>
+  </div>
+
+  <div class="card content-card">
+    <h2>腰臀比和腰围/身高比（WHtR）有什么区别？</h2>
+    <p>
+      腰臀比（WHR）看的是腰围和臀围的比例，重点是脂肪分布位置；
+      腰围/身高比（WHtR）看的是腰围相对身高是否偏高，重点更偏向中心性肥胖风险。
+    </p>
+    <p>
+      两者可以结合看，而不是二选一。
+    </p>
+  </div>
+
+  <div class="card content-card">
+    <h2>相关工具</h2>
+    <ul class="link-list">
+      <li><a href="/waist">腰围风险（WHtR）</a></li>
+      <li><a href="/bodyfat">体脂率计算（US Navy）</a></li>
+      <li><a href="/bmi">BMI 计算器</a></li>
+      <li><a href="/ideal-weight">理想体重计算</a></li>
+    </ul>
+  </div>
+
+  <div class="card content-card">
+    <h2>说明</h2>
+    <p>
+      本工具仅用于一般健康参考，不构成医疗建议。围度测量方式、体型差异和个体情况都会影响结果解读。
+      如果你正在关注代谢风险、腹部肥胖或体重管理，建议结合 BMI、腰围、体脂率以及体检指标综合判断。
+    </p>
+  </div>
+</section>
+{% endblock %}
