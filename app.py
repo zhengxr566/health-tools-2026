@@ -243,8 +243,8 @@ TOOLS = [
         "path": "/sleep-recovery",
         "desc": "估算睡眠不足后大概要补多久",
         "category": "activity",
-        "subgroup": "sleep_habit",
-        "featured": True,
+        "subgroup": "sleep_quality",
+        "featured": False,
     },
 
     {
@@ -253,10 +253,41 @@ TOOLS = [
         "path": "/sleep-duration",
         "desc": "计算从几点睡到几点起一共睡了多久",
         "category": "activity",
-        "subgroup": "sleep_habit",
+        "subgroup": "sleep_time",
+        "featured": False,
+    },
+
+    {
+        "endpoint": "nap_time",
+        "name": "午睡时间计算器",
+        "path": "/nap-time",
+        "desc": "估算午睡多久更不容易醒来头昏",
+        "category": "activity",
+        "subgroup": "sleep_quality",
+        "featured": False,
+    },
+
+    {
+        "endpoint": "sleep_need",
+        "name": "睡眠需求计算器",
+        "path": "/sleep-need",
+        "desc": "按年龄查看建议睡眠时长",
+        "category": "activity",
+        "subgroup": "sleep_time",
         "featured": True,
     },
 
+    {
+        "endpoint": "sleep_efficiency",
+        "name": "睡眠效率计算器",
+        "path": "/sleep-efficiency",
+        "desc": "估算躺床时间里有多少真正睡着了",
+        "category": "activity",
+        "subgroup": "sleep_quality",
+        "featured": True,
+    },
+
+    
     {
         "endpoint": "pregnancy_due_date",
         "name": "预产期计算器",
@@ -1051,6 +1082,184 @@ def sleep_duration_info(bed_hm: str, wake_hm: str, target_hours: float = 8.0) ->
         "wake_hm": wake_hm,
         "target_hours": target_hours,
     }
+
+def nap_time_info(mode: str, time_hm: str) -> dict:
+    """
+    Nap calculator:
+    - short nap: about 20 min
+    - full cycle nap: about 90 min
+    Supports:
+    - nap_now: input current time, output suggested wake times
+    - wake_at: input desired wake time, output suggested nap start times
+    """
+
+    def parse_hm(s: str) -> tuple[int, int]:
+        s = s.strip()
+        if ":" not in s:
+            raise ValueError("请输入正确时间格式，例如 13:20。")
+        hh, mm = s.split(":", 1)
+        h = int(hh)
+        m = int(mm)
+        if h < 0 or h > 23 or m < 0 or m > 59:
+            raise ValueError("请输入正确时间。")
+        return h, m
+
+    def add_minutes(h: int, m: int, minutes: int) -> tuple[int, int]:
+        total = h * 60 + m + minutes
+        total %= 24 * 60
+        return total // 60, total % 60
+
+    def fmt(h: int, m: int) -> str:
+        return f"{h:02d}:{m:02d}"
+
+    h, m = parse_hm(time_hm)
+
+    short_nap = 20
+    full_cycle = 90
+
+    if mode == "nap_now":
+        short_h, short_m = add_minutes(h, m, short_nap)
+        full_h, full_m = add_minutes(h, m, full_cycle)
+        return {
+            "mode_label": "现在开始午睡",
+            "short_label": "短午睡（约 20 分钟）",
+            "short_time": fmt(short_h, short_m),
+            "full_label": "完整周期午睡（约 90 分钟）",
+            "full_time": fmt(full_h, full_m),
+        }
+
+    if mode == "wake_at":
+        short_h, short_m = add_minutes(h, m, -short_nap)
+        full_h, full_m = add_minutes(h, m, -full_cycle)
+        return {
+            "mode_label": "按目标起床时间倒推",
+            "short_label": "短午睡建议开始时间",
+            "short_time": fmt(short_h, short_m),
+            "full_label": "完整周期午睡建议开始时间",
+            "full_time": fmt(full_h, full_m),
+        }
+
+    raise ValueError("模式选择不正确。")
+
+def sleep_need_by_age(age: int) -> dict:
+    """
+    Simplified age-based sleep recommendation ranges.
+    Educational use only.
+    """
+
+    if age < 0 or age > 120:
+        raise ValueError("请输入合理年龄。")
+
+    if age <= 2:
+        low, high = 11, 14
+        label = "婴幼儿"
+        note = "这一阶段通常需要更长睡眠，白天小睡也常见。"
+        progress = 95
+    elif age <= 5:
+        low, high = 10, 13
+        label = "学龄前儿童"
+        note = "学龄前儿童通常需要较长总睡眠时长。"
+        progress = 90
+    elif age <= 12:
+        low, high = 9, 12
+        label = "儿童"
+        note = "儿童阶段通常仍需要充足睡眠支持日常学习与恢复。"
+        progress = 80
+    elif age <= 17:
+        low, high = 8, 10
+        label = "青少年"
+        note = "青少年通常仍需要比成年人更长的睡眠时间。"
+        progress = 70
+    elif age <= 64:
+        low, high = 7, 9
+        label = "成年人"
+        note = "大多数成年人常见建议睡眠范围约为 7–9 小时。"
+        progress = 60
+    else:
+        low, high = 7, 8
+        label = "老年人"
+        note = "老年人通常仍需要规律而稳定的睡眠。"
+        progress = 55
+
+    midpoint = round1((low + high) / 2)
+
+    return {
+        "label": label,
+        "low": low,
+        "high": high,
+        "midpoint": midpoint,
+        "note": note,
+        "progress": progress,
+    }
+
+def sleep_efficiency_info(
+    bed_hm: str,
+    wake_hm: str,
+    sleep_latency_min: int,
+    awake_during_night_min: int
+) -> dict:
+    """
+    Sleep efficiency = actual sleep time / time in bed * 100
+
+    Inputs:
+    - bed_hm: time went to bed
+    - wake_hm: final wake-up time
+    - sleep_latency_min: how many minutes it took to fall asleep
+    - awake_during_night_min: total minutes awake during the night
+    """
+
+    def parse_hm(s: str) -> tuple[int, int]:
+        s = s.strip()
+        if ":" not in s:
+            raise ValueError("请输入正确时间格式，例如 23:00。")
+        hh, mm = s.split(":", 1)
+        h = int(hh)
+        m = int(mm)
+        if h < 0 or h > 23 or m < 0 or m > 59:
+            raise ValueError("请输入正确时间。")
+        return h, m
+
+    bed_h, bed_m = parse_hm(bed_hm)
+    wake_h, wake_m = parse_hm(wake_hm)
+
+    if sleep_latency_min < 0 or sleep_latency_min > 600:
+        raise ValueError("请输入合理的入睡耗时（分钟）。")
+    if awake_during_night_min < 0 or awake_during_night_min > 600:
+        raise ValueError("请输入合理的夜间清醒时长（分钟）。")
+
+    bed_total = bed_h * 60 + bed_m
+    wake_total = wake_h * 60 + wake_m
+
+    if wake_total <= bed_total:
+        wake_total += 24 * 60
+
+    time_in_bed_min = wake_total - bed_total
+    actual_sleep_min = time_in_bed_min - sleep_latency_min - awake_during_night_min
+
+    if actual_sleep_min < 0:
+        raise ValueError("输入数据不合理：实际睡眠时间不能小于 0。")
+
+    efficiency = round(actual_sleep_min / time_in_bed_min * 100, 1) if time_in_bed_min > 0 else 0.0
+
+    if efficiency >= 90:
+        level = "较高"
+    elif efficiency >= 85:
+        level = "一般较常见"
+    else:
+        level = "偏低"
+
+    sleep_hours = actual_sleep_min // 60
+    sleep_minutes = actual_sleep_min % 60
+
+    return {
+        "time_in_bed_min": time_in_bed_min,
+        "actual_sleep_min": actual_sleep_min,
+        "sleep_hours": int(sleep_hours),
+        "sleep_minutes": int(sleep_minutes),
+        "efficiency": efficiency,
+        "level": level,
+    }
+
 
 # -----------------------
 # Pages
@@ -1879,6 +2088,38 @@ def sleep_duration():
         page_kind="tool",
     )
 
+@app.route("/nap-time", methods=["GET", "POST"])
+def nap_time():
+    error = None
+    mode_in = "nap_now"
+    time_in = "13:30"
+    result = None
+
+    if request.method == "POST":
+        mode_in = request.form.get("mode", "nap_now").strip()
+        time_in = request.form.get("time_hm", "13:30").strip()
+
+        try:
+            result = nap_time_info(mode_in, time_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "午睡时间计算器（午睡多久不容易醒来头昏）- CalmyHealth",
+        "description": "输入现在时间或目标起床时间，计算短午睡和完整周期午睡的推荐时间点，帮助减少午睡后头昏、睡懵和睡过头。",
+        "canonical": canonical_url("/nap-time"),
+    }
+
+    return render_template(
+        "nap_time.html",
+        meta=meta,
+        error=error,
+        mode_in=mode_in,
+        time_in=time_in,
+        result=result,
+        page_kind="tool",
+    )
+
 # -----------------------
 # Tool: Body Fat
 # -----------------------
@@ -1940,6 +2181,35 @@ def bodyfat():
         hip_cm_in=hip_cm_in,
     )
 
+@app.route("/sleep-need", methods=["GET", "POST"])
+def sleep_need():
+    error = None
+    age_in = "30"
+    result = None
+
+    if request.method == "POST":
+        age_in = request.form.get("age", "30").strip()
+
+        try:
+            age = int(age_in)
+            result = sleep_need_by_age(age)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效年龄。"
+
+    meta = {
+        "title": "睡眠需求计算器（按年龄需要睡多久）- CalmyHealth",
+        "description": "输入年龄，查看常见建议睡眠时长范围，并了解不同年龄阶段为什么需要不同睡眠时间。",
+        "canonical": canonical_url("/sleep-need"),
+    }
+
+    return render_template(
+        "sleep_need.html",
+        meta=meta,
+        error=error,
+        age_in=age_in,
+        result=result,
+        page_kind="tool",
+    )
 
 # -----------------------
 # Tool: Ideal Weight
@@ -1976,6 +2246,53 @@ def ideal_weight():
         sex_in=sex_in,
         height_cm_in=height_cm_in,
         results=results,
+    )
+
+@app.route("/sleep-efficiency", methods=["GET", "POST"])
+def sleep_efficiency():
+    error = None
+    bed_in = "23:00"
+    wake_in = "07:00"
+    latency_in = "20"
+    awake_in = "30"
+    result = None
+
+    if request.method == "POST":
+        bed_in = request.form.get("bed_hm", "23:00").strip()
+        wake_in = request.form.get("wake_hm", "07:00").strip()
+        latency_in = request.form.get("sleep_latency_min", "20").strip()
+        awake_in = request.form.get("awake_during_night_min", "30").strip()
+
+        try:
+            sleep_latency_min = int(latency_in)
+            awake_during_night_min = int(awake_in)
+
+            result = sleep_efficiency_info(
+                bed_in,
+                wake_in,
+                sleep_latency_min,
+                awake_during_night_min,
+            )
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "睡眠效率计算器（你躺床的时间有多少真正睡着了）- CalmyHealth",
+        "description": "输入上床时间、起床时间、入睡耗时和夜间清醒时长，计算睡眠效率，帮助判断你躺床时间中有多少真正用于睡眠。",
+        "canonical": canonical_url("/sleep-efficiency"),
+    }
+
+    return render_template(
+        "sleep_efficiency.html",
+        meta=meta,
+        error=error,
+        bed_in=bed_in,
+        wake_in=wake_in,
+        latency_in=latency_in,
+        awake_in=awake_in,
+        result=result,
+        page_kind="tool",
     )
 
 

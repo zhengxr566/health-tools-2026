@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">午睡时间计算器（午睡多久不容易醒来头昏）</h1>
+      <p class="text-muted mb-3">
+        输入现在时间或目标起床时间，计算更适合的午睡时长与时间点，帮助减少睡醒后头昏、睡懵和睡过头。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">选择模式</label>
+          <select name="mode" class="form-select">
+            <option value="nap_now" {% if mode_in == 'nap_now' %}selected{% endif %}>我现在准备午睡（计算几点醒）</option>
+            <option value="wake_at" {% if mode_in == 'wake_at' %}selected{% endif %}>我想几点醒来（倒推几点睡）</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">时间（HH:MM）</label>
+          <input name="time_hm" class="form-control" required value="{{ time_in }}" placeholder="例如 13:30">
+          <div class="form-text">请使用 24 小时制，例如 13:20、14:10。</div>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算午睡时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">{{ result.mode_label }}</div>
+      <div class="h5 mb-3">推荐两种常见午睡方案</div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">😴 {{ result.short_label }}</div>
+        <div class="text-muted small mb-1">更适合快速恢复，通常更不容易睡醒后发懵</div>
+        <div class="h5 mb-0">{{ result.short_time }}</div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-1">🛌 {{ result.full_label }}</div>
+        <div class="text-muted small mb-1">更适合时间较充足时参考，尽量按完整周期安排</div>
+        <div class="h5 mb-0">{{ result.full_time }}</div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="small text-muted">
+        一般来说，<b>短午睡</b> 更适合工作日快速恢复，<b>完整周期午睡</b> 更适合有较充足时间、希望减少中途被叫醒时的参考安排。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        选择模式并输入时间后，即可查看两种常见午睡方案。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">午睡多久不容易醒来头昏？</h2>
+      <p class="text-muted">
+        很多人午睡后会出现“越睡越昏”“醒来发懵”“下午更没精神”的情况，问题往往不只是“睡没睡”，而是
+        <b>睡了多久、在什么阶段被叫醒</b>。所以午睡时间计算器的重点，不是单纯让你睡更久，而是帮你找到更适合的午睡长度。
+      </p>
+
+      <p class="text-muted mb-0">
+        常见思路通常分成两类：一类是 <b>短午睡</b>，另一类是 <b>完整睡眠周期午睡</b>。这也是为什么很多人会问“午睡 20 分钟还是 90 分钟更好”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算逻辑</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        短午睡参考：约 20 分钟
+      </div>
+
+      <div class="bg-light rounded-3 p-3 small">
+        完整周期午睡参考：约 90 分钟
+      </div>
+
+      <p class="text-muted mt-3">
+        这不是医学诊断公式，而是一个非常常见、适合普通人理解和执行的午睡参考逻辑：
+      </p>
+
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>20 分钟左右</b>：更适合快速恢复，通常更不容易进入太深的睡眠阶段。</li>
+        <li class="mb-0"><b>90 分钟左右</b>：更接近一个完整睡眠周期，适合时间充足时参考。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么午睡太久容易睡醒头昏？</h2>
+      <p class="text-muted">
+        一个很常见的原因是：你可能在较深的睡眠阶段被打断。醒来时就会感觉脑子不清楚、身体沉、反应慢，
+        也就是很多人说的“睡懵了”。因此，午睡时间不只是越长越好，而是要尽量避开“睡到一半被叫醒”的情况。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">时间不多：优先参考短午睡</li>
+          <li class="mb-2">时间充足：可参考完整周期午睡</li>
+          <li class="mb-2">最怕的是“睡了不短，也没睡完整”</li>
+          <li class="mb-0">午睡结束后尽量给自己 5–10 分钟缓冲时间</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">午睡时间怎么安排更实用？</h2>
+      <p class="text-muted">
+        对多数上班族、学生和午休时间有限的人来说，短午睡通常更容易执行；而如果你那天非常疲惫、时间又比较宽裕，
+        完整周期午睡会更适合作为参考。关键不是盲目追求“睡更久”，而是找到更适合你当天状态的方案。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep">睡眠周期计算器</a>：安排晚上入睡 / 起床时间</li>
+        <li><a href="/sleep-duration">睡眠时长计算器</a>：从几点睡到几点起一共睡了多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：这一周到底欠了多少睡眠</li>
+        <li><a href="/sleep-recovery">补觉时间计算器</a>：睡不够后大概要补多久</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">午睡 20 分钟真的比 1 小时更好吗？</h3>
+      <p class="text-muted">
+        不一定是“绝对更好”，但对时间有限的人来说，20 分钟左右更容易避免睡醒后发懵，因此很常被当作更实用的参考。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">午睡 90 分钟是不是一定舒服？</h3>
+      <p class="text-muted">
+        也不一定。它更适合时间充足时参考，而且最好尽量完整睡完，而不是睡到一半被打断。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具能保证我午睡后不头昏吗？</h3>
+      <p class="text-muted">
+        不能保证。它更适合作为时间安排参考，真正体验还会受到睡眠状态、环境、压力和作息规律影响。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

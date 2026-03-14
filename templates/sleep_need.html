@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">睡眠需求计算器（按年龄需要睡多久）</h1>
+      <p class="text-muted mb-3">
+        输入年龄，查看常见建议睡眠时长范围，帮助更直观地理解不同年龄阶段大概需要睡多久。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">年龄</label>
+          <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}" placeholder="例如 30">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算睡眠需求</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">年龄阶段</div>
+      <div class="h5 mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        建议睡眠时长：<b>{{ result.low }} – {{ result.high }} 小时/天</b><br>
+        中间参考值约：<b>{{ result.midpoint }} 小时</b>
+      </div>
+
+      <div class="small text-muted mb-2">当前阶段参考强度</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="small text-muted mb-3">
+        {{ result.note }}
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是按年龄给出的常见睡眠时长范围，更适合作为一般参考。</li>
+          <li class="mb-2">真正适合你的睡眠时长，还会受到压力、作息、健康状态和生活习惯影响。</li>
+          <li class="mb-2">比起只盯住某个数字，更重要的是看自己白天精神状态和长期作息是否稳定。</li>
+          <li class="mb-0">建议结合 <a href="/sleep-duration">睡眠时长计算器</a> 和 <a href="/sleep-debt">睡眠债计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入年龄后，即可查看该年龄阶段常见建议睡眠时长范围。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">不同年龄为什么需要不同睡眠时间？</h2>
+      <p class="text-muted">
+        睡眠需求并不是所有年龄都一样。年龄越小，通常越需要更长睡眠时间；随着成长进入成年阶段，
+        常见建议睡眠时长会逐渐收敛到更稳定的范围。也正因为如此，很多人问“每天到底应该睡几个小时”，
+        其实应该先看年龄，再谈合适范围。
+      </p>
+
+      <p class="text-muted mb-0">
+        这也是睡眠需求计算器按年龄分类的核心意义：不是给所有人一个统一答案，而是先判断你属于哪个阶段。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的判断规则</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        睡眠需求判断 = 先按年龄分组，再匹配常见建议睡眠范围
+      </div>
+
+      <p class="text-muted mb-2">本工具采用的站内简化年龄分组：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">0–2 岁：11–14 小时</li>
+        <li class="mb-2">3–5 岁：10–13 小时</li>
+        <li class="mb-2">6–12 岁：9–12 小时</li>
+        <li class="mb-2">13–17 岁：8–10 小时</li>
+        <li class="mb-2">18–64 岁：7–9 小时</li>
+        <li class="mb-0">65 岁以上：7–8 小时</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">成年人是不是一定要睡满 8 小时？</h2>
+      <p class="text-muted">
+        不一定。很多人会把“8 小时”当作标准答案，但更准确的理解通常是：成年人的常见建议范围大约在一个区间内，
+        而不是所有人都必须精确睡满同一个数字。对有些人来说，7 小时左右状态就不错；对另一些人来说，接近 8 小时或 9 小时会更舒服。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先看自己所在年龄阶段的大致范围</li>
+          <li class="mb-2">再观察白天精神状态是否稳定</li>
+          <li class="mb-2">如果长期睡眠不足，再看是不是作息安排问题</li>
+          <li class="mb-0">“范围”通常比“单一数字”更有参考价值</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合先快速判断自己大概应该睡多久，再把这个结果带到其他睡眠工具里继续看。比如，你可以先知道自己这一年龄阶段的建议睡眠范围，
+        再去算最近实际睡了多久、有没有睡眠债、以及要不要补觉。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep-duration">睡眠时长计算器</a>：看昨晚到底睡了多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：看最近累计少睡了多少</li>
+        <li><a href="/sleep-recovery">补觉时间计算器</a>：估算大概需要多久恢复</li>
+        <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
+        <li><a href="/nap-time">午睡时间计算器</a>：午睡多久不容易醒来头昏</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">建议范围内就一定代表睡得好吗？</h3>
+      <p class="text-muted">
+        不一定。这个工具主要反映“时长需求参考”，并不能完整代表睡眠质量。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">如果我长期低于建议范围怎么办？</h3>
+      <p class="text-muted">
+        这通常意味着你可以进一步看看最近的作息、睡眠债和恢复安排，而不是只看一个年龄数字。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合儿童和老年人吗？</h3>
+      <p class="text-muted">
+        适合作为一般参考，但具体情况仍可能因个体差异而不同。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

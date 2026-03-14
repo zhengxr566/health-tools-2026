@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">睡眠效率计算器（你躺床的时间有多少真正睡着了）</h1>
+      <p class="text-muted mb-3">
+        输入上床时间、起床时间、入睡耗时和夜间清醒时长，估算睡眠效率，帮助更直观地理解“你躺床的时间，到底有多少真正睡着了”。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">上床时间（HH:MM）</label>
+          <input name="bed_hm" class="form-control" required value="{{ bed_in }}" placeholder="例如 23:00">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">起床时间（HH:MM）</label>
+          <input name="wake_hm" class="form-control" required value="{{ wake_in }}" placeholder="例如 07:00">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">入睡耗时（分钟）</label>
+          <input name="sleep_latency_min" class="form-control" inputmode="numeric" required value="{{ latency_in }}" placeholder="例如 20">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">夜间清醒总时长（分钟）</label>
+          <input name="awake_during_night_min" class="form-control" inputmode="numeric" required value="{{ awake_in }}" placeholder="例如 30">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算睡眠效率</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">睡眠效率</div>
+      <div class="h3 mb-2">{{ result.efficiency }}%</div>
+      <div class="text-muted small mb-3">{{ result.level }}</div>
+
+      <div class="alert alert-info mb-3">
+        你躺床的时间里，大约有 <b>{{ result.efficiency }}%</b> 真正用于睡眠。
+      </div>
+
+      <div class="small text-muted mb-2">效率参考</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.efficiency }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.efficiency }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="small text-muted mb-1">估算实际睡眠时间</div>
+        <div class="fw-semibold">{{ result.sleep_hours }} 小时 {{ result.sleep_minutes }} 分</div>
+      </div>
+
+      <div class="small text-muted">
+        这个结果适合帮助你理解“在床时间”和“真正睡着时间”之间的差距，不等于完整的医学睡眠评估。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入上床时间、起床时间、入睡耗时和夜间清醒时长后，即可查看估算睡眠效率。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是睡眠效率？</h2>
+      <p class="text-muted">
+        睡眠效率通常是指：你躺在床上的总时间里，有多少比例是真正睡着的。很多人以为“我上床很早，所以应该睡得够”，
+        但如果入睡很慢、半夜频繁醒来，最后真正用于睡眠的时间可能比想象中少得多。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，睡眠效率计算器的意义不在于单纯看你在床上躺了多久，而在于帮助你看清“躺床时间”和“实际睡眠时间”是不是差得太多。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        睡眠效率 = 实际睡眠时间 ÷ 在床总时间 × 100%
+      </div>
+
+      <p class="text-muted mb-2">其中：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">在床总时间 = 起床时间 − 上床时间</li>
+        <li class="mb-2">实际睡眠时间 = 在床总时间 − 入睡耗时 − 夜间清醒时长</li>
+        <li class="mb-0">最后再换算成百分比</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么睡眠效率比“总时长”更进一步？</h2>
+      <p class="text-muted">
+        因为睡眠时长只告诉你“你大概睡了多久”，但睡眠效率能继续告诉你：为了得到这些睡眠，
+        你是否花了太多时间躺在床上却没有真正入睡。对很多人来说，这个差别非常重要。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">总时长：更适合看睡眠够不够</li>
+          <li class="mb-2">效率：更适合看“躺床但没睡着”的问题大不大</li>
+          <li class="mb-2">如果效率偏低，重点往往不是“更早上床”</li>
+          <li class="mb-0">而是要看入睡困难、频繁醒来或作息混乱的问题</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">睡眠效率多少算常见？</h2>
+      <p class="text-muted">
+        在一般讨论里，较高的睡眠效率通常意味着大部分躺床时间都真正用于睡眠；如果效率明显偏低，就说明“躺着但没睡着”的比例更高。
+        这个工具用的是简化分级，更适合做自我观察参考，而不是临床诊断。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep-duration">睡眠时长计算器</a>：看你一共睡了多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：看最近是不是长期少睡</li>
+        <li><a href="/sleep-recovery">补觉时间计算器</a>：估算大概要补多久</li>
+        <li><a href="/sleep-need">睡眠需求计算器</a>：按年龄看建议睡眠时长</li>
+        <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">睡眠效率低就一定有问题吗？</h3>
+      <p class="text-muted">
+        不一定。它只是一个提示信号，告诉你“躺床时间和真正睡着时间之间差得多不多”，不能单独代替正式诊断。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">如果我不知道夜间醒了多久怎么办？</h3>
+      <p class="text-muted">
+        可以先按自己的大致印象估算。这个工具本来就是帮助你做简化观察，而不是要求完全精确到每一分钟。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">睡眠效率高就一定代表睡眠质量很好吗？</h3>
+      <p class="text-muted">
+        也不一定。它只能说明你躺床时间里“真正睡着”的比例较高，但不能涵盖所有睡眠质量因素。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
