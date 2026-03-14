@@ -52,6 +52,12 @@
       z-index: 1040;
     }
 
+    .topbar .container-fluid,
+    .topbar .navbar-collapse {
+      position: relative;
+      z-index: 1041;
+    }
+
     .topbar .navbar-brand {
       font-weight: 700;
       letter-spacing: 0.2px;
@@ -64,12 +70,21 @@
       font-weight: 500;
       border-radius: 0.6rem;
       padding: 0.45rem 0.75rem;
+      transition: all .15s ease;
     }
 
-    .topbar .nav-link:hover,
-    .topbar .nav-link.active {
+    /* 鼠标悬停 */
+    .topbar .nav-link:hover {
       background: var(--hover-bg);
       color: var(--brand);
+    }
+
+    /* 当前页面 */
+    .topbar .nav-link.active {
+      background: var(--brand-soft);
+      color: var(--brand) !important;
+      font-weight: 600;
+}
     }
 
     .site-shell {
@@ -238,6 +253,8 @@
 
     .main-panel {
       min-width: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .content-wrap {
@@ -263,15 +280,18 @@
       grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
       gap: 1.25rem;
       align-items: start;
+      position: relative;
+      z-index: 1;
     }
 
     .tool-col {
       min-width: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .tool-col-form {
-      position: sticky;
-      top: calc(var(--topbar-h) + 1rem);
+      position: static;
     }
 
     .tool-card {
@@ -279,6 +299,8 @@
       border-radius: 1rem;
       box-shadow: var(--shadow-soft);
       padding: 1.25rem;
+      position: relative;
+      z-index: 1;
     }
 
     .tool-card + .tool-card {
@@ -317,6 +339,23 @@
       .content-wrap {
         padding: 1.4rem 1.75rem 2.25rem;
       }
+
+      .tool-col-form {
+        position: sticky;
+        top: calc(var(--topbar-h) + 1rem);
+        align-self: start;
+      }
+    }
+
+    @media (max-width: 1199.98px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-col-form {
+        position: static;
+        top: auto;
+      }
     }
 
     @media (max-width: 991.98px) {
@@ -341,12 +380,10 @@
         max-width: 100%;
       }
 
-      .tool-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .tool-col-form {
-        position: static;
+      #sidebarToggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
     }
 
@@ -365,8 +402,8 @@
   <nav class="navbar navbar-expand-lg topbar">
     <div class="container-fluid px-3 px-lg-4">
       <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-sm btn-outline-secondary" type="button" id="sidebarToggle">
-          目录
+        <button class="btn btn-sm btn-outline-secondary" type="button" id="sidebarToggle" aria-controls="sidebarPanel mobileNavCollapse" aria-label="打开工具目录">
+          工具目录
         </button>
         <a class="navbar-brand" href="/">{{ site_name or "CalmyHealth" }}</a>
       </div>
@@ -525,6 +562,7 @@
                             data-bs-toggle="collapse"
                             data-bs-target="#m-cat-{{ cat.slug }}"
                             aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
+                            aria-controls="m-cat-{{ cat.slug }}"
                           >
                             <span>{{ cat.name }}</span>
                             <span class="toggle-meta">{{ cat.count }}</span>
@@ -547,6 +585,7 @@
                                     data-bs-toggle="collapse"
                                     data-bs-target="#m-child-{{ cat.slug }}-{{ child.slug }}"
                                     aria-expanded="{% if cat.is_open or child.is_open %}true{% else %}false{% endif %}"
+                                    aria-controls="m-child-{{ cat.slug }}-{{ child.slug }}"
                                   >
                                     <span>{{ child.name }}</span>
                                     <span class="toggle-meta">{{ child.count }}</span>
@@ -604,6 +643,7 @@
       const toggleBtn = document.getElementById("sidebarToggle");
       const resizer = document.getElementById("sidebarResizer");
       const sidebar = document.getElementById("sidebarPanel");
+      const mobileNavCollapseEl = document.getElementById("mobileNavCollapse");
 
       const STORAGE_COLLAPSED = "calmyhealth_sidebar_collapsed";
       const STORAGE_WIDTH = "calmyhealth_sidebar_width";
@@ -613,6 +653,10 @@
       const minWidth = 220;
       const maxWidth = 480;
       const defaultWidth = 290;
+
+      function isMobileLike() {
+        return window.innerWidth <= 991.98;
+      }
 
       function setSidebarWidth(width) {
         const w = Math.max(minWidth, Math.min(maxWidth, width));
@@ -646,7 +690,21 @@
 
       if (toggleBtn) {
         toggleBtn.addEventListener("click", function () {
-          applyCollapsed(!body.classList.contains("sidebar-collapsed"));
+          if (isMobileLike()) {
+            if (!mobileNavCollapseEl) return;
+
+            const bsCollapse = bootstrap.Collapse.getOrCreateInstance(mobileNavCollapseEl, {
+              toggle: false
+            });
+            bsCollapse.toggle();
+
+            const mobileToc = document.querySelector(".mobile-toc");
+            if (mobileToc) {
+              mobileToc.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          } else {
+            applyCollapsed(!body.classList.contains("sidebar-collapsed"));
+          }
         });
       }
 
@@ -661,7 +719,7 @@
         });
 
         window.addEventListener("mousemove", function (e) {
-          if (!dragging) return;
+          if (!dragging || isMobileLike()) return;
           setSidebarWidth(e.clientX);
         });
 
@@ -673,42 +731,39 @@
         });
       }
 
-      if (sidebar) {
-        let restoreDone = false;
+      function restoreSidebarPosition() {
+        if (!sidebar || isMobileLike()) return;
 
-        function restoreSidebarPosition() {
-          if (restoreDone) return;
-          restoreDone = true;
+        let savedScroll = null;
+        let savedPath = null;
 
-          let savedScroll = null;
-          let savedPath = null;
+        try {
+          savedScroll = localStorage.getItem(STORAGE_SCROLL);
+          savedPath = localStorage.getItem(STORAGE_LAST_PATH);
+        } catch (e) {}
 
-          try {
-            savedScroll = localStorage.getItem(STORAGE_SCROLL);
-            savedPath = localStorage.getItem(STORAGE_LAST_PATH);
-          } catch (e) {}
-
-          if (savedScroll !== null && savedPath) {
-            sidebar.scrollTop = parseInt(savedScroll, 10) || 0;
-            return;
-          }
-
-          const activeLink = sidebar.querySelector(".sidebar-link.active");
-          if (activeLink) {
-            const sidebarRect = sidebar.getBoundingClientRect();
-            const activeRect = activeLink.getBoundingClientRect();
-
-            if (activeRect.top < sidebarRect.top || activeRect.bottom > sidebarRect.bottom) {
-              const offset = activeLink.offsetTop - sidebar.clientHeight * 0.35;
-              sidebar.scrollTop = Math.max(0, offset);
-            }
-          }
+        if (savedScroll !== null && savedPath) {
+          sidebar.scrollTop = parseInt(savedScroll, 10) || 0;
+          return;
         }
 
-        window.addEventListener("load", function () {
-          setTimeout(restoreSidebarPosition, 0);
-        });
+        const activeLink = sidebar.querySelector(".sidebar-link.active");
+        if (activeLink) {
+          const sidebarRect = sidebar.getBoundingClientRect();
+          const activeRect = activeLink.getBoundingClientRect();
 
+          if (activeRect.top < sidebarRect.top || activeRect.bottom > sidebarRect.bottom) {
+            const offset = activeLink.offsetTop - sidebar.clientHeight * 0.35;
+            sidebar.scrollTop = Math.max(0, offset);
+          }
+        }
+      }
+
+      window.addEventListener("load", function () {
+        setTimeout(restoreSidebarPosition, 0);
+      });
+
+      if (sidebar) {
         sidebar.addEventListener("scroll", function () {
           try {
             localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
