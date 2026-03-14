@@ -3437,6 +3437,7 @@ def sleep_efficiency():
 # -----------------------
 # Tool: Waist Risk
 # -----------------------
+# 1.2.2 腰围风险
 @app.route("/waist", methods=["GET", "POST"])
 def waist():
     error = None
@@ -3474,7 +3475,43 @@ def waist():
         level=level,
     )
 
+# 1.2.3. 腰臀比
+@app.route("/whr", methods=["GET", "POST"])
+def whr():
+    error = None
+    sex_in = "male"
+    waist_cm_in = ""
+    hip_cm_in = ""
+    result = None
 
+    if request.method == "POST":
+        sex_in = request.form.get("sex", "male").strip()
+        waist_cm_in = request.form.get("waist_cm", "").strip()
+        hip_cm_in = request.form.get("hip_cm", "").strip()
+
+        try:
+            waist_cm = float(waist_cm_in)
+            hip_cm = float(hip_cm_in)
+            result = whr_info(waist_cm, hip_cm, sex_in)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "腰臀比计算器（WHR）- CalmyHealth",
+        "description": "输入腰围、臀围和性别，计算腰臀比（WHR），查看常见参考范围，并帮助理解腰部脂肪分布风险。",
+        "canonical": canonical_url("/whr"),
+    }
+
+    return render_template(
+        "whr.html",
+        meta=meta,
+        error=error,
+        sex_in=sex_in,
+        waist_cm_in=waist_cm_in,
+        hip_cm_in=hip_cm_in,
+        result=result,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: Daily intake
 # -----------------------
