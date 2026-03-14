@@ -127,9 +127,10 @@ CATEGORY_META = {
 }
 
 TOOLS = [
+    # ========= 体重与体型 ===========
     {
         "endpoint": "bmi",
-        "name": "BMI 计算器（高级版）",
+        "name": "BMI 计算器",
         "path": "/bmi",
         "desc": "含区间、可视化与建议",
         "category": "weight",
@@ -328,7 +329,7 @@ TOOLS = [
         "path": "/sleep-recovery",
         "desc": "估算睡眠不足后大概要补多久",
         "category": "activity",
-        "subgroup": "sleep_quality",
+        "subgroup": "sleep_time",
         "featured": False,
     },
 
@@ -338,7 +339,7 @@ TOOLS = [
         "path": "/nap-time",
         "desc": "估算午睡多久更不容易醒来头昏",
         "category": "activity",
-        "subgroup": "sleep_quality",
+        "subgroup": "sleep_time",
         "featured": False,
     },
 
@@ -717,6 +718,47 @@ def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
         label = "日常维持"
     return weight_kg * gpk, label
 
+def macro_split(tdee: float, goal: str) -> dict:
+    """
+    Simple macro split by goal.
+    Returns grams of protein, carbs, fat.
+
+    Ratios:
+    - fat_loss:    P 30% / C 35% / F 35%
+    - maintain:    P 25% / C 45% / F 30%
+    - muscle_gain: P 25% / C 50% / F 25%
+    """
+
+    if tdee <= 0 or tdee > 10000:
+        raise ValueError("请输入合理的热量（kcal/天）。")
+
+    if goal == "fat_loss":
+        p_ratio, c_ratio, f_ratio = 0.30, 0.35, 0.35
+        label = "减脂期"
+    elif goal == "muscle_gain":
+        p_ratio, c_ratio, f_ratio = 0.25, 0.50, 0.25
+        label = "增肌期"
+    else:
+        p_ratio, c_ratio, f_ratio = 0.25, 0.45, 0.30
+        label = "维持期"
+
+    protein_kcal = tdee * p_ratio
+    carbs_kcal = tdee * c_ratio
+    fat_kcal = tdee * f_ratio
+
+    protein_g = round0(protein_kcal / 4.0)
+    carbs_g = round0(carbs_kcal / 4.0)
+    fat_g = round0(fat_kcal / 9.0)
+
+    return {
+        "label": label,
+        "protein_g": protein_g,
+        "carbs_g": carbs_g,
+        "fat_g": fat_g,
+        "protein_ratio": int(round(p_ratio * 100)),
+        "carbs_ratio": int(round(c_ratio * 100)),
+        "fat_ratio": int(round(f_ratio * 100)),
+    }
 
 def steps_to_kcal(steps: int, weight_kg: float) -> float:
     kcal_per_step = 0.05 * (weight_kg / 60.0)
@@ -2649,7 +2691,7 @@ def waist():
 
 
 # -----------------------
-# Tool: Protein
+# Tool: Daily intake
 # -----------------------
 @app.route("/protein", methods=["GET", "POST"])
 def protein():
@@ -2687,7 +2729,42 @@ def protein():
         label=label,
     )
 
+@app.route("/macro", methods=["GET", "POST"])
+def macro():
+    error = None
+    tdee_in = ""
+    goal_in = "maintain"
+    result = None
 
+    if request.method == "POST":
+        tdee_in = request.form.get("tdee", "").strip()
+        goal_in = request.form.get("goal", "maintain").strip()
+
+        try:
+            tdee_val = float(tdee_in)
+            if goal_in not in ("fat_loss", "maintain", "muscle_gain"):
+                raise ValueError("目标选择不正确。")
+
+            result = macro_split(tdee_val, goal_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "宏量营养素计算器（蛋白质、碳水、脂肪每天该吃多少）- CalmyHealth",
+        "description": "输入每日总热量并选择目标，计算蛋白质、碳水和脂肪的建议分配，适合减脂、维持和增肌人群参考。",
+        "canonical": canonical_url("/macro"),
+    }
+
+    return render_template(
+        "macro.html",
+        meta=meta,
+        error=error,
+        tdee_in=tdee_in,
+        goal_in=goal_in,
+        result=result,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: Steps
 # -----------------------

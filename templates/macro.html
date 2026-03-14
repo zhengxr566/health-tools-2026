@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">宏量营养素计算器（蛋白质、碳水、脂肪每天该吃多少）</h1>
+      <p class="text-muted mb-3">
+        输入每日总热量并选择目标，快速估算蛋白质、碳水化合物和脂肪的建议分配，适合作为减脂、维持或增肌饮食的参考起点。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">每日总热量（kcal/天）</label>
+          <input name="tdee" class="form-control" inputmode="decimal" required value="{{ tdee_in }}" placeholder="例如 2200">
+          <div class="form-text">
+            不知道总热量？可以先用 <a href="/calorie">每日热量需求 TDEE</a> 或 <a href="/deficit">目标热量</a> 估算。
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">目标</label>
+          <select name="goal" class="form-select">
+            <option value="fat_loss" {% if goal_in == 'fat_loss' %}selected{% endif %}>减脂期</option>
+            <option value="maintain" {% if goal_in == 'maintain' %}selected{% endif %}>维持期</option>
+            <option value="muscle_gain" {% if goal_in == 'muscle_gain' %}selected{% endif %}>增肌期</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算宏量营养素</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">当前模式</div>
+      <div class="h4 mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        你当前热量下的建议分配为：<br>
+        <b>蛋白质 {{ result.protein_g }} g</b> ·
+        <b>碳水 {{ result.carbs_g }} g</b> ·
+        <b>脂肪 {{ result.fat_g }} g</b>
+      </div>
+
+      <div class="small text-muted mb-2">热量占比参考</div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small mb-1">
+          <span>蛋白质</span><span>{{ result.protein_ratio }}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ result.protein_ratio }}%"></div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small mb-1">
+          <span>碳水化合物</span><span>{{ result.carbs_ratio }}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ result.carbs_ratio }}%"></div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between small mb-1">
+          <span>脂肪</span><span>{{ result.fat_ratio }}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{ result.fat_ratio }}%"></div>
+        </div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这是按目标给出的简化宏量分配参考，更适合作为起点，而不是绝对标准。</li>
+          <li class="mb-2">真正适合你的比例，还会受到训练量、饥饿感、饮食习惯和执行难度影响。</li>
+          <li class="mb-2">比起追求“完美比例”，更重要的是先把热量总量和长期执行稳定下来。</li>
+          <li class="mb-0">建议结合 <a href="/protein">蛋白质需求</a>、<a href="/water">每日饮水量</a> 和 <a href="/deficit">目标热量</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入每日总热量并选择目标后，即可查看蛋白质、碳水和脂肪的建议分配。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是宏量营养素？</h2>
+      <p class="text-muted">
+        宏量营养素通常指饮食中的三大主要供能成分：<b>蛋白质、碳水化合物、脂肪</b>。很多人会先关注“每天吃多少热量”，
+        但真正把饮食落到执行层面时，往往还要继续分成：蛋白质吃多少、碳水吃多少、脂肪吃多少。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，宏量营养素计算器的作用，就是把一个总热量数字，进一步拆成更容易实际安排的克数。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        蛋白质克数 = （总热量 × 蛋白质占比）÷ 4
+      </div>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        碳水克数 = （总热量 × 碳水占比）÷ 4
+      </div>
+
+      <div class="bg-light rounded-3 p-3 small">
+        脂肪克数 = （总热量 × 脂肪占比）÷ 9
+      </div>
+
+      <p class="text-muted mt-3 mb-0">
+        因为常见营养换算里，蛋白质和碳水每克约 4 kcal，脂肪每克约 9 kcal。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">减脂、维持、增肌为什么比例不同？</h2>
+      <p class="text-muted">
+        因为不同目标下，饮食重点不一样。减脂时很多人更重视蛋白质和饱腹感，维持期更强调平衡，增肌期通常会给碳水更多空间，
+        方便支持训练和恢复。这个工具用的是站内简化比例，目的是让你先有一个好执行的参考框架。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先确定总热量是否合理</li>
+          <li class="mb-2">再把热量拆成蛋白质、碳水和脂肪</li>
+          <li class="mb-2">最后根据饥饿感、训练和习惯做微调</li>
+          <li class="mb-0">很多时候“能长期做到”比“数字很漂亮”更重要</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">宏量营养素比例一定要很精确吗？</h2>
+      <p class="text-muted">
+        不一定。对大多数普通用户来说，宏量营养素更适合拿来做“结构参考”，而不是要求每天都完全精确到个位数。
+        真正更重要的是：总热量大方向是否正确、蛋白质是否足够、整体饮食是否容易长期坚持。
+      </p>
+
+      <h2 class="h6 mt-4">相关营养工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/protein">蛋白质需求</a>：先单独看蛋白质建议值</li>
+        <li><a href="/water">每日饮水量</a>：补充看基础摄入</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：先估算总热量</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：先确定减脂或增肌热量目标</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">我一定要严格按照这个比例吃吗？</h3>
+      <p class="text-muted">
+        不一定。这个结果更适合作为起点，帮助你先搭出一个大致饮食框架。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂期是不是碳水越低越好？</h3>
+      <p class="text-muted">
+        不一定。对很多人来说，更关键的是总热量是否合理，以及这个饮食方案能不能长期执行。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合健身新手吗？</h3>
+      <p class="text-muted">
+        很适合。因为它能把抽象的“总热量”直接拆成更容易理解和安排的三大营养素。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
