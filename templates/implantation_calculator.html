@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">着床时间计算器</h1>
+      <p class="text-muted mb-3">
+        输入排卵日，或输入末次月经开始日期，估算可能的着床时间范围和较常见着床日期，仅供时间参考。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">计算方式</label>
+          <select name="mode" class="form-select" required>
+            <option value="ovulation" {% if mode_in == "ovulation" %}selected{% endif %}>按排卵日估算</option>
+            <option value="lmp" {% if mode_in == "lmp" %}selected{% endif %}>按末次月经开始日期估算</option>
+          </select>
+        </div>
+
+        <div class="col-12" {% if mode_in != "ovulation" %}style="opacity:.55;"{% endif %}>
+          <label class="form-label">排卵日</label>
+          <input type="date" name="ovulation_date" class="form-control" value="{{ ovulation_in }}">
+        </div>
+
+        <div class="col-12" {% if mode_in != "lmp" %}style="opacity:.55;"{% endif %}>
+          <label class="form-label">末次月经开始日期</label>
+          <input type="date" name="lmp" class="form-control" value="{{ lmp_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算着床时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">较常见着床日期</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.implantation_peak }}</div>
+        </div>
+        <div class="text-muted small">参考</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        计算方式：<b>{{ result.source_label }}</b><br>
+        可能着床时间范围：<b>{{ result.implantation_start }}</b> ～ <b>{{ result.implantation_end }}</b>
+      </div>
+
+      <div class="small text-muted">
+        {{ result.status }}。由于个体差异存在，着床并不能精确预测到某一天，这里更适合用来理解大致时间范围。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">结果拆解</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">估算基准日期：<b>{{ result.base_date }}</b></li>
+          <li class="mb-2">较早可能日期：<b>{{ result.implantation_start }}</b></li>
+          <li class="mb-2">较常见日期：<b>{{ result.implantation_peak }}</b></li>
+          <li class="mb-0">较晚可能日期：<b>{{ result.implantation_end }}</b></li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入排卵日，或输入末次月经开始日期后，即可查看大致的着床时间范围参考。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">着床时间计算器在算什么？</h2>
+      <p class="text-muted">
+        这个工具会根据你输入的排卵日，或根据末次月经开始日期反推出一个大致排卵时间，
+        再估算受孕后可能的着床时间范围，帮助理解“受孕之后大概什么时候可能着床”。
+      </p>
+
+      <h2 class="h6 mt-4">为什么结果是一个范围，不是某一天？</h2>
+      <p class="text-muted">
+        因为着床本身就不是固定发生在同一天。即使排卵时间相近，不同个体之间也可能有差异。
+        所以更合理的做法是给出一个大致时间窗口，而不是把它写成精确日期。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">通常多久可能着床？</h2>
+      <p class="text-muted">
+        在简化参考里，着床通常被估算为排卵或受精后大约 6 到 10 天左右。
+        这个页面会把这段范围显示出来，并额外标出一个较常被用作参考的中间日期。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">怎么理解这个页面更合适？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">适合做时间预期参考</li>
+          <li class="mb-2">适合和排卵、易孕期工具一起看</li>
+          <li class="mb-2">不适合作为精确判断</li>
+          <li class="mb-0">不能替代医学检测或医生建议</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候这个工具比较有用？</h2>
+      <p class="text-muted">
+        如果你已经大致知道排卵时间，或正在根据周期推测受孕时间，这个页面会比较有帮助。
+        它特别适合作为“周期 → 排卵 → 受孕 → 着床 → 孕周 / 预产期”这条时间链中的中间节点。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你还在看周期和排卵阶段，可以继续使用
+        <a href="/period-calculator">月经周期计算器</a>、
+        <a href="/safe-days-calculator">安全期计算器</a>、
+        <a href="/fertility-calculator">易孕期计算器</a> 和
+        <a href="/ovulation">排卵期计算器</a>；
+        如果你想继续看怀孕相关时间，也可以继续看
+        <a href="/conception-date">受孕日期推算器</a>、
+        <a href="/pregnancy-week">怀孕周数计算器</a> 和
+        <a href="/pregnancy-due-date">预产期计算器</a>。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/fertility-calculator">易孕期计算器</a>：先看较高受孕概率日期窗口</li>
+        <li><a href="/implantation-calculator">着床时间计算器</a>：从易孕期和受孕窗口继续看后续时间参考</li>
+        <li><a href="/ovulation">排卵期计算器</a>：先估算排卵时间，再看着床范围</li>
+        <li><a href="/conception-date">受孕日期推算器</a>：从受孕时间继续理解着床参考</li>
+        <li><a href="/period-calculator">月经周期计算器</a>：先理解周期节奏</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：如果已怀孕，可继续查看孕周</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：继续看整体怀孕时间线</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">着床一定会发生在这个范围里吗？</h3>
+      <p class="text-muted">
+        不一定。这只是基于常见规律做出的时间参考，真实情况可能会前后波动。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">没有排卵日还能算吗？</h3>
+      <p class="text-muted">
+        可以。页面支持用末次月经开始日期做估算，但这种方式本质上还是先推测排卵时间，所以参考性会更粗略一些。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具能代替检测吗？</h3>
+      <p class="text-muted">
+        不能。这个工具只适合做时间理解和记录参考，不能替代医学检测、诊断或医生建议。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供一般时间参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

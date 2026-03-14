@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">FFMI 计算器</h1>
+      <p class="text-muted mb-3">
+        输入身高、体重、体脂率和性别，计算 FFMI（去脂体重指数）、标准化 FFMI 与去脂体重，帮助更完整地理解体型与肌肉量水平。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">性别</label>
+          <select name="sex" class="form-select" required>
+            <option value="male" {% if sex_in == "male" %}selected{% endif %}>男性</option>
+            <option value="female" {% if sex_in == "female" %}selected{% endif %}>女性</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">体脂率（%）</label>
+          <input name="bodyfat_pct" class="form-control" inputmode="decimal" required value="{{ bodyfat_pct_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算 FFMI</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">你的标准化 FFMI</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.ffmi_normalized }}</div>
+        </div>
+        <div class="text-muted small">FFMI</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        FFMI ≈ <b>{{ result.ffmi }}</b><br>
+        标准化 FFMI ≈ <b>{{ result.ffmi_normalized }}</b><br>
+        提示：<b>{{ result.level }}</b>
+      </div>
+
+      <div class="small text-muted">
+        {{ result.note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">结果拆解</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">去脂体重（Lean Mass）：<b>{{ result.lean_mass }} kg</b></li>
+          <li class="mb-2">脂肪重量（Fat Mass）：<b>{{ result.fat_mass }} kg</b></li>
+          <li class="mb-2">原始 FFMI：<b>{{ result.ffmi }}</b></li>
+          <li class="mb-0">标准化 FFMI：<b>{{ result.ffmi_normalized }}</b></li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入身高、体重和体脂率后，即可查看你的 FFMI、标准化 FFMI 以及去脂体重结果。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">FFMI 是什么？</h2>
+      <p class="text-muted">
+        FFMI（Fat-Free Mass Index，去脂体重指数）可以理解为“去掉脂肪后的体重，再按照身高进行标准化”。
+        相比只看 <a href="/bmi">BMI</a>，FFMI 更接近“肌肉量和去脂体重水平”这个问题，因此在健身、增肌和体型分析场景里更常用。
+      </p>
+
+      <h2 class="h6 mt-4">FFMI 和 BMI 有什么区别？</h2>
+      <p class="text-muted">
+        BMI 只看体重和身高的比例，无法区分体重里有多少来自脂肪、多少来自肌肉。
+        FFMI 会先利用体脂率估算去脂体重，所以更适合用来理解“我看起来重，是因为脂肪更多，还是肌肉更多”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">FFMI 怎么计算？</h2>
+      <p class="text-muted">
+        先根据体脂率估算去脂体重：
+      </p>
+      <p class="text-muted mb-2">
+        <b>去脂体重 = 体重 × (1 - 体脂率)</b>
+      </p>
+      <p class="text-muted">
+        然后计算：
+      </p>
+      <p class="text-muted mb-2">
+        <b>FFMI = 去脂体重 ÷ 身高²</b>
+      </p>
+      <p class="text-muted">
+        很多网站还会提供“标准化 FFMI”，用于减少不同身高之间的比较偏差。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">为什么标准化 FFMI 有用？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">更方便比较不同身高的人。</li>
+          <li class="mb-2">比原始 FFMI 更适合做站内统一参考。</li>
+          <li class="mb-0">但依然只是估算，不代表医学诊断。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候 FFMI 比较有参考价值？</h2>
+      <p class="text-muted">
+        如果你已经知道自己的大致体脂率，FFMI 往往比单看 <a href="/bmi">BMI</a> 更有用。
+        尤其在减脂、增肌、长期训练和体型分析中，FFMI 可以帮助你判断自己更接近“脂肪偏多”还是“去脂体重较高”的状态。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你想进一步优化体型，可以先结合 <a href="/bodyfat">体脂率</a> 和 <a href="/bmi">BMI</a> 看整体情况，
+        再用 <a href="/calorie">TDEE</a> 和 <a href="/deficit">目标热量</a> 规划热量，
+        同时参考 <a href="/protein">蛋白质需求</a> 和 <a href="/macro">宏量营养素计算器</a> 做饮食安排。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/bodyfat">体脂率计算（US Navy）</a>：先估算体脂率，再看 FFMI</li>
+        <li><a href="/body-fat-goal">体脂目标时间计算器</a>：从体型分析进一步走向目标规划</li>
+        <li><a href="/bmi">BMI 计算器</a>：补充基础体重筛查信息</li>
+        <li><a href="/ideal-weight">理想体重计算</a>：从体重角度做参考</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：制定饮食策略</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：从结果走向行动</li>
+        <li><a href="/protein">蛋白质需求</a>：更适合增肌 / 保肌场景</li>
+        <li><a href="/macro">宏量营养素计算器</a>：分配蛋白质、碳水和脂肪</li>
+        <li><a href="/waist">腰围风险（WHtR）</a>：补充腹部脂肪分布参考</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">FFMI 越高越好吗？</h3>
+      <p class="text-muted">
+        不一定。FFMI 更高通常代表去脂体重更高，但并不自动等于“更健康”。
+        最好结合体脂率、腰围、训练状态和生活方式一起看。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">没有体脂率还能算 FFMI 吗？</h3>
+      <p class="text-muted">
+        FFMI 的核心就是先估算去脂体重，所以通常需要体脂率作为输入。
+        如果你还没有体脂率，可以先使用 <a href="/bodyfat">体脂率计算器</a> 做站内估算。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">FFMI 能代替 BMI 吗？</h3>
+      <p class="text-muted">
+        不能完全代替。BMI 更适合基础筛查，FFMI 更适合体型和去脂体重分析。
+        两者结合看，通常比只看单一指标更有参考价值。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

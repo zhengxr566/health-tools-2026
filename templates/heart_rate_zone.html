@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">心率区间计算器</h1>
+      <p class="text-muted mb-3">
+        输入年龄，并可选填写静息心率，估算你的运动心率区间，帮助理解热身、有氧、阈值和高强度训练范围。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">年龄</label>
+          <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">静息心率（可选）</label>
+          <input name="resting_hr" class="form-control" inputmode="numeric" value="{{ resting_hr_in }}" placeholder="例如 60">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算心率区间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">估算最大心率</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.max_hr }}</div>
+        </div>
+        <div class="text-muted small">bpm</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        方法：<b>{{ result.method_label }}</b><br>
+        估算最大心率：<b>{{ result.max_hr }}</b> bpm
+        {% if result.resting_hr is not none %}
+        <br>静息心率：<b>{{ result.resting_hr }}</b> bpm
+        {% endif %}
+      </div>
+
+      <div class="small text-muted">
+        {{ result.note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">你的心率区间</div>
+        <ul class="small text-muted mb-0 ps-3">
+          {% for z in result.zones %}
+          <li class="mb-2">
+            <b>{{ z.code }}</b>（{{ z.label }}）：<b>{{ z.low_bpm }}–{{ z.high_bpm }}</b> bpm
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入年龄后，即可查看大致的运动心率区间；如果再填写静息心率，结果通常会更个体化。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是心率区间？</h2>
+      <p class="text-muted">
+        心率区间可以理解为：在不同训练强度下，你的心率通常会落在不同范围里。
+        很多跑步、自行车和有氧训练计划会用心率区间来区分热身、轻松有氧、节奏训练和高强度训练。
+      </p>
+
+      <h2 class="h6 mt-4">这个工具怎么计算？</h2>
+      <p class="text-muted">
+        如果你只输入年龄，页面会先用 “220 - 年龄” 估算最大心率，再按百分比分成不同训练区间。
+        如果你还输入了静息心率，则会改用储备心率法（Karvonen），通常更适合个体参考。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">不同区间通常代表什么？</h2>
+      <p class="text-muted">
+        一般来说，较低区间更适合热身、恢复和轻松有氧，较高区间更接近阈值训练、间歇训练和冲刺训练。
+        区间本身并不是“越高越好”，而是要看你当次训练的目标是什么。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">Zone 1：恢复、热身、低压力活动</li>
+          <li class="mb-2">Zone 2：轻松有氧、耐力基础</li>
+          <li class="mb-2">Zone 3：中等强度、较稳定输出</li>
+          <li class="mb-2">Zone 4：阈值附近、较高训练压力</li>
+          <li class="mb-0">Zone 5：高强度、短时间冲刺</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候这个工具最有用？</h2>
+      <p class="text-muted">
+        如果你开始跑步、有氧训练、骑车，或者想更系统地理解训练强度，这个工具会很有帮助。
+        它能把“我运动时心率多少”变成更容易理解的训练区间，而不是只看一个孤立数字。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你想继续把训练和整体活动量结合起来看，可以继续使用
+        <a href="/running-pace">跑步配速计算器</a>、
+        <a href="/running-kcal">跑步消耗计算器</a>、
+        <a href="/activity-level">活动量等级计算器</a>
+        和 <a href="/steps">步数转热量</a>。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/running-pace">跑步配速计算器</a>：从心率进一步看跑步节奏</li>
+        <li><a href="/running-kcal">跑步消耗计算器</a>：结合训练强度理解热量消耗</li>
+        <li><a href="/activity-level">活动量等级计算器</a>：从整体活动习惯看训练背景</li>
+        <li><a href="/steps">步数转热量</a>：把日常活动量一起纳入参考</li>
+        <li><a href="/steps-time">步数转步行时间计算器</a>：补充低强度活动时长判断</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：把训练纳入整体热量规划</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">220 - 年龄一定准确吗？</h3>
+      <p class="text-muted">
+        不一定。它只是一个非常常见的简化估算公式，个体差异可能比较大。
+        这个页面更适合作为训练区间的起点，而不是精密检测结果。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">静息心率为什么会让结果更个体化？</h3>
+      <p class="text-muted">
+        因为储备心率法会把你的静息状态一起考虑进去，通常能比单纯最大心率百分比法更贴近个人情况。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">高心率区间是不是燃脂更快？</h3>
+      <p class="text-muted">
+        训练强度越高，单位时间消耗通常会更大，但并不代表所有训练都应该追求高区间。
+        真正有用的是训练目标、可恢复性和长期坚持，而不是一味追求更高心率。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议或专业训练建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

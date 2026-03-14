@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">易孕期计算器</h1>
+      <p class="text-muted mb-3">
+        输入末次月经开始日期和平均周期长度，预测排卵日、易孕期范围，以及相对更高受孕概率的日期窗口。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">末次月经开始日期</label>
+          <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">平均周期长度（天）</label>
+          <input name="cycle_length" class="form-control" inputmode="numeric" required value="{{ cycle_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算易孕期</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前周期天数</div>
+          <div class="display-5 fw-semibold mb-0">第 {{ result.current_cycle_day }} 天</div>
+        </div>
+        <div class="text-muted small">{{ result.status }}</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        当前状态：<b>{{ result.status }}</b><br>
+        预计排卵日：<b>{{ result.ovulation_day }}</b><br>
+        易孕期范围：<b>{{ result.fertile_start }}</b> ～ <b>{{ result.fertile_end }}</b>
+      </div>
+
+      <div class="small text-muted">
+        当前结果基于平均周期进行简化推算，更适合做周期与备孕时间参考，不代表精确医学判断。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">重点日期参考</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">本周期开始：<b>{{ result.cycle_start }}</b></li>
+          <li class="mb-2">本周期结束：<b>{{ result.cycle_end }}</b></li>
+          <li class="mb-2">预计排卵日：<b>{{ result.ovulation_day }}</b></li>
+          <li class="mb-2">易孕期范围：<b>{{ result.fertile_start }}</b> ～ <b>{{ result.fertile_end }}</b></li>
+          <li class="mb-2">较高受孕概率窗口：<b>{{ result.peak_start }}</b> ～ <b>{{ result.peak_end }}</b></li>
+          <li class="mb-0">下次月经预计开始：<b>{{ result.next_period_start }}</b></li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入末次月经开始日期和平均周期长度后，即可查看排卵日、易孕期和较高受孕概率日期参考。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">易孕期计算器在算什么？</h2>
+      <p class="text-muted">
+        这个工具会根据末次月经开始日期和平均周期长度，估算你当前周期中的排卵日、易孕期范围，
+        以及相对更高受孕概率的几天窗口，帮助你更好地理解备孕时间安排。
+      </p>
+
+      <h2 class="h6 mt-4">为什么“排卵日附近”更重要？</h2>
+      <p class="text-muted">
+        因为受孕概率通常会在排卵日前几天到排卵日附近更高。这个页面会把易孕期显示得更宽一些，
+        同时额外标出一个更值得重点关注的日期窗口，方便做更直观的时间参考。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具怎么估算易孕期？</h2>
+      <p class="text-muted">
+        页面采用的是简化周期模型：通常会先估算“下次月经来之前大约 14 天”为排卵日，
+        再把排卵日前 5 天到排卵后 1 天左右作为易孕期范围。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">怎么理解页面里的几个日期？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">预计排卵日：通常是周期里最关键的参考点</li>
+          <li class="mb-2">易孕期范围：适合做更宽一点的时间安排</li>
+          <li class="mb-2">较高受孕概率窗口：适合做更重点的参考</li>
+          <li class="mb-0">下次月经预计开始：帮助理解整个周期结构</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候这个工具比较有用？</h2>
+      <p class="text-muted">
+        如果你正在备孕，或者想更清楚地理解自己周期里哪些日期更接近排卵和受孕高概率窗口，
+        这个工具会比只看下次月经时间更有帮助。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你想先理解整个周期节奏，可以继续看 <a href="/period-calculator">月经周期计算器</a>；
+        如果你想更聚焦排卵相关时间，也可以继续看 <a href="/ovulation">排卵期计算器</a>；
+        如果你已经怀孕并想进一步了解时间线，可以继续看
+        <a href="/conception-date">受孕日期推算器</a>、
+        <a href="/pregnancy-week">怀孕周数计算器</a> 和
+        <a href="/pregnancy-due-date">预产期计算器</a>。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/period-calculator">月经周期计算器</a>：先看整体周期，再进一步看易孕期</li>
+        <li><a href="/ovulation">排卵期计算器</a>：更聚焦排卵日和易孕期范围</li>
+        <li><a href="/safe-days-calculator">安全期计算器</a>：从相反角度理解周期中的不同阶段</li>
+        <li><a href="/conception-date">受孕日期推算器</a>：从易孕期继续理解受孕时间</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：如果已怀孕，可继续查看孕周</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：了解预计生产时间</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果一定准确吗？</h3>
+      <p class="text-muted">
+        不一定。很多人的周期并不完全固定，排卵时间也可能前后波动，所以结果更适合作为备孕和周期记录参考。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么显示的是“较高受孕概率窗口”，不是某一天？</h3>
+      <p class="text-muted">
+        因为受孕概率通常不是只集中在某一个点，而是围绕排卵日前后形成一个更值得关注的时间范围。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">周期不规律还能用吗？</h3>
+      <p class="text-muted">
+        可以看，但参考价值会下降。周期越不规律，这类基于平均周期的推算误差通常越大。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供一般周期与备孕时间参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

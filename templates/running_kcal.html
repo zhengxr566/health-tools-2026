@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">跑步消耗计算器（跑步 30 分钟大概消耗多少热量）</h1>
+      <p class="text-muted mb-3">
+        输入体重、跑步时间和大致速度，快速估算跑步消耗的热量。适合作为减脂、体能训练和日常活动管理的参考。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例如 60">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">跑步时间（分钟）</label>
+          <input name="minutes" class="form-control" inputmode="decimal" required value="{{ minutes_in }}" placeholder="例如 30">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">跑步强度</label>
+          <select name="pace" class="form-select">
+            <option value="easy" {% if pace_in == 'easy' %}selected{% endif %}>轻松跑</option>
+            <option value="normal" {% if pace_in == 'normal' %}selected{% endif %}>常见配速</option>
+            <option value="fast" {% if pace_in == 'fast' %}selected{% endif %}>较快跑</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算跑步消耗</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="text-muted small mb-1">估算结果</div>
+      <div class="h3 mb-2">{{ result.kcal }} kcal</div>
+      <div class="text-muted small mb-3">{{ result.label }}</div>
+
+      <div class="alert alert-info mb-3">
+        按 <b>{{ result.label }}</b> 估算，你这次跑步大约消耗：<b>{{ result.kcal }} kcal</b>
+      </div>
+
+      <div class="small text-muted mb-2">活动强度参考</div>
+      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+
+      <div class="bg-light rounded-3 p-3 mb-3">
+        <div class="fw-semibold mb-1">估算依据</div>
+        <div class="small text-muted">MET 参考值：{{ result.met }}</div>
+      </div>
+
+      <div class="small text-muted">
+        这个结果适合作为训练和热量管理参考，不代表手表、跑步机或实验室测试的精确能量消耗。
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入体重、跑步时间和跑步强度后，即可查看这次跑步大概消耗多少热量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">跑步 30 分钟大概能消耗多少热量？</h2>
+      <p class="text-muted">
+        这是很多人在减脂、体重管理和跑步训练时最常问的问题之一。答案并不是固定数字，因为同样跑 30 分钟，
+        体重不同、速度不同、强度不同，热量消耗也会不一样。
+      </p>
+
+      <p class="text-muted mb-0">
+        所以，跑步消耗计算器的意义就在于：把“今天跑了多久”进一步换成“今天大概消耗了多少热量”，让活动量更直观。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        热量消耗（kcal） = MET × 体重（kg）× 运动时间（小时）
+      </div>
+
+      <p class="text-muted mb-2">本工具使用的站内简化 MET 参考：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">轻松跑：8.3</li>
+        <li class="mb-2">常见配速：9.8</li>
+        <li class="mb-0">较快跑：11.0</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这种算法的优点是简单直观，适合作为工具站估算模型，帮助你快速理解不同体重和跑步时间下的大致消耗。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么同样跑 30 分钟，有人消耗更多？</h2>
+      <p class="text-muted">
+        因为热量消耗不只看时间，还和体重、跑步速度、运动强度有关。一般来说，体重更高、跑得更快、持续时间更长，
+        粗略估算出的热量消耗通常也会更高。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">时间决定你运动了多久</li>
+          <li class="mb-2">体重决定单位时间的大致消耗水平</li>
+          <li class="mb-2">速度和强度决定你是在轻松跑还是更高负荷</li>
+          <li class="mb-0">三者一起看，比只盯着“30分钟”更有意义</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">跑步消耗和减脂有什么关系？</h2>
+      <p class="text-muted">
+        对很多人来说，跑步的价值不只是“消耗热量”本身，更重要的是它能帮助你把活动量提升得更明确。真正的减脂效果，
+        通常还是要放回到总热量、日常饮食和长期执行习惯里一起看。
+      </p>
+
+      <h2 class="h6 mt-4">相关活动工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/running-pace">跑步配速计算器</a>：结合配速和时间更容易理解训练节奏</li>
+        <li><a href="/heart-rate-zone">心率区间计算器</a>：结合心率区间更容易理解训练强度</li>
+        <li><a href="/steps">步数转热量</a>：看步行类活动的日常消耗</li>
+        <li><a href="/step-goal">每日步数目标计算器</a>：把活动量目标落到每天步数</li>
+        <li><a href="/activity-level">活动量等级计算器</a>：看你整体更接近久坐、轻度还是中度活动</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：先看日常总消耗框架</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：把跑步和减脂计划接起来</li>
+        <li><a href="/goal-time">目标体重所需时间</a>：把活动量和目标周期结合起来看</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果和手表不一样正常吗？</h3>
+      <p class="text-muted">
+        正常。手表、跑步机和运动平台通常会综合心率、速度变化、地形等数据，而本工具是简化估算模型。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">跑步时间越长，热量消耗一定线性增加吗？</h3>
+      <p class="text-muted">
+        在简化估算里通常近似按时间增加，但真实情况还会受到速度波动、疲劳和环境影响。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和训练安排吗？</h3>
+      <p class="text-muted">
+        很适合。因为它能把“今天跑了一会儿”转成更具体的热量消耗参考，方便连接到整体计划。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -2276,7 +2276,6 @@ def privacy():
     )
     return render_template("privacy.html", meta=meta)
 
-
 @app.get("/contact")
 def contact():
     meta = meta_for(
@@ -2284,7 +2283,14 @@ def contact():
         "联系页面：反馈建议、Bug 报告与合作咨询。",
         "/contact",
     )
-    return render_template("contact.html", meta=meta)
+
+    contact_email = "hello@calmyhealth.com"  # 这里换成你的邮箱
+
+    return render_template(
+        "contact.html",
+        meta=meta,
+        contact_email=contact_email
+    )
 # -----------------------
 # Tool: BMI
 # -----------------------

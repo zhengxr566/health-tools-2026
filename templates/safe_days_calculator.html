@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">安全期计算器</h1>
+      <p class="text-muted mb-3">
+        输入末次月经开始日期、平均周期长度和经期时长，估算周期中的相对低受孕概率日期、预计排卵日和易孕期范围。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">末次月经开始日期</label>
+          <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">平均周期长度（天）</label>
+          <input name="cycle_length" class="form-control" inputmode="numeric" required value="{{ cycle_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">平均经期时长（天）</label>
+          <input name="period_length" class="form-control" inputmode="numeric" required value="{{ period_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算安全期参考</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前周期天数</div>
+          <div class="display-5 fw-semibold mb-0">第 {{ result.current_cycle_day }} 天</div>
+        </div>
+        <div class="text-muted small">{{ result.current_status }}</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        当前状态：<b>{{ result.current_status }}</b><br>
+        预计排卵日：<b>{{ result.estimated_ovulation }}</b><br>
+        易孕期范围：<b>{{ result.fertile_start }}</b> ～ <b>{{ result.fertile_end }}</b>
+      </div>
+
+      <div class="small text-muted">
+        当前结果按平均周期进行简化推算，更适合做日常周期记录参考，不适合作为高可靠避孕依据。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">相对低受孕概率日期参考</div>
+        <ul class="small text-muted mb-0 ps-3">
+          {% if result.safe_early %}
+          <li class="mb-2">
+            周期前段参考：<b>{{ result.safe_early.start }}</b> ～ <b>{{ result.safe_early.end }}</b>
+          </li>
+          {% endif %}
+
+          {% if result.safe_late %}
+          <li class="mb-2">
+            周期后段参考：<b>{{ result.safe_late.start }}</b> ～ <b>{{ result.safe_late.end }}</b>
+          </li>
+          {% endif %}
+
+          <li class="mb-2">本周期开始：<b>{{ result.cycle_start }}</b></li>
+          <li class="mb-2">本周期结束：<b>{{ result.cycle_end }}</b></li>
+          <li class="mb-0">本次经期预计结束：<b>{{ result.period_end }}</b></li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入末次月经开始日期、平均周期长度和经期时长后，即可查看周期中的相对低受孕概率日期、排卵日和易孕期参考。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">这个工具在算什么？</h2>
+      <p class="text-muted">
+        这个工具会根据你输入的末次月经开始日期、平均周期长度和经期时长，
+        估算当前周期、预计排卵日、易孕期，以及周期中相对低受孕概率的日期范围。
+      </p>
+
+      <h2 class="h6 mt-4">为什么这里只写“参考”，不写“准确避孕”？</h2>
+      <p class="text-muted">
+        因为周期会受到压力、睡眠、体重变化、运动量和健康状态影响，很多人的排卵时间并不固定。
+        所以“安全期”更适合作为一般周期理解和时间预期参考，而不应被理解为高可靠避孕方法。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">安全期一般怎么估算？</h2>
+      <p class="text-muted">
+        在简化规则里，排卵通常被估算为“下次月经来之前大约 14 天”，易孕期通常被看作排卵日前 5 天到排卵后 1 天左右。
+        在这个范围之外的日期，有时会被称为“相对安全期”或“相对低受孕概率日期”。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">怎么理解这个页面更合适？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">适合做周期记录和日常理解</li>
+          <li class="mb-2">适合和排卵期、月经周期工具一起看</li>
+          <li class="mb-2">不适合当成精确医学判断</li>
+          <li class="mb-0">不应替代专业避孕建议或医疗建议</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候这个工具比较有用？</h2>
+      <p class="text-muted">
+        如果你想更整体地理解自己的周期节奏，而不只是看下次月经什么时候来，这个工具会比较有帮助。
+        它也适合作为进入排卵期、受孕日期和预产期等页面前的上游参考页面。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你更关注周期整体时间，可以继续看 <a href="/period-calculator">月经周期计算器</a>；
+        如果你更关注排卵和易孕期，可以继续看 <a href="/ovulation">排卵期计算器</a>；
+        如果已经怀孕或在备孕阶段，也可以继续看
+        <a href="/conception-date">受孕日期推算器</a>、
+        <a href="/pregnancy-week">怀孕周数计算器</a> 和
+        <a href="/pregnancy-due-date">预产期计算器</a>。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/fertility-calculator">易孕期计算器</a>：从相反角度理解周期中更值得关注的时间窗口</li>
+        <li><a href="/period-calculator">月经周期计算器</a>：先看整体周期，再理解安全期参考</li>
+        <li><a href="/ovulation">排卵期计算器</a>：更聚焦排卵日和易孕期</li>
+        <li><a href="/conception-date">受孕日期推算器</a>：从周期进一步理解受孕时间</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：如果已怀孕，可继续看孕周</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：了解预计生产时间</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">安全期是不是绝对安全？</h3>
+      <p class="text-muted">
+        不是。周期和排卵时间可能波动，所以这个页面只能作为一般周期参考，不能视为高可靠避孕依据。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">周期不规律还能用吗？</h3>
+      <p class="text-muted">
+        可以看，但结果的参考价值会下降。周期越不规律，这类估算通常误差越大。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么页面里还会显示易孕期？</h3>
+      <p class="text-muted">
+        因为“安全期”的定义本质上就是相对于易孕期而言。先理解易孕期在哪里，才能理解周期中哪些日期只是相对更低风险。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供一般周期参考，不构成医疗建议，也不构成避孕建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

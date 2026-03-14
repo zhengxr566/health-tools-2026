@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">糖摄入计算器</h1>
+      <p class="text-muted mb-3">
+        根据常见含糖来源的份数，粗略估算你一天大概吃了多少糖，并判断整体是否偏高。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">含糖饮料（份）</label>
+          <input name="sugary_drinks" class="form-control" inputmode="numeric" required value="{{ sugary_drinks_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">甜点（份）</label>
+          <input name="desserts" class="form-control" inputmode="numeric" required value="{{ desserts_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">甜味零食（份）</label>
+          <input name="sweet_snacks" class="form-control" inputmode="numeric" required value="{{ sweet_snacks_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">甜味酱料/糖浆（份）</label>
+          <input name="sweet_sauces" class="form-control" inputmode="numeric" required value="{{ sweet_sauces_in }}">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">加糖咖啡 / 奶茶 / 甜茶（份）</label>
+          <input name="sweet_coffee_tea" class="form-control" inputmode="numeric" required value="{{ sweet_coffee_tea_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算糖摄入</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">估算糖摄入总量</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.total_sugar_g }}</div>
+        </div>
+        <div class="text-muted small">g / 天</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        估算糖摄入约 <b>{{ result.total_sugar_g }}</b> g / 天<br>
+        热量约 <b>{{ result.total_sugar_kcal }}</b> kcal<br>
+        提示：<b>{{ result.level }}</b>
+      </div>
+
+      <div class="small text-muted">
+        {{ result.note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">结果说明</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">估算糖摄入：<b>{{ result.total_sugar_g }}</b> g</li>
+          <li class="mb-2">估算热量：<b>{{ result.total_sugar_kcal }}</b> kcal</li>
+          <li class="mb-0">{{ result.rule_text }}</li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入常见含糖来源的份数后，即可查看你一天大概吃了多少糖，以及整体是否偏高。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">这个工具在算什么？</h2>
+      <p class="text-muted">
+        这个工具会根据你一天里常见的含糖来源，例如含糖饮料、甜点、甜味零食、甜味酱料和加糖咖啡茶，
+        粗略估算你大概摄入了多少糖。
+      </p>
+
+      <h2 class="h6 mt-4">为什么很多人会低估糖摄入？</h2>
+      <p class="text-muted">
+        因为糖不一定只来自“明显很甜”的食物。饮料、咖啡配料、奶茶、调味酱、加工零食和甜点，
+        很容易在不知不觉中把总糖摄入拉高。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个结果能完全等于真实摄入吗？</h2>
+      <p class="text-muted">
+        不能。不同品牌、不同份量和不同做法的含糖量差异会很大，所以这个页面更适合做“日常快速估算”，
+        帮你判断自己整体是不是已经偏高，而不是替代精确营养标签统计。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">这个页面更适合怎么用？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">快速判断自己是不是糖吃得偏多</li>
+          <li class="mb-2">对比不同饮食日的糖摄入差异</li>
+          <li class="mb-2">结合热量和膳食结构一起做调整</li>
+          <li class="mb-0">帮助发现“糖主要来自哪里”</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果结果提示偏高，通常最先值得检查的是饮料和甜味零食，而不是只盯着正餐。
+        你也可以继续使用 <a href="/fiber">膳食纤维计算器</a>、
+        <a href="/salt">盐摄入估算器</a>、
+        <a href="/macro">宏量营养素计算器</a> 和
+        <a href="/calorie">每日热量需求 TDEE</a>，把糖摄入放回整体饮食结构里看。
+      </p>
+
+      <h2 class="h6 mt-4">如果想控制糖摄入，先改什么最有效？</h2>
+      <p class="text-muted">
+        对很多人来说，先减少含糖饮料、奶茶、甜咖啡和高糖零食，通常比一开始去纠结所有主食更容易见效。
+        因为这些来源更集中，也更容易在不知不觉中累积很多糖。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/glycemic-load">GI/GL 估算器</a>：从糖摄入进一步理解食物的血糖负荷参考</li>
+        <li><a href="/fiber">膳食纤维计算器</a>：从另一面理解日常饮食质量</li>
+        <li><a href="/caffeine-intake">咖啡因摄入计算器</a>：一起检查奶茶、甜咖啡和能量饮料的另一面</li>
+        <li><a href="/salt">盐摄入估算器</a>：一起检查加工食品和外食习惯</li>
+        <li><a href="/macro">宏量营养素计算器</a>：把糖摄入放回整体碳水结构里理解</li>
+        <li><a href="/carbs">碳水化合物需求计算器</a>：区分总碳水和糖的概念</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：把糖热量放进整体热量管理</li>
+        <li><a href="/meal-split">餐次分配计算器</a>：帮助调整一天的进食结构</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">糖和碳水是同一个东西吗？</h3>
+      <p class="text-muted">
+        不是。糖可以看作碳水的一部分，但碳水化合物不只包括糖，还包括淀粉和膳食纤维等。
+        所以“总碳水”和“糖摄入”不能简单画等号。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">不喝奶茶是不是糖就不会高？</h3>
+      <p class="text-muted">
+        不一定。甜点、零食、加糖咖啡、甜味酸奶、酱料和加工食品，也可能贡献很多糖。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合天天用吗？</h3>
+      <p class="text-muted">
+        适合做快速记录和趋势观察。多数人不需要每天精确计算，但可以偶尔用它检查自己最近是不是甜的吃多了。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供一般饮食参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

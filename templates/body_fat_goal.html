@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">体脂目标时间计算器</h1>
+      <p class="text-muted mb-3">
+        输入当前体重、当前体脂率、目标体脂率和每日热量缺口，估算达到目标体脂率大概需要多久。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">当前体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">当前体脂率（%）</label>
+          <input name="bodyfat_pct" class="form-control" inputmode="decimal" required value="{{ bodyfat_pct_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">目标体脂率（%）</label>
+          <input name="target_bodyfat_pct" class="form-control" inputmode="decimal" required value="{{ target_bodyfat_pct_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">每日热量缺口（kcal）</label>
+          <input name="daily_deficit_kcal" class="form-control" inputmode="decimal" required value="{{ daily_deficit_kcal_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算目标时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">预计需要时间</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.weeks_needed }}</div>
+        </div>
+        <div class="text-muted small">周</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        约 <b>{{ result.days_needed }}</b> 天 / <b>{{ result.weeks_needed }}</b> 周 / <b>{{ result.months_needed }}</b> 个月<br>
+        节奏：<b>{{ result.pace_label }}</b>
+      </div>
+
+      <div class="small text-muted">
+        {{ result.pace_note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">结果拆解</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">当前去脂体重：<b>{{ result.lean_mass }} kg</b></li>
+          <li class="mb-2">当前脂肪重量：<b>{{ result.current_fat_mass }} kg</b></li>
+          <li class="mb-2">目标体重大约：<b>{{ result.target_weight }} kg</b></li>
+          <li class="mb-2">目标脂肪重量：<b>{{ result.target_fat_mass }} kg</b></li>
+          <li class="mb-2">预计需减少总重量：<b>{{ result.fat_to_lose }} kg</b></li>
+          <li class="mb-2">预计需减少脂肪：<b>{{ result.fat_mass_to_lose }} kg</b></li>
+          <li class="mb-0">按当前缺口估算：每周约下降 <b>{{ result.weekly_loss_kg }} kg</b></li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入当前体重、当前体脂率、目标体脂率和每日热量缺口后，即可估算达到目标体脂率所需时间。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">这个工具在算什么？</h2>
+      <p class="text-muted">
+        这个工具会先根据你当前的体重和体脂率估算出“去脂体重”，再假设减脂过程中大体能把去脂体重维持住，
+        进而反推出当你达到目标体脂率时，大概会是多少体重，以及大概需要多久。
+      </p>
+
+      <h2 class="h6 mt-4">为什么体脂目标时间比目标体重更有参考价值？</h2>
+      <p class="text-muted">
+        很多人减脂时会只盯着体重，但体重并不能区分脂肪、肌肉和水分。
+        目标体脂率更接近“体型改善”的真实方向，所以很多时候比单纯设定目标体重更有意义。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个估算为什么只是参考？</h2>
+      <p class="text-muted">
+        实际减脂过程中，体重变化并不会完全线性。饮食执行度、活动量、睡眠、蛋白质摄入和训练安排，
+        都会影响脂肪减少速度。这个页面更适合帮你建立一个“时间预期”，而不是预测精确日期。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">通常影响结果的因素</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">热量缺口是否能长期坚持</li>
+          <li class="mb-2">蛋白质摄入是否足够</li>
+          <li class="mb-2">是否进行力量训练帮助保留肌肉</li>
+          <li class="mb-0">水分和短期体重波动会不会干扰判断</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你还不确定每日热量缺口应该设多少，可以先用 <a href="/calorie">TDEE 计算器</a> 估算总消耗，
+        再用 <a href="/deficit">热量缺口 / 目标热量</a> 设定更实际的计划。
+        如果你还没有当前体脂率，也可以先使用 <a href="/bodyfat">体脂率计算器</a> 进行站内估算。
+      </p>
+
+      <h2 class="h6 mt-4">怎样提高保肌减脂的概率？</h2>
+      <p class="text-muted">
+        很多人在减脂时最担心的不是慢，而是把肌肉也减掉。通常更建议结合
+        <a href="/protein">蛋白质需求</a>、<a href="/macro">宏量营养素计算器</a>，
+        并配合规律力量训练，而不是一味把热量缺口拉得很大。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/bodyfat">体脂率计算（US Navy）</a>：先估算当前体脂率</li>
+        <li><a href="/ffmi">FFMI 计算器</a>：从去脂体重角度理解体型</li>
+        <li><a href="/bmi">BMI 计算器</a>：补充基础体重筛查信息</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：先估算总消耗</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：从热量到行动</li>
+        <li><a href="/protein">蛋白质需求</a>：减脂期更值得关注</li>
+        <li><a href="/macro">宏量营养素计算器</a>：合理分配饮食结构</li>
+        <li><a href="/steps">步数转热量</a>：提高日常活动量</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个工具默认我能一直保住肌肉吗？</h3>
+      <p class="text-muted">
+        这个工具采用的是“去脂体重大致维持”的简化估算，所以更适合作为目标预期参考。
+        现实中如果热量缺口过大、蛋白质不足或训练安排不合理，去脂体重也可能下降。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">每日热量缺口越大越好吗？</h3>
+      <p class="text-muted">
+        不一定。缺口越大，纸面上速度越快，但可持续性、饥饿感、恢复状态和保肌难度也会更差。
+        对多数人来说，温和但能坚持的节奏通常更有用。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么体重下降速度和体脂下降速度不完全一样？</h3>
+      <p class="text-muted">
+        因为体重里不只有脂肪，还包括肌肉、水分和糖原波动。减脂过程中，体重只是表面数字，
+        体脂率、腰围和长期趋势通常更值得一起看。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

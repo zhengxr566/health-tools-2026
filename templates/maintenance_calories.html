@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">维持体重热量计算器</h1>
+      <p class="text-muted mb-3">
+        输入性别、年龄、身高、体重和活动水平，估算你每天大概需要多少热量来维持当前体重。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">性别</label>
+          <select name="sex" class="form-select" required>
+            <option value="male" {% if sex_in == "male" %}selected{% endif %}>男性</option>
+            <option value="female" {% if sex_in == "female" %}selected{% endif %}>女性</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">年龄</label>
+          <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">活动水平</label>
+          <select name="activity" class="form-select" required>
+            <option value="1.2" {% if activity_in == "1.2" %}selected{% endif %}>久坐 / 很少运动（1.2）</option>
+            <option value="1.375" {% if activity_in == "1.375" %}selected{% endif %}>轻度活动（1.375）</option>
+            <option value="1.55" {% if activity_in == "1.55" %}selected{% endif %}>中度活动（1.55）</option>
+            <option value="1.725" {% if activity_in == "1.725" %}selected{% endif %}>较高活动（1.725）</option>
+            <option value="1.9" {% if activity_in == "1.9" %}selected{% endif %}>高活动量（1.9）</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算维持热量</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">你的维持体重热量</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.maintenance_kcal }}</div>
+        </div>
+        <div class="text-muted small">kcal / 天</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        维持热量约 <b>{{ result.maintenance_kcal }}</b> kcal / 天<br>
+        活动水平：<b>{{ result.activity_label }}</b>
+      </div>
+
+      <div class="small text-muted">
+        这表示在当前体重、身高、年龄和活动水平下，你每天大概需要摄入的热量，用来维持当前体重不明显变化。
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">进一步规划参考</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">基础代谢率 BMR：<b>{{ result.bmr }}</b> kcal / 天</li>
+          <li class="mb-2">轻度减脂热量：<b>{{ result.mild_cut }}</b> kcal / 天</li>
+          <li class="mb-2">常见减脂热量：<b>{{ result.moderate_cut }}</b> kcal / 天</li>
+          <li class="mb-0">温和增肌热量：<b>{{ result.mild_gain }}</b> kcal / 天</li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入基础信息后，即可查看你每天大概需要多少热量来维持当前体重。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">什么是维持体重热量？</h2>
+      <p class="text-muted">
+        维持体重热量可以理解为：在你当前的身高、体重、年龄和活动水平下，
+        每天大概需要摄入多少热量，才能让体重整体保持相对稳定，不明显上升也不明显下降。
+      </p>
+
+      <h2 class="h6 mt-4">维持体重热量和 TDEE 有什么关系？</h2>
+      <p class="text-muted">
+        大多数情况下，维持体重热量和 <a href="/calorie">TDEE（每日总能量消耗）</a> 基本可以看作同一个概念。
+        只是很多用户搜索时会更直接用“维持体重热量”这个说法，所以单独做一页更容易匹配搜索意图。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么算出来的热量不是固定不变？</h2>
+      <p class="text-muted">
+        因为你的维持热量会随着活动量、训练安排、体重变化、作息和饮食执行情况而波动。
+        所以这个结果更适合当作一个“起点”，然后再根据 2–4 周的体重趋势做微调。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">通常怎么理解这个结果？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">如果长期吃得明显低于它，体重大概率会下降。</li>
+          <li class="mb-2">如果长期吃得接近它，体重大概率会维持。</li>
+          <li class="mb-2">如果长期吃得高于它，体重大概率会上升。</li>
+          <li class="mb-0">真正有用的是长期平均，而不是单日数字。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你的目标是减脂，可以从维持热量往下减，进一步使用
+        <a href="/deficit">热量缺口 / 目标热量</a> 估算更合适的减脂热量；
+        如果你的目标是维持体重但优化体型，也建议结合
+        <a href="/protein">蛋白质需求</a> 和 <a href="/macro">宏量营养素计算器</a> 一起看。
+      </p>
+
+      <h2 class="h6 mt-4">什么时候应该重新计算？</h2>
+      <p class="text-muted">
+        当你的体重、训练频率或活动水平明显变化时，维持热量也会随之变化。
+        例如减掉几公斤、开始规律健身，或者工作状态从久坐变成高活动，都值得重新估算一次。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/calorie">每日热量需求 TDEE</a>：和维持热量本质接近的核心工具</li>
+        <li><a href="/deficit">热量缺口 / 目标热量</a>：从维持热量继续走向减脂或增肌目标</li>
+        <li><a href="/body-fat-goal">体脂目标时间计算器</a>：把热量规划换成更直观的时间预期</li>
+        <li><a href="/protein">蛋白质需求</a>：更适合减脂 / 保肌 / 增肌人群参考</li>
+        <li><a href="/macro">宏量营养素计算器</a>：把总热量分配到蛋白质、碳水和脂肪</li>
+        <li><a href="/bmr">基础代谢率 BMR</a>：理解静息状态下的能量消耗</li>
+        <li><a href="/activity-level">活动量等级计算器</a>：辅助判断活动水平</li>
+        <li><a href="/steps">步数转热量</a>：提高日常活动量时更直观</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">维持热量和基础代谢率一样吗？</h3>
+      <p class="text-muted">
+        不一样。基础代谢率 <a href="/bmr">BMR</a> 是你在静息状态下的最低能量消耗，
+        而维持热量会把你日常活动、运动和整体生活方式考虑进去，通常会更高。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么我吃到这个热量，体重还是会波动？</h3>
+      <p class="text-muted">
+        体重短期波动很常见，水分、盐分、糖原、训练和睡眠都会影响称重结果。
+        所以判断热量是否合适，更建议看 2–4 周的平均趋势，而不是单日数字。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂一定要比维持热量低 500 kcal 吗？</h3>
+      <p class="text-muted">
+        不一定。500 kcal 只是常见参考，不同人的可持续性不同。
+        对很多人来说，温和一些但更能坚持的缺口反而更有效。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

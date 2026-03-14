@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">咖啡因摄入计算器</h1>
+      <p class="text-muted mb-3">
+        根据咖啡、浓缩咖啡、茶、能量饮料和可乐的份数，粗略估算你一天大概摄入了多少咖啡因。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">现煮咖啡（杯）</label>
+          <input name="brewed_coffee" class="form-control" inputmode="numeric" required value="{{ brewed_coffee_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">浓缩咖啡（shot）</label>
+          <input name="espresso_shots" class="form-control" inputmode="numeric" required value="{{ espresso_shots_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">茶（杯）</label>
+          <input name="tea_cups" class="form-control" inputmode="numeric" required value="{{ tea_cups_in }}">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">能量饮料（罐）</label>
+          <input name="energy_drinks" class="form-control" inputmode="numeric" required value="{{ energy_drinks_in }}">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">可乐（罐）</label>
+          <input name="cola_cans" class="form-control" inputmode="numeric" required value="{{ cola_cans_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算咖啡因摄入</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">估算咖啡因总量</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.total_mg }}</div>
+        </div>
+        <div class="text-muted small">mg / 天</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        估算咖啡因摄入约 <b>{{ result.total_mg }}</b> mg / 天<br>
+        提示：<b>{{ result.level }}</b>
+      </div>
+
+      <div class="small text-muted">
+        {{ result.note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">结果说明</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">估算咖啡因摄入：<b>{{ result.total_mg }}</b> mg</li>
+          <li class="mb-0">{{ result.rule_text }}</li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入常见咖啡因来源的份数后，即可查看你一天大概摄入了多少咖啡因，以及整体是否偏高。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">这个工具在算什么？</h2>
+      <p class="text-muted">
+        这个工具会根据你一天里常见的咖啡因来源，例如咖啡、浓缩咖啡、茶、能量饮料和可乐，
+        粗略估算你大概摄入了多少咖啡因。
+      </p>
+
+      <h2 class="h6 mt-4">为什么很多人会低估咖啡因摄入？</h2>
+      <p class="text-muted">
+        因为咖啡因不只来自“黑咖啡”。奶茶、能量饮料、加糖咖啡、可乐和某些茶饮，
+        也可能在不知不觉中贡献不少咖啡因。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个结果能完全等于真实摄入吗？</h2>
+      <p class="text-muted">
+        不能。不同品牌、烘焙方式、冲泡浓度和杯量差异都会影响真实咖啡因含量。
+        所以这个页面更适合做“日常快速估算”，帮你判断整体是不是偏高。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">这个页面更适合怎么用？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">快速判断自己是不是喝得偏多</li>
+          <li class="mb-2">对比工作日和周末的摄入差异</li>
+          <li class="mb-2">结合摄入时间理解对睡眠的影响</li>
+          <li class="mb-0">帮助发现咖啡因主要来自哪里</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果结果提示偏高，通常最值得先调整的是下午和晚上的咖啡、奶茶和能量饮料摄入。
+        你也可以继续使用 <a href="/caffeine-cutoff">咖啡因截止时间计算器</a>、
+        <a href="/sleep-efficiency">睡眠效率计算器</a>、
+        <a href="/sleep-need">睡眠需求计算器</a> 和
+        <a href="/sleep-debt">睡眠债计算器</a>，把咖啡因放回整体睡眠和恢复里理解。
+      </p>
+
+      <h2 class="h6 mt-4">如果想减少咖啡因，先改什么最有效？</h2>
+      <p class="text-muted">
+        对很多人来说，先减少下午后的咖啡因摄入，比一开始完全戒掉更容易执行。
+        例如把晚间奶茶换成无咖啡因饮料，或者把第二杯咖啡提前到中午前。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/caffeine-cutoff">咖啡因截止时间计算器</a>：继续看今晚最晚几点别再摄入咖啡因</li>
+        <li><a href="/sleep-efficiency">睡眠效率计算器</a>：看咖啡因是否可能影响睡眠质量</li>
+        <li><a href="/sleep-need">睡眠需求计算器</a>：理解睡眠目标时长</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：看长期睡眠不足的累积影响</li>
+        <li><a href="/sugar-intake">糖摄入计算器</a>：检查奶茶、甜咖啡等饮品的另一面</li>
+        <li><a href="/water">每日饮水量</a>：调整饮料习惯时可一起参考补水</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">茶里的咖啡因也算吗？</h3>
+      <p class="text-muted">
+        算。很多茶饮也含有咖啡因，只是通常比同体积咖啡更低一些，但喝得多时也会累计。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">不喝黑咖啡是不是就不会高？</h3>
+      <p class="text-muted">
+        不一定。能量饮料、奶茶、甜咖啡、浓缩饮品和某些功能饮料，也可能贡献不少咖啡因。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合天天用吗？</h3>
+      <p class="text-muted">
+        适合做快速记录和趋势观察。多数人不需要每天精确统计，但可以偶尔用它检查最近是不是喝得有点多。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供一般饮食和生活方式参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

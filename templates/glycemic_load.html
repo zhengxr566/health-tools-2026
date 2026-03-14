@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">GI/GL 估算器</h1>
+      <p class="text-muted mb-3">
+        输入食物的 GI、总碳水和膳食纤维，估算这份食物的血糖负荷（GL），帮助更直观地理解“升糖快不快”和“实际影响大不大”。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">GI 数值</label>
+          <input name="gi" class="form-control" inputmode="decimal" required value="{{ gi_in }}" placeholder="例如 65">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">总碳水（g）</label>
+          <input name="carbs_g" class="form-control" inputmode="decimal" required value="{{ carbs_in }}" placeholder="例如 30">
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label">膳食纤维（g）</label>
+          <input name="fiber_g" class="form-control" inputmode="decimal" required value="{{ fiber_in }}" placeholder="例如 5">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算 GI / GL</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">估算血糖负荷</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.gl }}</div>
+        </div>
+        <div class="text-muted small">GL</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        GI：<b>{{ result.gi }}</b>（{{ result.gi_level }}）<br>
+        GL：<b>{{ result.gl }}</b>（{{ result.gl_level }}）
+      </div>
+
+      <div class="small text-muted">
+        {{ result.note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">结果拆解</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">总碳水：<b>{{ result.carbs_g }}</b> g</li>
+          <li class="mb-2">膳食纤维：<b>{{ result.fiber_g }}</b> g</li>
+          <li class="mb-2">可利用碳水：<b>{{ result.available_carbs_g }}</b> g</li>
+          <li class="mb-0">{{ result.rule_text }}</li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入 GI、总碳水和膳食纤维后，即可查看这份食物的大致血糖负荷 GL 参考。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">GI 和 GL 有什么区别？</h2>
+      <p class="text-muted">
+        GI（升糖指数）更像是在看“这类碳水升糖速度快不快”，而 GL（血糖负荷）更接近“这份食物实际会带来多大负荷”。
+        所以 GI 偏高不一定代表这份食物的实际影响一定大，还要看你到底吃了多少可利用碳水。
+      </p>
+
+      <h2 class="h6 mt-4">为什么 GL 往往更实用？</h2>
+      <p class="text-muted">
+        因为很多食物虽然 GI 不低，但如果份量不大，或者膳食纤维较多，实际血糖负荷未必很高。
+        对日常饮食来说，GL 通常比只看 GI 更接近真实吃进去后的整体影响。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具在算什么？</h2>
+      <p class="text-muted">
+        这个工具先根据你输入的总碳水和膳食纤维，估算“可利用碳水”，再结合 GI 得出 GL。
+        这样你看到的不只是食物“升糖快不快”，还包括“这份量的实际负荷有多大”。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">怎么理解结果更合适？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">GI 低：通常升糖速度更慢</li>
+          <li class="mb-2">GL 低：这份食物整体血糖负荷更小</li>
+          <li class="mb-2">GL 高：通常说明 GI、份量或可利用碳水偏高</li>
+          <li class="mb-0">最终仍要结合总热量、纤维和整体饮食结构一起看</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候这个工具最有用？</h2>
+      <p class="text-muted">
+        如果你正在关注控糖、饮食质量、餐后波动，或者只是想更清楚地理解“碳水质量”，这个工具会很有帮助。
+        它特别适合和 <a href="/sugar-intake">糖摄入计算器</a>、<a href="/fiber">膳食纤维计算器</a>、
+        <a href="/carbs">碳水化合物需求计算器</a> 一起看。
+      </p>
+
+      <h2 class="h6 mt-4">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你想进一步优化饮食质量，可以先检查糖摄入和纤维摄入，
+        再看这份食物是不是份量太大、精制碳水偏多，或者搭配方式不够均衡。
+        很多时候，比起只纠结某个 GI 数字，更重要的是整餐结构。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sugar-intake">糖摄入计算器</a>：一起理解甜味来源和整体饮食质量</li>
+        <li><a href="/fiber">膳食纤维计算器</a>：纤维通常会影响可利用碳水和饱腹感</li>
+        <li><a href="/carbs">碳水化合物需求计算器</a>：把食物质量放回总碳水目标里看</li>
+        <li><a href="/macro">宏量营养素计算器</a>：把 GL 放回整体饮食结构里理解</li>
+        <li><a href="/meal-split">餐次分配计算器</a>：从整天饮食安排角度看碳水摄入</li>
+        <li><a href="/sugar-intake">糖摄入计算器</a>：补充日常甜饮和甜点的摄入判断</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">低 GI 就一定更好吗？</h3>
+      <p class="text-muted">
+        不一定。GI 只是一个维度，还要看份量、总热量、可利用碳水、纤维和整餐搭配。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">GI 高就一定不能吃吗？</h3>
+      <p class="text-muted">
+        不一定。很多时候关键不只是食物本身，而是份量和整餐结构。GI 高但吃得少，GL 未必就高。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合做精确医疗判断吗？</h3>
+      <p class="text-muted">
+        不适合。它更适合作为饮食质量和食物选择的日常参考，不构成医疗建议。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供一般饮食参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

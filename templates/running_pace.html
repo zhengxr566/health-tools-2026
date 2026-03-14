@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">跑步配速计算器</h1>
+      <p class="text-muted mb-3">
+        输入跑步距离和完成时间，计算每公里配速、平均速度，并估算常见比赛距离的大概完赛时间。
+      </p>
+
+      <form id="tool-form" method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">跑步距离（km）</label>
+          <input name="distance_km" class="form-control" inputmode="decimal" required value="{{ distance_km_in }}">
+        </div>
+
+        <div class="col-4">
+          <label class="form-label">小时</label>
+          <input name="hours" class="form-control" inputmode="numeric" required value="{{ hours_in }}">
+        </div>
+
+        <div class="col-4">
+          <label class="form-label">分钟</label>
+          <input name="minutes" class="form-control" inputmode="numeric" required value="{{ minutes_in }}">
+        </div>
+
+        <div class="col-4">
+          <label class="form-label">秒</label>
+          <input name="seconds" class="form-control" inputmode="numeric" required value="{{ seconds_in }}">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算跑步配速</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">你的每公里配速</div>
+          <div class="display-5 fw-semibold mb-0">{{ result.pace_text }}</div>
+        </div>
+        <div class="text-muted small">Pace</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        平均配速：<b>{{ result.pace_text }}</b><br>
+        平均速度：<b>{{ result.speed_kmh }}</b> km/h<br>
+        提示：<b>{{ result.level }}</b>
+      </div>
+
+      <div class="small text-muted">
+        {{ result.note }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">预计完赛时间</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">3 公里：<b>{{ result.projections["3k"] }}</b></li>
+          <li class="mb-2">5 公里：<b>{{ result.projections["5k"] }}</b></li>
+          <li class="mb-2">10 公里：<b>{{ result.projections["10k"] }}</b></li>
+          <li class="mb-2">半程马拉松：<b>{{ result.projections["half_marathon"] }}</b></li>
+          <li class="mb-0">全程马拉松：<b>{{ result.projections["marathon"] }}</b></li>
+        </ul>
+      </div>
+
+      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入距离和完成时间后，即可查看每公里配速、平均速度，以及不同距离的大概完赛时间。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">跑步配速是什么意思？</h2>
+      <p class="text-muted">
+        跑步配速通常指“每公里需要多长时间”，比如 6'00"/km 表示跑 1 公里大约需要 6 分钟。
+        相比只看总时间，配速更容易帮助你理解自己的跑步节奏，也更方便做训练和比赛规划。
+      </p>
+
+      <h2 class="h6 mt-4">配速和速度有什么区别？</h2>
+      <p class="text-muted">
+        速度一般用 km/h 表示，而配速更常用“分钟 / 公里”表示。对于大多数跑者来说，
+        配速通常更直观，因为训练计划、比赛目标和日常交流里更常说“配速多少”，而不是“速度多少”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">跑步配速怎么计算？</h2>
+      <p class="text-muted">
+        逻辑很简单：
+      </p>
+      <p class="text-muted mb-2">
+        <b>配速 = 总时间 ÷ 总距离</b>
+      </p>
+      <p class="text-muted">
+        例如，你跑 5 公里用了 30 分钟，那么每公里大约需要 6 分钟，也就是 6'00"/km。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">这个工具适合用来做什么？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">看自己当前大概属于什么配速水平</li>
+          <li class="mb-2">估算 5K、10K、半马、全马的大概完赛时间</li>
+          <li class="mb-2">把“跑了多久”转换成更直观的节奏数据</li>
+          <li class="mb-0">为后续训练计划设定更明确目标</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">下一步怎么做？</h2>
+      <p class="text-muted">
+        如果你更关心跑步时的热量消耗，可以继续看
+        <a href="/running-kcal">跑步消耗计算器</a>；
+        如果你想把步数和日常活动量一起纳入判断，也可以结合
+        <a href="/steps-time">步数转步行时间</a>、
+        <a href="/steps-distance">步数转距离</a> 和
+        <a href="/activity-level">活动量等级计算器</a> 一起看。
+      </p>
+
+      <h2 class="h6 mt-4">为什么比赛配速和日常慢跑配速会差很多？</h2>
+      <p class="text-muted">
+        因为不同跑步目标对应的配速本来就不同。恢复跑、轻松跑、节奏跑和比赛配速通常不会一样。
+        所以看配速时，更重要的是把它放回具体训练目的里理解，而不是单独比较数字。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/running-kcal">跑步消耗计算器</a>：看配速之外的热量消耗</li>
+        <li><a href="/steps-time">步数转步行时间计算器</a>：把活动量换成更直观的时间</li>
+        <li><a href="/steps-distance">步数转距离计算器</a>：理解步数和距离之间的关系</li>
+        <li><a href="/heart-rate-zone">心率区间计算器</a>：把跑步节奏进一步延伸到训练强度判断</li>
+        <li><a href="/activity-level">活动量等级计算器</a>：从整体活动习惯看运动水平</li>
+        <li><a href="/step-goal">每日步数目标计算器</a>：从配速走向日常行动目标</li>
+        <li><a href="/calorie">每日热量需求 TDEE</a>：把跑步训练纳入整体热量规划</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">配速越快越好吗？</h3>
+      <p class="text-muted">
+        不一定。更快的配速并不自动等于更好的训练效果。对大多数人来说，配速是否合适，要看训练目标、
+        当前水平、恢复情况和是否能长期坚持。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">为什么预计完赛时间只是参考？</h3>
+      <p class="text-muted">
+        因为更长距离的比赛并不一定能完全按同样配速稳定跑完。补给、体能储备、训练背景和配速策略，
+        都会影响真实比赛表现。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个工具适合新手吗？</h3>
+      <p class="text-muted">
+        适合。它最大的价值之一，就是把“我跑了多久”转换成更容易理解的配速数字，让你更容易观察训练趋势。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        免责声明：本页面与计算结果仅供参考，不构成医疗建议或专业训练建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
