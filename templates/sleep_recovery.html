@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">补觉时间计算器（睡不够后大概要补多久）</h1>
+      <p class="text-muted mb-3">
+        输入累计睡眠债和你计划每天额外补觉的时长，估算大概需要多少天来慢慢恢复（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">累计睡眠债（小时）</label>
+          <input name="debt_hours" class="form-control" inputmode="decimal" required value="{{ debt_in }}" placeholder="例如 6">
+          <div class="form-text">
+            不知道睡眠债？先用 <a href="/sleep-debt">睡眠债计算器</a> 算一下。
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">计划每天额外补觉（小时）</label>
+          <input name="recovery_hours" class="form-control" inputmode="decimal" required value="{{ recovery_in }}" placeholder="例如 1">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算补觉时间</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">预计恢复时间</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.days_needed }} 天</div>
+        </div>
+        <div class="text-muted small">{{ result.level }}</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        按你计划的补觉节奏，大约需要：<b>{{ result.days_needed }} 天</b><br>
+        才能把当前睡眠债慢慢补回来。
+      </div>
+
+      <div class="small text-muted mb-2">恢复节奏示意</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+      <div class="small text-muted">{{ result.level }}</div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.5rem;">🌙</div>
+            <div class="small text-muted mt-1">当前睡眠债</div>
+            <div class="fw-semibold mt-1">{{ debt_in }} 小时</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.5rem;">⏰</div>
+            <div class="small text-muted mt-1">每天补觉</div>
+            <div class="fw-semibold mt-1">{{ recovery_in }} 小时</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.5rem;">📅</div>
+            <div class="small text-muted mt-1">预计天数</div>
+            <div class="fw-semibold mt-1">{{ result.days_needed }} 天</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这只是一个简化估算，帮助你把“欠下的睡眠”转成更直观的恢复天数。</li>
+          <li class="mb-2">补觉并不总是完全线性生效，所以这个数字更适合做计划参考。</li>
+          <li class="mb-2">比起某一天猛补很多，通常更稳的是连续几天逐步调整。</li>
+          <li class="mb-0">建议结合 <a href="/sleep-debt">睡眠债计算器</a> 和 <a href="/sleep">睡眠周期计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入累计睡眠债和计划每天额外补觉的时长后，即可估算恢复所需天数。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">补觉时间怎么算？</h2>
+      <p class="text-muted">
+        补觉时间计算器的思路很简单：先看你当前大概欠了多少睡眠，再看你准备每天额外补多少，
+        然后估算需要几天才能慢慢恢复到相对更好的状态。
+      </p>
+
+      <h2 class="h6 mt-4">这个工具的计算公式</h2>
+      <div class="bg-light rounded-3 p-3 small">
+        预计恢复天数 = 累计睡眠债 ÷ 每天额外补觉时长
+      </div>
+      <p class="text-muted mt-3 mb-0">
+        例如，如果你当前睡眠债约 6 小时，而你计划每天多睡 1 小时，那么大约需要 6 天作为参考恢复时间。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">补觉真的能把睡眠债完全补回来吗？</h2>
+      <p class="text-muted">
+        现实通常没有这么机械。这个工具更适合做“恢复节奏估算”，而不是把睡眠当成可以严格记账的项目。
+        对很多人来说，真正更重要的是重新回到更稳定的作息，而不是只靠周末猛补。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先知道大概需要几天</li>
+          <li class="mb-2">再决定是每天早睡一点，还是适当晚起</li>
+          <li class="mb-2">避免一次补太多，反而打乱下一晚作息</li>
+          <li class="mb-0">补觉和规律睡眠通常要一起看</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">什么时候更适合用这个工具？</h2>
+      <p class="text-muted">
+        适合最近连续熬夜、加班、考试、出差后，想知道自己大概需要多长时间恢复的人。
+        它也适合和睡眠债计算器配合使用，把“少睡了多少”进一步转成“接下来怎么补”。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep-debt">睡眠债计算器</a>：先看最近到底少睡了多少</li>
+        <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
+        <li><a href="/water">每日饮水量</a>：补水和作息一起管理生活习惯</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">补觉一天睡很久是不是最快？</h3>
+      <p class="text-muted">
+        不一定。对很多人来说，连续几天慢慢调整会比某一天突然睡很久更稳定。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能保证我一定恢复吗？</h3>
+      <p class="text-muted">
+        不能。它只是一个简化估算，用来帮助你做计划，而不是保证结果。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">补觉时间和睡眠质量有什么关系？</h3>
+      <p class="text-muted">
+        补觉主要关注“时长恢复”，但真正的精神状态还会受到睡眠质量、作息规律和压力等因素影响。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

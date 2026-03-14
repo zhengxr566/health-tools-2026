@@ -92,9 +92,13 @@ CATEGORY_META = {
                 "name": "运动消耗",
                 "description": "步数与能量消耗",
             },
-            "sleep_habit": {
-                "name": "作息与睡眠",
-                "description": "睡眠周期与习惯",
+            "sleep_time": {
+                "name": "睡眠时间",
+                "description": "入睡、起床、时长与午睡",
+            },
+            "sleep_quality": {
+                "name": "睡眠质量",
+                "description": "睡眠债、补觉、效率与作息",
             },
         },
     },
@@ -220,9 +224,39 @@ TOOLS = [
         "path": "/sleep",
         "desc": "90 分钟周期时间点",
         "category": "activity",
-        "subgroup": "sleep_habit",
+        "subgroup": "sleep_time",
         "featured": False,
     },
+    {
+        "endpoint": "sleep_debt",
+        "name": "睡眠债计算器",
+        "path": "/sleep-debt",
+        "desc": "估算一周累计少睡了多少小时",
+        "category": "activity",
+        "subgroup": "sleep_time",
+        "featured": True,
+    },
+
+    {
+        "endpoint": "sleep_recovery",
+        "name": "补觉时间计算器",
+        "path": "/sleep-recovery",
+        "desc": "估算睡眠不足后大概要补多久",
+        "category": "activity",
+        "subgroup": "sleep_habit",
+        "featured": True,
+    },
+
+    {
+        "endpoint": "sleep_duration",
+        "name": "睡眠时长计算器",
+        "path": "/sleep-duration",
+        "desc": "计算从几点睡到几点起一共睡了多久",
+        "category": "activity",
+        "subgroup": "sleep_habit",
+        "featured": True,
+    },
+
     {
         "endpoint": "pregnancy_due_date",
         "name": "预产期计算器",
@@ -239,7 +273,7 @@ TOOLS = [
         "desc": "计算当前孕周、孕期阶段与预产期",
         "category": "pregnancy",
         "subgroup": "pregnancy_basic",
-        "featured": True,
+        "featured": False,
     },
     {
         "endpoint": "ovulation",
@@ -248,7 +282,7 @@ TOOLS = [
         "desc": "预测排卵日与易孕期",
         "category": "pregnancy",
         "subgroup": "pregnancy_basic",
-        "featured": True,
+        "featured": False,
     },
     {
         "endpoint": "conception_date",
@@ -257,7 +291,7 @@ TOOLS = [
         "desc": "推算宝宝可能受孕时间",
         "category": "pregnancy",
         "subgroup": "pregnancy_basic",
-        "featured": True,
+        "featured": False,
     },
     {
         "endpoint": "pregnancy_weight",
@@ -266,17 +300,9 @@ TOOLS = [
         "desc": "根据BMI计算孕期体重增长范围",
         "category": "pregnancy",
         "subgroup": "pregnancy_health",
-        "featured": True,
-    },
-    {
-        "endpoint": "pregnancy_bmi",
-        "name": "孕期BMI计算器",
-        "path": "/pregnancy-bmi",
-        "desc": "查看怀孕期间BMI变化",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
         "featured": False,
     },
+
     {
         "endpoint": "pregnancy_calorie",
         "name": "孕期热量需求计算器",
@@ -286,15 +312,7 @@ TOOLS = [
         "subgroup": "pregnancy_health",
         "featured": False,
     },
-    {
-        "endpoint": "pregnancy_water",
-        "name": "孕期饮水量计算器",
-        "path": "/pregnancy-water",
-        "desc": "根据体重估算孕期每日饮水量",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": False,
-    },
+
     {
         "endpoint": "pregnancy_protein",
         "name": "孕期蛋白质需求计算器",
@@ -312,16 +330,6 @@ TOOLS = [
         "category": "pregnancy",
         "subgroup": "pregnancy_health",
         "featured": True,
-    },
-
-    {
-        "endpoint": "pregnancy_protein",
-        "name": "孕期蛋白质需求计算器",
-        "path": "/pregnancy-protein",
-        "desc": "估算怀孕后每天蛋白质该吃多少",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": False,
     },
 
     {
@@ -916,6 +924,133 @@ def sitemap():
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
 
+
+
+def sleep_debt_info(actual_hours: float, target_hours: float, days: int) -> dict:
+    """
+    Estimate cumulative sleep debt.
+    debt = max(0, target - actual) * days
+    """
+    if actual_hours <= 0 or actual_hours > 24:
+        raise ValueError("请输入合理的实际睡眠时长。")
+    if target_hours <= 0 or target_hours > 24:
+        raise ValueError("请输入合理的目标睡眠时长。")
+    if days <= 0 or days > 31:
+        raise ValueError("请输入合理的统计天数。")
+
+    daily_gap = max(0.0, target_hours - actual_hours)
+    total_debt = daily_gap * days
+    completion = 0 if target_hours == 0 else round((actual_hours / target_hours) * 100)
+    completion = max(0, min(100, completion))
+
+    if daily_gap == 0:
+        level = "基本达标"
+    elif daily_gap < 1:
+        level = "轻度睡眠不足"
+    elif daily_gap < 2:
+        level = "中度睡眠不足"
+    else:
+        level = "明显睡眠不足"
+
+    return {
+        "daily_gap": round1(daily_gap),
+        "total_debt": round1(total_debt),
+        "completion": completion,
+        "level": level,
+    }
+
+def sleep_recovery_info(debt_hours: float, recovery_ratio: float) -> dict:
+    """
+    Estimate recovery sleep time.
+    recovery_ratio means how much extra sleep per day the user plans to add.
+
+    Example:
+    debt = 6 hours
+    recovery_ratio = 1.0 hour/day
+    -> about 6 days
+    """
+    if debt_hours < 0 or debt_hours > 200:
+        raise ValueError("请输入合理的睡眠债时长。")
+    if recovery_ratio <= 0 or recovery_ratio > 8:
+        raise ValueError("请输入合理的每日补觉时长。")
+
+    if debt_hours == 0:
+        days_needed = 0.0
+    else:
+        days_needed = debt_hours / recovery_ratio
+
+    if debt_hours == 0:
+        level = "无需额外补觉"
+    elif days_needed <= 3:
+        level = "短期可调整"
+    elif days_needed <= 7:
+        level = "需要一周内逐步恢复"
+    else:
+        level = "建议优先调整整体作息"
+
+    progress = 100 if debt_hours == 0 else max(5, min(100, round((recovery_ratio / max(debt_hours, 1)) * 100 * 2)))
+
+    return {
+        "days_needed": round1(days_needed),
+        "level": level,
+        "progress": progress,
+    }
+
+def sleep_duration_info(bed_hm: str, wake_hm: str, target_hours: float = 8.0) -> dict:
+    """
+    Calculate sleep duration from bedtime to wake time.
+    Supports crossing midnight.
+
+    bed_hm / wake_hm format: HH:MM
+    """
+    def parse_hm(s: str) -> tuple[int, int]:
+        s = s.strip()
+        if ":" not in s:
+            raise ValueError("请输入正确时间格式，例如 23:30。")
+        hh, mm = s.split(":", 1)
+        h = int(hh)
+        m = int(mm)
+        if h < 0 or h > 23 or m < 0 or m > 59:
+            raise ValueError("请输入正确时间。")
+        return h, m
+
+    bed_h, bed_m = parse_hm(bed_hm)
+    wake_h, wake_m = parse_hm(wake_hm)
+
+    bed_total = bed_h * 60 + bed_m
+    wake_total = wake_h * 60 + wake_m
+
+    if wake_total <= bed_total:
+        wake_total += 24 * 60  # cross midnight
+
+    duration_min = wake_total - bed_total
+    hours = duration_min // 60
+    minutes = duration_min % 60
+    duration_hours = duration_min / 60.0
+
+    gap = round1(duration_hours - target_hours)
+    completion = max(0, min(100, round(duration_hours / target_hours * 100)))
+
+    if duration_hours < 6:
+        level = "睡眠偏少"
+    elif duration_hours < 7:
+        level = "略少"
+    elif duration_hours <= 9:
+        level = "较常见范围"
+    else:
+        level = "偏长"
+
+    return {
+        "hours": int(hours),
+        "minutes": int(minutes),
+        "duration_hours": round1(duration_hours),
+        "gap": gap,
+        "completion": completion,
+        "level": level,
+        "bed_hm": bed_hm,
+        "wake_hm": wake_hm,
+        "target_hours": target_hours,
+    }
 
 # -----------------------
 # Pages
@@ -1628,6 +1763,121 @@ def sleep():
         times=times,
     )
 
+
+
+@app.route("/sleep-debt", methods=["GET", "POST"])
+def sleep_debt():
+    error = None
+    actual_in = "6.5"
+    target_in = "8"
+    days_in = "7"
+    result = None
+
+    if request.method == "POST":
+        actual_in = request.form.get("actual_hours", "6.5").strip()
+        target_in = request.form.get("target_hours", "8").strip()
+        days_in = request.form.get("days", "7").strip()
+
+        try:
+            actual_hours = float(actual_in)
+            target_hours = float(target_in)
+            days = int(days_in)
+
+            result = sleep_debt_info(actual_hours, target_hours, days)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "睡眠债计算器（这一周你到底欠了多少睡眠）- CalmyHealth",
+        "description": "输入平均实际睡眠时长、目标睡眠时长和统计天数，估算累计睡眠债，并附结果说明、公式解释和相关睡眠工具推荐。",
+        "canonical": canonical_url("/sleep-debt"),
+    }
+
+    return render_template(
+        "sleep_debt.html",
+        meta=meta,
+        error=error,
+        actual_in=actual_in,
+        target_in=target_in,
+        days_in=days_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/sleep-recovery", methods=["GET", "POST"])
+def sleep_recovery():
+    error = None
+    debt_in = "6"
+    recovery_in = "1"
+    result = None
+
+    if request.method == "POST":
+        debt_in = request.form.get("debt_hours", "6").strip()
+        recovery_in = request.form.get("recovery_hours", "1").strip()
+
+        try:
+            debt_hours = float(debt_in)
+            recovery_hours = float(recovery_in)
+            result = sleep_recovery_info(debt_hours, recovery_hours)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "补觉时间计算器（睡不够后大概要补多久）- CalmyHealth",
+        "description": "输入累计睡眠债和你计划每天额外补觉的时长，估算大概需要多少天恢复，并附结果说明、公式解释和相关睡眠工具推荐。",
+        "canonical": canonical_url("/sleep-recovery"),
+    }
+
+    return render_template(
+        "sleep_recovery.html",
+        meta=meta,
+        error=error,
+        debt_in=debt_in,
+        recovery_in=recovery_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/sleep-duration", methods=["GET", "POST"])
+def sleep_duration():
+    error = None
+    bed_in = "23:30"
+    wake_in = "07:00"
+    target_in = "8"
+    result = None
+
+    if request.method == "POST":
+        bed_in = request.form.get("bed_hm", "23:30").strip()
+        wake_in = request.form.get("wake_hm", "07:00").strip()
+        target_in = request.form.get("target_hours", "8").strip()
+
+        try:
+            target_hours = float(target_in)
+            if target_hours <= 0 or target_hours > 24:
+                raise ValueError("请输入合理的目标睡眠时长。")
+
+            result = sleep_duration_info(bed_in, wake_in, target_hours)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "睡眠时长计算器（从几点睡到几点起一共睡了多久）- CalmyHealth",
+        "description": "输入入睡时间、起床时间和目标睡眠时长，计算总睡眠时间、和目标的差距，并附时间轴展示、公式说明与相关睡眠工具推荐。",
+        "canonical": canonical_url("/sleep-duration"),
+    }
+
+    return render_template(
+        "sleep_duration.html",
+        meta=meta,
+        error=error,
+        bed_in=bed_in,
+        wake_in=wake_in,
+        target_in=target_in,
+        result=result,
+        page_kind="tool",
+    )
 
 # -----------------------
 # Tool: Body Fat

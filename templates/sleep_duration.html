@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">睡眠时长计算器（从几点睡到几点起一共睡了多久）</h1>
+      <p class="text-muted mb-3">
+        输入入睡时间、起床时间和目标睡眠时长，快速计算你这一觉一共睡了多久（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">入睡时间（HH:MM）</label>
+          <input name="bed_hm" class="form-control" required value="{{ bed_in }}" placeholder="例如 23:30">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">起床时间（HH:MM）</label>
+          <input name="wake_hm" class="form-control" required value="{{ wake_in }}" placeholder="例如 07:00">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">目标睡眠时长（小时）</label>
+          <input name="target_hours" class="form-control" inputmode="decimal" required value="{{ target_in }}" placeholder="例如 8">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算睡眠时长</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">总睡眠时长</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.hours }} 小时 {{ result.minutes }} 分</div>
+        </div>
+        <div class="text-muted small">{{ result.level }}</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        你这一觉大约睡了：<b>{{ result.hours }} 小时 {{ result.minutes }} 分</b><br>
+        折合约：<b>{{ result.duration_hours }} 小时</b>
+      </div>
+
+      <div class="small text-muted mb-2">睡眠时间轴</div>
+      <div class="bg-light rounded-3 p-3">
+        <div class="position-relative" style="height: 16px; background:#e9ecef; border-radius:999px; overflow:hidden;">
+          <div style="position:absolute; left:12%; top:0; height:100%; width:54%; background:#cfe2ff;"></div>
+        </div>
+        <div class="d-flex justify-content-between small text-muted mt-2">
+          <span>入睡 {{ result.bed_hm }}</span>
+          <span>起床 {{ result.wake_hm }}</span>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="small text-muted mb-2">目标完成度</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.completion }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.completion }}%"></div>
+      </div>
+      <div class="small text-muted">
+        相对目标时长（{{ result.target_hours }} 小时）完成约 {{ result.completion }}%
+      </div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.5rem;">🌙</div>
+            <div class="small text-muted mt-1">入睡</div>
+            <div class="fw-semibold mt-1">{{ result.bed_hm }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.5rem;">⏰</div>
+            <div class="small text-muted mt-1">起床</div>
+            <div class="fw-semibold mt-1">{{ result.wake_hm }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="bg-light rounded-3 p-3 h-100 text-center">
+            <div style="font-size: 1.5rem;">🛏️</div>
+            <div class="small text-muted mt-1">结果</div>
+            <div class="fw-semibold mt-1">{{ result.duration_hours }} 小时</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么看这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这个结果反映的是从入睡到起床之间的总时长，不等于严格意义上的睡眠质量。</li>
+          <li class="mb-2">如果你半夜醒来很多次，实际恢复感可能和“总时长”不完全一致。</li>
+          <li class="mb-2">它更适合帮你先看“到底睡了多久”，再决定要不要调整作息。</li>
+          <li class="mb-0">建议结合 <a href="/sleep-debt">睡眠债计算器</a> 和 <a href="/sleep-recovery">补觉时间计算器</a> 一起看。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入入睡时间、起床时间和目标睡眠时长后，即可查看这一觉一共睡了多久。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">睡眠时长怎么算？</h2>
+      <p class="text-muted">
+        睡眠时长计算器的核心逻辑很简单：用起床时间减去入睡时间，就能得到大致睡了多久。
+        如果入睡时间在前一天晚上，而起床时间在第二天早上，那么就要按跨天来计算。
+      </p>
+
+      <h2 class="h6 mt-4">这个工具的计算公式</h2>
+      <div class="bg-light rounded-3 p-3 small">
+        睡眠时长 = 起床时间 − 入睡时间
+      </div>
+
+      <p class="text-muted mt-3 mb-0">
+        例如：23:30 入睡，07:00 起床，那么总时长大约是 7 小时 30 分。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么这个工具有用？</h2>
+      <p class="text-muted">
+        很多人会觉得“我好像睡了挺久”，但真的一算才发现并没有达到自己预期的时长。
+        睡眠时长计算器的价值就在于把这种模糊印象变成明确数字。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">适合哪些场景？</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">想快速确认昨晚到底睡了多久</li>
+          <li class="mb-2">想看距离目标睡眠时长还差多少</li>
+          <li class="mb-2">想配合睡眠债工具一起看长期趋势</li>
+          <li class="mb-0">想比较不同作息安排的差别</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">睡得久就一定睡得好吗？</h2>
+      <p class="text-muted">
+        不一定。睡眠时长和睡眠质量并不是同一个概念。这个页面主要解决的是“你睡了多久”，而不是完整评估睡眠质量。
+        但很多时候，先把时长看清楚，就是调整作息的第一步。
+      </p>
+
+      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/sleep">睡眠周期计算器</a>：推算更舒服的入睡 / 起床时间</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：查看最近累计少睡了多少</li>
+        <li><a href="/sleep-recovery">补觉时间计算器</a>：估算大概需要多久恢复</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">跨过半夜怎么算？</h3>
+      <p class="text-muted">
+        本工具会自动按跨天处理，所以 23:30 到 07:00 会正确算成第二天起床。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果包含半夜醒来的时间吗？</h3>
+      <p class="text-muted">
+        默认不区分。它看的是“上床睡到起床”的总时间，不会单独扣掉夜间清醒时间。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能代表睡眠质量吗？</h3>
+      <p class="text-muted">
+        不能完全代表。它更适合先看总时长，再配合其他工具判断是否需要调整。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
