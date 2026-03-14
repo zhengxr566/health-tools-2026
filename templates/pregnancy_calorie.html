@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">孕期热量需求计算器（不同孕期每天该吃多少热量）</h1>
+      <p class="text-muted mb-3">
+        输入你平时的基础每日热量，并选择孕期阶段，估算孕期每天建议摄入热量（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">基础每日热量（kcal/天）</label>
+          <input name="base_kcal" class="form-control" inputmode="decimal" required value="{{ base_kcal_in }}" placeholder="例如 1900">
+          <div class="form-text">
+            可以用你平时的日常热量目标，或先参考 <a href="/calorie">TDEE 计算器</a>。
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">孕期阶段</label>
+          <select name="trimester" class="form-select">
+            <option value="first" {% if trimester_in == 'first' %}selected{% endif %}>孕早期（1–12 周）</option>
+            <option value="second" {% if trimester_in == 'second' %}selected{% endif %}>孕中期（13–27 周）</option>
+            <option value="third" {% if trimester_in == 'third' %}selected{% endif %}>孕晚期（28–40 周）</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算孕期热量需求</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card result-pop">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前阶段</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.label }}</div>
+        </div>
+        <div class="text-muted small">热量建议</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        建议每日热量：<b>{{ result.target }} kcal/天</b><br>
+        相比基础热量增加：<b>{{ result.extra }} kcal/天</b>
+      </div>
+
+      <div class="small text-muted mb-2">孕期热量阶段示意</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+      <div class="small text-muted">
+        当前所选阶段：{{ result.label }}
+      </div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">基础热量</div>
+            <div class="fw-semibold mt-1">{{ base_kcal_in }} kcal/天</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">阶段增加量</div>
+            <div class="fw-semibold mt-1">+ {{ result.extra }} kcal/天</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这个结果更适合做“孕期热量起点参考”，不是绝对固定标准。</li>
+          <li class="mb-2">真正的热量需求还会受到活动量、孕前体重、孕期体重变化和医生建议影响。</li>
+          <li class="mb-2">孕早期通常不强调明显加热量，孕中晚期需求往往更高。</li>
+          <li class="mb-0">建议结合 <a href="/pregnancy-weight">孕期体重增长计算器</a> 一起看整体趋势。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入基础每日热量并选择孕期阶段后，即可查看孕期建议热量。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">孕期每天要多吃多少热量？</h2>
+      <p class="text-muted">
+        常见权威建议是：孕早期通常不需要额外增加热量，孕中期大约增加 340 kcal/天，孕晚期大约增加 450 kcal/天。
+        这些数字是常见参考值，用来帮助理解不同阶段能量需求会逐步提高。:contentReference[oaicite:1]{index=1}
+      </p>
+
+      <h2 class="h6 mt-4">为什么孕早期和孕晚期差别这么大？</h2>
+      <p class="text-muted">
+        因为随着孕周增加，胎儿生长、母体组织变化和整体代谢需求都会上升，所以孕中期和孕晚期通常需要比孕早期更多能量支持。:contentReference[oaicite:2]{index=2}
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具的计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small">
+        孕期建议热量 = 基础每日热量 + 孕期阶段增加量
+      </div>
+
+      <p class="text-muted mt-3 mb-2">常见阶段增加量参考：</p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">孕早期：+ 0 kcal/天</li>
+        <li class="mb-2">孕中期：+ 340 kcal/天</li>
+        <li class="mb-0">孕晚期：+ 450 kcal/天</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        这些加热量建议来自常见孕期营养指导，用于做一般估算参考。:contentReference[oaicite:3]{index=3}
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">是不是怀孕就一定要“吃两个人的量”？</h2>
+      <p class="text-muted">
+        不是。权威孕期营养建议通常并不支持“从一开始就吃两倍”，而是更强调营养质量、均衡饮食，以及在不同孕期阶段做适度增加。NHS 也明确指出，怀孕并不意味着需要“为两个人吃”。:contentReference[oaicite:4]{index=4}
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">更实用的理解方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先保证基础饮食结构合理</li>
+          <li class="mb-2">再根据孕期阶段适度增加热量</li>
+          <li class="mb-2">不要只盯着“吃多少”，也要关注“吃什么”</li>
+          <li class="mb-0">把体重变化、孕周和医生建议一起看会更稳妥</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        适合作为孕期饮食计划的第一步。你可以先估算一个大致热量目标，再结合孕期体重增长、蛋白质需求、饮水和孕周阶段一起看，形成更完整的孕期健康管理路径。
+      </p>
+
+      <h2 class="h6 mt-4">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/pregnancy-weight">孕期体重增长计算器</a>：看整体体重管理区间</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：确认当前处于哪个阶段</li>
+        <li><a href="/fetal-development">胎儿发育周数图</a>：结合孕周看发育进度</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：推算预计分娩日期</li>
+        <li><a href="/protein">蛋白质需求</a>：补充看日常营养安排</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能直接当饮食处方吗？</h3>
+      <p class="text-muted">
+        不能。它更适合作为一般参考起点，实际仍建议结合医生或营养专业人士建议。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">孕早期真的不需要额外热量吗？</h3>
+      <p class="text-muted">
+        常见指导通常认为孕早期一般不需要明显额外加热量，但个体情况会不同。:contentReference[oaicite:5]{index=5}
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">是不是热量越高越好？</h3>
+      <p class="text-muted">
+        不是。关键是合理、均衡并和孕期阶段匹配，而不是单纯追求吃得越多越好。:contentReference[oaicite:6]{index=6}
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .result-pop {
+    animation: resultPop 0.45s ease;
+  }
+
+  @keyframes resultPop {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+{% endblock %}

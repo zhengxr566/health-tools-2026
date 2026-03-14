@@ -100,11 +100,15 @@ CATEGORY_META = {
     },
     "pregnancy": {
         "name": "孕期工具",
-        "description": "预产期与孕周相关",
+        "description": "排卵、受孕、孕周、预产期与孕期健康管理",
         "children": {
             "pregnancy_basic": {
                 "name": "基础孕期",
-                "description": "预产期、孕周",
+                "description": "排卵期、受孕日期、孕周与预产期",
+            },
+            "pregnancy_health": {
+                "name": "孕期健康",
+                "description": "孕期体重、营养、热量与健康管理",
             },
         },
     },
@@ -261,7 +265,52 @@ TOOLS = [
         "path": "/pregnancy-weight",
         "desc": "根据BMI计算孕期体重增长范围",
         "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
+        "subgroup": "pregnancy_health",
+        "featured": True,
+    },
+    {
+        "endpoint": "pregnancy_bmi",
+        "name": "孕期BMI计算器",
+        "path": "/pregnancy-bmi",
+        "desc": "查看怀孕期间BMI变化",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": False,
+    },
+    {
+        "endpoint": "pregnancy_calorie",
+        "name": "孕期热量需求计算器",
+        "path": "/pregnancy-calorie",
+        "desc": "估算孕期每日热量需求",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": False,
+    },
+    {
+        "endpoint": "pregnancy_water",
+        "name": "孕期饮水量计算器",
+        "path": "/pregnancy-water",
+        "desc": "根据体重估算孕期每日饮水量",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": False,
+    },
+    {
+        "endpoint": "pregnancy_protein",
+        "name": "孕期蛋白质需求计算器",
+        "path": "/pregnancy-protein",
+        "desc": "估算孕期每日蛋白质摄入",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
+        "featured": False,
+    },
+    {
+        "endpoint": "fetal_development",
+        "name": "胎儿发育周数图",
+        "path": "/fetal-development",
+        "desc": "查看不同孕周的胎儿发育阶段与进度",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_health",
         "featured": True,
     },
 ]
@@ -643,6 +692,100 @@ def pregnancy_weight_gain(height_cm: float, weight_kg: float) -> dict:
         "low": low,
         "high": high
     }
+
+def fetal_development_data(week: int) -> dict:
+    """
+    Return simple fetal development milestones by pregnancy week.
+    Week should be 1-40.
+    """
+    if week < 1 or week > 40:
+        raise ValueError("请输入 1 到 40 之间的孕周。")
+
+    if week <= 4:
+        stage = "孕早期"
+        summary = "胚胎刚开始形成，受精卵着床，身体基础结构开始建立。"
+        size = "非常微小，约种子大小"
+    elif week <= 8:
+        stage = "孕早期"
+        summary = "神经系统、心脏和四肢开始发育，部分器官雏形逐步出现。"
+        size = "约蓝莓到覆盆子大小"
+    elif week <= 12:
+        stage = "孕早期"
+        summary = "进入较稳定阶段，面部轮廓、手指脚趾进一步清晰。"
+        size = "约青柠大小"
+    elif week <= 16:
+        stage = "孕中期"
+        summary = "骨骼进一步发育，胎儿活动开始增强，部分孕妇可能逐渐感受到变化。"
+        size = "约牛油果大小"
+    elif week <= 20:
+        stage = "孕中期"
+        summary = "听觉逐渐发育，肢体活动更明显，身体比例逐渐协调。"
+        size = "约香蕉大小"
+    elif week <= 24:
+        stage = "孕中期"
+        summary = "皮肤、肺部和神经系统持续发育，进入更关键的成长阶段。"
+        size = "约玉米或长茄子大小"
+    elif week <= 28:
+        stage = "孕晚期"
+        summary = "大脑快速发育，睡眠和活动节律逐渐形成。"
+        size = "约菜花大小"
+    elif week <= 32:
+        stage = "孕晚期"
+        summary = "脂肪逐渐堆积，身体开始为出生做准备。"
+        size = "约椰子大小"
+    elif week <= 36:
+        stage = "孕晚期"
+        summary = "器官更成熟，体重增长更快，胎位变化更值得关注。"
+        size = "约蜜瓜大小"
+    else:
+        stage = "孕晚期"
+        summary = "已接近足月，胎儿器官基本成熟，继续为分娩做准备。"
+        size = "接近新生儿体型"
+
+    progress = round(week / 40 * 100)
+
+    return {
+        "week": week,
+        "stage": stage,
+        "summary": summary,
+        "size": size,
+        "progress": progress,
+    }
+
+def pregnancy_calorie_need(base_kcal: float, trimester: str) -> dict:
+    """
+    Estimate daily calorie needs during pregnancy based on base daily calories.
+    Reference pattern:
+    - first trimester: +0 kcal
+    - second trimester: +340 kcal
+    - third trimester: +450 kcal
+    """
+    if trimester == "first":
+        extra = 0
+        label = "孕早期"
+    elif trimester == "second":
+        extra = 340
+        label = "孕中期"
+    elif trimester == "third":
+        extra = 450
+        label = "孕晚期"
+    else:
+        raise ValueError("孕期阶段选择不正确。")
+
+    target = round0(base_kcal + extra)
+
+    progress_map = {
+        "first": 20,
+        "second": 55,
+        "third": 85,
+    }
+
+    return {
+        "label": label,
+        "extra": extra,
+        "target": target,
+        "progress": progress_map[trimester],
+    }
 # -----------------------
 # SEO: robots + sitemap
 # -----------------------
@@ -951,6 +1094,74 @@ def pregnancy_weight():
         error=error,
         height_in=height_in,
         weight_in=weight_in,
+        page_kind="tool",
+    )
+
+@app.route("/fetal-development", methods=["GET", "POST"])
+def fetal_development():
+    error = None
+    week_in = ""
+    result = None
+
+    if request.method == "POST":
+        week_in = request.form.get("week", "").strip()
+
+        try:
+            week = int(week_in)
+            result = fetal_development_data(week)
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效的孕周。"
+
+    meta = {
+        "title": "胎儿发育周数图（孕周发育进度查询）- CalmyHealth",
+        "description": "输入孕周，查看胎儿发育阶段、40周进度和本周常见发育特点，并推荐相关孕期工具。",
+        "canonical": canonical_url("/fetal-development"),
+    }
+
+    return render_template(
+        "fetal_development.html",
+        meta=meta,
+        error=error,
+        week_in=week_in,
+        result=result,
+        page_kind="tool",
+    )
+
+@app.route("/pregnancy-calorie", methods=["GET", "POST"])
+def pregnancy_calorie():
+    error = None
+    base_kcal_in = ""
+    trimester_in = "first"
+    result = None
+
+    if request.method == "POST":
+        base_kcal_in = request.form.get("base_kcal", "").strip()
+        trimester_in = request.form.get("trimester", "first")
+
+        try:
+            base_kcal = float(base_kcal_in)
+
+            if base_kcal <= 0 or base_kcal > 10000:
+                raise ValueError("请输入合理的基础热量（kcal/天）。")
+
+            result = pregnancy_calorie_need(base_kcal, trimester_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "孕期热量需求计算器（不同孕期每天该吃多少热量）- CalmyHealth",
+        "description": "输入基础每日热量并选择孕期阶段，估算孕早期、孕中期、孕晚期每天建议摄入热量，并附公式说明、图表展示与相关孕期工具。",
+        "canonical": canonical_url("/pregnancy-calorie"),
+    }
+
+    return render_template(
+        "pregnancy_calorie.html",
+        meta=meta,
+        error=error,
+        base_kcal_in=base_kcal_in,
+        trimester_in=trimester_in,
+        result=result,
         page_kind="tool",
     )
 

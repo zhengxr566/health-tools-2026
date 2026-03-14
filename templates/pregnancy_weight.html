@@ -2,126 +2,222 @@
 {% block content %}
 
 <div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">孕期体重增长计算器</h1>
+      <p class="text-muted mb-3">
+        根据孕前身高和体重估算孕前 BMI，并给出整个孕期建议体重增长范围（仅供参考）。
+      </p>
 
-<div class="tool-col tool-col-form">
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">身高（cm）</label>
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_in }}">
+        </div>
 
-<div class="tool-card">
+        <div class="col-12">
+          <label class="form-label">孕前体重（kg）</label>
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_in }}">
+        </div>
 
-<h1 class="h4 mb-2">孕期体重增长计算器</h1>
+        <div class="col-12">
+          <button class="btn btn-success w-100">计算体重增长范围</button>
+        </div>
+      </form>
 
-<p class="text-muted">
-根据孕前BMI估算整个孕期建议的体重增长范围。
-</p>
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
 
-<form method="post" class="row g-3">
+    {% if result %}
+    <div class="tool-card result-pop">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">孕前 BMI</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.bmi }}</div>
+        </div>
+        <div class="text-muted small">体重增长建议</div>
+      </div>
 
-<div class="col-12">
-<label class="form-label">身高（cm）</label>
-<input name="height_cm" class="form-control" required value="{{ height_in }}">
+      <div class="alert alert-info mt-3 mb-3">
+        BMI 分类：<b>{{ result.category }}</b><br>
+        建议孕期总增重：<b>{{ result.low }} – {{ result.high }} kg</b>
+      </div>
+
+      <div class="small text-muted mb-2">建议增重区间</div>
+      <div class="bg-light rounded-3 p-3">
+        <div class="position-relative" style="height: 16px; background:#e9ecef; border-radius:999px; overflow:hidden;">
+          <div style="position:absolute; left:18%; top:0; height:100%; width:28%; background:#cfe2ff;"></div>
+          <div style="position:absolute; left:46%; top:0; height:100%; width:24%; background:#d1e7dd;"></div>
+          <div style="position:absolute; left:70%; top:0; height:100%; width:18%; background:#ffe69c;"></div>
+        </div>
+
+        <div class="d-flex justify-content-between small text-muted mt-2">
+          <span>偏低</span>
+          <span>常见建议区</span>
+          <span>偏高</span>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">BMI 分类</div>
+            <div class="fw-semibold mt-1">{{ result.category }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="bg-light rounded-3 p-3 h-100">
+            <div class="small text-muted">建议总增重</div>
+            <div class="fw-semibold mt-1">{{ result.low }} – {{ result.high }} kg</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2">这个结果基于孕前 BMI 分类，用于估算整个孕期建议增重范围。</li>
+          <li class="mb-2">它更适合做总体方向参考，不代表每一周都必须严格线性增长。</li>
+          <li class="mb-2">孕早期、孕中期和孕晚期的体重变化速度通常并不完全一样。</li>
+          <li class="mb-0">实际管理仍建议结合产检、医生建议和个人情况综合判断。</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入孕前身高和体重后，即可查看孕前 BMI 和整个孕期建议增重范围。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">孕期体重增长多少正常？</h2>
+      <p class="text-muted">
+        孕期体重增长与孕前 BMI 密切相关。通常并不是“所有人都增重一样多”，而是会先看怀孕前的体重状况，再给出不同的建议范围。
+        因此孕前偏瘦、正常、偏高或肥胖人群，整个孕期的建议增重区间会不同。
+      </p>
+
+      <h2 class="h6 mt-4">为什么要先看孕前 BMI？</h2>
+      <p class="text-muted">
+        因为孕前 BMI 能帮助判断身体在怀孕开始前的大致体重状态。这个状态会影响孕期总增重建议，也更方便医生和孕妇一起做阶段性体重管理。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">BMI 计算公式</h2>
+
+      <div class="bg-light rounded-3 p-3 small">
+        BMI = 体重（kg） ÷ 身高（m）²
+      </div>
+
+      <p class="text-muted mt-3">
+        例如：如果孕前体重 55 kg、身高 1.60 m，则：
+      </p>
+
+      <div class="bg-light rounded-3 p-3 small">
+        BMI = 55 ÷ (1.60 × 1.60) ≈ 21.5
+      </div>
+
+      <p class="text-muted mt-3 mb-0">
+        这类结果通常会落入“正常 BMI”范围，然后再对应到常见孕期建议增重区间。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见建议增重区间怎么来的？</h2>
+      <p class="text-muted">
+        常见临床参考会根据孕前 BMI 分层。例如孕前偏瘦者通常建议增重更多，孕前 BMI 较高者则建议控制在较低的总增重范围内。
+        这样做的目的，是尽量让孕期体重增长更适合母体和胎儿的整体健康管理。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见参考逻辑</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">孕前偏瘦：通常建议总增重更多</li>
+          <li class="mb-2">孕前正常：通常有一个中间建议区间</li>
+          <li class="mb-2">孕前偏高：通常建议适度控制</li>
+          <li class="mb-0">孕前肥胖：通常建议更谨慎管理总增重</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">孕期体重增长一定是匀速的吗？</h2>
+      <p class="text-muted">
+        不一定。很多人会发现孕早期增长较少，中后期增长更明显；也有人会因为孕吐、食欲变化、活动变化或个体差异出现不同节奏。
+        所以比起盯着某几天的数字，更建议关注较长时间的整体趋势。
+      </p>
+
+      <h2 class="h6 mt-4">这个工具适合怎么用？</h2>
+      <p class="text-muted">
+        更适合做孕期整体体重管理的起点。你可以先知道一个大致合理范围，再配合产检、孕周、饮食和医生建议一起看。
+        它不是要你“追求某个固定数字”，而是帮助你理解自己大概应该落在哪个区间。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关孕期工具</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/ovulation">排卵期计算器</a>：查看更早阶段的受孕时间参考</li>
+        <li><a href="/conception-date">受孕日期推算器</a>：推算宝宝可能什么时候怀上的</li>
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：查看当前孕周和阶段</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：推算预计分娩日期</li>
+        <li><a href="/fetal-development">胎儿发育周数图</a>：查看不同孕周的发育阶段</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">孕期增重越少越好吗？</h3>
+      <p class="text-muted">
+        不一定。重点不是“越少越好”，而是是否处在相对合适的范围内。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">孕期增重超过区间就一定有问题吗？</h3>
+      <p class="text-muted">
+        不一定。短期波动并不代表一定异常，更重要的是整体趋势和医生的专业判断。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能代替产检建议吗？</h3>
+      <p class="text-muted">
+        不能。这个工具更适合初步参考，正式管理仍建议结合医生和产检结果。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
 </div>
 
-<div class="col-12">
-<label class="form-label">孕前体重（kg）</label>
-<input name="weight_kg" class="form-control" required value="{{ weight_in }}">
-</div>
+<style>
+  .result-pop {
+    animation: resultPop 0.45s ease;
+  }
 
-<div class="col-12">
-<button class="btn btn-success w-100">
-计算体重增长范围
-</button>
-</div>
-
-</form>
-
-{% if error %}
-<div class="alert alert-warning mt-3">{{ error }}</div>
-{% endif %}
-
-</div>
-
-{% if result %}
-
-<div class="tool-card">
-
-<div class="alert alert-info">
-
-你的 BMI 为：
-
-<b>{{ result.bmi }}</b>
-
-</div>
-
-<p class="text-muted">
-
-BMI分类：
-
-<b>{{ result.category }}</b>
-
-</p>
-
-<p class="text-muted">
-
-建议孕期总增重：
-
-<b>{{ result.low }} – {{ result.high }} kg</b>
-
-</p>
-
-</div>
-
-{% endif %}
-
-</div>
-
-
-<div class="tool-col tool-col-result">
-
-<div class="tool-card">
-
-<h2 class="h6">孕期体重增长多少正常？</h2>
-
-<p class="text-muted">
-
-孕期体重增长与孕前BMI密切相关。医学指南建议根据孕前体重情况制定不同的体重增长范围。
-
-</p>
-
-</div>
-
-
-<div class="tool-card">
-
-<h2 class="h6">BMI计算公式</h2>
-
-<div class="bg-light p-3 rounded small">
-
-BMI = 体重(kg) / 身高(m)²
-
-</div>
-
-</div>
-
-
-<div class="tool-card">
-
-<h2 class="h6">相关孕期工具</h2>
-
-<ul class="text-muted">
-
-<li><a href="/ovulation">排卵期计算器</a></li>
-
-<li><a href="/conception-date">受孕日期推算器</a></li>
-
-<li><a href="/pregnancy-week">怀孕周数计算器</a></li>
-
-<li><a href="/pregnancy-due-date">预产期计算器</a></li>
-
-</ul>
-
-</div>
-
-</div>
-
-</div>
+  @keyframes resultPop {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
 
 {% endblock %}

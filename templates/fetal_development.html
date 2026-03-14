@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <!-- 左侧：计算器 + 结果 -->
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">胎儿发育周数图</h1>
+      <p class="text-muted mb-3">
+        输入当前孕周，查看胎儿发育阶段、40 周进度和本周常见发育特点（仅供参考）。
+      </p>
+
+      <form method="post" class="row g-3">
+        <div class="col-12">
+          <label class="form-label">当前孕周（1–40）</label>
+          <input name="week" class="form-control" inputmode="numeric" required value="{{ week_in }}" placeholder="例如 12">
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-success w-100">查看发育进度</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    {% if result %}
+    <div class="tool-card result-pop">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">当前发育阶段</div>
+          <div class="display-6 fw-semibold mb-0">第 {{ result.week }} 周</div>
+        </div>
+        <div class="text-muted small">{{ result.stage }}</div>
+      </div>
+
+      <div class="alert alert-info mt-3 mb-3">
+        当前孕周：<b>第 {{ result.week }} 周</b><br>
+        阶段：<b>{{ result.stage }}</b>
+      </div>
+
+      <div class="small text-muted mb-2">40 周发育进度</div>
+      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      </div>
+      <div class="small text-muted">已完成约 {{ result.progress }}%</div>
+
+      <hr class="my-3">
+
+      <div class="row g-3">
+        <div class="col-12">
+          <div class="bg-light rounded-3 p-3">
+            <div class="small text-muted">本周常见发育特点</div>
+            <div class="fw-semibold mt-1">{{ result.summary }}</div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="bg-light rounded-3 p-3">
+            <div class="small text-muted">大致体型参考</div>
+            <div class="fw-semibold mt-1">{{ result.size }}</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">相关孕期工具</div>
+        <ul class="small text-muted mb-0 ps-3">
+          <li class="mb-2"><a href="/pregnancy-week">怀孕周数计算器</a>：先确认当前是第几周</li>
+          <li class="mb-2"><a href="/pregnancy-due-date">预产期计算器</a>：查看预计分娩日期</li>
+          <li class="mb-2"><a href="/pregnancy-weight">孕期体重增长计算器</a>：查看孕期体重管理范围</li>
+          <li class="mb-0"><a href="/pregnancy-calorie">孕期热量需求计算器</a>：后续可继续完善饮食管理</li>
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="tool-card">
+      <div class="text-muted">
+        输入孕周后，即可查看对应阶段的胎儿发育说明和 40 周进度。
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧：解释 / SEO 内容 -->
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">胎儿发育周数图怎么看？</h2>
+      <p class="text-muted">
+        胎儿发育通常会随着孕周逐步推进，因此很多人会按“怀孕第几周”来查看宝宝当前大致处于什么发育阶段。
+        这种工具适合把抽象的孕周数字转成更直观的阶段理解。
+      </p>
+
+      <h2 class="h6 mt-4">为什么用 40 周做进度参考？</h2>
+      <p class="text-muted">
+        临床上通常把完整妊娠记为约 40 周，也就是大约 280 天。因此很多孕期时间轴、预产期工具和胎儿发育图都会以 40 周作为统一参考框架。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">孕期阶段怎么划分？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>孕早期：</b>1–12 周</li>
+        <li class="mb-2"><b>孕中期：</b>13–27 周</li>
+        <li class="mb-0"><b>孕晚期：</b>28–40 周</li>
+      </ul>
+
+      <p class="text-muted mt-3 mb-0">
+        每个阶段关注点不同，例如孕早期更关注胚胎建立和基础结构形成，孕中期更强调生长与器官持续发育，孕晚期则更多进入成熟和分娩准备阶段。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个工具适合做什么？</h2>
+      <p class="text-muted">
+        适合用来快速理解当前孕周对应的大致发育进展，也方便和预产期、孕周、体重增长、营养管理这些工具串联起来看。
+        它更像一个“阶段参考图”，而不是精确医学诊断。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 mt-3">
+        <div class="fw-semibold mb-2">常见使用方式</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">先用怀孕周数计算器确定当前孕周</li>
+          <li class="mb-2">再查看这一周常见发育特点</li>
+          <li class="mb-2">结合预产期和孕期健康工具一起规划后续阶段</li>
+          <li class="mb-0">把它当作时间轴理解工具，而不是最终检查结果</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">相关孕期工具推荐</h2>
+      <ul class="text-muted mb-0">
+        <li><a href="/pregnancy-week">怀孕周数计算器</a>：查看当前孕周与孕期阶段</li>
+        <li><a href="/pregnancy-due-date">预产期计算器</a>：推算预计分娩日期</li>
+        <li><a href="/ovulation">排卵期计算器</a>：从更早阶段看受孕时间线</li>
+        <li><a href="/conception-date">受孕日期推算器</a>：推算宝宝可能什么时候怀上的</li>
+        <li><a href="/pregnancy-weight">孕期体重增长计算器</a>：补充孕期健康管理信息</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+
+      <h3 class="h6 mt-3 mb-1">胎儿发育周数图一定精确吗？</h3>
+      <p class="text-muted">
+        不一定。它更适合作为一般阶段参考，每个人的发育节奏会有个体差异。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">同一孕周是不是所有人都一样？</h3>
+      <p class="text-muted">
+        不是。工具给出的是常见描述，不代表所有个体都完全一致。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">这个结果能替代产检吗？</h3>
+      <p class="text-muted">
+        不能。正式判断仍应以医生检查和产检结果为准。
+      </p>
+
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        本页面仅用于一般科普参考，不构成医疗建议。
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .result-pop {
+    animation: resultPop 0.45s ease;
+  }
+
+  @keyframes resultPop {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+{% endblock %}
