@@ -50,7 +50,8 @@ CATEGORY_META = {
     # ========= 1.1. BMI与体重 ======= 
     ## 1.1.1 BMI 1.1.2. 理想体重 1.1.3 目标体重时间
     # ========= 1.2. 体脂与围度 =======  
-    ## 1.2.1 体脂率 1.2.2. 腰围风险 1.2.3. 腰臀比
+    ## 1.2.1 体脂率 1.2.2. 腰围风险 1.2.3. 腰臀比 1.2.4 FFMI 计算
+    ## 1.2.5 体脂目标时间
     "weight": {
         "name": "体重与体型", 
         "description": "BMI、体脂、理想体重、围度相关工具",
@@ -69,7 +70,7 @@ CATEGORY_META = {
     # ========= 2.1. 基础代谢 ======= 
     ## 2.1.1 基础代谢率BMR
     # ========= 2.2. 热量规划 ======= 
-    ## 2.2.1 每日热量需求 2.2.2 热量缺口 
+    ## 2.2.1 每日热量需求 2.2.2 热量缺口 2.2.3 维持体重
     "metabolism": {
         "name": "代谢与热量",
         "description": "BMR、TDEE、热量目标",
@@ -88,17 +89,19 @@ CATEGORY_META = {
     # 3. 营养摄入
     # ========= 3.1. 日常摄入 ======= 
     ## 3.1.1. 饮水 3.1.2. 蛋白质  3.1.3. 碳水 3.1.4. 脂肪摄入 3.1.5. 膳食纤维
-    ## 3.1.6. 盐摄入
+    ## 3.1.6. 盐摄入 3.1.7 糖摄入 3.1.8 咖啡因摄入
     # ========= 3.2. 宏量营养 ======= 
-    ## 3.2.1. 宏量营养 3.2.2. 餐次分配
-    # 3.3 饮食分配
-    ## 3.3.1. 餐次分配
+    ## 3.2.1. 宏量营养 
+    # ========= 3.3 饮食分配 ======= 
+    ## 3.3.1. 餐次分配 
+    # ========= 3.4 饮食质量 ======= 
+    ## 3.4.1. GL估算 
     "nutrition": {
-        "name": "营养摄入", 
+        "name": "营养摄入",
         "description": "饮水、蛋白质、宏量营养与饮食分配工具",
         "children": {
             "daily_intake": {
-                "name": "日常摄入", 
+                "name": "日常摄入",
                 "description": "饮水、蛋白质、碳水、脂肪、纤维",
             },
             "macro_nutrition": {
@@ -109,12 +112,17 @@ CATEGORY_META = {
                 "name": "饮食分配",
                 "description": "三餐、餐次与目标导向分配",
             },
+            "diet_quality": {
+                "name": "饮食质量",
+                "description": "控糖、GI/GL 与饮食结构参考",
+            },
         },
     },
     # 4. 运动与习惯
     # ========= 4.1. 运动消耗 ======= 
     ## 4.1.1 步数转热量 4.1.2 步数转距离 4.1.3 步数转步行时间
-    ## 4.1.4 每日步数目标 4.1.5 活动量等级 4.1.6 跑步消耗计算器
+    ## 4.1.4 每日步数目标 4.1.5 活动量等级 4.1.6 跑步消耗计算器 
+    ## 4.1.7 跑步配速 4.1.8 心率区间
     # ========= 4.2. 睡眠时间 ======= 
     ## 4.2.1 睡眠周期 4.2.2 睡眠需求 4.2.3 睡眠时长 4.2.4 补觉时间 4.2.5 午睡时间
     # ========= 4.3. 睡眠质量 ======= 
@@ -142,6 +150,7 @@ CATEGORY_META = {
     # 5. 孕期工具
     # ========= 5.1. 基础孕期 ======= 
     ## 5.1.1 预产期计算 5.1.2 怀孕周数 5.1.3 预测排卵日 5.1.4 受孕日期
+    ## 5.1.5 月经周期 5.1.6 安全期计算 5.1.7 易孕期计算 5.1.8 着床时间
     # ========= 5.2. 孕期健康 ======= 
     ## 5.2.1 孕期体重增长 5.2.2 孕期热量需求 5.2.3 孕期蛋白质
     ## 5.2.4 胎儿发育周数 5.2.5 孕期饮水量
@@ -228,6 +237,26 @@ TOOLS = [
         "subgroup": "body_shape",
         "featured": True,
     },
+    # 1.2.4 FFMI 计算
+    {
+        "endpoint": "ffmi",
+        "name": "FFMI 计算器",
+        "path": "/ffmi",
+        "desc": "去脂体重指数估算",
+        "category": "weight",
+        "subgroup": "body_shape",
+        "featured": True,
+    },
+    # 1.2.5 体脂目标时间
+    {
+        "endpoint": "body_fat_goal",
+        "name": "体脂目标时间计算器",
+        "path": "/body-fat-goal",
+        "desc": "估算达到目标体脂率所需时间",
+        "category": "weight",
+        "subgroup": "body_shape",
+        "featured": True,
+    },
     # =============== 
     # 2. 代谢与热量 
     # ================
@@ -263,6 +292,7 @@ TOOLS = [
         "subgroup": "calorie_plan",
         "featured": False,
     },
+    # 2.2.3 维持体重
     # ===============
     # 3. 营养摄入 (TOOLS)
     # ================
@@ -327,7 +357,26 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": False,
     },
-
+    # 3.1.7 糖摄入
+    {
+        "endpoint": "sugar_intake",
+        "name": "糖摄入计算器",
+        "path": "/sugar-intake",
+        "desc": "估算每天糖摄入是否偏高",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": True,
+    },
+    # 3.1.8 咖啡因摄入
+    {
+        "endpoint": "caffeine_intake",
+        "name": "咖啡因摄入计算器",
+        "path": "/caffeine-intake",
+        "desc": "估算每天咖啡因摄入量",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": True,
+    },
     # ========= 3.2. 宏量营养 ===========
     # 3.2.1. 宏量营养
     {
@@ -340,7 +389,7 @@ TOOLS = [
         "featured": True,
     },
     # ========= 3.3. 饮食分配 ===========
-    # 3.2.2. 餐次分配
+    # 3.3.1. 餐次分配
     {
         "endpoint": "meal-split",
         "name": "餐次分配计算器",
@@ -349,6 +398,17 @@ TOOLS = [
         "category": "nutrition",
         "subgroup": "meal_planning",
         "featured": False,
+    },
+    # ========= 3.4 饮食质量 ======= 
+    # 3.4.1. GL估算 
+    {
+        "endpoint": "glycemic_load",
+        "name": "GI/GL 估算器",
+        "path": "/glycemic-load",
+        "desc": "估算食物血糖负荷参考",
+        "category": "nutrition",
+        "subgroup": "diet_quality",
+        "featured": True,
     },
     # 4. 运动与习惯
     # ========= 4.1. 运动消耗 ======= 
@@ -408,6 +468,26 @@ TOOLS = [
         "name": "跑步消耗计算器",
         "path": "/running-kcal",
         "desc": "按时间和速度估算跑步热量消耗",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": True,
+    },
+    # 4.1.7 跑步配速
+    {
+        "endpoint": "running_pace",
+        "name": "跑步配速计算器",
+        "path": "/running-pace",
+        "desc": "计算每公里配速与预计完赛时间",
+        "category": "activity",
+        "subgroup": "exercise",
+        "featured": True,
+    },
+    # 4.1.8 心率区间
+    {
+        "endpoint": "heart_rate_zone",
+        "name": "心率区间计算器",
+        "path": "/heart-rate-zone",
+        "desc": "估算运动心率训练区间",
         "category": "activity",
         "subgroup": "exercise",
         "featured": True,
@@ -552,6 +632,46 @@ TOOLS = [
         "name": "受孕日期推算器",
         "path": "/conception-date",
         "desc": "推算宝宝可能受孕时间",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": False,
+    },
+    # 5.1.5 月经周期
+    {
+        "endpoint": "period_calculator",
+        "name": "月经周期计算器",
+        "path": "/period-calculator",
+        "desc": "预测下次月经与下个周期时间",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": True,
+    },
+    # 5.1.6 安全期计算
+    {
+        "endpoint": "safe_days_calculator",
+        "name": "安全期计算器",
+        "path": "/safe-days-calculator",
+        "desc": "按周期估算相对低受孕概率日期",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": False,
+    },
+    # 5.1.7 易孕期计算
+    {
+        "endpoint": "fertility_calculator",
+        "name": "易孕期计算器",
+        "path": "/fertility-calculator",
+        "desc": "预测易孕期与较高受孕概率日期",
+        "category": "pregnancy",
+        "subgroup": "pregnancy_basic",
+        "featured": True,
+    },
+    # 5.1.8 着床时间
+    {
+        "endpoint": "implantation_calculator",
+        "name": "着床时间计算器",
+        "path": "/implantation-calculator",
+        "desc": "估算受孕后可能的着床时间范围",
         "category": "pregnancy",
         "subgroup": "pregnancy_basic",
         "featured": False,
@@ -906,7 +1026,165 @@ def whr_info(waist_cm: float, hip_cm: float, sex: str) -> dict:
         "waist_cm": round1(waist_cm),
         "hip_cm": round1(hip_cm),
     }
+# 1.2.4 FFMI 计算
+def ffmi_info(height_cm: float, weight_kg: float, bodyfat_pct: float, sex: str) -> dict:
+    """
+    FFMI (Fat-Free Mass Index)
 
+    lean_mass = weight * (1 - bodyfat%)
+    ffmi = lean_mass / height_m^2
+
+    Normalized FFMI (common site formula):
+    ffmi_norm = ffmi + 6.1 * (1.8 - height_m)
+
+    This is an educational estimator only.
+    """
+
+    if height_cm <= 0 or height_cm > 250:
+        raise ValueError("请输入合理的身高（cm）。")
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+    if bodyfat_pct <= 0 or bodyfat_pct >= 70:
+        raise ValueError("请输入合理的体脂率（%）。")
+    if sex not in ("male", "female"):
+        raise ValueError("性别选择不正确。")
+
+    height_m = height_cm / 100.0
+    bodyfat_ratio = bodyfat_pct / 100.0
+
+    lean_mass = weight_kg * (1.0 - bodyfat_ratio)
+    fat_mass = weight_kg - lean_mass
+
+    ffmi = lean_mass / (height_m * height_m)
+    ffmi_normalized = ffmi + 6.1 * (1.8 - height_m)
+
+    # Simple interpretation bands
+    if sex == "male":
+        if ffmi_normalized < 18:
+            level = "偏低"
+            note = "通常更接近偏瘦或肌肉量相对较少的状态。"
+            progress = 35
+        elif ffmi_normalized < 21:
+            level = "常见范围"
+            note = "通常属于较常见的自然体型范围。"
+            progress = 58
+        elif ffmi_normalized < 23:
+            level = "较高"
+            note = "通常说明去脂体重较高，肌肉量基础较好。"
+            progress = 76
+        else:
+            level = "很高"
+            note = "通常已经属于较高的去脂体重水平，更建议结合训练背景、体脂率和长期变化一起看。"
+            progress = 88
+    else:
+        if ffmi_normalized < 14:
+            level = "偏低"
+            note = "通常更接近偏瘦或肌肉量相对较少的状态。"
+            progress = 35
+        elif ffmi_normalized < 17:
+            level = "常见范围"
+            note = "通常属于较常见的自然体型范围。"
+            progress = 58
+        elif ffmi_normalized < 19:
+            level = "较高"
+            note = "通常说明去脂体重较高，肌肉量基础较好。"
+            progress = 76
+        else:
+            level = "很高"
+            note = "通常已经属于较高的去脂体重水平，更建议结合训练背景、体脂率和长期变化一起看。"
+            progress = 88
+
+    return {
+        "height_m": round(height_m, 2),
+        "lean_mass": round1(lean_mass),
+        "fat_mass": round1(fat_mass),
+        "ffmi": round1(ffmi),
+        "ffmi_normalized": round1(ffmi_normalized),
+        "level": level,
+        "note": note,
+        "progress": progress,
+    }
+
+# 1.2.5 体脂目标时间
+def body_fat_goal_info(
+    weight_kg: float,
+    bodyfat_pct: float,
+    target_bodyfat_pct: float,
+    daily_deficit_kcal: float
+) -> dict:
+    """
+    Estimate time needed to reach target body fat %.
+
+    Simplified logic:
+    - current lean mass = weight * (1 - bodyfat%)
+    - assume lean mass roughly maintained
+    - target weight = lean mass / (1 - target_bodyfat%)
+    - fat to lose = current weight - target weight
+    - kcal needed ≈ fat_to_lose * 7700
+    - days = total_kcal / daily_deficit
+
+    Educational estimate only.
+    """
+
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理的体重（kg）。")
+    if bodyfat_pct <= 0 or bodyfat_pct >= 70:
+        raise ValueError("请输入合理的当前体脂率（%）。")
+    if target_bodyfat_pct <= 0 or target_bodyfat_pct >= 60:
+        raise ValueError("请输入合理的目标体脂率（%）。")
+    if target_bodyfat_pct >= bodyfat_pct:
+        raise ValueError("目标体脂率需要低于当前体脂率。")
+    if daily_deficit_kcal <= 0 or daily_deficit_kcal > 2000:
+        raise ValueError("请输入合理的每日热量缺口（kcal/天）。")
+
+    current_bf_ratio = bodyfat_pct / 100.0
+    target_bf_ratio = target_bodyfat_pct / 100.0
+
+    lean_mass = weight_kg * (1.0 - current_bf_ratio)
+    current_fat_mass = weight_kg - lean_mass
+
+    target_weight = lean_mass / (1.0 - target_bf_ratio)
+    target_fat_mass = target_weight - lean_mass
+
+    fat_to_lose = weight_kg - target_weight
+    fat_mass_to_lose = current_fat_mass - target_fat_mass
+
+    total_kcal_needed = fat_mass_to_lose * 7700.0
+    days_needed = total_kcal_needed / daily_deficit_kcal
+    weeks_needed = days_needed / 7.0
+    months_needed = days_needed / 30.4
+
+    # pacing / interpretation
+    weekly_loss_kg = daily_deficit_kcal * 7.0 / 7700.0
+
+    if daily_deficit_kcal < 300:
+        pace_label = "较温和"
+        pace_note = "缺口相对温和，通常更容易长期坚持，但达到目标会更慢。"
+        progress = 38
+    elif daily_deficit_kcal <= 600:
+        pace_label = "常见减脂节奏"
+        pace_note = "属于很多人较常采用的减脂节奏，通常在速度与可持续性之间更平衡。"
+        progress = 62
+    else:
+        pace_label = "较激进"
+        pace_note = "热量缺口较大，速度更快，但更建议关注饥饿感、恢复状态和蛋白质摄入。"
+        progress = 82
+
+    return {
+        "lean_mass": round1(lean_mass),
+        "current_fat_mass": round1(current_fat_mass),
+        "target_weight": round1(target_weight),
+        "target_fat_mass": round1(target_fat_mass),
+        "fat_to_lose": round1(fat_to_lose),
+        "fat_mass_to_lose": round1(fat_mass_to_lose),
+        "days_needed": round1(days_needed),
+        "weeks_needed": round1(weeks_needed),
+        "months_needed": round1(months_needed),
+        "weekly_loss_kg": round1(weekly_loss_kg),
+        "pace_label": pace_label,
+        "pace_note": pace_note,
+        "progress": progress,
+    }
 # =============
 # 3. 营养摄入
 # =============
@@ -957,7 +1235,7 @@ def macro_split(tdee: float, goal: str) -> dict:
         "carbs_ratio": int(round(c_ratio * 100)),
         "fat_ratio": int(round(f_ratio * 100)),
     }
-# 3.2.2. 餐次分配
+# 3.3.1. 餐次分配
 def meal_split_plan(total_kcal: float, protein_g: float, pattern: str) -> dict:
     """
     Split daily calories and protein across 3 meals.
@@ -1012,6 +1290,62 @@ def meal_split_plan(total_kcal: float, protein_g: float, pattern: str) -> dict:
         "breakfast_ratio": int(round(ratios[0] * 100)),
         "lunch_ratio": int(round(ratios[1] * 100)),
         "dinner_ratio": int(round(ratios[2] * 100)),
+    }
+# 3.4.1. GL估算 
+def glycemic_load_info(gi: float, carbs_g: float, fiber_g: float = 0.0) -> dict:
+    """
+    Glycemic Load calculator.
+
+    Formula:
+    available_carbs = max(0, total_carbs - fiber)
+    GL = GI * available_carbs / 100
+
+    Educational estimate only.
+    """
+
+    if gi <= 0 or gi > 150:
+        raise ValueError("请输入合理的 GI 数值。")
+    if carbs_g < 0 or carbs_g > 500:
+        raise ValueError("请输入合理的碳水化合物（g）。")
+    if fiber_g < 0 or fiber_g > 100:
+        raise ValueError("请输入合理的膳食纤维（g）。")
+    if fiber_g > carbs_g:
+        raise ValueError("膳食纤维不能大于总碳水。")
+
+    available_carbs = max(0.0, carbs_g - fiber_g)
+    gl = gi * available_carbs / 100.0
+
+    if gi < 55:
+        gi_level = "低 GI"
+    elif gi < 70:
+        gi_level = "中 GI"
+    else:
+        gi_level = "高 GI"
+
+    if gl < 10:
+        gl_level = "低 GL"
+        note = "这份食物的血糖负荷相对较低，通常更接近小份量或可利用碳水较少的情况。"
+        progress = 32
+    elif gl < 20:
+        gl_level = "中 GL"
+        note = "这份食物的血糖负荷处于中等范围，是否适合还要结合总饮食结构和食用场景一起看。"
+        progress = 58
+    else:
+        gl_level = "高 GL"
+        note = "这份食物的血糖负荷相对较高，通常意味着 GI 较高、可利用碳水较多，或两者同时存在。"
+        progress = 86
+
+    return {
+        "gi": round1(gi),
+        "gi_level": gi_level,
+        "carbs_g": round1(carbs_g),
+        "fiber_g": round1(fiber_g),
+        "available_carbs_g": round1(available_carbs),
+        "gl": round1(gl),
+        "gl_level": gl_level,
+        "note": note,
+        "progress": progress,
+        "rule_text": "本工具采用简化公式：GL = GI × 可利用碳水 ÷ 100，其中可利用碳水≈总碳水 - 膳食纤维。",
     }
 # 3.1.2. 蛋白质
 def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
@@ -1193,6 +1527,120 @@ def salt_estimate(
         "level": level,
         "progress": progress,
         "rule_text": "本工具采用站内简化估算模型，根据常见高盐食物场景粗略估算每日盐摄入。",
+    }
+# 3.1.7 糖摄入
+def sugar_intake_estimate(
+    sugary_drinks: int,
+    desserts: int,
+    sweet_snacks: int,
+    sweet_sauces: int,
+    sweet_coffee_tea: int,
+) -> dict:
+    """
+    Very simplified daily sugar estimator.
+
+    Estimated sugar per serving (g):
+    - sugary drink: 25 g
+    - dessert: 18 g
+    - sweet snack: 12 g
+    - sweet sauce / syrup use: 8 g
+    - sweetened coffee / tea: 10 g
+
+    Educational estimate only.
+    """
+
+    vals = [sugary_drinks, desserts, sweet_snacks, sweet_sauces, sweet_coffee_tea]
+    if any(v < 0 or v > 20 for v in vals):
+        raise ValueError("请输入合理的份数。")
+
+    total_sugar_g = (
+        sugary_drinks * 25
+        + desserts * 18
+        + sweet_snacks * 12
+        + sweet_sauces * 8
+        + sweet_coffee_tea * 10
+    )
+
+    total_sugar_g = round1(total_sugar_g)
+    total_sugar_kcal = round0(total_sugar_g * 4)
+
+    if total_sugar_g <= 25:
+        level = "较低"
+        note = "整体糖摄入大致偏低或较克制。"
+        progress = 35
+    elif total_sugar_g <= 50:
+        level = "需要注意"
+        note = "已经进入很多人日常容易不知不觉偏高的区间。"
+        progress = 65
+    else:
+        level = "偏高"
+        note = "糖摄入相对偏高，更建议留意饮料、甜点和零食来源。"
+        progress = 88
+
+    return {
+        "total_sugar_g": total_sugar_g,
+        "total_sugar_kcal": total_sugar_kcal,
+        "level": level,
+        "note": note,
+        "progress": progress,
+        "rule_text": "本工具采用站内简化估算模型，根据常见含糖饮料、甜点、零食和调味场景粗略估算每日糖摄入。",
+    }
+# 3.1.8 咖啡因摄入
+def caffeine_intake_estimate(
+    brewed_coffee: int,
+    espresso_shots: int,
+    tea_cups: int,
+    energy_drinks: int,
+    cola_cans: int,
+) -> dict:
+    """
+    Simplified caffeine intake estimator.
+
+    Estimated caffeine per serving (mg):
+    - brewed coffee: 95 mg / cup
+    - espresso shot: 63 mg / shot
+    - tea: 40 mg / cup
+    - energy drink: 80 mg / can
+    - cola: 35 mg / can
+
+    Educational estimate only.
+    """
+
+    vals = [brewed_coffee, espresso_shots, tea_cups, energy_drinks, cola_cans]
+    if any(v < 0 or v > 20 for v in vals):
+        raise ValueError("请输入合理的份数。")
+
+    total_mg = (
+        brewed_coffee * 95
+        + espresso_shots * 63
+        + tea_cups * 40
+        + energy_drinks * 80
+        + cola_cans * 35
+    )
+
+    if total_mg <= 100:
+        level = "较低"
+        note = "整体咖啡因摄入相对较低，对多数人来说通常较温和。"
+        progress = 25
+    elif total_mg <= 200:
+        level = "常见范围"
+        note = "属于很多人日常比较常见的咖啡因摄入水平。"
+        progress = 48
+    elif total_mg <= 400:
+        level = "偏高但常见"
+        note = "已经进入较高摄入区间，更值得关注摄入时间、睡眠和个体敏感度。"
+        progress = 72
+    else:
+        level = "较高"
+        note = "整体咖啡因摄入较高，更建议留意心悸、焦虑、入睡困难和晚间睡眠质量。"
+        progress = 90
+
+    return {
+        "total_mg": int(round(total_mg)),
+        "level": level,
+        "note": note,
+        "progress": progress,
+        "rule_text": "本工具采用站内简化估算模型，根据常见咖啡、浓缩咖啡、茶、能量饮料和可乐的平均咖啡因含量粗略估算每日摄入。",
     }
 # ========== 4.1. 运动消耗 ==========
 # 4.1.1 步数转热量
@@ -1457,6 +1905,169 @@ def running_kcal_estimate(weight_kg: float, minutes: float, pace: str) -> dict:
         "minutes": round1(minutes),
         "progress": progress,
     }
+# 4.1.7 跑步配速
+def running_pace_info(distance_km: float, hours: int, minutes: int, seconds: int) -> dict:
+    """
+    Running pace calculator.
+
+    Inputs:
+    - distance_km
+    - total time: hours, minutes, seconds
+
+    Outputs:
+    - pace per km
+    - speed km/h
+    - estimated finish times for 3k / 5k / 10k / half / marathon
+    """
+
+    if distance_km <= 0 or distance_km > 1000:
+        raise ValueError("请输入合理的跑步距离（km）。")
+    if hours < 0 or hours > 23:
+        raise ValueError("请输入合理的小时数。")
+    if minutes < 0 or minutes > 59:
+        raise ValueError("请输入合理的分钟数。")
+    if seconds < 0 or seconds > 59:
+        raise ValueError("请输入合理的秒数。")
+
+    total_seconds = hours * 3600 + minutes * 60 + seconds
+    if total_seconds <= 0:
+        raise ValueError("总时间需要大于 0。")
+
+    pace_sec_per_km = total_seconds / distance_km
+    speed_kmh = distance_km / (total_seconds / 3600.0)
+
+    def fmt_hms(sec: float) -> str:
+        sec = int(round(sec))
+        h = sec // 3600
+        m = (sec % 3600) // 60
+        s = sec % 60
+        if h > 0:
+            return f"{h:d}:{m:02d}:{s:02d}"
+        return f"{m:02d}:{s:02d}"
+
+    def fmt_pace(sec_per_km: float) -> str:
+        sec_per_km = int(round(sec_per_km))
+        m = sec_per_km // 60
+        s = sec_per_km % 60
+        return f"{m:d}'{s:02d}\" /km"
+
+    # common target distances
+    projections = {
+        "3k": fmt_hms(pace_sec_per_km * 3),
+        "5k": fmt_hms(pace_sec_per_km * 5),
+        "10k": fmt_hms(pace_sec_per_km * 10),
+        "half_marathon": fmt_hms(pace_sec_per_km * 21.0975),
+        "marathon": fmt_hms(pace_sec_per_km * 42.195),
+    }
+
+    if speed_kmh < 7:
+        level = "偏慢配速"
+        note = "更接近轻松慢跑或恢复跑的常见范围。"
+        progress = 35
+    elif speed_kmh < 10:
+        level = "常见配速"
+        note = "属于很多日常跑步者比较常见的配速区间。"
+        progress = 58
+    elif speed_kmh < 13:
+        level = "较快配速"
+        note = "通常已经属于较积极训练或节奏跑常见范围。"
+        progress = 78
+    else:
+        level = "高配速"
+        note = "通常说明速度较快，更建议结合训练经验和目标距离一起判断。"
+        progress = 90
+
+    return {
+        "total_time_text": fmt_hms(total_seconds),
+        "pace_text": fmt_pace(pace_sec_per_km),
+        "pace_sec_per_km": round(pace_sec_per_km, 1),
+        "speed_kmh": round1(speed_kmh),
+        "level": level,
+        "note": note,
+        "progress": progress,
+        "projections": projections,
+    }
+# 4.1.8 心率区间
+def heart_rate_zone_info(age: int, resting_hr: int | None = None) -> dict:
+    """
+    Heart rate zone calculator.
+
+    Base method:
+    - max_hr = 220 - age
+
+    Optional Karvonen method if resting_hr is provided:
+    - heart rate reserve (HRR) = max_hr - resting_hr
+    - target = resting_hr + HRR * intensity
+
+    Zones:
+    Z1: 50-60%
+    Z2: 60-70%
+    Z3: 70-80%
+    Z4: 80-90%
+    Z5: 90-100%
+    """
+
+    if age <= 0 or age > 120:
+        raise ValueError("请输入合理年龄。")
+
+    if resting_hr is not None and (resting_hr <= 0 or resting_hr > 120):
+        raise ValueError("请输入合理的静息心率（bpm）。")
+
+    max_hr = 220 - age
+
+    zones = [
+        ("Zone 1", "恢复 / 热身", 0.50, 0.60),
+        ("Zone 2", "轻松有氧", 0.60, 0.70),
+        ("Zone 3", "中等强度", 0.70, 0.80),
+        ("Zone 4", "阈值 / 较高强度", 0.80, 0.90),
+        ("Zone 5", "高强度冲刺", 0.90, 1.00),
+    ]
+
+    result_zones = []
+
+    if resting_hr is None:
+        # Simple method
+        for code, label, lo, hi in zones:
+            low_bpm = round0(max_hr * lo)
+            high_bpm = round0(max_hr * hi)
+            result_zones.append({
+                "code": code,
+                "label": label,
+                "low_bpm": low_bpm,
+                "high_bpm": high_bpm,
+            })
+        method_label = "最大心率百分比法"
+        note = "当前结果按“220 - 年龄”估算最大心率，再按百分比划分区间，适合作为一般参考。"
+    else:
+        # Karvonen
+        hrr = max_hr - resting_hr
+        for code, label, lo, hi in zones:
+            low_bpm = round0(resting_hr + hrr * lo)
+            high_bpm = round0(resting_hr + hrr * hi)
+            result_zones.append({
+                "code": code,
+                "label": label,
+                "low_bpm": low_bpm,
+                "high_bpm": high_bpm,
+            })
+        method_label = "Karvonen 储备心率法"
+        note = "当前结果已考虑静息心率，通常比单纯最大心率百分比法更贴近个体差异。"
+
+    if age < 30:
+        progress = 75
+    elif age < 50:
+        progress = 60
+    else:
+        progress = 48
+
+    return {
+        "max_hr": max_hr,
+        "resting_hr": resting_hr,
+        "method_label": method_label,
+        "note": note,
+        "zones": result_zones,
+        "progress": progress,
+    }
 # ========= 1.1. BMI与体重 ======= 
 #1.1.3 目标体重时间
 def weeks_to_goal(current_kg: float, target_kg: float, rate_kg_per_week: float) -> float:
@@ -1524,7 +2135,7 @@ def ovulation_info(lmp_date: date, cycle_length: int) -> dict:
         "fertile_end": fertile_end.strftime("%Y-%m-%d"),
         "next_period": next_period.strftime("%Y-%m-%d"),
     }
-
+# 5.1.4 受孕日期
 def conception_info(lmp_date: date) -> dict:
     """
     Estimate conception date based on LMP.
@@ -1539,6 +2150,287 @@ def conception_info(lmp_date: date) -> dict:
         "conception_date": conception_date.strftime("%Y-%m-%d"),
         "due_date": due_date.strftime("%Y-%m-%d"),
     }
+# 5.1.5 月经周期
+def period_cycle_info(lmp_date: date, cycle_length: int, period_length: int) -> dict:
+    """
+    Period calculator.
+
+    Inputs:
+    - lmp_date: last menstrual period start date
+    - cycle_length: average cycle length in days
+    - period_length: average period length in days
+
+    Outputs:
+    - current cycle day
+    - next period start/end
+    - estimated ovulation
+    - fertile window
+    """
+
+    today = date.today()
+
+    if lmp_date > today:
+        raise ValueError("末次月经开始日期不能晚于今天。")
+    if cycle_length < 21 or cycle_length > 45:
+        raise ValueError("请输入合理的月经周期长度（通常 21–45 天）。")
+    if period_length < 1 or period_length > 15:
+        raise ValueError("请输入合理的经期时长（通常 1–15 天）。")
+
+    days_since_lmp = (today - lmp_date).days
+    current_cycle_day = (days_since_lmp % cycle_length) + 1
+
+    next_period_start = lmp_date
+    while next_period_start <= today:
+        next_period_start += timedelta(days=cycle_length)
+
+    next_period_end = next_period_start + timedelta(days=period_length - 1)
+
+    estimated_ovulation = next_period_start - timedelta(days=14)
+    fertile_start = estimated_ovulation - timedelta(days=5)
+    fertile_end = estimated_ovulation + timedelta(days=1)
+
+    current_period_end = lmp_date + timedelta(days=period_length - 1)
+
+    if today <= current_period_end:
+        phase = "经期中"
+        progress = 18
+    elif current_cycle_day < cycle_length * 0.4:
+        phase = "卵泡期"
+        progress = 40
+    elif abs((estimated_ovulation - today).days) <= 1:
+        phase = "排卵期附近"
+        progress = 68
+    elif today < next_period_start:
+        phase = "黄体期"
+        progress = 82
+    else:
+        phase = "新周期临近"
+        progress = 92
+
+    return {
+        "today": today.strftime("%Y-%m-%d"),
+        "current_cycle_day": current_cycle_day,
+        "phase": phase,
+        "progress": progress,
+        "current_period_end": current_period_end.strftime("%Y-%m-%d"),
+        "next_period_start": next_period_start.strftime("%Y-%m-%d"),
+        "next_period_end": next_period_end.strftime("%Y-%m-%d"),
+        "estimated_ovulation": estimated_ovulation.strftime("%Y-%m-%d"),
+        "fertile_start": fertile_start.strftime("%Y-%m-%d"),
+        "fertile_end": fertile_end.strftime("%Y-%m-%d"),
+        "cycle_length": cycle_length,
+        "period_length": period_length,
+    }
+# 5.1.6 安全期计算
+def safe_days_info(lmp_date: date, cycle_length: int, period_length: int) -> dict:
+    """
+    Safe days calculator (educational estimate only).
+
+    Assumptions:
+    - Ovulation ~ 14 days before next period
+    - Fertile window = ovulation - 5 days to ovulation + 1 day
+    - "Safer" days are dates outside the fertile window within the current cycle
+
+    This is NOT a contraceptive method and should only be used as a rough cycle reference.
+    """
+
+    today = date.today()
+
+    if lmp_date > today:
+        raise ValueError("末次月经开始日期不能晚于今天。")
+    if cycle_length < 21 or cycle_length > 45:
+        raise ValueError("请输入合理的月经周期长度（通常 21–45 天）。")
+    if period_length < 1 or period_length > 15:
+        raise ValueError("请输入合理的经期时长（通常 1–15 天）。")
+
+    cycle_start = lmp_date
+    while cycle_start + timedelta(days=cycle_length) <= today:
+        cycle_start += timedelta(days=cycle_length)
+
+    cycle_end = cycle_start + timedelta(days=cycle_length - 1)
+
+    estimated_ovulation = cycle_start + timedelta(days=(cycle_length - 14))
+    fertile_start = estimated_ovulation - timedelta(days=5)
+    fertile_end = estimated_ovulation + timedelta(days=1)
+
+    period_end = cycle_start + timedelta(days=period_length - 1)
+
+    safe_early_start = cycle_start
+    safe_early_end = fertile_start - timedelta(days=1)
+
+    safe_late_start = fertile_end + timedelta(days=1)
+    safe_late_end = cycle_end
+
+    current_cycle_day = (today - cycle_start).days + 1
+
+    def fmt(d: date) -> str:
+        return d.strftime("%Y-%m-%d")
+
+    # current status
+    if fertile_start <= today <= fertile_end:
+        current_status = "当前接近易孕期"
+        progress = 80
+    elif cycle_start <= today <= period_end:
+        current_status = "当前在经期内"
+        progress = 20
+    elif today < fertile_start:
+        current_status = "当前在周期前段"
+        progress = 40
+    else:
+        current_status = "当前在周期后段"
+        progress = 60
+
+    def valid_range(start_d: date, end_d: date):
+        if start_d > end_d:
+            return None
+        return {
+            "start": fmt(start_d),
+            "end": fmt(end_d),
+        }
+
+    return {
+        "today": fmt(today),
+        "cycle_start": fmt(cycle_start),
+        "cycle_end": fmt(cycle_end),
+        "current_cycle_day": current_cycle_day,
+        "current_status": current_status,
+        "progress": progress,
+        "period_end": fmt(period_end),
+        "estimated_ovulation": fmt(estimated_ovulation),
+        "fertile_start": fmt(fertile_start),
+        "fertile_end": fmt(fertile_end),
+        "safe_early": valid_range(safe_early_start, safe_early_end),
+        "safe_late": valid_range(safe_late_start, safe_late_end),
+        "cycle_length": cycle_length,
+        "period_length": period_length,
+    }
+# 5.1.7 易孕期计算
+def fertility_window_info(lmp_date: date, cycle_length: int) -> dict:
+    """
+    Fertility calculator.
+
+    Inputs:
+    - lmp_date: last menstrual period start date
+    - cycle_length: average cycle length in days
+
+    Logic:
+    - ovulation ≈ next period - 14 days
+    - fertile window ≈ ovulation - 5 days to ovulation + 1 day
+    - highlight peak fertility days around ovulation
+
+    Educational estimate only.
+    """
+
+    today = date.today()
+
+    if lmp_date > today:
+        raise ValueError("末次月经开始日期不能晚于今天。")
+    if cycle_length < 21 or cycle_length > 45:
+        raise ValueError("请输入合理的月经周期长度（通常 21–45 天）。")
+
+    cycle_start = lmp_date
+    while cycle_start + timedelta(days=cycle_length) <= today:
+        cycle_start += timedelta(days=cycle_length)
+
+    cycle_end = cycle_start + timedelta(days=cycle_length - 1)
+    next_period_start = cycle_start + timedelta(days=cycle_length)
+
+    ovulation_day = next_period_start - timedelta(days=14)
+    fertile_start = ovulation_day - timedelta(days=5)
+    fertile_end = ovulation_day + timedelta(days=1)
+
+    # Peak fertility estimation: ovulation day and previous 2 days
+    peak_start = ovulation_day - timedelta(days=2)
+    peak_end = ovulation_day
+
+    current_cycle_day = (today - cycle_start).days + 1
+
+    if fertile_start <= today <= fertile_end:
+        status = "当前接近易孕期"
+        progress = 82
+    elif today < fertile_start:
+        status = "当前尚未进入易孕期"
+        progress = 40
+    else:
+        status = "当前已过本周期主要易孕期"
+        progress = 65
+
+    return {
+        "today": today.strftime("%Y-%m-%d"),
+        "cycle_start": cycle_start.strftime("%Y-%m-%d"),
+        "cycle_end": cycle_end.strftime("%Y-%m-%d"),
+        "next_period_start": next_period_start.strftime("%Y-%m-%d"),
+        "current_cycle_day": current_cycle_day,
+        "status": status,
+        "progress": progress,
+        "ovulation_day": ovulation_day.strftime("%Y-%m-%d"),
+        "fertile_start": fertile_start.strftime("%Y-%m-%d"),
+        "fertile_end": fertile_end.strftime("%Y-%m-%d"),
+        "peak_start": peak_start.strftime("%Y-%m-%d"),
+        "peak_end": peak_end.strftime("%Y-%m-%d"),
+        "cycle_length": cycle_length,
+    }
+# 5.1.8 着床时间
+def implantation_info(lmp_date: date | None = None, ovulation_date: date | None = None) -> dict:
+    """
+    Estimate implantation window.
+
+    Logic:
+    - If ovulation/conception-related date is known, implantation often occurs about
+      6 to 10 days after ovulation/fertilization.
+    - If only LMP is provided, estimate ovulation as LMP + (cycle approx 28 => +14 days),
+      then estimate implantation window from there.
+
+    This is an educational estimate only.
+    """
+
+    today = date.today()
+
+    if ovulation_date is None and lmp_date is None:
+        raise ValueError("请至少提供排卵日或末次月经开始日期。")
+
+    if ovulation_date is not None and ovulation_date > today:
+        raise ValueError("排卵日不能晚于今天。")
+
+    if lmp_date is not None and lmp_date > today:
+        raise ValueError("末次月经开始日期不能晚于今天。")
+
+    source_label = ""
+    if ovulation_date is not None:
+        base_date = ovulation_date
+        source_label = "按排卵日估算"
+    else:
+        base_date = lmp_date + timedelta(days=14)
+        source_label = "按末次月经开始日期估算（默认约第14天排卵）"
+
+    implantation_start = base_date + timedelta(days=6)
+    implantation_peak = base_date + timedelta(days=8)
+    implantation_end = base_date + timedelta(days=10)
+
+    days_from_base_to_today = (today - base_date).days
+
+    if today < implantation_start:
+        status = "当前通常还早于常见着床时间范围"
+        progress = 30
+    elif implantation_start <= today <= implantation_end:
+        status = "当前接近常见着床时间范围"
+        progress = 72
+    else:
+        status = "当前通常已过常见着床时间范围"
+        progress = 90
+
+    return {
+        "source_label": source_label,
+        "base_date": base_date.strftime("%Y-%m-%d"),
+        "implantation_start": implantation_start.strftime("%Y-%m-%d"),
+        "implantation_peak": implantation_peak.strftime("%Y-%m-%d"),
+        "implantation_end": implantation_end.strftime("%Y-%m-%d"),
+        "days_from_base_to_today": days_from_base_to_today,
+        "status": status,
+        "progress": progress,
+    }
+# ========= 5.2. 孕期健康 ======= 
+# 5.2.1 孕期体重增长
 def pregnancy_weight_gain(height_cm: float, weight_kg: float) -> dict:
 
     height_m = height_cm / 100
@@ -1563,7 +2455,7 @@ def pregnancy_weight_gain(height_cm: float, weight_kg: float) -> dict:
         "low": low,
         "high": high
     }
-
+# 5.2.4 胎儿发育周数
 def fetal_development_data(week: int) -> dict:
     """
     Return simple fetal development milestones by pregnancy week.
@@ -1622,7 +2514,7 @@ def fetal_development_data(week: int) -> dict:
         "size": size,
         "progress": progress,
     }
-
+# 5.2.2 孕期热量需求
 def pregnancy_calorie_need(base_kcal: float, trimester: str) -> dict:
     """
     Estimate daily calorie needs during pregnancy based on base daily calories.
@@ -1657,7 +2549,7 @@ def pregnancy_calorie_need(base_kcal: float, trimester: str) -> dict:
         "target": target,
         "progress": progress_map[trimester],
     }
-
+# 5.2.3 孕期蛋白质
 def pregnancy_protein_need(weight_kg: float, trimester: str) -> dict:
     """
     Simple site formula for pregnancy protein needs.
@@ -1694,7 +2586,7 @@ def pregnancy_protein_need(weight_kg: float, trimester: str) -> dict:
         "grams": grams,
         "progress": progress,
     }
-
+# 5.2.5 孕期饮水量
 def pregnancy_water_need(weight_kg: float, trimester: str) -> dict:
     """
     Simple site formula for pregnancy water needs.
@@ -2425,6 +3317,65 @@ def deficit():
         target_kcal=target_kcal,
         label=label,
     )
+# 2.2.3 维持体重
+def maintenance_calories_info(
+    sex: str,
+    age: int,
+    height_cm: float,
+    weight_kg: float,
+    activity_factor: float
+) -> dict:
+    """
+    Maintenance calories are essentially TDEE.
+    This helper also provides simple planning targets:
+    - mild cut
+    - moderate cut
+    - mild gain
+    """
+
+    if sex not in ("male", "female"):
+        raise ValueError("性别选择不正确。")
+    if age <= 0 or age > 120:
+        raise ValueError("请输入合理年龄。")
+    if height_cm <= 0 or height_cm > 250:
+        raise ValueError("请输入合理身高（cm）。")
+    if weight_kg <= 0 or weight_kg > 300:
+        raise ValueError("请输入合理体重（kg）。")
+    if activity_factor < 1.1 or activity_factor > 2.5:
+        raise ValueError("活动水平选择不正确。")
+
+    bmr = mifflin_st_jeor(sex, age, height_cm, weight_kg)
+    maintenance_kcal = round0(bmr * activity_factor)
+
+    mild_cut = max(1200, maintenance_kcal - 300)
+    moderate_cut = max(1200, maintenance_kcal - 500)
+    mild_gain = maintenance_kcal + 250
+
+    if activity_factor < 1.3:
+        activity_label = "久坐 / 很轻活动"
+        progress = 35
+    elif activity_factor < 1.5:
+        activity_label = "轻度活动"
+        progress = 50
+    elif activity_factor < 1.7:
+        activity_label = "中度活动"
+        progress = 68
+    elif activity_factor < 1.9:
+        activity_label = "较高活动"
+        progress = 82
+    else:
+        activity_label = "高活动量"
+        progress = 92
+
+    return {
+        "bmr": round0(bmr),
+        "maintenance_kcal": maintenance_kcal,
+        "mild_cut": mild_cut,
+        "moderate_cut": moderate_cut,
+        "mild_gain": mild_gain,
+        "activity_label": activity_label,
+        "progress": progress,
+    }
 # -----------------------
 # Tool: pregnancy
 # -----------------------
@@ -2566,6 +3517,135 @@ def conception_date():
         lmp_in=lmp_in,
         page_kind="tool",
     )
+# 5.1.5 月经周期
+@app.route("/period-calculator", methods=["GET", "POST"])
+def period_calculator():
+    error = None
+    result = None
+
+    lmp_in = ""
+    cycle_in = "28"
+    period_in = "5"
+
+    if request.method == "POST":
+        lmp_in = request.form.get("lmp", "").strip()
+        cycle_in = request.form.get("cycle_length", "28").strip()
+        period_in = request.form.get("period_length", "5").strip()
+
+        try:
+            if not lmp_in:
+                raise ValueError("请输入末次月经开始日期。")
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            cycle_length = int(cycle_in)
+            period_length = int(period_in)
+
+            result = period_cycle_info(lmp_date, cycle_length, period_length)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "月经周期计算器（下次月经 / 排卵期预测）- CalmyHealth",
+        "description": "输入末次月经开始日期、平均周期长度和经期时长，预测下次月经时间、排卵日和易孕期范围。",
+        "canonical": canonical_url("/period-calculator"),
+    }
+
+    return render_template(
+        "period_calculator.html",
+        meta=meta,
+        error=error,
+        result=result,
+        lmp_in=lmp_in,
+        cycle_in=cycle_in,
+        period_in=period_in,
+        page_kind="tool",
+    )
+# 5.1.6 安全期计算
+@app.route("/safe-days-calculator", methods=["GET", "POST"])
+def safe_days_calculator():
+    error = None
+    result = None
+
+    lmp_in = ""
+    cycle_in = "28"
+    period_in = "5"
+
+    if request.method == "POST":
+        lmp_in = request.form.get("lmp", "").strip()
+        cycle_in = request.form.get("cycle_length", "28").strip()
+        period_in = request.form.get("period_length", "5").strip()
+
+        try:
+            if not lmp_in:
+                raise ValueError("请输入末次月经开始日期。")
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            cycle_length = int(cycle_in)
+            period_length = int(period_in)
+
+            result = safe_days_info(lmp_date, cycle_length, period_length)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "安全期计算器（月经周期参考）- CalmyHealth",
+        "description": "输入末次月经开始日期、平均周期长度和经期时长，估算周期中的相对低受孕概率日期、排卵日和易孕期范围，仅供周期参考。",
+        "canonical": canonical_url("/safe-days-calculator"),
+    }
+
+    return render_template(
+        "safe_days_calculator.html",
+        meta=meta,
+        error=error,
+        result=result,
+        lmp_in=lmp_in,
+        cycle_in=cycle_in,
+        period_in=period_in,
+        page_kind="tool",
+    )
+# 5.1.7 易孕期计算
+@app.route("/fertility-calculator", methods=["GET", "POST"])
+def fertility_calculator():
+    error = None
+    result = None
+
+    lmp_in = ""
+    cycle_in = "28"
+
+    if request.method == "POST":
+        lmp_in = request.form.get("lmp", "").strip()
+        cycle_in = request.form.get("cycle_length", "28").strip()
+
+        try:
+            if not lmp_in:
+                raise ValueError("请输入末次月经开始日期。")
+
+            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
+            cycle_length = int(cycle_in)
+
+            result = fertility_window_info(lmp_date, cycle_length)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "易孕期计算器（Fertility Calculator）- CalmyHealth",
+        "description": "输入末次月经开始日期和平均周期长度，预测排卵日、易孕期范围和相对更高受孕概率的日期窗口。",
+        "canonical": canonical_url("/fertility-calculator"),
+    }
+
+    return render_template(
+        "fertility_calculator.html",
+        meta=meta,
+        error=error,
+        result=result,
+        lmp_in=lmp_in,
+        cycle_in=cycle_in,
+        page_kind="tool",
+    )
+# 5.1.8 着床时间
 # ========= 5.2. 孕期健康 ======= 
 # 5.2.1 孕期体重增长
 @app.route("/pregnancy-weight", methods=["GET", "POST"])
@@ -2898,8 +3978,60 @@ def calorie():
         weight_kg_in=weight_kg_in,
         activity_in=str(activity_in),
     )
+# 2.2.3 维持体重
+@app.route("/maintenance-calories", methods=["GET", "POST"])
+def maintenance_calories():
+    error = None
+    result = None
 
+    sex_in = "male"
+    age_in = ""
+    height_cm_in = ""
+    weight_kg_in = ""
+    activity_in = "1.375"
 
+    if request.method == "POST":
+        sex_in = request.form.get("sex", "male").strip()
+        age_in = request.form.get("age", "").strip()
+        height_cm_in = request.form.get("height_cm", "").strip()
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        activity_in = request.form.get("activity", "1.375").strip()
+
+        try:
+            age = int(age_in)
+            height_cm = float(height_cm_in)
+            weight_kg = float(weight_kg_in)
+            activity_factor = float(activity_in)
+
+            result = maintenance_calories_info(
+                sex_in,
+                age,
+                height_cm,
+                weight_kg,
+                activity_factor,
+            )
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "维持体重热量计算器（Maintenance Calories）- CalmyHealth",
+        "description": "输入性别、年龄、身高、体重和活动水平，估算维持当前体重所需热量，并查看轻度减脂、常见减脂和温和增肌的热量参考。",
+        "canonical": canonical_url("/maintenance-calories"),
+    }
+
+    return render_template(
+        "maintenance_calories.html",
+        meta=meta,
+        error=error,
+        result=result,
+        sex_in=sex_in,
+        age_in=age_in,
+        height_cm_in=height_cm_in,
+        weight_kg_in=weight_kg_in,
+        activity_in=activity_in,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: Water
 # -----------------------
@@ -3518,6 +4650,98 @@ def whr():
         result=result,
         page_kind="tool",
     )
+# 1.2.4 FFMI 计算
+@app.route("/ffmi", methods=["GET", "POST"])
+def ffmi():
+    error = None
+    sex_in = "male"
+    height_cm_in = ""
+    weight_kg_in = ""
+    bodyfat_pct_in = ""
+    result = None
+
+    if request.method == "POST":
+        sex_in = request.form.get("sex", "male").strip()
+        height_cm_in = request.form.get("height_cm", "").strip()
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        bodyfat_pct_in = request.form.get("bodyfat_pct", "").strip()
+
+        try:
+            height_cm = float(height_cm_in)
+            weight_kg = float(weight_kg_in)
+            bodyfat_pct = float(bodyfat_pct_in)
+
+            result = ffmi_info(height_cm, weight_kg, bodyfat_pct, sex_in)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "FFMI 计算器（去脂体重指数）- CalmyHealth",
+        "description": "输入身高、体重、体脂率和性别，计算 FFMI（去脂体重指数）、标准化 FFMI 和去脂体重，帮助更全面理解体型与肌肉量水平。",
+        "canonical": canonical_url("/ffmi"),
+    }
+
+    return render_template(
+        "ffmi.html",
+        meta=meta,
+        error=error,
+        sex_in=sex_in,
+        height_cm_in=height_cm_in,
+        weight_kg_in=weight_kg_in,
+        bodyfat_pct_in=bodyfat_pct_in,
+        result=result,
+        page_kind="tool",
+    )
+# 1.2.5 体脂目标时间
+@app.route("/body-fat-goal", methods=["GET", "POST"])
+def body_fat_goal():
+    error = None
+    weight_kg_in = ""
+    bodyfat_pct_in = ""
+    target_bodyfat_pct_in = ""
+    daily_deficit_kcal_in = "400"
+    result = None
+
+    if request.method == "POST":
+        weight_kg_in = request.form.get("weight_kg", "").strip()
+        bodyfat_pct_in = request.form.get("bodyfat_pct", "").strip()
+        target_bodyfat_pct_in = request.form.get("target_bodyfat_pct", "").strip()
+        daily_deficit_kcal_in = request.form.get("daily_deficit_kcal", "400").strip()
+
+        try:
+            weight_kg = float(weight_kg_in)
+            bodyfat_pct = float(bodyfat_pct_in)
+            target_bodyfat_pct = float(target_bodyfat_pct_in)
+            daily_deficit_kcal = float(daily_deficit_kcal_in)
+
+            result = body_fat_goal_info(
+                weight_kg,
+                bodyfat_pct,
+                target_bodyfat_pct,
+                daily_deficit_kcal,
+            )
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "体脂目标时间计算器（多久能降到目标体脂）- CalmyHealth",
+        "description": "输入当前体重、当前体脂率、目标体脂率和每日热量缺口，估算达到目标体脂率大概需要多久，并查看减脂节奏参考。",
+        "canonical": canonical_url("/body-fat-goal"),
+    }
+
+    return render_template(
+        "body_fat_goal.html",
+        meta=meta,
+        error=error,
+        weight_kg_in=weight_kg_in,
+        bodyfat_pct_in=bodyfat_pct_in,
+        target_bodyfat_pct_in=target_bodyfat_pct_in,
+        daily_deficit_kcal_in=daily_deficit_kcal_in,
+        result=result,
+        page_kind="tool",
+    )
 # -----------------------
 # Tool: Daily intake
 # -----------------------
@@ -3597,8 +4821,8 @@ def macro():
         result=result,
         page_kind="tool",
     )
-
-# 3.2.2. 餐次分配
+# ========= 3.3 饮食分配 ======= 
+# 3.3.1. 餐次分配
 @app.route("/meal-split", methods=["GET", "POST"])
 def meal_split():
     error = None
@@ -3638,6 +4862,48 @@ def meal_split():
         protein_in=protein_in,
         pattern_in=pattern_in,
         result=result,
+        page_kind="tool",
+    )
+# ========= 3.4 饮食质量 ======= 
+## 3.4.1. GL估算 
+@app.route("/glycemic-load", methods=["GET", "POST"])
+def glycemic_load():
+    error = None
+    result = None
+
+    gi_in = ""
+    carbs_in = ""
+    fiber_in = "0"
+
+    if request.method == "POST":
+        gi_in = request.form.get("gi", "").strip()
+        carbs_in = request.form.get("carbs_g", "").strip()
+        fiber_in = request.form.get("fiber_g", "0").strip()
+
+        try:
+            gi_val = float(gi_in)
+            carbs_val = float(carbs_in)
+            fiber_val = float(fiber_in)
+
+            result = glycemic_load_info(gi_val, carbs_val, fiber_val)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "GI/GL 估算器（血糖负荷计算器）- CalmyHealth",
+        "description": "输入 GI、总碳水和膳食纤维，估算食物的血糖负荷 GL，并了解低 GI、低 GL 与饮食结构之间的区别。",
+        "canonical": canonical_url("/glycemic-load"),
+    }
+
+    return render_template(
+        "glycemic_load.html",
+        meta=meta,
+        error=error,
+        result=result,
+        gi_in=gi_in,
+        carbs_in=carbs_in,
+        fiber_in=fiber_in,
         page_kind="tool",
     )
 # 3.1.3. 碳水 (Route)
@@ -3794,6 +5060,111 @@ def salt():
         processed_in=processed_in,
         snack_in=snack_in,
         result=result,
+        page_kind="tool",
+    )
+# 3.1.7 糖摄入
+def sugar_intake_estimate(
+    sugary_drinks: int,
+    desserts: int,
+    sweet_snacks: int,
+    sweet_sauces: int,
+    sweet_coffee_tea: int,
+) -> dict:
+    """
+    Very simplified daily sugar estimator.
+
+    Estimated sugar per serving (g):
+    - sugary drink: 25 g
+    - dessert: 18 g
+    - sweet snack: 12 g
+    - sweet sauce / syrup use: 8 g
+    - sweetened coffee / tea: 10 g
+
+    Educational estimate only.
+    """
+
+    vals = [sugary_drinks, desserts, sweet_snacks, sweet_sauces, sweet_coffee_tea]
+    if any(v < 0 or v > 20 for v in vals):
+        raise ValueError("请输入合理的份数。")
+
+    total_sugar_g = (
+        sugary_drinks * 25
+        + desserts * 18
+        + sweet_snacks * 12
+        + sweet_sauces * 8
+        + sweet_coffee_tea * 10
+    )
+
+    total_sugar_g = round1(total_sugar_g)
+    total_sugar_kcal = round0(total_sugar_g * 4)
+
+    if total_sugar_g <= 25:
+        level = "较低"
+        note = "整体糖摄入大致偏低或较克制。"
+        progress = 35
+    elif total_sugar_g <= 50:
+        level = "需要注意"
+        note = "已经进入很多人日常容易不知不觉偏高的区间。"
+        progress = 65
+    else:
+        level = "偏高"
+        note = "糖摄入相对偏高，更建议留意饮料、甜点和零食来源。"
+        progress = 88
+
+    return {
+        "total_sugar_g": total_sugar_g,
+        "total_sugar_kcal": total_sugar_kcal,
+        "level": level,
+        "note": note,
+        "progress": progress,
+        "rule_text": "本工具采用站内简化估算模型，根据常见含糖饮料、甜点、零食和调味场景粗略估算每日糖摄入。",
+    }
+# 3.1.8 咖啡因摄入
+@app.route("/caffeine-intake", methods=["GET", "POST"])
+def caffeine_intake():
+    error = None
+    result = None
+
+    brewed_coffee_in = "1"
+    espresso_shots_in = "0"
+    tea_cups_in = "1"
+    energy_drinks_in = "0"
+    cola_cans_in = "0"
+
+    if request.method == "POST":
+        brewed_coffee_in = request.form.get("brewed_coffee", "1").strip()
+        espresso_shots_in = request.form.get("espresso_shots", "0").strip()
+        tea_cups_in = request.form.get("tea_cups", "1").strip()
+        energy_drinks_in = request.form.get("energy_drinks", "0").strip()
+        cola_cans_in = request.form.get("cola_cans", "0").strip()
+
+        try:
+            result = caffeine_intake_estimate(
+                int(brewed_coffee_in),
+                int(espresso_shots_in),
+                int(tea_cups_in),
+                int(energy_drinks_in),
+                int(cola_cans_in),
+            )
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "咖啡因摄入计算器（一天喝多少咖啡因）- CalmyHealth",
+        "description": "根据咖啡、浓缩咖啡、茶、能量饮料和可乐的份数，粗略估算每天咖啡因摄入量，并判断整体是否偏高。",
+        "canonical": canonical_url("/caffeine-intake"),
+    }
+
+    return render_template(
+        "caffeine_intake.html",
+        meta=meta,
+        error=error,
+        result=result,
+        brewed_coffee_in=brewed_coffee_in,
+        espresso_shots_in=espresso_shots_in,
+        tea_cups_in=tea_cups_in,
+        energy_drinks_in=energy_drinks_in,
+        cola_cans_in=cola_cans_in,
         page_kind="tool",
     )
 # -----------------------
@@ -4016,6 +5387,88 @@ def running_kcal():
         minutes_in=minutes_in,
         pace_in=pace_in,
         result=result,
+        page_kind="tool",
+    )
+# 4.1.7 跑步配速
+@app.route("/running-pace", methods=["GET", "POST"])
+def running_pace():
+    error = None
+    result = None
+
+    distance_km_in = "5"
+    hours_in = "0"
+    minutes_in = "30"
+    seconds_in = "00"
+
+    if request.method == "POST":
+        distance_km_in = request.form.get("distance_km", "5").strip()
+        hours_in = request.form.get("hours", "0").strip()
+        minutes_in = request.form.get("minutes", "30").strip()
+        seconds_in = request.form.get("seconds", "00").strip()
+
+        try:
+            distance_km = float(distance_km_in)
+            hours = int(hours_in)
+            minutes = int(minutes_in)
+            seconds = int(seconds_in)
+
+            result = running_pace_info(distance_km, hours, minutes, seconds)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "跑步配速计算器（每公里配速 / 预计完赛时间）- CalmyHealth",
+        "description": "输入跑步距离和完成时间，计算每公里配速、平均速度，并估算 3K、5K、10K、半马和全马的预计完赛时间。",
+        "canonical": canonical_url("/running-pace"),
+    }
+
+    return render_template(
+        "running_pace.html",
+        meta=meta,
+        error=error,
+        result=result,
+        distance_km_in=distance_km_in,
+        hours_in=hours_in,
+        minutes_in=minutes_in,
+        seconds_in=seconds_in,
+        page_kind="tool",
+    )
+# 4.1.8 心率区间
+@app.route("/heart-rate-zone", methods=["GET", "POST"])
+def heart_rate_zone():
+    error = None
+    result = None
+
+    age_in = ""
+    resting_hr_in = ""
+
+    if request.method == "POST":
+        age_in = request.form.get("age", "").strip()
+        resting_hr_in = request.form.get("resting_hr", "").strip()
+
+        try:
+            age = int(age_in)
+            resting_hr = int(resting_hr_in) if resting_hr_in else None
+
+            result = heart_rate_zone_info(age, resting_hr)
+
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "心率区间计算器（Heart Rate Zone）- CalmyHealth",
+        "description": "输入年龄和可选的静息心率，估算运动心率训练区间，帮助理解恢复、燃脂、有氧、阈值和高强度心率范围。",
+        "canonical": canonical_url("/heart-rate-zone"),
+    }
+
+    return render_template(
+        "heart_rate_zone.html",
+        meta=meta,
+        error=error,
+        result=result,
+        age_in=age_in,
+        resting_hr_in=resting_hr_in,
         page_kind="tool",
     )
 
