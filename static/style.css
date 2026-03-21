@@ -312,3 +312,67 @@ hr{ border-top: 1px solid rgba(15,23,42,.08); }
     max-width: 100%;
   }
 }
+
+.brand-mark{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo{
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 38px;
+}
+
+.brand-logo svg{
+  width: 38px;
+  height: 38px;
+  display: block;
+}
+
+.brand-text-wrap{
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.brand-text-main{
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.brand-text-sub{
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.topbar .navbar-brand.brand-mark:hover .brand-text-main{
+  color: var(--brand);
+}
+
+@media (max-width: 575.98px){
+  .brand-text-sub{
+    display: none;
+  }
+
+  .brand-logo,
+  .brand-logo svg{
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-text-main{
+    font-size: 0.98rem;
+  }
+}

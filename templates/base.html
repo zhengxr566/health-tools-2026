@@ -405,7 +405,27 @@
         <button class="btn btn-sm btn-outline-secondary" type="button" id="sidebarToggle" aria-controls="sidebarPanel mobileNavCollapse" aria-label="打开工具目录">
           工具目录
         </button>
-        <a class="navbar-brand" href="/">{{ site_name or "CalmyHealth" }}</a>
+
+        <a class="navbar-brand brand-mark" href="/">
+          <span class="brand-logo" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="36" height="36" rx="12" fill="url(#g1)"/>
+              <path d="M24 15c-4.8 0-8.5 3.7-8.5 8.5 0 6.5 8.5 11 8.5 11s8.5-4.5 8.5-11c0-4.8-3.7-8.5-8.5-8.5z" fill="white" fill-opacity=".95"/>
+              <path d="M24 20.2v7.6M20.2 24h7.6" stroke="#198754" stroke-width="2.4" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="g1" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#34d399"/>
+                  <stop offset="1" stop-color="#198754"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
+
+          <span class="brand-text-wrap">
+            <span class="brand-text-main">{{ site_name or "CalmyHealth" }}</span>
+            <span class="brand-text-sub">Health Tools</span>
+          </span>
+        </a>
       </div>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false" aria-label="切换导航">
