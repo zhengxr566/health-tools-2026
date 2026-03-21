@@ -8,7 +8,7 @@
       <div class="tool-card tool-card-form">
         <h1 class="h4 mb-1">BMI 计算器（高级版）</h1>
         <p class="text-muted mb-3">
-          除了 BMI 数值，还提供健康体重区间、可视化与行动建议（仅供参考）。
+          除了 BMI 数值，还提供基准表、可视化与行动建议（仅供参考）。
         </p>
 
         <form method="post" class="row g-3" id="tool-form">
@@ -31,6 +31,7 @@
       </div>
 
       {% if bmi is not none %}
+      <!-- 结果卡片 -->
       <div class="tool-card">
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
           <div>
@@ -52,37 +53,6 @@
           <div class="form-text">提示：此条仅作直观展示（将 BMI 映射到 15–35 的范围）。</div>
         </div>
 
-        <hr class="my-4">
-
-        <h2 class="h6 mb-2">健康体重区间（按 BMI 18.5–23.9）</h2>
-        <div class="bg-light rounded-3 p-3">
-          <div>建议体重范围：<b>{{ ideal_min }} – {{ ideal_max }} kg</b></div>
-
-          {% if bmi < 18.5 and to_min is not none %}
-            <div class="small text-muted mt-2">
-              距离进入“正常”下限还差约 <b>{{ to_min|abs }}</b> kg（仅供参考）。
-            </div>
-          {% elif bmi > 23.9 and to_max is not none %}
-            <div class="small text-muted mt-2">
-              距离回到“正常”上限约需减少 <b>{{ to_max }}</b> kg（仅供参考）。
-            </div>
-          {% elif bmi >= 18.5 and bmi <= 23.9 %}
-            <div class="small text-muted mt-2">
-              你目前在区间内，可重点关注体脂、腰围与体能。
-            </div>
-          {% endif %}
-        </div>
-
-        <hr class="my-4">
-
-        <h2 class="h6 mb-2">{{ suggestion_title }}</h2>
-        <ul class="mb-2">
-          {% for s in suggestions %}
-            <li>{{ s }}</li>
-          {% endfor %}
-        </ul>
-        <div class="small text-muted">{{ risk_note }}</div>
-
         <div class="mt-3 d-flex flex-wrap gap-2">
           <a class="btn btn-outline-primary btn-sm" href="/bmr">去算 BMR（基础代谢）</a>
           <a class="btn btn-outline-primary btn-sm" href="/calorie">去算 TDEE（每日热量）</a>
@@ -91,7 +61,7 @@
         </div>
       </div>
 
-      <!-- BMI 基准表 -->
+      <!-- 有结果时：高亮基准表 -->
       <div class="tool-card">
         <h2 class="h6 mb-3">BMI 基准表</h2>
         <div class="table-responsive">
@@ -113,7 +83,7 @@
                   {% endif %}
                 </td>
                 <td>&lt; 18.5</td>
-                <td class="text-muted small">体重偏低，建议关注营养摄入与基础体能。</td>
+                <td class="text-muted small">体重偏低，建议关注营养摄入、力量训练与恢复情况。</td>
                 <td>
                   {% if bmi < 18.5 %}
                     <strong>BMI {{ bmi }}</strong>
@@ -149,7 +119,7 @@
                   {% endif %}
                 </td>
                 <td>24.0 – 27.9</td>
-                <td class="text-muted small">可优先关注热量摄入、活动量和腰围变化。</td>
+                <td class="text-muted small">建议优先关注热量摄入、活动量、睡眠与腰围变化。</td>
                 <td>
                   {% if bmi >= 24 and bmi <= 27.9 %}
                     <strong>BMI {{ bmi }}</strong>
@@ -167,7 +137,7 @@
                   {% endif %}
                 </td>
                 <td>≥ 28.0</td>
-                <td class="text-muted small">建议尽早结合饮食、运动和专业评估进行管理。</td>
+                <td class="text-muted small">建议尽早结合饮食、运动与专业评估进行体重管理。</td>
                 <td>
                   {% if bmi >= 28 %}
                     <strong>BMI {{ bmi }}</strong>
@@ -184,10 +154,62 @@
           参考分级：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
         </div>
       </div>
-      {% else %}
+
+      <!-- 行动建议移到基准表后面 -->
       <div class="tool-card">
-        <div class="text-muted">
-          输入身高和体重后，即可查看 BMI 数值、健康体重区间和行动建议。
+        <h2 class="h6 mb-2">{{ suggestion_title }}</h2>
+        <ul class="mb-2">
+          {% for s in suggestions %}
+            <li>{{ s }}</li>
+          {% endfor %}
+        </ul>
+        <div class="small text-muted">{{ risk_note }}</div>
+      </div>
+
+      {% else %}
+      <!-- 无结果时：默认显示不高亮基准表 -->
+      <div class="tool-card">
+        <div class="text-muted mb-3">
+          输入身高和体重后，即可查看 BMI 数值、所在区间与行动建议。
+        </div>
+
+        <h2 class="h6 mb-3">BMI 基准表</h2>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>分类</th>
+                <th>BMI 范围</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>偏瘦</td>
+                <td>&lt; 18.5</td>
+                <td class="text-muted small">体重偏低，建议关注营养摄入、力量训练与恢复情况。</td>
+              </tr>
+              <tr>
+                <td>正常</td>
+                <td>18.5 – 23.9</td>
+                <td class="text-muted small">常见成人参考正常范围，建议继续结合体脂率和腰围观察。</td>
+              </tr>
+              <tr>
+                <td>偏胖</td>
+                <td>24.0 – 27.9</td>
+                <td class="text-muted small">建议优先关注热量摄入、活动量、睡眠与腰围变化。</td>
+              </tr>
+              <tr>
+                <td>肥胖</td>
+                <td>≥ 28.0</td>
+                <td class="text-muted small">建议尽早结合饮食、运动与专业评估进行体重管理。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-text mt-2">
+          参考分级：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
         </div>
       </div>
       {% endif %}
