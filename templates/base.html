@@ -28,7 +28,7 @@
       --brand-soft: #edf8f2;
       --hover-bg: #f4f7fb;
       --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.06);
-      --topbar-h: 64px;
+      --topbar-h: 68px;
       --sidebar-w: 290px;
     }
 
@@ -42,49 +42,170 @@
       font-size: 15px;
     }
 
-    .topbar {
-      height: var(--topbar-h);
-      background: rgba(255, 255, 255, 0.96);
+    .navbar.topbar {
+      min-height: var(--topbar-h);
+      background: rgba(255, 255, 255, 0.96) !important;
       backdrop-filter: saturate(180%) blur(10px);
       -webkit-backdrop-filter: saturate(180%) blur(10px);
-      border-bottom: 1px solid rgba(25, 135, 84, 0.28);
+      border-bottom: 1px solid rgba(25, 135, 84, 0.22);
       position: sticky;
       top: 0;
       z-index: 1040;
     }
+
     .topbar .container-fluid,
     .topbar .navbar-collapse {
       position: relative;
       z-index: 1041;
     }
 
-    .topbar .navbar-brand {
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      color: #111827;
+    .topbar .container-fluid {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .topbar .navbar-brand.brand-mark {
+      color: #111827 !important;
       margin-bottom: 0;
     }
 
-    .topbar .nav-link {
-      color: #4b5563;
-      font-weight: 500;
-      border-radius: 0.6rem;
-      padding: 0.45rem 0.75rem;
-      transition: all .15s ease;
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
     }
 
-    /* 鼠标悬停 */
-    .topbar .nav-link:hover {
-      background: var(--hover-bg);
-      color: var(--brand);
+    .brand-logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: block;
     }
 
-    /* 当前页面 */
-    .topbar .nav-link.active {
-      background: var(--brand-soft);
-      color: var(--brand) !important;
+    .brand-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .brand-text-main {
+      font-size: 1.03rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #111827 !important;
+    }
+
+    .brand-text-sub {
+      font-size: 0.68rem;
       font-weight: 600;
-}
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .menu-toggle {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      flex: 0 0 36px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #1f2937;
+      border-radius: 999px;
+      margin-left: 2px;
+      transition: all .18s ease;
+    }
+
+    .menu-toggle:hover span:nth-child(1) {
+      transform: translateY(-1px);
+    }
+
+    .menu-toggle:hover span:nth-child(3) {
+      transform: translateY(1px);
+    }
+
+    .topbar .navbar-nav {
+      flex-wrap: nowrap;
+    }
+
+    .topbar .nav-link {
+      color: #4b5563 !important;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.48rem 0.9rem;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+    }
+
+    .topbar .nav-link:hover {
+      background: #f3f7f5;
+      color: #198754 !important;
+    }
+
+    .topbar .nav-link.active {
+      background: #edf8f2;
+      color: #198754 !important;
+      box-shadow: inset 0 0 0 1px rgba(25, 135, 84, 0.12);
+    }
+
+    .topbar-links-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      margin-left: 0.75rem;
+    }
+
+    .topbar-links-meta .nav-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #6b7280 !important;
+      padding: 0.3rem 0.55rem;
+      border-radius: 0.6rem;
+    }
+
+    .topbar-links-meta .nav-link:hover {
+      background: #f4f7fb;
+      color: #198754 !important;
+    }
+
+    .topbar-links-meta .nav-link.active {
+      background: transparent;
+      color: #198754 !important;
+      box-shadow: none;
+      font-weight: 600;
+    }
+
+    .topbar .navbar-toggler {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 10px;
+      padding: 0.35rem 0.55rem;
+    }
+
+    .topbar .navbar-toggler:focus {
+      box-shadow: none;
     }
 
     .site-shell {
@@ -356,6 +477,14 @@
         position: static;
         top: auto;
       }
+
+      .topbar .navbar-nav {
+        flex-wrap: wrap;
+      }
+
+      .topbar-links-meta {
+        margin-left: 0;
+      }
     }
 
     @media (max-width: 991.98px) {
@@ -385,11 +514,25 @@
         align-items: center;
         justify-content: center;
       }
+
+      .topbar-links-meta {
+        display: none;
+      }
     }
 
     @media (max-width: 575.98px) {
-      .topbar .navbar-brand {
-        font-size: 1rem;
+      .brand-text-sub {
+        display: none;
+      }
+
+      .brand-text-main {
+        font-size: 0.98rem;
+      }
+
+      .brand-logo,
+      .brand-logo img {
+        width: 34px;
+        height: 34px;
       }
 
       .content-wrap {
@@ -429,19 +572,33 @@
           <li class="nav-item">
             <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">首页</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link {% if request.path.startswith('/tools') or request.path.startswith('/category/') %}active{% endif %}" href="/tools">工具导航</a>
+            <a class="nav-link {% if request.path.startswith('/category/weight') %}active{% endif %}" href="/category/weight">体重与体型</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link {% if request.path.startswith('/about') %}active{% endif %}" href="/about">关于</a>
+            <a class="nav-link {% if request.path.startswith('/category/metabolism') %}active{% endif %}" href="/category/metabolism">代谢与热量</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link {% if request.path.startswith('/privacy') %}active{% endif %}" href="/privacy">隐私</a>
+            <a class="nav-link {% if request.path.startswith('/category/nutrition') %}active{% endif %}" href="/category/nutrition">营养摄入</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link {% if request.path.startswith('/contact') %}active{% endif %}" href="/contact">联系</a>
+            <a class="nav-link {% if request.path.startswith('/category/activity') %}active{% endif %}" href="/category/activity">运动与习惯</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {% if request.path.startswith('/category/pregnancy') %}active{% endif %}" href="/category/pregnancy">孕期工具</a>
           </li>
         </ul>
+
+        <div class="topbar-links-meta ms-lg-2">
+          <a class="nav-link {% if request.path.startswith('/about') %}active{% endif %}" href="/about">关于</a>
+          <a class="nav-link {% if request.path.startswith('/privacy') %}active{% endif %}" href="/privacy">隐私</a>
+          <a class="nav-link {% if request.path.startswith('/contact') %}active{% endif %}" href="/contact">联系</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -630,9 +787,10 @@
             {% block content %}{% endblock %}
 
             <footer class="footer-wrap">
-              <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
-                <div class="small text-muted">
-                  © {{ site_name or "CalmyHealth" }} · 健康数据工具仅供参考
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                  <div class="fw-semibold">CalmyHealth</div>
+                  <div class="small text-muted">健康数据工具 · 仅供参考</div>
                 </div>
                 <div class="small footer-links">
                   <a href="/tools">工具导航</a>
