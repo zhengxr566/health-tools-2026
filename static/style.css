@@ -483,3 +483,18 @@ hr{
     font-size: 0.98rem;
   }
 }
+
+@media (min-width: 992px){
+  .topbar .navbar-collapse{
+    align-items: flex-start;
+    padding-top: 6px;
+  }
+
+  .topbar .navbar-nav{
+    align-items: center;
+  }
+
+  .topbar-links-meta{
+    margin-top: -2px;
+  }
+}
