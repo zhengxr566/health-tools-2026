@@ -1,41 +1,3 @@
-{% extends "base.html" %}
-{% block content %}
-
-<div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
-  <div class="tool-col tool-col-form">
-    <div class="tool-card">
-      <h1 class="h4 mb-1">活动量等级计算器（你属于久坐、轻度还是中度活动）</h1>
-      <p class="text-muted mb-3">
-        输入你的日均步数、每周运动天数和久坐时长，快速估算你更接近久坐、轻度活动还是中度活动水平。
-      </p>
-
-      <form method="post" class="row g-3">
-        <div class="col-12">
-          <label class="form-label">日均步数</label>
-          <input name="steps_per_day" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 7000">
-        </div>
-
-        <div class="col-12">
-          <label class="form-label">每周运动天数</label>
-          <input name="exercise_days" class="form-control" inputmode="numeric" required value="{{ exercise_days_in }}" placeholder="例如 2">
-        </div>
-
-        <div class="col-12">
-          <label class="form-label">平均每天久坐时长（小时）</label>
-          <input name="sit_hours" class="form-control" inputmode="decimal" required value="{{ sit_hours_in }}" placeholder="例如 8">
-        </div>
-
-        <div class="col-12">
-          <button class="btn btn-success w-100">计算活动量等级</button>
-        </div>
-      </form>
-
-      {% if error %}
-        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-      {% endif %}
-    </div>
-
     {% if result %}
     <div class="tool-card">
       <div class="text-muted small mb-1">估算结果</div>
@@ -60,110 +22,189 @@
         这个结果更适合作为日常活动量判断参考，帮助你理解自己在 TDEE、减脂和步数目标里大概属于什么水平。
       </div>
     </div>
-    {% else %}
+
+    <!-- 有结果时：高亮基准表 -->
     <div class="tool-card">
-      <div class="text-muted">
+      <h2 class="h6 mb-3">活动量参考基准表</h2>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>等级</th>
+              <th>步数参考</th>
+              <th>运动频率参考</th>
+              <th>久坐情况</th>
+              <th>你的位置</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="{% if result.level in ['久坐型', '久坐', '低活动'] %}table-warning{% endif %}">
+              <td>
+                久坐 / 低活动
+                {% if result.level in ['久坐型', '久坐', '低活动'] %}
+                  <span class="badge text-bg-warning ms-2">当前</span>
+                {% endif %}
+              </td>
+              <td>&lt; 5000 步/天</td>
+              <td>通常缺少规律运动</td>
+              <td class="text-muted small">久坐时间较长，应优先减少连续久坐</td>
+              <td>
+                {% if result.level in ['久坐型', '久坐', '低活动'] %}
+                  <strong>{{ result.level }}</strong>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+            </tr>
+
+            <tr class="{% if result.level in ['轻度活动', '轻度'] %}table-success{% endif %}">
+              <td>
+                轻度活动
+                {% if result.level in ['轻度活动', '轻度'] %}
+                  <span class="badge text-bg-success ms-2">当前</span>
+                {% endif %}
+              </td>
+              <td>5000 – 7499 步/天</td>
+              <td>开始有一定规律活动</td>
+              <td class="text-muted small">久坐仍较常见，适合继续增加日常走动和主动活动</td>
+              <td>
+                {% if result.level in ['轻度活动', '轻度'] %}
+                  <strong>{{ result.level }}</strong>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+            </tr>
+
+            <tr class="{% if result.level in ['中度活动', '中度', '中高活动', '较活跃'] %}table-primary{% endif %}">
+              <td>
+                中度活动及以上
+                {% if result.level in ['中度活动', '中度', '中高活动', '较活跃'] %}
+                  <span class="badge text-bg-primary ms-2">当前</span>
+                {% endif %}
+              </td>
+              <td>≥ 7500 步/天</td>
+              <td>更接近达到每周活动建议</td>
+              <td class="text-muted small">整体活动水平较好，但仍应避免长时间连续久坐</td>
+              <td>
+                {% if result.level in ['中度活动', '中度', '中高活动', '较活跃'] %}
+                  <strong>{{ result.level }}</strong>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-text mt-2">
+        参考说明：本表为综合参考，不是医疗分级。成人活动建议主要依据 WHO 身体活动与久坐行为指南；步数区间参考常用成人步数分层研究：&lt;5000、5000–7499、7500–9999、≥10000 步/天。
+      </div>
+
+      <div class="small text-muted mt-1">
+        来源：
+        <a href="https://www.who.int/news-room/fact-sheets/detail/physical-activity"
+           target="_blank" rel="nofollow noopener">
+          World Health Organization (WHO) — Physical activity
+        </a>
+        ；
+        <a href="https://www.who.int/initiatives/behealthy/physical-activity"
+           target="_blank" rel="nofollow noopener">
+          WHO — Physical activity recommendations for adults
+        </a>
+        ；
+        <a href="https://cdnsciencepub.com/doi/pdf/10.1139/apnm-2012-0235"
+           target="_blank" rel="nofollow noopener">
+          Tudor-Locke et al. — step-defined sedentary lifestyle index
+        </a>
+      </div>
+    </div>
+
+    <!-- 行动建议放到基准表后面 -->
+    <div class="tool-card">
+      <h2 class="h6 mb-2">怎么理解这个结果？</h2>
+      <ul class="mb-2">
+        {% if result.level in ['久坐型', '久坐', '低活动'] %}
+          <li>优先目标不是一开始做很难的训练，而是先减少整天久坐。</li>
+          <li>可以先把日均步数逐步提高，例如先增加 1000–2000 步。</li>
+          <li>若平时几乎不运动，可从每周 2–3 次轻中强度活动开始建立习惯。</li>
+        {% elif result.level in ['轻度活动', '轻度'] %}
+          <li>你已经不是完全久坐状态，但整体活动量还有继续提升空间。</li>
+          <li>可继续增加步数、缩短连续久坐时间，并逐步接近每周活动建议。</li>
+          <li>如果正在做 TDEE 或减脂计划，这一档通常更适合保守估算活动系数。</li>
+        {% else %}
+          <li>你的整体活动水平相对较好，更接近中度活动及以上。</li>
+          <li>除了维持步数和训练频率，也要注意避免长时间连续坐着不动。</li>
+          <li>若你的目标是增肌、减脂或表现提升，可再结合心率区间和训练计划细化安排。</li>
+        {% endif %}
+      </ul>
+      <div class="small text-muted">
+        提示：WHO 建议成人每周至少进行 150–300 分钟中等强度活动，或 75–150 分钟高强度活动；久坐时间也应尽量减少。这个工具更适合作为日常管理参考，而不是医学诊断。 
+      </div>
+    </div>
+
+    {% else %}
+    <!-- 无结果时：默认显示不高亮基准表 -->
+    <div class="tool-card">
+      <div class="text-muted mb-3">
         输入日均步数、每周运动天数和久坐时长后，即可查看你的活动量等级。
+      </div>
+
+      <h2 class="h6 mb-3">活动量参考基准表</h2>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>等级</th>
+              <th>步数参考</th>
+              <th>运动频率参考</th>
+              <th>久坐情况</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>久坐 / 低活动</td>
+              <td>&lt; 5000 步/天</td>
+              <td>通常缺少规律运动</td>
+              <td class="text-muted small">久坐时间较长，应优先减少连续久坐</td>
+            </tr>
+            <tr>
+              <td>轻度活动</td>
+              <td>5000 – 7499 步/天</td>
+              <td>开始有一定规律活动</td>
+              <td class="text-muted small">久坐仍较常见，适合继续增加日常走动和主动活动</td>
+            </tr>
+            <tr>
+              <td>中度活动及以上</td>
+              <td>≥ 7500 步/天</td>
+              <td>更接近达到每周活动建议</td>
+              <td class="text-muted small">整体活动水平较好，但仍应避免长时间连续久坐</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-text mt-2">
+        参考说明：本表为综合参考，不是医疗分级。成人活动建议主要依据 WHO 身体活动与久坐行为指南；步数区间参考常用成人步数分层研究：&lt;5000、5000–7499、7500–9999、≥10000 步/天。
+      </div>
+
+      <div class="small text-muted mt-1">
+        来源：
+        <a href="https://www.who.int/news-room/fact-sheets/detail/physical-activity"
+           target="_blank" rel="nofollow noopener">
+          World Health Organization (WHO) — Physical activity
+        </a>
+        ；
+        <a href="https://www.who.int/initiatives/behealthy/physical-activity"
+           target="_blank" rel="nofollow noopener">
+          WHO — Physical activity recommendations for adults
+        </a>
+        ；
+        <a href="https://cdnsciencepub.com/doi/pdf/10.1139/apnm-2012-0235"
+           target="_blank" rel="nofollow noopener">
+          Tudor-Locke et al. — step-defined sedentary lifestyle index
+        </a>
       </div>
     </div>
     {% endif %}
-  </div>
-
-  <!-- 右侧：解释 / SEO 内容 -->
-  <div class="tool-col tool-col-result">
-    <div class="tool-card">
-      <h2 class="h6">什么是活动量等级？</h2>
-      <p class="text-muted">
-        很多人知道自己“最近不太动”或者“我还算有在运动”，但真正问到自己到底属于久坐、轻度活动还是中度活动时，往往并没有清晰概念。
-        活动量等级计算器的作用，就是把这种模糊感受变成一个更直观的结果。
-      </p>
-
-      <p class="text-muted mb-0">
-        它并不是要给你下结论，而是帮助你更好地理解：你的日常步数、运动频率和久坐时长放在一起，大概属于什么水平。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">这个工具的判断逻辑</h2>
-
-      <div class="bg-light rounded-3 p-3 small mb-3">
-        活动量等级 = 日均步数 + 每周运动频率 + 久坐时长 的综合简化判断
-      </div>
-
-      <p class="text-muted mb-2">本工具主要参考 3 个维度：</p>
-      <ul class="text-muted mb-0 ps-3">
-        <li class="mb-2">你平时平均每天走多少步</li>
-        <li class="mb-2">你每周大概运动几天</li>
-        <li class="mb-0">你每天坐着的时间大概有多久</li>
-      </ul>
-
-      <p class="text-muted mt-3 mb-0">
-        这是一套适合工具站使用的简化模型，重点是帮助你做日常活动管理，而不是替代专业运动评估。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">为什么“有运动”不一定就代表活动量高？</h2>
-      <p class="text-muted">
-        因为有些人虽然每周会去健身几次，但除此之外大部分时间都处于久坐状态；也有人不做正式训练，但每天走很多路、整体活动量反而更高。
-        所以只看“有没有运动”还不够，通常要把步数、久坐和训练频率一起看。
-      </p>
-
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">更实用的理解方式</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">步数反映你平时有没有动起来</li>
-          <li class="mb-2">运动天数反映你有没有主动安排活动</li>
-          <li class="mb-2">久坐时长反映你是不是大部分时间都静止</li>
-          <li class="mb-0">三者一起看，通常比只看一个数字更有意义</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">这个工具适合怎么用？</h2>
-      <p class="text-muted">
-        适合在做 TDEE 估算、减脂计划、步数目标设定之前，先判断一下自己目前到底属于什么活动水平。因为很多人最大的问题不是“不会算热量”，
-        而是压根不清楚自己平时属于久坐、轻度还是中度活动，结果一开始就把热量估得太高或太低。
-      </p>
-
-      <h2 class="h6 mt-4">相关活动工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/calorie">每日热量需求 TDEE</a>：活动量等级能帮助理解 TDEE 活动系数</li>
-        <li><a href="/step-goal">每日步数目标计算器</a>：看你每天适合定多少步</li>
-        <li><a href="/running-pace">跑步配速计算器</a>：把整体活动水平延伸到具体跑步表现</li>
-        <li><a href="/heart-rate-zone">心率区间计算器</a>：从整体活动习惯进一步走向训练区间</li>
-        <li><a href="/steps">步数转热量</a>：估算步数对应的活动消耗</li>
-        <li><a href="/steps-distance">步数转距离计算器</a>：把步数换成公里更直观</li>
-        <li><a href="/steps-time">步数转步行时间计算器</a>：把步数换成时间更好执行</li>
-        <li><a href="/deficit">热量缺口 / 目标热量</a>：把活动量和减脂计划接起来看</li>
-      </ul>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">常见问题</h2>
-
-      <h3 class="h6 mt-3 mb-1">久坐型是不是就一定不健康？</h3>
-      <p class="text-muted">
-        这个工具不做医学判断，它只是帮助你理解自己目前的活动模式更偏向哪一类。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">如果我每周运动 3 次，还会是轻度活动吗？</h3>
-      <p class="text-muted">
-        有可能。因为还要结合你的日均步数和久坐时长一起看，不是只看运动次数。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">这个结果能直接拿去套 TDEE 吗？</h3>
-      <p class="text-muted">
-        可以作为理解和初步参考，但仍建议结合你自己的体重变化趋势去微调。
-      </p>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">
-        本页面仅用于一般科普参考，不构成医疗建议。
-      </p>
-    </div>
-  </div>
-</div>
-
-{% endblock %}
