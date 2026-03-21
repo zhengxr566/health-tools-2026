@@ -184,3 +184,58 @@ hr{ border-top: 1px solid rgba(15,23,42,.08); }
     gap: 14px;
   }
 }
+
+/* =========================
+   NEW Tool page (2026)
+   ========================= */
+
+.tool-page{
+  min-width: 0;
+}
+
+.tool-page-main{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.tool-main-col{
+  min-width: 0;
+}
+
+.tool-side-col{
+  min-width: 0;
+}
+
+.tool-card + .tool-card{
+  margin-top: 16px;
+}
+
+/* 右侧固定 */
+.tool-side-sticky{
+  position: sticky;
+  top: calc(var(--topbar-h) + 16px);
+}
+
+/* 限制主内容宽度（更像专业站） */
+@media (min-width: 1200px){
+  .tool-main-col{
+    max-width: 760px;
+  }
+}
+
+/* 移动端 */
+@media (max-width: 991.98px){
+  .tool-page-main{
+    grid-template-columns: 1fr;
+  }
+
+  .tool-side-sticky{
+    position: static;
+  }
+
+  .tool-main-col{
+    max-width: 100%;
+  }
+}
