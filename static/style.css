@@ -391,3 +391,38 @@ hr{ border-top: 1px solid rgba(15,23,42,.08); }
   border-radius: 10px; /* 关键：圆角更高级 */
   display: block;
 }
+
+.menu-toggle{
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.menu-toggle span{
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #1f2937;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+/* hover 微动效 */
+.menu-toggle:hover span:nth-child(1){
+  transform: translateY(-1px);
+}
+.menu-toggle:hover span:nth-child(3){
+  transform: translateY(1px);
+}
+
+.topbar .container-fluid{
+  padding-left: 18px;
+  padding-right: 18px;
+}
