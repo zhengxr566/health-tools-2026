@@ -90,6 +90,100 @@
           <a class="btn btn-outline-primary btn-sm" href="/waist">看腰围风险</a>
         </div>
       </div>
+
+      <!-- BMI 基准表 -->
+      <div class="tool-card">
+        <h2 class="h6 mb-3">BMI 基准表</h2>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>分类</th>
+                <th>BMI 范围</th>
+                <th>说明</th>
+                <th>你的位置</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="{% if bmi < 18.5 %}table-warning{% endif %}">
+                <td>
+                  偏瘦
+                  {% if bmi < 18.5 %}
+                    <span class="badge text-bg-warning ms-2">当前</span>
+                  {% endif %}
+                </td>
+                <td>&lt; 18.5</td>
+                <td class="text-muted small">体重偏低，建议关注营养摄入与基础体能。</td>
+                <td>
+                  {% if bmi < 18.5 %}
+                    <strong>BMI {{ bmi }}</strong>
+                  {% else %}
+                    <span class="text-muted">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+
+              <tr class="{% if bmi >= 18.5 and bmi <= 23.9 %}table-success{% endif %}">
+                <td>
+                  正常
+                  {% if bmi >= 18.5 and bmi <= 23.9 %}
+                    <span class="badge text-bg-success ms-2">当前</span>
+                  {% endif %}
+                </td>
+                <td>18.5 – 23.9</td>
+                <td class="text-muted small">常见成人参考正常范围，建议继续结合体脂率和腰围观察。</td>
+                <td>
+                  {% if bmi >= 18.5 and bmi <= 23.9 %}
+                    <strong>BMI {{ bmi }}</strong>
+                  {% else %}
+                    <span class="text-muted">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+
+              <tr class="{% if bmi >= 24 and bmi <= 27.9 %}table-warning{% endif %}">
+                <td>
+                  偏胖
+                  {% if bmi >= 24 and bmi <= 27.9 %}
+                    <span class="badge text-bg-warning ms-2">当前</span>
+                  {% endif %}
+                </td>
+                <td>24.0 – 27.9</td>
+                <td class="text-muted small">可优先关注热量摄入、活动量和腰围变化。</td>
+                <td>
+                  {% if bmi >= 24 and bmi <= 27.9 %}
+                    <strong>BMI {{ bmi }}</strong>
+                  {% else %}
+                    <span class="text-muted">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+
+              <tr class="{% if bmi >= 28 %}table-danger{% endif %}">
+                <td>
+                  肥胖
+                  {% if bmi >= 28 %}
+                    <span class="badge text-bg-danger ms-2">当前</span>
+                  {% endif %}
+                </td>
+                <td>≥ 28.0</td>
+                <td class="text-muted small">建议尽早结合饮食、运动和专业评估进行管理。</td>
+                <td>
+                  {% if bmi >= 28 %}
+                    <strong>BMI {{ bmi }}</strong>
+                  {% else %}
+                    <span class="text-muted">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-text mt-2">
+          参考分级：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
+        </div>
+      </div>
       {% else %}
       <div class="tool-card">
         <div class="text-muted">
