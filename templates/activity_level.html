@@ -52,10 +52,6 @@
 
         <div class="text-muted small mt-2 mb-3">{{ result.desc }}</div>
 
-        <div class="alert alert-info mb-3">
-          按你填写的情况估算，你目前更接近：<b>{{ result.level }}</b>
-        </div>
-
         <div class="mt-3">
           <div class="d-flex justify-content-between small text-muted">
             <span>久坐</span><span>轻度活动</span><span>中度活动</span>
@@ -71,6 +67,10 @@
         <div class="bg-light rounded-3 p-3 mt-3">
           <div class="fw-semibold mb-1">TDEE 活动系数参考</div>
           <div class="small text-muted">{{ result.factor }}</div>
+        </div>
+
+        <div class="small text-muted mt-3">
+          按你填写的情况估算，你目前更接近：<b>{{ result.level }}</b>。这个结果更适合作为日常活动量判断参考，帮助你理解自己在 TDEE、减脂和步数目标里大概属于什么水平。
         </div>
 
         <div class="mt-3 d-flex flex-wrap gap-2">
@@ -157,7 +157,7 @@
         </div>
 
         <div class="form-text mt-2">
-          参考说明：本表为综合参考，不是医疗分级，也不是 WHO 官方发布的“步数 + 运动天数 + 久坐时长”合成表。本工具采用基于公开身体活动建议的简化分层：成人通常建议每周进行 150–300 分钟中等强度有氧活动，或 75–150 分钟高强度有氧活动，并结合每周 2 天以上肌肉强化活动，同时应尽量减少久坐时间。
+          参考说明：本表为综合参考，不是医疗分级，也不是官方发布的“步数 + 运动天数 + 久坐时长”合成表。本工具采用简化分层，主要用于帮助理解日常活动水平与 TDEE 活动系数的大致关系。
         </div>
 
         <div class="small text-muted mt-1">
@@ -242,7 +242,7 @@
         </div>
 
         <div class="form-text mt-2">
-          参考说明：本表为综合参考，不是医疗分级，也不是 WHO 官方发布的“步数 + 运动天数 + 久坐时长”合成表。本工具采用基于公开身体活动建议的简化分层：成人通常建议每周进行 150–300 分钟中等强度有氧活动，或 75–150 分钟高强度有氧活动，并结合每周 2 天以上肌肉强化活动，同时应尽量减少久坐时间。
+          参考说明：本表为综合参考，不是医疗分级，也不是官方发布的“步数 + 运动天数 + 久坐时长”合成表。本工具采用简化分层，主要用于帮助理解日常活动水平与 TDEE 活动系数的大致关系。
         </div>
 
         <div class="small text-muted mt-1">
@@ -357,28 +357,110 @@
     <!-- 页面右列：搜索 + 相关工具 + 连续说明 -->
     <aside class="tool-side-col">
       <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 TDEE / 步数 / 心率"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
+
         <div class="tool-side-content">
-          <h2 class="h6">为什么先判断活动量等级？</h2>
+          <h2 class="h6">相关工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/calorie">每日热量需求（TDEE）</a>：活动量等级会影响热量估算</li>
+            <li class="mb-2"><a href="/step-goal">每日步数目标</a>：根据当前活动水平设定更合适的步数目标</li>
+            <li class="mb-2"><a href="/steps">步数转热量</a>：看看每天多走路大概能带来多少消耗</li>
+            <li class="mb-2"><a href="/steps-distance">步数转距离</a>：把日常步数换算成公里更直观</li>
+            <li class="mb-2"><a href="/steps-time">步数转步行时间</a>：把步数换算成时间，更方便执行</li>
+            <li class="mb-2"><a href="/heart-rate-zone">心率区间计算器</a>：把日常活动进一步延伸到训练安排</li>
+            <li class="mb-2"><a href="/running-pace">跑步配速计算器</a>：了解跑步时的节奏与训练强度</li>
+            <li class="mb-0"><a href="/deficit">热量缺口 / 目标热量</a>：把活动量和减脂计划接起来看</li>
+          </ul>
+
+          <h2 class="h6">为什么活动量等级很重要？</h2>
           <p class="text-muted">
-            因为很多人在估算 TDEE、制定减脂计划或安排步数目标时，最容易出错的不是公式，而是对自己“平时到底动不动”的判断。
-            先搞清楚自己更接近久坐、轻度活动还是中度活动，后面的目标会更容易设准。
+            很多人在做 TDEE 估算、减脂计划或步数目标时，最容易出错的不是不会算，而是并不清楚自己平时到底属于久坐、轻度活动还是中度活动。
+            先判断活动量等级，后面的计划通常会更容易设准。
           </p>
 
-          <h2 class="h6 mt-4">活动量不是只看有没有运动</h2>
+          <h2 class="h6 mt-4">为什么不能只看“有没有运动”？</h2>
           <p class="text-muted">
-            有些人每周会专门训练几次，但一天里大多数时间还是坐着；也有人虽然不做正式训练，却每天走很多路、整体活动量并不低。
+            因为有些人每周会专门运动几次，但一天大部分时间仍然久坐；也有人不做正式训练，却每天走很多路，整体活动量反而更高。
             所以判断活动水平时，通常要把步数、运动频率和久坐情况一起看。
           </p>
 
-          <h2 class="h6 mt-4">这个结果能怎么用？</h2>
+          <h2 class="h6 mt-4">下一步怎么做？</h2>
           <p class="text-muted mb-0">
-            你可以把这个结果当成 TDEE 活动系数、步数目标和热量计划的起点，再根据一段时间后的体重、围度和执行感受做调整。
-            比只看单一数字更实用。
+            你可以把这个结果当成日常活动管理的起点，再结合
+            <a href="/calorie">TDEE</a>、
+            <a href="/step-goal">步数目标</a>、
+            <a href="/deficit">目标热量</a>
+            和
+            <a href="/heart-rate-zone">训练强度</a>
+            一起看，这样会比只看“运动几天”更有参考价值。
           </p>
         </div>
       </div>
     </aside>
   </div>
 </div>
+
+<script>
+(function () {
+  const input = document.getElementById("toolSearchInput");
+  const resultBox = document.getElementById("toolSearchResult");
+
+  const tools = [
+    { name: "BMI 计算器", path: "/bmi" },
+    { name: "基础代谢率 BMR", path: "/bmr" },
+    { name: "每日热量需求 TDEE", path: "/calorie" },
+    { name: "热量缺口/目标热量", path: "/deficit" },
+    { name: "活动量等级计算器", path: "/activity-level" },
+    { name: "每日步数目标", path: "/step-goal" },
+    { name: "步数转热量", path: "/steps" },
+    { name: "步数转距离计算器", path: "/steps-distance" },
+    { name: "步数转步行时间计算器", path: "/steps-time" },
+    { name: "心率区间计算器", path: "/heart-rate-zone" },
+    { name: "跑步配速计算器", path: "/running-pace" },
+    { name: "体脂率计算（US Navy）", path: "/bodyfat" },
+    { name: "腰围风险（WHtR）", path: "/waist" },
+    { name: "FFMI 计算器", path: "/ffmi" },
+    { name: "蛋白质需求", path: "/protein" },
+    { name: "宏量营养素计算器", path: "/macro" },
+    { name: "睡眠周期", path: "/sleep" },
+    { name: "睡眠需求计算器", path: "/sleep-need" }
+  ];
+
+  function renderResults(q) {
+    const query = q.trim().toLowerCase();
+
+    if (!query) {
+      resultBox.innerHTML = '<div class="text-muted">输入关键词可快速跳转到站内工具。</div>';
+      return;
+    }
+
+    const matched = tools.filter(t => t.name.toLowerCase().includes(query)).slice(0, 8);
+
+    if (!matched.length) {
+      resultBox.innerHTML = '<div class="text-muted">没有找到匹配工具。</div>';
+      return;
+    }
+
+    resultBox.innerHTML = matched.map(t => (
+      '<div class="mb-2"><a href="' + t.path + '">' + t.name + '</a></div>'
+    )).join('');
+  }
+
+  input.addEventListener("input", function () {
+    renderResults(this.value);
+  });
+
+  renderResults("");
+})();
+</script>
 
 {% endblock %}
