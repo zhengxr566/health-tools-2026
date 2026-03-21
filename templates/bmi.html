@@ -77,13 +77,13 @@
             <tbody>
               <tr class="{% if bmi < 18.5 %}table-warning{% endif %}">
                 <td>
-                  偏瘦
+                  体重过低
                   {% if bmi < 18.5 %}
                     <span class="badge text-bg-warning ms-2">当前</span>
                   {% endif %}
                 </td>
                 <td>&lt; 18.5</td>
-                <td class="text-muted small">体重偏低，建议关注营养摄入、力量训练与恢复情况。</td>
+                <td class="text-muted small">提示体重偏低，可结合饮食摄入、力量训练和恢复情况综合观察。</td>
                 <td>
                   {% if bmi < 18.5 %}
                     <strong>BMI {{ bmi }}</strong>
@@ -93,17 +93,17 @@
                 </td>
               </tr>
 
-              <tr class="{% if bmi >= 18.5 and bmi <= 23.9 %}table-success{% endif %}">
+              <tr class="{% if bmi >= 18.5 and bmi <= 24.9 %}table-success{% endif %}">
                 <td>
                   正常
-                  {% if bmi >= 18.5 and bmi <= 23.9 %}
+                  {% if bmi >= 18.5 and bmi <= 24.9 %}
                     <span class="badge text-bg-success ms-2">当前</span>
                   {% endif %}
                 </td>
-                <td>18.5 – 23.9</td>
-                <td class="text-muted small">常见成人参考正常范围，建议继续结合体脂率和腰围观察。</td>
+                <td>18.5 – 24.9</td>
+                <td class="text-muted small">WHO 成人正常参考范围，建议继续结合体脂率、腰围和生活方式一起评估。</td>
                 <td>
-                  {% if bmi >= 18.5 and bmi <= 23.9 %}
+                  {% if bmi >= 18.5 and bmi <= 24.9 %}
                     <strong>BMI {{ bmi }}</strong>
                   {% else %}
                     <span class="text-muted">—</span>
@@ -111,17 +111,17 @@
                 </td>
               </tr>
 
-              <tr class="{% if bmi >= 24 and bmi <= 27.9 %}table-warning{% endif %}">
+              <tr class="{% if bmi >= 25 and bmi <= 29.9 %}table-warning{% endif %}">
                 <td>
-                  偏胖
-                  {% if bmi >= 24 and bmi <= 27.9 %}
+                  超重
+                  {% if bmi >= 25 and bmi <= 29.9 %}
                     <span class="badge text-bg-warning ms-2">当前</span>
                   {% endif %}
                 </td>
-                <td>24.0 – 27.9</td>
-                <td class="text-muted small">建议优先关注热量摄入、活动量、睡眠与腰围变化。</td>
+                <td>25.0 – 29.9</td>
+                <td class="text-muted small">建议优先关注总热量摄入、活动量、睡眠情况，以及腰围等指标变化。</td>
                 <td>
-                  {% if bmi >= 24 and bmi <= 27.9 %}
+                  {% if bmi >= 25 and bmi <= 29.9 %}
                     <strong>BMI {{ bmi }}</strong>
                   {% else %}
                     <span class="text-muted">—</span>
@@ -129,17 +129,17 @@
                 </td>
               </tr>
 
-              <tr class="{% if bmi >= 28 %}table-danger{% endif %}">
+              <tr class="{% if bmi >= 30 %}table-danger{% endif %}">
                 <td>
                   肥胖
-                  {% if bmi >= 28 %}
+                  {% if bmi >= 30 %}
                     <span class="badge text-bg-danger ms-2">当前</span>
                   {% endif %}
                 </td>
-                <td>≥ 28.0</td>
-                <td class="text-muted small">建议尽早结合饮食、运动与专业评估进行体重管理。</td>
+                <td>≥ 30.0</td>
+                <td class="text-muted small">建议尽早结合饮食、运动和专业评估进行体重管理，不宜只看单一数字。</td>
                 <td>
-                  {% if bmi >= 28 %}
+                  {% if bmi >= 30 %}
                     <strong>BMI {{ bmi }}</strong>
                   {% else %}
                     <span class="text-muted">—</span>
@@ -151,7 +151,15 @@
         </div>
 
         <div class="form-text mt-2">
-          参考分级：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
+          分类参考：世界卫生组织（WHO）成人 BMI 标准：&lt;18.5 体重过低，18.5–24.9 正常，25.0–29.9 超重，≥30.0 肥胖。
+        </div>
+
+        <div class="small text-muted mt-1">
+          来源：
+          <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
+             target="_blank" rel="nofollow noopener">
+            World Health Organization (WHO) — Obesity and overweight
+          </a>
         </div>
       </div>
 
@@ -185,31 +193,39 @@
             </thead>
             <tbody>
               <tr>
-                <td>偏瘦</td>
+                <td>体重过低</td>
                 <td>&lt; 18.5</td>
-                <td class="text-muted small">体重偏低，建议关注营养摄入、力量训练与恢复情况。</td>
+                <td class="text-muted small">提示体重偏低，可结合饮食摄入、力量训练和恢复情况综合观察。</td>
               </tr>
               <tr>
                 <td>正常</td>
-                <td>18.5 – 23.9</td>
-                <td class="text-muted small">常见成人参考正常范围，建议继续结合体脂率和腰围观察。</td>
+                <td>18.5 – 24.9</td>
+                <td class="text-muted small">WHO 成人正常参考范围，建议继续结合体脂率、腰围和生活方式一起评估。</td>
               </tr>
               <tr>
-                <td>偏胖</td>
-                <td>24.0 – 27.9</td>
-                <td class="text-muted small">建议优先关注热量摄入、活动量、睡眠与腰围变化。</td>
+                <td>超重</td>
+                <td>25.0 – 29.9</td>
+                <td class="text-muted small">建议优先关注总热量摄入、活动量、睡眠情况，以及腰围等指标变化。</td>
               </tr>
               <tr>
                 <td>肥胖</td>
-                <td>≥ 28.0</td>
-                <td class="text-muted small">建议尽早结合饮食、运动与专业评估进行体重管理。</td>
+                <td>≥ 30.0</td>
+                <td class="text-muted small">建议尽早结合饮食、运动和专业评估进行体重管理，不宜只看单一数字。</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="form-text mt-2">
-          参考分级：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
+          分类参考：世界卫生组织（WHO）成人 BMI 标准：&lt;18.5 体重过低，18.5–24.9 正常，25.0–29.9 超重，≥30.0 肥胖。
+        </div>
+
+        <div class="small text-muted mt-1">
+          来源：
+          <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
+             target="_blank" rel="nofollow noopener">
+            World Health Organization (WHO) — Obesity and overweight
+          </a>
         </div>
       </div>
       {% endif %}
