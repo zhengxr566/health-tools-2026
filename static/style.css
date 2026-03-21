@@ -239,3 +239,76 @@ hr{ border-top: 1px solid rgba(15,23,42,.08); }
     max-width: 100%;
   }
 }
+
+
+/* =========================
+   BMI new page layout
+   ========================= */
+
+.tool-page{
+  min-width: 0;
+}
+
+.tool-page-main{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.tool-main-col{
+  min-width: 0;
+}
+
+.tool-side-col{
+  min-width: 0;
+}
+
+.tool-side-sticky{
+  position: sticky;
+  top: calc(var(--topbar-h) + 16px);
+}
+
+.tool-side-search{
+  margin-bottom: 20px;
+}
+
+.tool-side-content{
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.tool-side-content h2{
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tool-side-content p{
+  margin-bottom: 10px;
+}
+
+.tool-side-content ul{
+  margin-bottom: 12px;
+}
+
+@media (min-width: 1200px){
+  .tool-main-col{
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 991.98px){
+  .tool-page-main{
+    grid-template-columns: 1fr;
+  }
+
+  .tool-side-sticky{
+    position: static;
+    top: auto;
+  }
+
+  .tool-main-col{
+    max-width: 100%;
+  }
+}

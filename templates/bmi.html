@@ -3,7 +3,7 @@
 
 <div class="tool-page">
   <div class="tool-page-main">
-    <!-- 左侧：固定宽度计算器列 -->
+    <!-- 页面主列：固定宽度计算器 + 结果 + 说明 -->
     <div class="tool-main-col">
       <div class="tool-card tool-card-form">
         <h1 class="h4 mb-1">BMI 计算器（高级版）</h1>
@@ -98,7 +98,6 @@
       </div>
       {% endif %}
 
-      <!-- 说明内容放到下面 -->
       <div class="tool-card">
         <h2 class="h6">什么是 BMI？</h2>
         <p class="text-muted">
@@ -111,10 +110,8 @@
           常见成人参考：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
           建议把 BMI 看作“起点”，再结合腰围、体脂率与体检指标综合评估。
         </p>
-      </div>
 
-      <div class="tool-card">
-        <h2 class="h6">如何用 BMI 做体重管理？</h2>
+        <h2 class="h6 mt-4">如何用 BMI 做体重管理？</h2>
         <p class="text-muted">
           如果你希望减脂或控制体重，建议先计算每日热量需求（TDEE），再制定温和的热量缺口；
           同时保证足够蛋白质并加入力量训练，更有利于维持代谢与体型。
@@ -129,9 +126,9 @@
             <li class="mb-0">做体重管理时，建议把 BMI、腰围、体脂率一起看。</li>
           </ul>
         </div>
-      </div>
 
-      <div class="tool-card">
+        <hr class="my-4">
+
         <h2 class="h6">免责声明</h2>
         <p class="small text-muted mb-0">
           本页面与计算结果仅供参考，不构成医疗建议。如有疾病、孕期、长期不适或体检异常，请咨询专业人士。
@@ -139,29 +136,50 @@
       </div>
     </div>
 
-    <!-- 右侧：搜索 + 相关工具 -->
+    <!-- 页面右列：搜索 + 相关工具 + 连续说明 -->
     <aside class="tool-side-col">
-      <div class="tool-card tool-side-sticky">
-        <h2 class="h6 mb-3">搜索工具</h2>
-        <input
-          type="text"
-          id="toolSearchInput"
-          class="form-control"
-          placeholder="搜索工具，例如 BMI / TDEE / 睡眠"
-        >
-        <div id="toolSearchResult" class="mt-3 small"></div>
-      </div>
+      <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 BMI / TDEE / 睡眠"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
 
-      <div class="tool-card">
-        <h2 class="h6 mb-3">相关工具</h2>
-        <ul class="text-muted mb-0 ps-3 tool-related-list">
-          <li class="mb-2"><a href="/bmr">基础代谢（BMR）</a>：了解静息消耗</li>
-          <li class="mb-2"><a href="/calorie">每日热量需求（TDEE）</a>：制定目标热量</li>
-          <li class="mb-2"><a href="/bodyfat">体脂率计算</a>：比 BMI 更接近体成分变化</li>
-          <li class="mb-2"><a href="/waist">腰围风险（WHtR）</a>：补充腹部脂肪分布参考</li>
-          <li class="mb-2"><a href="/ffmi">FFMI 计算器</a>：更接近去脂体重与肌肉量分析</li>
-          <li class="mb-0"><a href="/goal-time">目标体重所需时间</a>：从结果走向行动计划</li>
-        </ul>
+        <div class="tool-side-content">
+          <h2 class="h6">相关工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/bmr">基础代谢（BMR）</a>：了解基础消耗</li>
+            <li class="mb-2"><a href="/calorie">每日热量需求（TDEE）</a>：制定目标热量</li>
+            <li class="mb-2"><a href="/bodyfat">体脂率计算</a>：更接近体成分变化</li>
+            <li class="mb-2"><a href="/waist">腰围风险（WHtR）</a>：补充腹部脂肪分布参考</li>
+            <li class="mb-2"><a href="/ffmi">FFMI 计算器</a>：更接近去脂体重与肌肉量分析</li>
+            <li class="mb-0"><a href="/goal-time">目标体重所需时间</a>：从结果走向行动计划</li>
+          </ul>
+
+          <h2 class="h6">为什么 BMI 常被用作入口工具？</h2>
+          <p class="text-muted">
+            因为 BMI 计算简单、理解门槛低，很适合作为体重管理的第一步。很多人会先从 BMI 开始，
+            再进一步看体脂率、腰围风险、TDEE 和热量缺口。
+          </p>
+
+          <h2 class="h6 mt-4">BMI 的局限在哪里？</h2>
+          <p class="text-muted">
+            BMI 并不能区分脂肪和肌肉，也不能反映脂肪主要堆积在哪里。
+            所以它更适合做“快速筛查”，而不是替代更完整的体成分判断。
+          </p>
+
+          <h2 class="h6 mt-4">下一步怎么做？</h2>
+          <p class="text-muted mb-0">
+            如果你想进一步优化体型，通常建议把 BMI 和 <a href="/bodyfat">体脂率</a>、
+            <a href="/waist">腰围风险</a>、<a href="/calorie">TDEE</a>、
+            <a href="/deficit">目标热量</a> 一起看，这样比只看一个数字更有参考价值。
+          </p>
+        </div>
       </div>
     </aside>
   </div>
