@@ -426,3 +426,27 @@ hr{ border-top: 1px solid rgba(15,23,42,.08); }
   padding-left: 18px;
   padding-right: 18px;
 }
+
+.navbar.topbar {
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+.topbar .navbar-brand,
+.topbar .navbar-brand:hover,
+.topbar .navbar-brand:focus {
+  color: #111827 !important;
+}
+
+.topbar .nav-link {
+  color: #4b5563 !important;
+}
+
+.topbar .nav-link:hover {
+  color: #198754 !important;
+  background: #f4f7fb;
+}
+
+.topbar .nav-link.active {
+  color: #198754 !important;
+  background: #edf8f2;
+}

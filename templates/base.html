@@ -44,14 +44,14 @@
 
     .topbar {
       height: var(--topbar-h);
-      background: transparent;
-      backdrop-filter: none;
-      border-bottom: 1px solid rgba(25, 135, 84, 0.35); /* 绿色细线 */
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid rgba(25, 135, 84, 0.28);
       position: sticky;
       top: 0;
       z-index: 1040;
     }
-
     .topbar .container-fluid,
     .topbar .navbar-collapse {
       position: relative;
