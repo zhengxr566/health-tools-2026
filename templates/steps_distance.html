@@ -1,163 +1,506 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
-  <div class="tool-col tool-col-form">
-    <div class="tool-card">
-      <h1 class="h4 mb-1">步数转距离计算器（10000步大概是多少公里）</h1>
-      <p class="text-muted mb-3">
-        输入步数、身高和性别，快速估算这些步数大概等于多少米、多少公里。适合作为步行、减脂和日常活动管理的参考。
-      </p>
+<div class="tool-page">
+  <div class="tool-page-main">
+    <div class="tool-main-col">
+      <div class="tool-card tool-card-form">
+        <h1 class="h4 mb-1">步数转距离计算器（根据性别身高估算步幅计算）</h1>
+        <p class="text-muted mb-3">
+          输入步数、身高和性别，估算这些步数大概等于多少米和公里，帮助更直观理解日常活动量。
+        </p>
 
-      <form method="post" class="row g-3">
-        <div class="col-12">
-          <label class="form-label">步数</label>
-          <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+        <form method="post" class="row g-3" id="tool-form">
+          <div class="col-12 col-md-4">
+            <label class="form-label">步数</label>
+            <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">身高（cm）</label>
+            <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例如 170">
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">性别</label>
+            <select name="sex" class="form-select">
+              <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男</option>
+              <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算步数距离</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+      </div>
+
+      {% set male_stride_150 = 150 * 0.415 %}
+      {% set male_stride_160 = 160 * 0.415 %}
+      {% set male_stride_170 = 170 * 0.415 %}
+      {% set male_stride_180 = 180 * 0.415 %}
+      {% set male_stride_190 = 190 * 0.415 %}
+
+      {% set female_stride_150 = 150 * 0.413 %}
+      {% set female_stride_160 = 160 * 0.413 %}
+      {% set female_stride_170 = 170 * 0.413 %}
+      {% set female_stride_180 = 180 * 0.413 %}
+      {% set female_stride_190 = 190 * 0.413 %}
+
+      {% set stride_val = result.stride_cm if result else none %}
+
+      {% if result %}
+      <div class="tool-card">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <div>
+            <div class="text-muted small">估算结果</div>
+            <div class="display-6 fw-semibold mb-0">约 {{ result.distance_km }} 公里</div>
+          </div>
+          <div>
+            <span class="badge text-bg-primary p-2">约 {{ result.distance_m }} 米</span>
+          </div>
         </div>
 
-        <div class="col-12">
-          <label class="form-label">身高（cm）</label>
-          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例如 170">
+        <div class="form-text mt-2">
+          估算步幅：约 {{ result.stride_cm }} cm / 步。
         </div>
 
-        <div class="col-12">
-          <label class="form-label">性别</label>
-          <select name="sex" class="form-select">
-            <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男</option>
-            <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
-          </select>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">按当前性别与身高估算的步数对应公里数</h2>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>步数</th>
+                <th>估算距离</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1000</td>
+                <td>约 {{ '%.2f'|format((1000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>2000</td>
+                <td>约 {{ '%.2f'|format((2000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>3000</td>
+                <td>约 {{ '%.2f'|format((3000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>4000</td>
+                <td>约 {{ '%.2f'|format((4000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>5000</td>
+                <td>约 {{ '%.2f'|format((5000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>6000</td>
+                <td>约 {{ '%.2f'|format((6000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>7000</td>
+                <td>约 {{ '%.2f'|format((7000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>8000</td>
+                <td>约 {{ '%.2f'|format((8000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>9000</td>
+                <td>约 {{ '%.2f'|format((9000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+              <tr>
+                <td>10000</td>
+                <td>约 {{ '%.2f'|format((10000 * result.stride_cm / 100000)) }} km</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">{% if sex_in == 'female' %}女性{% else %}男性{% endif %}步幅参考表</h2>
+        {% if sex_in == 'female' %}
+        <div class="form-text mb-2">
+          女性步幅 ≈ 身高 × 0.413；距离 = 步数 × 步幅。
+        </div>
+        {% else %}
+        <div class="form-text mb-2">
+          男性步幅 ≈ 身高 × 0.415。
+        </div>
+        {% endif %}
+        <div class="form-text mb-2">
+          参考依据：
+          <a href="https://www.omnicalculator.com/sports/steps-to-km" target="_blank" rel="nofollow noopener">
+            https://www.omnicalculator.com/sports/steps-to-km
+          </a>
+        </div>
+        <div class="form-text mb-2">提示：高亮行代表你当前估算步幅所在区间。</div>
+        <div class="table-responsive">
+          {% if sex_in == 'female' %}
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>身高（cm）</th>
+                <th>估算步幅（cm/步）</th>
+                <th>你的位置</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="{% if stride_val is not none and stride_val <= female_stride_150 %}table-success{% endif %}">
+                <td>≤ 150</td>
+                <td>≤ {{ '%.1f'|format(female_stride_150) }}</td>
+                <td>{% if stride_val is not none and stride_val <= female_stride_150 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > female_stride_150 and stride_val <= female_stride_160 %}table-success{% endif %}">
+                <td>151 – 160</td>
+                <td>{{ '%.1f'|format(female_stride_150) }} – {{ '%.1f'|format(female_stride_160) }}</td>
+                <td>{% if stride_val is not none and stride_val > female_stride_150 and stride_val <= female_stride_160 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > female_stride_160 and stride_val <= female_stride_170 %}table-success{% endif %}">
+                <td>161 – 170</td>
+                <td>{{ '%.1f'|format(female_stride_160) }} – {{ '%.1f'|format(female_stride_170) }}</td>
+                <td>{% if stride_val is not none and stride_val > female_stride_160 and stride_val <= female_stride_170 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > female_stride_170 and stride_val <= female_stride_180 %}table-success{% endif %}">
+                <td>171 – 180</td>
+                <td>{{ '%.1f'|format(female_stride_170) }} – {{ '%.1f'|format(female_stride_180) }}</td>
+                <td>{% if stride_val is not none and stride_val > female_stride_170 and stride_val <= female_stride_180 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > female_stride_180 %}table-success{% endif %}">
+                <td>&gt; 180</td>
+                <td>&gt; {{ '%.1f'|format(female_stride_180) }}</td>
+                <td>{% if stride_val is not none and stride_val > female_stride_180 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+            </tbody>
+          </table>
+          {% else %}
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>身高（cm）</th>
+                <th>估算步幅（cm/步）</th>
+                <th>你的位置</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="{% if stride_val is not none and stride_val <= male_stride_150 %}table-success{% endif %}">
+                <td>≤ 150</td>
+                <td>≤ {{ '%.1f'|format(male_stride_150) }}</td>
+                <td>{% if stride_val is not none and stride_val <= male_stride_150 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > male_stride_150 and stride_val <= male_stride_160 %}table-success{% endif %}">
+                <td>151 – 160</td>
+                <td>{{ '%.1f'|format(male_stride_150) }} – {{ '%.1f'|format(male_stride_160) }}</td>
+                <td>{% if stride_val is not none and stride_val > male_stride_150 and stride_val <= male_stride_160 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > male_stride_160 and stride_val <= male_stride_170 %}table-success{% endif %}">
+                <td>161 – 170</td>
+                <td>{{ '%.1f'|format(male_stride_160) }} – {{ '%.1f'|format(male_stride_170) }}</td>
+                <td>{% if stride_val is not none and stride_val > male_stride_160 and stride_val <= male_stride_170 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > male_stride_170 and stride_val <= male_stride_180 %}table-success{% endif %}">
+                <td>171 – 180</td>
+                <td>{{ '%.1f'|format(male_stride_170) }} – {{ '%.1f'|format(male_stride_180) }}</td>
+                <td>{% if stride_val is not none and stride_val > male_stride_170 and stride_val <= male_stride_180 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+              <tr class="{% if stride_val is not none and stride_val > male_stride_180 %}table-success{% endif %}">
+                <td>&gt; 180</td>
+                <td>&gt; {{ '%.1f'|format(male_stride_180) }}</td>
+                <td>{% if stride_val is not none and stride_val > male_stride_180 %}<strong>{{ result.stride_cm }} cm</strong> <span class="badge text-bg-success ms-2">当前</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+      </div>
+
+      {% else %}
+      <div class="tool-card">
+        <div class="text-muted mb-3">
+          输入步数、身高和性别后，即可查看估算公里数，并对照步幅参考位置。
         </div>
 
-        <div class="col-12">
-          <button class="btn btn-success w-100">计算步数距离</button>
+        <h2 class="h6 mb-3">1000 到 10000 步大概是多少公里</h2>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>步数</th>
+                <th>估算公里数区间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1000</td>
+                <td>约 0.60 – 0.80 km</td>
+              </tr>
+              <tr>
+                <td>2000</td>
+                <td>约 1.20 – 1.60 km</td>
+              </tr>
+              <tr>
+                <td>3000</td>
+                <td>约 1.80 – 2.40 km</td>
+              </tr>
+              <tr>
+                <td>4000</td>
+                <td>约 2.40 – 3.20 km</td>
+              </tr>
+              <tr>
+                <td>5000</td>
+                <td>约 3.00 – 4.00 km</td>
+              </tr>
+              <tr>
+                <td>6000</td>
+                <td>约 3.60 – 4.80 km</td>
+              </tr>
+              <tr>
+                <td>7000</td>
+                <td>约 4.20 – 5.60 km</td>
+              </tr>
+              <tr>
+                <td>8000</td>
+                <td>约 4.80 – 6.40 km</td>
+              </tr>
+              <tr>
+                <td>9000</td>
+                <td>约 5.40 – 7.20 km</td>
+              </tr>
+              <tr>
+                <td>10000</td>
+                <td>约 6.00 – 8.00 km</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </form>
+      </div>
 
-      {% if error %}
-        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      <div class="tool-card">
+        <h2 class="h6 mb-3">男性步幅参考表</h2>
+        <div class="form-text mb-2">
+          男性步幅 ≈ 身高 × 0.415
+        </div>
+        <div class="form-text mb-2">
+          参考依据：
+          <a href="https://www.omnicalculator.com/sports/steps-to-km" target="_blank" rel="nofollow noopener">
+            https://www.omnicalculator.com/sports/steps-to-km
+          </a>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>身高（cm）</th>
+                <th>估算步幅（cm/步）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>150</td>
+                <td>{{ '%.1f'|format(male_stride_150) }}</td>
+              </tr>
+              <tr>
+                <td>160</td>
+                <td>{{ '%.1f'|format(male_stride_160) }}</td>
+              </tr>
+              <tr>
+                <td>170</td>
+                <td>{{ '%.1f'|format(male_stride_170) }}</td>
+              </tr>
+              <tr>
+                <td>180</td>
+                <td>{{ '%.1f'|format(male_stride_180) }}</td>
+              </tr>
+              <tr>
+                <td>190</td>
+                <td>{{ '%.1f'|format(male_stride_190) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">女性步幅参考表</h2>
+        <div class="form-text mb-2">
+          女性步幅 ≈ 身高 × 0.413；距离 = 步数 × 步幅
+        </div>
+        <div class="form-text mb-2">
+          参考依据：
+          <a href="https://www.omnicalculator.com/sports/steps-to-km" target="_blank" rel="nofollow noopener">
+            https://www.omnicalculator.com/sports/steps-to-km
+          </a>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>身高（cm）</th>
+                <th>估算步幅（cm/步）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>150</td>
+                <td>{{ '%.1f'|format(female_stride_150) }}</td>
+              </tr>
+              <tr>
+                <td>160</td>
+                <td>{{ '%.1f'|format(female_stride_160) }}</td>
+              </tr>
+              <tr>
+                <td>170</td>
+                <td>{{ '%.1f'|format(female_stride_170) }}</td>
+              </tr>
+              <tr>
+                <td>180</td>
+                <td>{{ '%.1f'|format(female_stride_180) }}</td>
+              </tr>
+              <tr>
+                <td>190</td>
+                <td>{{ '%.1f'|format(female_stride_190) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       {% endif %}
-    </div>
 
-    {% if result %}
-    <div class="tool-card">
-      <div class="text-muted small mb-1">估算结果</div>
-      <div class="h3 mb-2">{{ result.distance_km }} km</div>
-      <div class="text-muted small mb-3">约 {{ result.distance_m }} 米</div>
+      <div class="tool-card">
+        <h2 class="h6">什么是步数转距离？</h2>
+        <p class="text-muted">
+          步数转距离，就是把“走了多少步”换算成“大概走了多少米、多少公里”。它更适合做日常活动量的直观理解，尤其适合和减脂、通勤、散步目标一起看。
+        </p>
 
-      <div class="alert alert-info mb-3">
-        你输入的 <b>{{ steps_in }} 步</b>，大约等于：<b>{{ result.distance_km }} 公里</b>
-      </div>
+        <h2 class="h6 mt-4">这个工具怎么估算？</h2>
+        <p class="text-muted">
+          本页使用简化步幅模型：男性步幅约等于身高 × 0.415，女性步幅约等于身高 × 0.413，再用步数 × 步幅去估算距离。
+          这类结果更适合作为日常参考，不等于手表或 GPS 的精确距离。
+        </p>
 
-      <div class="bg-light rounded-3 p-3 mb-3">
-        <div class="fw-semibold mb-1">估算步幅</div>
-        <div class="small text-muted">约 {{ result.stride_cm }} cm / 步</div>
-      </div>
+        <h2 class="h6 mt-4">怎么更好地理解结果？</h2>
+        <p class="text-muted">
+          你可以把步数看成活动量，把公里数看成更直观的距离表达。两者结合看，通常比只看一个数字更容易坚持目标管理。
+        </p>
 
-      <div class="small text-muted">
-        这个结果适合作为日常步行和活动量管理的参考，不代表精确 GPS 距离。
-      </div>
-    </div>
-    {% else %}
-    <div class="tool-card">
-      <div class="text-muted">
-        输入步数、身高和性别后，即可查看这些步数大概等于多少公里。
-      </div>
-    </div>
-    {% endif %}
-  </div>
-
-  <!-- 右侧：解释 / SEO 内容 -->
-  <div class="tool-col tool-col-result">
-    <div class="tool-card">
-      <h2 class="h6">10000 步大概是多少公里？</h2>
-      <p class="text-muted">
-        这是很多人最常搜的问题之一。答案并不是固定的，因为同样是 10000 步，不同身高、步幅和走路习惯的人，实际距离会有差别。
-        一般来说，步幅越长，同样的步数走出来的距离也会更长。
-      </p>
-
-      <p class="text-muted mb-0">
-        所以，步数转距离计算器的意义就在于：把抽象的“今天走了多少步”，换成更容易理解的“今天大概走了多少公里”。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">这个工具的计算公式</h2>
-
-      <div class="bg-light rounded-3 p-3 small mb-3">
-        距离 = 步数 × 步幅
-      </div>
-
-      <p class="text-muted mb-2">本工具使用的站内简化步幅公式：</p>
-      <ul class="text-muted mb-0 ps-3">
-        <li class="mb-2">男性步幅 ≈ 身高 × 0.415</li>
-        <li class="mb-0">女性步幅 ≈ 身高 × 0.413</li>
-      </ul>
-
-      <p class="text-muted mt-3 mb-0">
-        然后再把每一步的步幅累加，换算成米和公里。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">为什么同样的步数，有人走得更远？</h2>
-      <p class="text-muted">
-        因为步数只是“走了多少步”，并不直接等于固定距离。身高更高、腿更长、步幅更大的人，通常同样 10000 步会比步幅较短的人走得更远。
-        此外，走路速度、坡度和日常走路习惯也会影响实际距离。
-      </p>
-
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">更实用的理解方式</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">步数适合看活动量趋势</li>
-          <li class="mb-2">距离适合帮助你更直观理解“今天到底走了多远”</li>
-          <li class="mb-2">两者结合起来，比只看一个数字更有用</li>
-          <li class="mb-0">如果你在做减脂或体能管理，距离和热量通常都值得一起看</li>
-        </ul>
+        <div class="bg-light rounded-3 p-3 mt-3">
+          <div class="fw-semibold mb-2">使用建议</div>
+          <ul class="text-muted mb-0 ps-3">
+            <li class="mb-2">先用公里数理解今天大概走了多远。</li>
+            <li class="mb-2">再配合热量消耗和 TDEE 看活动管理。</li>
+            <li class="mb-0">不同手机、手表和 GPS 结果不同很正常。</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="tool-card">
-      <h2 class="h6">这个工具适合怎么用？</h2>
-      <p class="text-muted">
-        适合想把步数目标变得更具体的人。比如你今天走了 8000 步、10000 步、12000 步，用公里来理解，会比单纯看步数更有画面感。
-        它也很适合和热量消耗、每日活动目标、减脂计划一起使用。
-      </p>
+    <aside class="tool-side-col">
+      <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 步数 / 热量 / TDEE"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
 
-      <h2 class="h6 mt-4">相关活动工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/steps">步数转热量</a>：估算这些步数大概消耗多少热量</li>
-        <li><a href="/calorie">每日热量需求 TDEE</a>：看日常总消耗框架</li>
-        <li><a href="/deficit">热量缺口 / 目标热量</a>：把活动量接到减脂计划里</li>
-        <li><a href="/running-pace">跑步配速计算器</a>：先理解距离，再换算到每公里配速</li>
-        <li><a href="/goal-time">目标体重所需时间</a>：把运动和目标周期结合起来看</li>
-      </ul>
-    </div>
+        <div class="tool-side-content">
+          <h2 class="h6">相关工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/steps">步数转热量</a>：估算这些步数大概消耗多少热量</li>
+            <li class="mb-2"><a href="/calorie">每日热量需求（TDEE）</a>：看总消耗框架</li>
+            <li class="mb-2"><a href="/deficit">热量缺口 / 目标热量</a>：把活动量接到减脂计划里</li>
+            <li class="mb-2"><a href="/running-pace">跑步配速计算器</a>：从距离换算到配速理解</li>
+            <li class="mb-0"><a href="/goal-time">目标体重所需时间</a>：把活动与周期目标结合看</li>
+          </ul>
 
-    <div class="tool-card">
-      <h2 class="h6">常见问题</h2>
+          <h2 class="h6 mt-4">为什么同样的步数，距离会不同？</h2>
+          <p class="text-muted">
+            因为不同身高和步幅的人，同样走 10000 步，对应的实际距离通常不同。身高越高、步幅越长，通常走得越远。
+          </p>
 
-      <h3 class="h6 mt-3 mb-1">10000 步一定是固定公里数吗？</h3>
-      <p class="text-muted">
-        不是。不同身高和步幅的人，10000 步对应的距离通常会不一样。
-      </p>
+          <div class="tool-card mt-4">
+            <h2 class="h6">常见问题</h2>
 
-      <h3 class="h6 mt-3 mb-1">这个结果和手机 / 手表显示不一样正常吗？</h3>
-      <p class="text-muted">
-        正常。手机、手表、GPS 和步数模型本来就不是同一套算法，所以结果会有差异。
-      </p>
+            <h3 class="h6 mt-3 mb-1">10000 步一定是固定公里数吗？</h3>
+            <p class="text-muted">
+              不是。不同身高和步幅的人，10000 步对应的距离通常会不一样。
+            </p>
 
-      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和日常活动管理吗？</h3>
-      <p class="text-muted">
-        很适合。因为它能把抽象的步数转成更直观的距离，更方便做目标管理。
-      </p>
+            <h3 class="h6 mt-3 mb-1">这个结果和手机 / 手表显示不一样正常吗？</h3>
+            <p class="text-muted">
+              正常。手机、手表、GPS 和步数模型本来就不是同一套算法，所以结果会有差异。
+            </p>
 
-      <hr class="my-4">
-      <p class="small text-muted mb-0">
-        本页面仅用于一般科普参考，不构成医疗建议。
-      </p>
-    </div>
+            <h3 class="h6 mt-3 mb-1">这个工具适合减脂和日常活动管理吗？</h3>
+            <p class="text-muted">
+              很适合。因为它能把抽象的步数转成更直观的距离，更方便做目标管理。
+            </p>
+
+            <hr class="my-4">
+            <p class="small text-muted mb-0">
+              本页面仅用于一般科普参考，不构成医疗建议。
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>
+
+<script>
+(function () {
+  const input = document.getElementById("toolSearchInput");
+  const resultBox = document.getElementById("toolSearchResult");
+
+  const tools = [
+    { name: "步数转距离计算器", path: "/steps-distance" },
+    { name: "步数转热量", path: "/steps" },
+    { name: "每日热量需求 TDEE", path: "/calorie" },
+    { name: "热量缺口/目标热量", path: "/deficit" },
+    { name: "跑步配速计算器", path: "/running-pace" },
+    { name: "目标体重所需时间", path: "/goal-time" },
+    { name: "BMI 计算器", path: "/bmi" },
+    { name: "FFMI 计算器", path: "/ffmi" }
+  ];
+
+  function renderResults(q) {
+    const query = q.trim().toLowerCase();
+
+    if (!query) {
+      resultBox.innerHTML = '<div class="text-muted">输入关键词可快速跳转到站内工具。</div>';
+      return;
+    }
+
+    const matched = tools.filter(t => t.name.toLowerCase().includes(query)).slice(0, 8);
+
+    if (!matched.length) {
+      resultBox.innerHTML = '<div class="text-muted">没有找到匹配工具。</div>';
+      return;
+    }
+
+    resultBox.innerHTML = matched.map(t => (
+      '<div class="mb-2"><a href="' + t.path + '">' + t.name + '</a></div>'
+    )).join('');
+  }
+
+  input.addEventListener("input", function () {
+    renderResults(this.value);
+  });
+
+  renderResults("");
+})();
+</script>
 
 {% endblock %}
