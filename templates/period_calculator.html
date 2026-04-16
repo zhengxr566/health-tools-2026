@@ -1,171 +1,482 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
-  <div class="tool-col tool-col-form">
-    <div class="tool-card">
-      <h1 class="h4 mb-1">月经周期计算器</h1>
-      <p class="text-muted mb-3">
-        输入末次月经开始日期、平均周期长度和经期时长，预测下次月经时间、排卵日和易孕期范围。
-      </p>
+<div class="tool-page">
+  <div class="tool-page-main">
+    <div class="tool-main-col">
+      <div class="tool-card tool-card-form">
+        <h1 class="h4 mb-1">月经周期计算器（双月历预测月经期、排卵期与安全期）</h1>
+        <p class="text-muted mb-3">
+          选择末次月经开始日期，输入平均周期长度和经期时长，即可查看双月历预测，并点击任意一天查看当天属于月经期、排卵期还是安全期。
+        </p>
 
-      <form id="tool-form" method="post" class="row g-3">
-        <div class="col-12">
-          <label class="form-label">末次月经开始日期</label>
-          <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+        <form id="tool-form" method="post" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">末次月经开始日期</label>
+            <input type="date" name="lmp" class="form-control" required value="{{ lmp_in }}">
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label">平均周期长度（天）</label>
+            <input name="cycle_length" class="form-control" inputmode="numeric" required value="{{ cycle_in }}" placeholder="例如 28">
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label">平均经期时长（天）</label>
+            <input name="period_length" class="form-control" inputmode="numeric" required value="{{ period_in }}" placeholder="例如 5">
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算周期预测</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+      </div>
+
+      <div class="tool-card">
+        {% if result %}
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+          <div>
+            <div class="text-muted small">当前周期状态</div>
+            <div class="display-6 fw-semibold mb-0">{{ result.phase }}</div>
+          </div>
+          <div>
+            <span class="badge text-bg-primary p-2">第 {{ result.current_cycle_day }} 天</span>
+          </div>
         </div>
 
-        <div class="col-12 col-md-6">
-          <label class="form-label">平均周期长度（天）</label>
-          <input name="cycle_length" class="form-control" inputmode="numeric" required value="{{ cycle_in }}">
+        {% else %}
+        <div class="text-muted mb-3">
+          示例：未输入时，下面会按今天所在日期与默认周期（28 天周期、5 天经期）展示双月历示意，并可点击日期查看当天属于哪个阶段。
+        </div>
+        {% endif %}
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+          <div class="small text-muted">点击日历中的任意日期，可查看当天属于哪一个阶段。</div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="prevMonthBtn">上个月</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="nextMonthBtn">下个月</button>
+          </div>
         </div>
 
-        <div class="col-12 col-md-6">
-          <label class="form-label">平均经期时长（天）</label>
-          <input name="period_length" class="form-control" inputmode="numeric" required value="{{ period_in }}">
+        <div class="row g-3" id="calendarRow">
+          <div class="col-12 col-lg-6">
+            <div class="border rounded-3 p-3 h-100" id="calendarMonthA"></div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="border rounded-3 p-3 h-100" id="calendarMonthB"></div>
+          </div>
         </div>
 
-        <div class="col-12">
-          <button class="btn btn-success w-100">计算周期预测</button>
+        <div class="bg-light rounded-3 p-3 mt-3" id="selectedDayCard">
+          <div class="fw-semibold mb-2">日期解读</div>
+          <div id="selectedDayContent" class="text-muted small">点击任意日期后，这里会显示该日期属于月经期、排卵期还是安全期。</div>
         </div>
-      </form>
 
-      {% if error %}
-        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
-      {% endif %}
-    </div>
-
-    {% if result %}
-    <div class="tool-card">
-      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
-        <div>
-          <div class="text-muted small">当前周期天数</div>
-          <div class="display-5 fw-semibold mb-0">第 {{ result.current_cycle_day }} 天</div>
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          <span class="badge rounded-pill text-bg-danger-subtle border border-danger-subtle text-danger-emphasis">月经期</span>
+          <span class="badge rounded-pill text-bg-warning-subtle border border-warning-subtle text-warning-emphasis">排卵期</span>
+          <span class="badge rounded-pill text-bg-secondary-subtle border border-secondary-subtle text-secondary-emphasis">安全期</span>
+          <span class="badge rounded-pill text-bg-primary-subtle border border-primary-subtle text-primary-emphasis">今天</span>
+          <span class="badge rounded-pill text-bg-dark">已选日期</span>
         </div>
-        <div class="text-muted small">{{ result.phase }}</div>
       </div>
 
-      <div class="alert alert-info mt-3 mb-3">
-        当前阶段：<b>{{ result.phase }}</b><br>
-        下次月经预计开始：<b>{{ result.next_period_start }}</b>
+      <div class="tool-card">
+        <h2 class="h6 mb-3">月经期、安全期和排卵期怎么理解？</h2>
+
+        <h3 class="h6 mb-1">月经期</h3>
+        <p class="text-muted">
+          月经期通常指月经出血的这几天，常作为一个新周期的开始。页面会按你输入的平均经期时长，在日历上标出预计月经期范围。
+        </p>
+
+        <h3 class="h6 mt-4 mb-1">排卵期</h3>
+        <p class="text-muted">
+          这里统一把“预计排卵日前后、受孕概率相对较高的一段时间”标注为排卵期。页面中的排卵期是基于平均周期推算的时间窗口，更适合作为记录和预期参考。
+        </p>
+
+        <h3 class="h6 mt-4 mb-1">安全期</h3>
+        <p class="text-muted mb-0">
+          页面会把不在月经期和排卵期范围内的日期统一显示为安全期，用来表示相对较低受孕概率的时间段。它不等于绝对安全，也不能替代医学判断或避孕建议。
+        </p>
       </div>
 
-      <div class="small text-muted">
-        当前结果基于你提供的平均周期进行推算，更适合作为日常记录和时间预期参考。
-      </div>
+      <div class="tool-card">
+        <h2 class="h6">常见问题</h2>
 
-      <hr class="my-3">
+        <h3 class="h6 mt-3 mb-1">点击某一天后能看什么？</h3>
+        <p class="text-muted">
+          点击日历任意日期后，页面会动态显示这一天属于月经期、排卵期还是安全期，并同步展示它与下次月经、预计排卵日之间的大致距离。
+        </p>
 
-      <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">预测结果</div>
-        <ul class="small text-muted mb-0 ps-3">
-          <li class="mb-2">本次经期预计结束：<b>{{ result.current_period_end }}</b></li>
-          <li class="mb-2">下次月经预计开始：<b>{{ result.next_period_start }}</b></li>
-          <li class="mb-2">下次月经预计结束：<b>{{ result.next_period_end }}</b></li>
-          <li class="mb-2">预计排卵日：<b>{{ result.estimated_ovulation }}</b></li>
-          <li class="mb-0">易孕期范围：<b>{{ result.fertile_start }}</b> ～ <b>{{ result.fertile_end }}</b></li>
-        </ul>
-      </div>
+        <h3 class="h6 mt-3 mb-1">周期不规律还能参考吗？</h3>
+        <p class="text-muted">
+          可以参考，但误差通常会更大。这个工具更适合规律周期人群做时间预期和记录使用。
+        </p>
 
-      <a href="#tool-form" class="btn btn-outline-primary btn-sm mt-3">修改参数</a>
-    </div>
-    {% else %}
-    <div class="tool-card">
-      <div class="text-muted">
-        输入末次月经开始日期、平均周期长度和经期时长后，即可查看下次月经、排卵期和易孕期预测。
-      </div>
-    </div>
-    {% endif %}
-  </div>
+        <h3 class="h6 mt-3 mb-1">为什么这里只显示月经期、排卵期和安全期？</h3>
+        <p class="text-muted">
+          这是为了让页面表达更统一、更容易理解。站内统一使用这三种说法，不再单独显示“黄体期”。
+        </p>
 
-  <!-- 右侧：解释 / SEO 内容 -->
-  <div class="tool-col tool-col-result">
-    <div class="tool-card">
-      <h2 class="h6">月经周期计算器在算什么？</h2>
-      <p class="text-muted">
-        这个工具会根据你输入的末次月经开始日期、平均周期长度和经期时长，
-        估算当前处于周期的哪一天、下次月经大概什么时候来，以及预计的排卵日和易孕期范围。
-      </p>
-
-      <h2 class="h6 mt-4">为什么结果只是预测？</h2>
-      <p class="text-muted">
-        因为很多人的周期并不是每个月完全固定。压力、睡眠、体重变化、运动量和整体健康状态，
-        都可能让周期提前或推迟。所以这个结果更适合作为时间预期参考，而不是精确判断。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">排卵日是怎么估算的？</h2>
-      <p class="text-muted">
-        在简化模型里，排卵通常被估算为“下次月经来之前大约 14 天”。所以页面会先根据周期长度估算下次月经，
-        再反推排卵时间，并给出易孕期范围。
-      </p>
-
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">通常怎么理解这些日期？</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">下次月经开始时间：适合做日常生活安排参考</li>
-          <li class="mb-2">预计排卵日：适合做周期记录参考</li>
-          <li class="mb-2">易孕期范围：适合做更宽一些的时间预期</li>
-          <li class="mb-0">周期越规律，这类估算通常越有参考价值</li>
-        </ul>
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+        </p>
       </div>
     </div>
 
-    <div class="tool-card">
-      <h2 class="h6">什么时候这个工具比较有用？</h2>
-      <p class="text-muted">
-        如果你想大致预估下次月经时间、记录周期，或者从周期角度理解排卵和受孕相关时间，
-        这个工具就很有帮助。它也适合作为进入其他孕期和排卵工具的入口页面。
-      </p>
+    <aside class="tool-side-col">
+      <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 排卵 / 孕周 / 预产期"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
 
-      <h2 class="h6 mt-4">下一步怎么做？</h2>
-      <p class="text-muted">
-        如果你更关心受孕相关时间，可以继续看
-        <a href="/ovulation">排卵期计算器</a> 和 <a href="/conception-date">受孕日期推算器</a>；
-        如果你已经怀孕并想了解孕周或预产期，也可以继续使用
-        <a href="/pregnancy-week">怀孕周数计算器</a> 和 <a href="/pregnancy-due-date">预产期计算器</a>。
-      </p>
-    </div>
+        <div class="tool-side-content">
+          <h2 class="h6">相关工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/ovulation">排卵期计算器</a>：更聚焦排卵日和易孕期</li>
+            <li class="mb-2"><a href="/safe-days-calculator">安全期计算器</a>：进一步看相对低受孕概率日期参考</li>
+            <li class="mb-2"><a href="/fertility-calculator">易孕期计算器</a>：进一步看较高受孕概率日期窗口</li>
+            <li class="mb-2"><a href="/conception-date">受孕日期推算器</a>：从周期理解受孕时间</li>
+            <li class="mb-2"><a href="/pregnancy-week">怀孕周数计算器</a>：如果已经怀孕，可继续看当前孕周</li>
+            <li class="mb-0"><a href="/pregnancy-due-date">预产期计算器</a>：了解预计生产时间</li>
+          </ul>
 
-    <div class="tool-card">
-      <h2 class="h6">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/safe-days-calculator">安全期计算器</a>：从整体周期进一步看相对低受孕概率日期参考</li>
-        <li><a href="/fertility-calculator">易孕期计算器</a>：从整体周期进一步看较高受孕概率日期窗口</li>
-        <li><a href="/ovulation">排卵期计算器</a>：更聚焦排卵日和易孕期</li>
-        <li><a href="/conception-date">受孕日期推算器</a>：从周期进一步理解受孕时间</li>
-        <li><a href="/pregnancy-week">怀孕周数计算器</a>：如果已经怀孕，可继续看当前孕周</li>
-        <li><a href="/pregnancy-due-date">预产期计算器</a>：了解预计生产时间</li>
-        <li><a href="/pregnancy-weight">孕期体重增长计算器</a>：怀孕后继续做体重管理参考</li>
-      </ul>
-    </div>
+          <h2 class="h6">这个页面在算什么？</h2>
+          <p class="text-muted">
+            它会根据你输入的末次月经开始日期、平均周期长度和经期时长，连续推算多个周期，并用双月历直观展示月经期、排卵期和安全期。
+          </p>
 
-    <div class="tool-card">
-      <h2 class="h6">常见问题</h2>
+          <h2 class="h6 mt-4">怎么看双月历？</h2>
+          <p class="text-muted">
+            左右两个日历会连续显示当前月与次月。你可以继续翻页查看后续月份，页面会按同样的周期规则继续推算月经期和排卵期。
+          </p>
 
-      <h3 class="h6 mt-3 mb-1">周期不规律还能用吗？</h3>
-      <p class="text-muted">
-        可以用，但结果更适合做粗略参考。周期越不规律，预测误差通常越大。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">排卵一定发生在下次月经前 14 天吗？</h3>
-      <p class="text-muted">
-        这是常见的简化估算规则，但现实中个体差异很大，所以不适合当成精确判断。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">这个工具能代替医学判断吗？</h3>
-      <p class="text-muted">
-        不能。它更适合作为日常记录和时间预期参考，不构成医疗建议或诊断依据。
-      </p>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">
-        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
-      </p>
-    </div>
+          <h2 class="h6 mt-4">怎么理解点击后的结果？</h2>
+          <p class="text-muted mb-0">
+            点击任意日期后，下方会告诉你那一天属于哪个阶段，并给出与下次月经和预计排卵日的相对时间，帮助你更直观地理解当前周期位置。
+          </p>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>
+
+<style>
+  .cycle-calendar-month-title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .cycle-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.375rem;
+  }
+  .cycle-calendar-weekday,
+  .cycle-calendar-day {
+    text-align: center;
+    font-size: 0.875rem;
+  }
+  .cycle-calendar-weekday {
+    color: var(--bs-secondary-color, #6c757d);
+    font-weight: 600;
+    padding: 0.35rem 0;
+  }
+  .cycle-calendar-day {
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: 0.75rem;
+    padding: 0.55rem 0.25rem;
+    background: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    min-height: 56px;
+  }
+  .cycle-calendar-day:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.08);
+  }
+  .cycle-calendar-day.empty {
+    visibility: hidden;
+    cursor: default;
+  }
+  .cycle-calendar-day.is-period {
+    background: rgba(220, 53, 69, 0.12);
+    border-color: rgba(220, 53, 69, 0.35);
+  }
+  .cycle-calendar-day.is-ovulation {
+    background: rgba(255, 193, 7, 0.18);
+    border-color: rgba(255, 193, 7, 0.45);
+  }
+  .cycle-calendar-day.is-safe {
+    background: rgba(108, 117, 125, 0.10);
+    border-color: rgba(108, 117, 125, 0.25);
+  }
+  .cycle-calendar-day.is-today {
+    outline: 2px solid rgba(13, 110, 253, 0.55);
+    outline-offset: 1px;
+  }
+  .cycle-calendar-day.is-selected {
+    background: #212529 !important;
+    color: #fff;
+    border-color: #212529;
+  }
+  .cycle-calendar-day small {
+    display: block;
+    line-height: 1.1;
+    margin-top: 0.2rem;
+    font-size: 0.72rem;
+    opacity: 0.85;
+  }
+</style>
+
+<script>
+(function () {
+  const input = document.getElementById('toolSearchInput');
+  const resultBox = document.getElementById('toolSearchResult');
+
+  if (input && resultBox) {
+    const tools = [
+      { name: '月经周期计算器', path: '/menstrual-cycle' },
+      { name: '排卵期计算器', path: '/ovulation' },
+      { name: '安全期计算器', path: '/safe-days-calculator' },
+      { name: '易孕期计算器', path: '/fertility-calculator' },
+      { name: '受孕日期推算器', path: '/conception-date' },
+      { name: '怀孕周数计算器', path: '/pregnancy-week' },
+      { name: '预产期计算器', path: '/pregnancy-due-date' }
+    ];
+
+    function renderResults(q) {
+      const query = q.trim().toLowerCase();
+      if (!query) {
+        resultBox.innerHTML = '<div class="text-muted">输入关键词可快速跳转到站内工具。</div>';
+        return;
+      }
+      const matched = tools.filter(t => t.name.toLowerCase().includes(query)).slice(0, 8);
+      if (!matched.length) {
+        resultBox.innerHTML = '<div class="text-muted">没有找到匹配工具。</div>';
+        return;
+      }
+      resultBox.innerHTML = matched.map(t => (
+        '<div class="mb-2"><a href="' + t.path + '">' + t.name + '</a></div>'
+      )).join('');
+    }
+
+    input.addEventListener('input', function () {
+      renderResults(this.value);
+    });
+    renderResults('');
+  }
+
+  const monthAEl = document.getElementById('calendarMonthA');
+  const monthBEl = document.getElementById('calendarMonthB');
+  const selectedDayContent = document.getElementById('selectedDayContent');
+  const prevBtn = document.getElementById('prevMonthBtn');
+  const nextBtn = document.getElementById('nextMonthBtn');
+  if (!monthAEl || !monthBEl || !selectedDayContent || !prevBtn || !nextBtn) return;
+
+  const TODAY = new Date();
+  TODAY.setHours(0, 0, 0, 0);
+
+  function parseISODate(str) {
+    if (!str || typeof str !== 'string') return null;
+    const parts = str.split('-').map(Number);
+    if (parts.length !== 3 || parts.some(Number.isNaN)) return null;
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function fmtISO(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+
+  function addDays(date, days) {
+    const d = new Date(date);
+    d.setDate(d.getDate() + days);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function diffDays(fromDate, toDate) {
+    const one = new Date(fromDate);
+    const two = new Date(toDate);
+    one.setHours(0, 0, 0, 0);
+    two.setHours(0, 0, 0, 0);
+    return Math.round((two.getTime() - one.getTime()) / 86400000);
+  }
+
+  function monthLabel(date) {
+    return date.getFullYear() + '年' + String(date.getMonth() + 1).padStart(2, '0') + '月';
+  }
+
+  const serverLmp = {{ lmp_in|default('', true)|tojson }};
+  const serverCycle = {{ cycle_in|default(28, true)|int|tojson }};
+  const serverPeriod = {{ period_in|default(5, true)|int|tojson }};
+
+  const config = {
+    lmp: parseISODate(serverLmp) || new Date(TODAY),
+    cycleLength: Math.max(21, Number(serverCycle) || 28),
+    periodLength: Math.max(1, Number(serverPeriod) || 5)
+  };
+
+  let visibleMonth = new Date(config.lmp.getFullYear(), config.lmp.getMonth(), 1);
+  let selectedDate = new Date(TODAY);
+
+  function getCycleInfo(date) {
+    const daysSinceLmp = diffDays(config.lmp, date);
+    const mod = ((daysSinceLmp % config.cycleLength) + config.cycleLength) % config.cycleLength;
+    const cycleDay = mod + 1;
+    const currentCycleStart = addDays(date, -mod);
+    const nextPeriodStart = addDays(currentCycleStart, config.cycleLength);
+    const ovulationDay = Math.max(1, config.cycleLength - 14);
+    const fertileStartDay = Math.max(1, ovulationDay - 5);
+    const fertileEndDay = Math.min(config.cycleLength, ovulationDay + 1);
+
+    let phase = '安全期';
+    if (cycleDay <= config.periodLength) {
+      phase = '月经期';
+    } else if (cycleDay >= fertileStartDay && cycleDay <= fertileEndDay) {
+      phase = '排卵期';
+    }
+
+    const currentOvulation = addDays(currentCycleStart, ovulationDay - 1);
+    const nextOvulation = diffDays(date, currentOvulation) >= 0
+      ? addDays(currentOvulation, config.cycleLength)
+      : currentOvulation;
+
+    return {
+      cycleDay,
+      phase,
+      nextPeriodStart,
+      nextOvulation,
+      fertileStartDay,
+      fertileEndDay
+    };
+  }
+
+  function getDayType(date) {
+    const info = getCycleInfo(date);
+    if (info.cycleDay <= config.periodLength) return '月经期';
+    if (info.cycleDay >= info.fertileStartDay && info.cycleDay <= info.fertileEndDay) return '排卵期';
+    return '安全期';
+  }
+
+  function getDayBadge(type) {
+    if (type === '月经期') return '经期';
+    if (type === '排卵期') return '排卵';
+    return '安全';
+  }
+
+  function renderMonth(targetEl, baseDate) {
+    const year = baseDate.getFullYear();
+    const month = baseDate.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const weekdayOffset = (firstDay.getDay() + 6) % 7;
+    const weekdays = ['一', '二', '三', '四', '五', '六', '日'];
+
+    const title = '<div class="cycle-calendar-month-title">' + monthLabel(baseDate) + '</div>';
+    const weekHead = '<div class="cycle-calendar-grid">' + weekdays.map(function (d) {
+      return '<div class="cycle-calendar-weekday">' + d + '</div>';
+    }).join('') + '</div>';
+
+    let cells = '';
+    for (let i = 0; i < weekdayOffset; i++) {
+      cells += '<button type="button" class="cycle-calendar-day empty" tabindex="-1"></button>';
+    }
+
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+      const current = new Date(year, month, day);
+      current.setHours(0, 0, 0, 0);
+      const iso = fmtISO(current);
+      const type = getDayType(current);
+      const isToday = iso === fmtISO(TODAY);
+      const isSelected = iso === fmtISO(selectedDate);
+      const cls = [
+        'cycle-calendar-day',
+        type === '月经期' ? 'is-period' : '',
+        type === '排卵期' ? 'is-ovulation' : '',
+        type === '安全期' ? 'is-safe' : '',
+        isToday ? 'is-today' : '',
+        isSelected ? 'is-selected' : ''
+      ].filter(Boolean).join(' ');
+
+      cells += '<button type="button" class="' + cls + '" data-date="' + iso + '">' + day + '<small>' + getDayBadge(type) + '</small></button>';
+    }
+
+    targetEl.innerHTML = title + weekHead + '<div class="cycle-calendar-grid mt-2">' + cells + '</div>';
+  }
+
+  function updateSelectedInfo(date) {
+    const info = getCycleInfo(date);
+    const type = getDayType(date);
+    const nextPeriodDays = diffDays(date, info.nextPeriodStart);
+    const nextOvulationDays = diffDays(date, info.nextOvulation);
+
+    let typeDesc = '这一天属于相对较低受孕概率的时间段参考。';
+    if (type === '月经期') {
+      typeDesc = '这一天位于预计月经期范围内，可作为经期安排参考。';
+    } else if (type === '排卵期') {
+      typeDesc = '这一天位于预计排卵期范围内，可作为较高受孕概率时间窗口参考。';
+    }
+
+    selectedDayContent.innerHTML =
+      '<div class="mb-2"><b>' + fmtISO(date) + '</b> 属于：<b>' + type + '</b></div>' +
+      '<div class="mb-1">当前为周期第 <b>' + info.cycleDay + '</b> 天。</div>' +
+      '<div class="mb-1">距离下次月经开始约 <b>' + nextPeriodDays + '</b> 天。</div>' +
+      '<div class="mb-1">距离下次预计排卵日约 <b>' + nextOvulationDays + '</b> 天。</div>' +
+      '<div class="text-muted">' + typeDesc + '</div>';
+  }
+
+  function bindDayClicks() {
+    const buttons = document.querySelectorAll('.cycle-calendar-day[data-date]');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const dt = parseISODate(this.getAttribute('data-date'));
+        if (!dt) return;
+        selectedDate = dt;
+        renderCalendars();
+        updateSelectedInfo(dt);
+      });
+    });
+  }
+
+  function renderCalendars() {
+    const monthA = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth(), 1);
+    const monthB = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+    renderMonth(monthAEl, monthA);
+    renderMonth(monthBEl, monthB);
+    bindDayClicks();
+  }
+
+  prevBtn.addEventListener('click', function () {
+    visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
+    renderCalendars();
+  });
+
+  nextBtn.addEventListener('click', function () {
+    visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+    renderCalendars();
+  });
+
+  renderCalendars();
+  updateSelectedInfo(selectedDate);
+})();
+</script>
 
 {% endblock %}
