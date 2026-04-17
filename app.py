@@ -9,6 +9,7 @@ from flask import (
     send_from_directory,
     url_for,
 )
+import calendar
 
 app = Flask(__name__)
 
@@ -2150,6 +2151,61 @@ def conception_info(lmp_date: date) -> dict:
         "conception_date": conception_date.strftime("%Y-%m-%d"),
         "due_date": due_date.strftime("%Y-%m-%d"),
     }
+
+# 5.1.1
+from datetime import datetime, timedelta, date
+import calendar
+
+def parse_date(date_str):
+    return datetime.strptime(date_str, "%Y-%m-%d").date()
+
+def format_week_label(days_from_lmp):
+    weeks = days_from_lmp // 7
+    extra_days = days_from_lmp % 7
+    return f"{weeks}周+{extra_days}天"
+
+def estimate_due_date(lmp_date):
+    return lmp_date + timedelta(days=280)
+
+def build_pregnancy_calendar(lmp_date, due_date):
+    today = date.today()
+
+    months = []
+    current_year = lmp_date.year
+    current_month = lmp_date.month
+
+    while (current_year, current_month) <= (due_date.year, due_date.month):
+        _, month_days = calendar.monthrange(current_year, current_month)
+        days_map = {}
+
+        for day in range(1, month_days + 1):
+            current_date = date(current_year, current_month, day)
+
+            if lmp_date <= current_date <= due_date:
+                days_from_lmp = (current_date - lmp_date).days
+                days_map[day] = {
+                    "week_num": days_from_lmp // 7,
+                    "is_today": current_date == today,
+                    "is_due_date": current_date == due_date,
+                }
+
+        months.append({
+            "label": f"{current_year}-{current_month:02d}",
+            "month_num": current_month,
+            "days_map": days_map,
+        })
+
+        if current_month == 12:
+            current_month = 1
+            current_year += 1
+        else:
+            current_month += 1
+
+    return {"months": months}
+
+def estimate_conception_date(lmp_date):
+    return lmp_date + timedelta(days=14)
+
 # 5.1.5 月经周期
 def period_cycle_info(lmp_date: date, cycle_length: int, period_length: int) -> dict:
     """
@@ -3384,28 +3440,92 @@ def maintenance_calories_info(
 ## 5.1.1 预产期计算
 @app.route("/pregnancy-due-date", methods=["GET", "POST"])
 def pregnancy_due_date():
-    due_date = None
     error = None
+    lmp_in = ""
 
+    due_date = None
+    days_to_due = None
+    current_week = None
+    pregnancy_calendar = None
+
+    # 示例数据
+    demo_due_date = None
+    demo_days_to_due = None
+    demo_current_week = None
+    demo_pregnancy_calendar = None
+
+    meta = {
+        "title": "预产期计算器（孕周表格版）- CalmyHealth",
+        "description": "输入末次月经第一天，计算预计预产期、距离预产期天数、当前孕周，并查看完整显示到预产期的孕周表格。",
+        "canonical": canonical_url("/pregnancy-due-date"),
+    }
+
+    # -----------------------
+    # 先准备未计算时的示例数据
+    # 示例逻辑：假设今天大约在孕 12 周
+    # -----------------------
+    try:
+        today = date.today()
+        demo_lmp_date = today - timedelta(days=12 * 7 + 3)  # 示例：12周+3天
+        demo_due_date_obj = estimate_due_date(demo_lmp_date)
+
+        demo_due_date = demo_due_date_obj.strftime("%Y-%m-%d")
+        demo_days_to_due = (demo_due_date_obj - today).days
+        demo_current_week = format_week_label((today - demo_lmp_date).days)
+        demo_pregnancy_calendar = build_pregnancy_calendar(demo_lmp_date, demo_due_date_obj)
+    except Exception:
+        demo_due_date = None
+        demo_days_to_due = None
+        demo_current_week = None
+        demo_pregnancy_calendar = None
+
+    # -----------------------
+    # 用户提交后计算真实结果
+    # -----------------------
     if request.method == "POST":
-        try:
-            lmp = request.form.get("lmp")
-            lmp_date = datetime.strptime(lmp, "%Y-%m-%d")
-            due_date = (lmp_date + timedelta(days=280)).strftime("%Y-%m-%d")
-        except Exception:
-            error = "请输入有效的日期"
+        lmp_in = (request.form.get("lmp") or "").strip()
 
-    meta = meta_for(
-        "预产期计算器（怀孕到生产时间推算）- CalmyHealth",
-        "输入末次月经日期，推算预产期与孕周（仅供参考）。包含预产期怎么算、怀孕多久生、常见问题与相关工具链接。",
-        "/pregnancy-due-date",
-    )
+        try:
+            if not lmp_in:
+                raise ValueError("请输入末次月经第一天。")
+
+            lmp_date = parse_date(lmp_in)
+            today = date.today()
+
+            if lmp_date > today:
+                raise ValueError("末次月经第一天不能晚于今天。")
+
+            due_date_obj = estimate_due_date(lmp_date)
+
+            due_date = due_date_obj.strftime("%Y-%m-%d")
+            days_to_due = (due_date_obj - today).days
+
+            pregnancy_days = (today - lmp_date).days
+            current_week = format_week_label(pregnancy_days)
+
+            pregnancy_calendar = build_pregnancy_calendar(lmp_date, due_date_obj)
+
+        except ValueError as e:
+            error = str(e)
+        except Exception:
+            error = "日期格式错误，请重新输入。"
+
     return render_template(
         "pregnancy_due_date.html",
         meta=meta,
-        due_date=due_date,
         error=error,
+        lmp_in=lmp_in,
+        due_date=due_date,
+        days_to_due=days_to_due,
+        current_week=current_week,
+        pregnancy_calendar=pregnancy_calendar,
+        demo_due_date=demo_due_date,
+        demo_days_to_due=demo_days_to_due,
+        demo_current_week=demo_current_week,
+        demo_pregnancy_calendar=demo_pregnancy_calendar,
+        page_kind="tool",
     )
+
 # 5.1.2 怀孕周数
 @app.route("/pregnancy-week", methods=["GET", "POST"])
 def pregnancy_week():

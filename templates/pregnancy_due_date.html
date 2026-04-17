@@ -2,148 +2,656 @@
 
 {% block content %}
 
-<div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
-  <div class="tool-col tool-col-form">
-    <div class="tool-card">
-      <h1 class="h4 mb-1">预产期计算器</h1>
-      <p class="text-muted mb-3">
-        根据末次月经第一天推算怀孕 280 天后的预产期（仅供参考）。
-      </p>
+<div class="tool-page">
+  <div class="tool-page-main">
+    <!-- 左侧主列 -->
+    <div class="tool-main-col">
+      <div class="tool-card tool-card-form">
+        <h1 class="h4 mb-1">预产期计算器</h1>
+        <p class="text-muted mb-3">
+          根据末次月经第一天推算预计预产期、当前孕周，并按月份和日期查看完整孕周进度表（仅供参考）。
+        </p>
 
-      <form method="post" class="row g-3">
-        <div class="col-12">
-          <label class="form-label">末次月经第一天</label>
-          <input type="date" name="lmp" class="form-control" required>
+        <form method="post" class="row g-3" id="tool-form">
+          <div class="col-12">
+            <label class="form-label">末次月经第一天</label>
+            <input
+              type="date"
+              name="lmp"
+              class="form-control"
+              required
+              value="{{ lmp_in or '' }}"
+            >
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算预产期</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+      </div>
+
+      {% if due_date %}
+      <div class="tool-card">
+        <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+          <div>
+            <div class="text-muted small">预计预产期</div>
+            <div class="display-6 fw-semibold mb-0">
+              {{ due_date }}
+              {% if days_to_due is not none %}
+                <span class="fs-6 text-muted fw-normal">（距离 {{ days_to_due }} 天）</span>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if current_week %}
+          <div>
+            <span class="badge text-bg-primary p-2">当前 {{ current_week }}</span>
+          </div>
+          {% endif %}
         </div>
 
-        <div class="col-12">
-          <button class="btn btn-success w-100">计算预产期</button>
+        <div class="small text-muted mt-3">
+          这是按末次月经第一天加 280 天推算得到的常见估算结果，更适合作为初步参考，而不是绝对准确的分娩日期。
         </div>
-      </form>
 
-      {% if error %}
-        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          <a class="btn btn-outline-primary btn-sm" href="/pregnancy-week">去算怀孕周数</a>
+          <a class="btn btn-outline-primary btn-sm" href="/ovulation">去算排卵期</a>
+          <a class="btn btn-outline-primary btn-sm" href="/conception-date">去算受孕日期</a>
+          <a class="btn btn-outline-primary btn-sm" href="/period-calculator">去算月经周期</a>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">孕周进度表（到预产期）</h2>
+
+        <div class="form-text mb-2">
+          行为日期，列为月份；每个格子中的数字表示该日期对应的怀孕周数。
+        </div>
+
+        <!-- 图例 + 悬浮提示 -->
+        <div class="preg-legend-bar mb-3">
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="孕早期通常指 0–12 周，是胚胎和基础器官快速形成的阶段。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-first"></span>
+            <span>孕早期</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="孕中期通常指 13–27 周，很多人会觉得状态相对更稳定。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-second"></span>
+            <span>孕中期</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="孕晚期通常指 28 周以后，更接近分娩准备阶段。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-third"></span>
+            <span>孕晚期</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="黄色表示今天，方便快速定位当前日期对应的大致孕周。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-today"></span>
+            <span>今天</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="绿色表示预计预产期当天。预产期是估算日期，不代表一定在当天分娩。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-due"></span>
+            <span>预产期当天</span>
+          </button>
+        </div>
+
+        <div class="pregnancy-calendar-wrap">
+          <table class="table table-bordered align-middle text-center pregnancy-week-grid mb-0">
+            <thead>
+              <tr>
+                <th class="preg-col-day">日</th>
+                {% for month in pregnancy_calendar.months %}
+                  <th class="preg-col-month">{{ month.month_num }}月</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for day in range(1, 32) %}
+              <tr>
+                <td class="fw-semibold preg-col-day">{{ day }}</td>
+                {% for month in pregnancy_calendar.months %}
+                  {% set cell = month.days_map.get(day) %}
+                  <td
+                    class="
+                      preg-cell
+                      {% if cell %}preg-cell-valid{% endif %}
+                      {% if cell and cell.is_today %} preg-cell-today{% endif %}
+                      {% if cell and cell.is_due_date %} preg-cell-due{% endif %}
+                    "
+                  >
+                    {% if cell %}
+                      <div
+                        class="
+                          preg-week-text
+                          {% if cell.week_num < 13 %}
+                            preg-week-first
+                          {% elif cell.week_num < 28 %}
+                            preg-week-second
+                          {% else %}
+                            preg-week-third
+                          {% endif %}
+                        "
+                      >
+                        {{ cell.week_num }}
+                      </div>
+                    {% else %}
+                      <span class="text-muted">—</span>
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {% else %}
+      <div class="tool-card">
+        <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+          <div>
+            <div class="text-muted small">示例预产期</div>
+            <div class="display-6 fw-semibold mb-0">
+              {{ demo_due_date }}
+              {% if demo_days_to_due is not none %}
+                <span class="fs-6 text-muted fw-normal">（距离 {{ demo_days_to_due }} 天）</span>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if demo_current_week %}
+          <div>
+            <span class="badge text-bg-secondary p-2">示例 {{ demo_current_week }}</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="small text-muted mt-3">
+          下面先展示一份按默认示例生成的孕周进度表，填写末次月经日期后会自动替换成你的实际结果。
+        </div>
+
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          <a class="btn btn-outline-primary btn-sm" href="/pregnancy-week">去算怀孕周数</a>
+          <a class="btn btn-outline-primary btn-sm" href="/ovulation">去算排卵期</a>
+          <a class="btn btn-outline-primary btn-sm" href="/conception-date">去算受孕日期</a>
+          <a class="btn btn-outline-primary btn-sm" href="/period-calculator">去算月经周期</a>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">孕周进度表示例</h2>
+
+        <div class="form-text mb-2">
+          行为日期，列为月份；每个格子中的数字表示该日期对应的怀孕周数。
+        </div>
+
+        <!-- 图例 + 悬浮提示 -->
+        <div class="preg-legend-bar mb-3">
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="孕早期通常指 0–12 周，是胚胎和基础器官快速形成的阶段。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-first"></span>
+            <span>孕早期</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="孕中期通常指 13–27 周，很多人会觉得状态相对更稳定。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-second"></span>
+            <span>孕中期</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="孕晚期通常指 28 周以后，更接近分娩准备阶段。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-third"></span>
+            <span>孕晚期</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="黄色表示今天，方便快速定位当前日期对应的大致孕周。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-today"></span>
+            <span>今天</span>
+          </button>
+
+          <button
+            type="button"
+            class="preg-legend-chip"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="绿色表示预计预产期当天。预产期是估算日期，不代表一定在当天分娩。"
+          >
+            <span class="preg-legend-dot preg-legend-dot-due"></span>
+            <span>预产期当天</span>
+          </button>
+        </div>
+
+        <div class="pregnancy-calendar-wrap">
+          <table class="table table-bordered align-middle text-center pregnancy-week-grid mb-0">
+            <thead>
+              <tr>
+                <th class="preg-col-day">日</th>
+                {% for month in demo_pregnancy_calendar.months %}
+                  <th class="preg-col-month">{{ month.month_num }}月</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for day in range(1, 32) %}
+              <tr>
+                <td class="fw-semibold preg-col-day">{{ day }}</td>
+                {% for month in demo_pregnancy_calendar.months %}
+                  {% set cell = month.days_map.get(day) %}
+                  <td
+                    class="
+                      preg-cell
+                      {% if cell %}preg-cell-valid{% endif %}
+                      {% if cell and cell.is_today %} preg-cell-today{% endif %}
+                      {% if cell and cell.is_due_date %} preg-cell-due{% endif %}
+                    "
+                  >
+                    {% if cell %}
+                      <div
+                        class="
+                          preg-week-text
+                          {% if cell.week_num < 13 %}
+                            preg-week-first
+                          {% elif cell.week_num < 28 %}
+                            preg-week-second
+                          {% else %}
+                            preg-week-third
+                          {% endif %}
+                        "
+                      >
+                        {{ cell.week_num }}
+                      </div>
+                    {% else %}
+                      <span class="text-muted">—</span>
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
       {% endif %}
-    </div>
 
-    {% if due_date %}
-    <div class="tool-card">
-      <div class="text-muted small">预计预产期</div>
-      <div class="display-6 fw-semibold mb-3">{{ due_date }}</div>
+      <div class="tool-card">
+        <h2 class="h6">预产期怎么算？</h2>
+        <p class="text-muted">
+          预产期通常按照末次月经第一天起算，加上 280 天（约 40 周）进行推算。
+          这是医学上常用的基础估算方法，也常被称为按孕周推算预产期。
+        </p>
 
-      <div class="alert alert-info mb-3">
-        预计预产期为：<b>{{ due_date }}</b>
+        <h2 class="h6 mt-4">为什么是 280 天？</h2>
+        <p class="text-muted">
+          因为医学上通常从末次月经第一天开始计算孕周，而不是从排卵或受孕当天开始。
+          所以常见的完整妊娠周期会被记为约 40 周，也就是大约 280 天。
+        </p>
       </div>
 
-      <div class="small text-muted">
-        这是按末次月经第一天加 280 天推算得到的常见估算结果，
-        更适合作为初步参考，而不是绝对准确的分娩日期。
+      <div class="tool-card">
+        <h2 class="h6">怀孕多久生才算正常？</h2>
+        <p class="text-muted">
+          正常妊娠周期大致在 37–42 周之间。很多孕妇并不会刚好在预产期当天生产，
+          提前或推迟几天都很常见。预产期更像一个“参考时间点”，而不是固定日期。
+        </p>
+
+        <div class="bg-light rounded-3 p-3 mt-3">
+          <div class="fw-semibold mb-2">常见理解</div>
+          <ul class="text-muted mb-0 ps-3">
+            <li class="mb-2">预产期当天生，只是其中一种情况。</li>
+            <li class="mb-2">不少人会在预产期前后 1–2 周分娩。</li>
+            <li class="mb-0">医生会结合产检、B 超和胎儿发育情况综合判断。</li>
+          </ul>
+        </div>
       </div>
 
-      <hr class="my-3">
+      <div class="tool-card">
+        <h2 class="h6">月经不规律还能算吗？</h2>
+        <p class="text-muted">
+          可以作为大致参考，但准确性会下降。如果月经周期不规律、记不清末次月经日期，
+          或者排卵时间和平时差异较大，建议结合早孕期 B 超结果判断孕周与预产期。
+        </p>
 
-      <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">怎么看这个结果更合理？</div>
-        <ul class="small text-muted mb-0 ps-3">
-          <li class="mb-2">预产期是估算日期，不是“必须当天生产”。</li>
-          <li class="mb-2">提前或推迟几天，甚至 1–2 周，都可能属于正常范围。</li>
-          <li class="mb-2">如果月经周期不规律，实际孕周可能和计算值有偏差。</li>
-          <li class="mb-0">医生通常会结合超声检查进一步判断孕周和预产期。</li>
-        </ul>
+        <h2 class="h6 mt-4">预产期会调整吗？</h2>
+        <p class="text-muted">
+          会。临床上如果早孕期超声显示的孕周与按月经推算差异较大，医生可能会对预产期做进一步修正。
+        </p>
       </div>
-    </div>
-    {% else %}
-    <div class="tool-card">
-      <div class="text-muted">
-        选择末次月经第一天后，即可查看预计预产期。
-      </div>
-    </div>
-    {% endif %}
-  </div>
 
-  <!-- 右侧：解释 / SEO 内容 -->
-  <div class="tool-col tool-col-result">
-    <div class="tool-card">
-      <h2 class="h6">预产期怎么算？</h2>
-      <p class="text-muted">
-        预产期通常按照末次月经第一天起算，加上 280 天（约 40 周）进行推算。
-        这是医学上常用的基础估算方法，也常被称为按孕周推算预产期。
-      </p>
+      <div class="tool-card">
+        <h2 class="h6">常见问题</h2>
 
-      <h2 class="h6 mt-4">为什么是 280 天？</h2>
-      <p class="text-muted">
-        因为医学上通常从末次月经第一天开始计算孕周，而不是从排卵或受孕当天开始。
-        所以常见的完整妊娠周期会被记为约 40 周，也就是大约 280 天。
-      </p>
-    </div>
+        <h3 class="h6 mt-3 mb-1">预产期一定准确吗？</h3>
+        <p class="text-muted">
+          不是。它只是一个常见医学估算值，主要用于帮助理解孕周和安排后续产检节奏。
+        </p>
 
-    <div class="tool-card">
-      <h2 class="h6">怀孕多久生才算正常？</h2>
-      <p class="text-muted">
-        正常妊娠周期大致在 37–42 周之间。也就是说，很多孕妇并不会刚好在预产期当天生产，
-        提前或推迟几天都很常见。预产期更像一个“参考时间点”，而不是固定交付日期。
-      </p>
+        <h3 class="h6 mt-3 mb-1">受孕日期和预产期有直接关系吗？</h3>
+        <p class="text-muted">
+          有，但多数情况下临床不会直接按“受孕当天”来算，而是按末次月经第一天作为统一起点。
+        </p>
 
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">常见理解</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">预产期当天生，只是其中一种情况。</li>
-          <li class="mb-2">不少人会在预产期前后 1–2 周分娩。</li>
-          <li class="mb-0">医生会结合产检、B 超和胎儿发育情况综合判断。</li>
-        </ul>
+        <h3 class="h6 mt-3 mb-1">这个计算结果能替代医生判断吗？</h3>
+        <p class="text-muted">
+          不能。这个页面只适合初步参考，正式孕周与预产期仍应以医生检查和产检结果为准。
+        </p>
       </div>
     </div>
 
-    <div class="tool-card">
-      <h2 class="h6">月经不规律还能算吗？</h2>
-      <p class="text-muted">
-        可以作为大致参考，但准确性会下降。如果月经周期不规律、记不清末次月经日期，
-        或者排卵时间和平时差异较大，建议结合早孕期 B 超结果判断孕周与预产期。
-      </p>
+    <!-- 右侧侧栏 -->
+    <aside class="tool-side-col">
+      <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 预产期 / 孕周 / 排卵期"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
 
-      <h2 class="h6 mt-4">预产期会调整吗？</h2>
-      <p class="text-muted">
-        会。临床上如果早孕期超声显示的孕周与按月经推算差异较大，医生可能会对预产期做进一步修正。
-      </p>
-    </div>
+        <div class="tool-side-content">
+          <h2 class="h6">相关孕期工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/period-calculator">月经周期计算器</a>：怀孕前或备孕阶段可先记录周期时间</li>
+            <li class="mb-2"><a href="/safe-days-calculator">安全期计算器</a>：在备孕或周期记录阶段可以先从这里开始</li>
+            <li class="mb-2"><a href="/pregnancy-due-date">预产期计算器</a>：推算宝宝预计出生日期</li>
+            <li class="mb-2"><a href="/pregnancy-week">怀孕周数计算器</a>：查看当前孕周与孕期阶段</li>
+            <li class="mb-0"><a href="/tools">更多健康与孕期工具</a>：继续浏览相关页面</li>
+          </ul>
 
-    <div class="tool-card">
-      <h2 class="h6">常见问题</h2>
+          <h2 class="h6">这个表格适合怎么用？</h2>
+          <p class="text-muted">
+            如果你想更直观看到某个具体日期大约对应孕几周，这种按“月份 × 日期”展开的表格会比只看一个预产期数字更容易理解。
+            它适合做日常查看、安排产检时间和理解孕周进展的参考。
+          </p>
 
-      <h3 class="h6 mt-3 mb-1">预产期一定准确吗？</h3>
-      <p class="text-muted">
-        不是。它只是一个常见医学估算值，主要用于帮助理解孕周和安排后续产检节奏。
-      </p>
+          <h2 class="h6 mt-4">怎么看更合理？</h2>
+          <p class="text-muted mb-0">
+            建议把这个结果理解为常见估算，而不是精确到某一天的医学结论。真正的孕周与预产期，
+            仍需要结合医生检查、早孕期超声和后续产检综合判断。
+          </p>
 
-      <h3 class="h6 mt-3 mb-1">受孕日期和预产期有直接关系吗？</h3>
-      <p class="text-muted">
-        有，但多数情况下临床不会直接按“受孕当天”来算，而是按末次月经第一天作为统一起点。
-      </p>
+          <hr class="my-4">
 
-      <h3 class="h6 mt-3 mb-1">这个计算结果能替代医生判断吗？</h3>
-      <p class="text-muted">
-        不能。这个页面只适合初步参考，正式孕周与预产期仍应以医生检查和产检结果为准。
-      </p>
-    </div>
-
-  <div class="tool-card">
-    <h2 class="h6">相关孕期工具</h2>
-    <ul class="text-muted mb-0">
-      <li><a href="/period-calculator">月经周期计算器</a>：怀孕前或备孕阶段可先记录周期时间</li>
-      <li><a href="/safe-days-calculator">安全期计算器</a>：在备孕或周期记录阶段可以先从这里开始</li>
-      <li><a href="/pregnancy-due-date">预产期计算器</a>：推算宝宝预计出生日期</li>
-      <li><a href="/pregnancy-week">怀孕周数计算器</a>：查看当前孕周与孕期阶段</li>
-      <li><a href="/tools">更多健康与孕期工具</a>：继续浏览相关页面</li>
-    </ul>
-
-      <hr class="my-4">
-
-      <p class="small text-muted mb-0">
-        本页面仅用于科普参考，不构成医疗建议。如有孕期疑问、腹痛、出血或其他不适，请及时咨询医生。
-      </p>
-    </div>
+          <p class="small text-muted mb-0">
+            本页面仅用于科普参考，不构成医疗建议。如有孕期疑问、腹痛、出血或其他不适，请及时咨询医生。
+          </p>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>
+
+<style>
+  .pregnancy-calendar-wrap {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .pregnancy-week-grid {
+    width: 100%;
+    table-layout: fixed;
+    font-size: 12px;
+  }
+
+  .pregnancy-week-grid th,
+  .pregnancy-week-grid td {
+    vertical-align: middle;
+    padding: 0.35rem 0.2rem;
+  }
+
+  .preg-col-day {
+    width: 44px;
+    white-space: nowrap;
+  }
+
+  .preg-col-month {
+    min-width: 52px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .preg-cell {
+    height: 42px;
+    background: #fff;
+  }
+
+  .preg-cell-valid {
+    background: #eef6ff;
+  }
+
+  .preg-cell-today {
+    background: #fff3cd !important;
+  }
+
+  .preg-cell-due {
+    background: #d1e7dd !important;
+  }
+
+  .preg-week-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 999px;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.04);
+  }
+
+  .preg-week-first {
+    background: #e8f7ef;
+    color: #157347;
+  }
+
+  .preg-week-second {
+    background: #e8f1ff;
+    color: #0d6efd;
+  }
+
+  .preg-week-third {
+    background: #fdecef;
+    color: #dc3545;
+  }
+
+  .preg-legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .preg-legend-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: #fff;
+    color: #334155;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .preg-legend-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  }
+
+  .preg-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    display: inline-block;
+    flex: 0 0 12px;
+  }
+
+  .preg-legend-dot-first {
+    background: #198754;
+  }
+
+  .preg-legend-dot-second {
+    background: #0d6efd;
+  }
+
+  .preg-legend-dot-third {
+    background: #dc3545;
+  }
+
+  .preg-legend-dot-today {
+    background: #ffc107;
+  }
+
+  .preg-legend-dot-due {
+    background: #198754;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.75);
+  }
+
+  @media (max-width: 768px) {
+    .pregnancy-week-grid {
+      font-size: 11px;
+    }
+
+    .preg-col-day {
+      width: 38px;
+    }
+
+    .preg-week-text {
+      min-width: 20px;
+      height: 20px;
+      font-size: 10px;
+      padding: 1px 4px;
+    }
+
+    .pregnancy-week-grid th,
+    .pregnancy-week-grid td {
+      padding: 0.28rem 0.12rem;
+    }
+
+    .preg-legend-chip {
+      font-size: 11px;
+      padding: 5px 8px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  const input = document.getElementById("toolSearchInput");
+  const resultBox = document.getElementById("toolSearchResult");
+
+  if (input && resultBox) {
+    const tools = [
+      { name: "预产期计算器", path: "/pregnancy-due-date" },
+      { name: "怀孕周数计算器", path: "/pregnancy-week" },
+      { name: "排卵期计算器", path: "/ovulation" },
+      { name: "月经周期计算器", path: "/period-calculator" },
+      { name: "安全期计算器", path: "/safe-days-calculator" },
+      { name: "受孕日期推算器", path: "/conception-date" }
+    ];
+
+    function renderResults(q) {
+      const query = q.trim().toLowerCase();
+
+      if (!query) {
+        resultBox.innerHTML = '<div class="text-muted">输入关键词可快速跳转到站内工具。</div>';
+        return;
+      }
+
+      const matched = tools.filter(t => t.name.toLowerCase().includes(query)).slice(0, 8);
+
+      if (!matched.length) {
+        resultBox.innerHTML = '<div class="text-muted">没有找到匹配工具。</div>';
+        return;
+      }
+
+      resultBox.innerHTML = matched.map(t => (
+        '<div class="mb-2"><a href="' + t.path + '">' + t.name + '</a></div>'
+      )).join('');
+    }
+
+    input.addEventListener("input", function () {
+      renderResults(this.value);
+    });
+
+    renderResults("");
+  }
+
+  // Bootstrap tooltip 初始化
+  if (window.bootstrap && bootstrap.Tooltip) {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (el) {
+      new bootstrap.Tooltip(el);
+    });
+  }
+})();
+</script>
 
 {% endblock %}

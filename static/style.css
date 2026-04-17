@@ -498,3 +498,82 @@ hr{
     margin-top: -2px;
   }
 }
+
+/* =========================
+   Pregnancy Calendar
+   ========================= */
+   
+.pregnancy-calendar-wrap {
+  width: 100%;
+  overflow: visible;
+}
+
+.pregnancy-week-grid {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 12px;
+}
+
+.pregnancy-week-grid th,
+.pregnancy-week-grid td {
+  vertical-align: middle;
+  padding: 0.35rem 0.2rem;
+}
+
+.preg-col-day {
+  width: 44px;
+  white-space: nowrap;
+}
+
+.preg-col-month {
+  min-width: 52px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.preg-cell {
+  height: 42px;
+  background: #fff;
+}
+
+.preg-cell-valid {
+  background: #eef6ff;
+}
+
+.preg-cell-today {
+  background: #fff3cd !important;
+}
+
+.preg-cell-due {
+  background: #d1e7dd !important;
+}
+
+.preg-week-text {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 6px;
+  background: rgba(25, 135, 84, 0.12);
+  color: #198754;
+}
+
+@media (max-width: 768px) {
+  .pregnancy-week-grid {
+    font-size: 11px;
+  }
+
+  .preg-col-day {
+    width: 38px;
+  }
+
+  .preg-week-text {
+    font-size: 10px;
+  }
+
+  .pregnancy-week-grid th,
+  .pregnancy-week-grid td {
+    padding: 0.28rem 0.12rem;
+  }
+}
