@@ -126,6 +126,7 @@ CATEGORY_META = {
     ## 4.1.7 跑步配速 4.1.8 心率区间
     # ========= 4.2. 睡眠时间 ======= 
     ## 4.2.1 睡眠周期 4.2.2 睡眠需求 4.2.3 睡眠时长 4.2.4 补觉时间 4.2.5 午睡时间
+    # # 4.2.6 起床时间
     # ========= 4.3. 睡眠质量 ======= 
     ## 4.3.1 睡眠债 4.3.2 睡眠效率 4.3.3 咖啡因截止时间 4.3.4 时差恢复
     ## 4.3.5 作息类型
@@ -544,6 +545,27 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
+    # 4.2.6 起床时间
+    {
+        "endpoint": "sleep_wake_time",
+        "name": "起床时间计算器",
+        "path": "/sleep-wake-time",
+        "desc": "按90分钟睡眠周期计算更容易自然醒的起床时间",
+        "category": "activity",
+        "subgroup": "sleep_time",
+        "featured": False,
+    },
+    # 4.2.7 - 入睡时间
+    {
+        "endpoint": "sleep_bedtime",
+        "name": "入睡时间计算器",
+        "path": "/sleep-bedtime",
+        "desc": "根据起床时间反推最佳入睡时间，减少睡眠中断感",
+        "category": "activity",
+        "subgroup": "sleep_time",
+        "featured": False,
+    },
+
     # ========= 4.3. 睡眠质量 ======= 
     # 4.3.1 睡眠债
     {
@@ -2069,6 +2091,11 @@ def heart_rate_zone_info(age: int, resting_hr: int | None = None) -> dict:
         "zones": result_zones,
         "progress": progress,
     }
+
+# 4.2.6 起床时间
+
+# 4.2.7 入睡时间
+
 # ========= 1.1. BMI与体重 ======= 
 #1.1.3 目标体重时间
 def weeks_to_goal(current_kg: float, target_kg: float, rate_kg_per_week: float) -> float:
@@ -3309,8 +3336,8 @@ def bmi():
                 ]
 
     meta = meta_for(
-        "BMI 计算器（高级版）- CalmyHealth",
-        "在线 BMI 计算器：支持身高体重输入，输出 BMI 数值、成人参考范围、健康体重区间与行动建议，并推荐 BMR/TDEE 等相关工具。",
+        "BMI 计算器｜身高体重指数计算 - CalmyHealth",
+        "BMI 计算器：输入身高和体重，快速计算 BMI 数值、健康体重范围和体型分类，并查看相关健康建议。",
         "/bmi",
     )
 
@@ -3547,8 +3574,8 @@ def pregnancy_week():
             error = str(e) if str(e) else "请输入有效日期。"
 
     meta = {
-        "title": "怀孕周数计算器（实时孕周与预产期）- 健康工具站",
-        "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，并提供公式说明与相关孕期工具。",
+        "title": "怀孕周数计算器｜孕周与预产期计算 - CalmyHealth",
+        "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，适合孕期时间参考。",
         "canonical": canonical_url("/pregnancy-week"),
     }
 
@@ -4083,8 +4110,8 @@ def calorie():
             tdee_val = round0(b * act)
 
     meta = meta_for(
-        "每日热量需求 TDEE - CalmyHealth",
-        "在线 TDEE 计算器：基于 BMR 与活动水平估算每日总能量消耗，并提供减脂/维持/增肌使用建议与相关工具链接。",
+        "每日热量需求计算器｜TDEE 计算器 - CalmyHealth",
+        "TDEE 计算器：输入性别、年龄、身高、体重和活动水平，估算每日热量需求，适合减脂、维持体重和增肌参考。",
         "/calorie",
     )
     return render_template(
@@ -4406,6 +4433,120 @@ def nap_time():
         result=result,
         page_kind="tool",
     )
+# 4.2.6 起床时间
+@app.route("/sleep-wake-time", methods=["GET", "POST"])
+def sleep_wake_time():
+    error = None
+    hour_in = "23"
+    minute_in = "00"
+    sleep_rows = []
+    recommended_time = None
+    recommended_cycles = None
+
+    if request.method == "POST":
+        hour_in = request.form.get("hour", "23")
+        minute_in = request.form.get("minute", "00")
+
+        try:
+            hour = int(hour_in)
+            minute = int(minute_in)
+
+            base = datetime(2000, 1, 1, hour, minute) + timedelta(minutes=15)
+
+            for cycles in [3, 4, 5, 6]:
+                t = base + timedelta(minutes=90 * cycles)
+                is_recommended = cycles == 5
+
+                row = {
+                    "cycles": cycles,
+                    "duration_text": f"{cycles * 1.5:g} 小时",
+                    "time": t.strftime("%H:%M"),
+                    "is_recommended": is_recommended,
+                }
+                sleep_rows.append(row)
+
+                if is_recommended:
+                    recommended_time = row["time"]
+                    recommended_cycles = cycles
+
+        except Exception:
+            error = "请输入有效时间。"
+
+    meta = {
+        "title": "起床时间计算器（按睡眠周期推荐几点醒）- CalmyHealth",
+        "description": "选择准备入睡的时间，按90分钟睡眠周期和入睡缓冲，计算更适合醒来的起床时间。",
+        "canonical": canonical_url("/sleep-wake-time"),
+    }
+
+    return render_template(
+        "sleep_wake_time.html",
+        meta=meta,
+        error=error,
+        hour_in=hour_in,
+        minute_in=minute_in,
+        sleep_rows=sleep_rows,
+        recommended_time=recommended_time,
+        recommended_cycles=recommended_cycles,
+        page_kind="tool",
+    )
+
+# 4.2.7 入睡时间
+@app.route("/sleep-bedtime", methods=["GET", "POST"])
+def sleep_bedtime():
+    error = None
+    hour_in = "07"
+    minute_in = "00"
+    sleep_rows = []
+    recommended_time = None
+    recommended_cycles = None
+
+    if request.method == "POST":
+        hour_in = request.form.get("hour", "07")
+        minute_in = request.form.get("minute", "00")
+
+        try:
+            hour = int(hour_in)
+            minute = int(minute_in)
+
+            base = datetime(2000, 1, 1, hour, minute)
+
+            for cycles in [3, 4, 5, 6]:
+                t = base - timedelta(minutes=(90 * cycles + 15))
+                is_recommended = cycles == 5
+
+                row = {
+                    "cycles": cycles,
+                    "duration_text": f"{cycles * 1.5:g} 小时",
+                    "time": t.strftime("%H:%M"),
+                    "is_recommended": is_recommended,
+                }
+                sleep_rows.append(row)
+
+                if is_recommended:
+                    recommended_time = row["time"]
+                    recommended_cycles = cycles
+
+        except Exception:
+            error = "请输入有效时间。"
+
+    meta = {
+        "title": "入睡时间计算器（按起床时间反推几点睡）- CalmyHealth",
+        "description": "选择目标起床时间，按90分钟睡眠周期和入睡缓冲，反推更适合准备睡觉的时间。",
+        "canonical": canonical_url("/sleep-bedtime"),
+    }
+
+    return render_template(
+        "sleep_bedtime.html",
+        meta=meta,
+        error=error,
+        hour_in=hour_in,
+        minute_in=minute_in,
+        sleep_rows=sleep_rows,
+        recommended_time=recommended_time,
+        recommended_cycles=recommended_cycles,
+        page_kind="tool",
+    )
+
 # ========= 4.3. 睡眠质量 ======= 
 # 4.3.4 时差恢复
 @app.route("/jet-lag", methods=["GET", "POST"])
@@ -5314,8 +5455,8 @@ def steps():
             kcal = round0(steps_to_kcal(s, w))
 
     meta = meta_for(
-        "步数转热量消耗 - CalmyHealth",
-        "步数转热量计算器：按步数与体重粗略估算步行消耗（kcal），并给出使用建议与相关工具链接。",
+        "步数转热量计算器｜10000步消耗多少卡路里 - CalmyHealth",
+        "10000步消耗多少卡路里？输入步数和体重，快速估算步行热量消耗，适合日常活动、减脂和步数目标参考。",
         "/steps",
     )
     return render_template(
@@ -5348,8 +5489,8 @@ def steps_distance():
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "步数转距离计算器（10000步大概是多少公里）- CalmyHealth",
-        "description": "输入步数、身高和性别，估算步数大概等于多少米、多少公里，并了解步数与距离的换算逻辑。",
+        "title": "步数转距离计算器｜10000步等于多少公里 - CalmyHealth",
+        "description": "10000步等于多少公里？一般约为6–8公里。输入步数、身高和性别即可估算步行距离，适合日常活动与减脂参考。",
         "canonical": canonical_url("/steps-distance"),
     }
 
@@ -5382,8 +5523,8 @@ def steps_time():
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "步数转步行时间计算器（这些步数大概要走多久）- CalmyHealth",
-        "description": "输入步数和步行速度，估算这些步数大概要走多久，帮助你更直观地理解每日步数和活动时间。",
+        "title": "步数转时间计算器｜10000步要走多久 - CalmyHealth",
+        "description": "10000步要走多久？一般约100分钟。输入步数并选择步行速度，快速估算步行时间，适合日常活动与减脂规划。",
         "canonical": canonical_url("/steps-time"),
     }
 

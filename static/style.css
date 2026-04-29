@@ -577,3 +577,20 @@ hr{
     padding: 0.28rem 0.12rem;
   }
 }
+#calendarRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.calendar-col {
+  width: 100%;
+}
+
+/* 👉 关键：自己控制什么时候变成并排 */
+@media (min-width: 1200px) {
+  .calendar-col {
+    width: calc(50% - 0.5rem);
+  }
+}
+
