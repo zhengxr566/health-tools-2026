@@ -3169,9 +3169,10 @@ def chronotype_result(score: int) -> dict:
 @app.get("/")
 def index():
     featured_tools = top_tools(10)
+    # 首页
     meta = meta_for(
-        f"{SITE_NAME} - 健康计算工具导航",
-        "BMI、TDEE、BMR、体脂率、理想体重、蛋白质、睡眠、预产期等在线健康工具。",
+        "CalmyHealth｜健康计算器与减脂工具导航",
+        "CalmyHealth 提供 BMI、TDEE、BMR、步数热量、步数距离、睡眠、孕期等在线健康计算器，适合日常健康管理和减脂参考。",
         "/",
     )
     return render_template(
@@ -3185,9 +3186,10 @@ def index():
 
 @app.get("/tools")
 def tools():
+# /tools
     meta = meta_for(
-        f"工具导航 - {SITE_NAME}",
-        "按分类浏览 CalmyHealth 的健康工具：体重与体型、代谢与热量、营养摄入、运动与习惯、孕期工具。",
+        "健康工具导航｜BMI、TDEE、步数、睡眠计算器 - CalmyHealth",
+        "按分类浏览 CalmyHealth 健康工具，包括体重体型、代谢热量、营养摄入、运动习惯、睡眠和孕期相关计算器。",
         "/tools",
     )
     return render_template(
@@ -3386,9 +3388,10 @@ def deficit():
         else:
             target_kcal, label = deficit_plan(tdee_val, mode_in)
 
+    # /deficit
     meta = meta_for(
-        "热量缺口与目标热量 - CalmyHealth",
-        "根据 TDEE 估算减脂/维持/增肌的目标日摄入热量（kcal/天），并提供下一步建议（蛋白质、步数、体重趋势）。",
+        "热量缺口计算器｜减脂目标热量计算 - CalmyHealth",
+        "热量缺口怎么计算？输入TDEE并选择目标，估算减脂、维持或增肌所需每日热量，适合体重管理参考。",
         "/deficit",
     )
     return render_template(
@@ -3573,6 +3576,7 @@ def pregnancy_week():
         except Exception as e:
             error = str(e) if str(e) else "请输入有效日期。"
 
+    # /pregnancy-week
     meta = {
         "title": "怀孕周数计算器｜孕周与预产期计算 - CalmyHealth",
         "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，适合孕期时间参考。",
@@ -3693,11 +3697,10 @@ def period_calculator():
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "月经周期计算器（下次月经 / 排卵期预测）- CalmyHealth",
-        "description": "输入末次月经开始日期、平均周期长度和经期时长，预测下次月经时间、排卵日和易孕期范围。",
+        "title": "月经周期计算器｜下次月经与排卵期预测 - CalmyHealth",
+        "description": "输入末次月经开始日期、周期长度和经期时长，预测下次月经、排卵日和易孕期范围。",
         "canonical": canonical_url("/period-calculator"),
     }
-
     return render_template(
         "period_calculator.html",
         meta=meta,
@@ -5559,9 +5562,10 @@ def step_goal():
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 
+    # /step-goal
     meta = {
-        "title": "每日步数目标计算器（想减脂或维持体重，每天走多少步更合适）- CalmyHealth",
-        "description": "输入你当前日均步数和目标，估算每天更适合的步数目标，并帮助你把活动量目标变得更清晰、更容易执行。",
+        "title": "每日步数目标计算器｜每天走多少步合适 - CalmyHealth",
+        "description": "每天走多少步合适？输入当前日均步数和目标，估算建议每日步数，适合提升活动量、减脂和习惯管理参考。",
         "canonical": canonical_url("/step-goal"),
     }
 
@@ -5597,9 +5601,10 @@ def activity_level():
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 
+    # /activity-level
     meta = {
-        "title": "活动量等级计算器（你属于久坐、轻度还是中度活动）- CalmyHealth",
-        "description": "输入日均步数、每周运动天数和久坐时长，估算你的活动量等级，并帮助理解自己更接近久坐、轻度还是中度活动。",
+        "title": "活动量等级计算器｜判断日常活动水平 - CalmyHealth",
+        "description": "输入日均步数、运动频率和久坐时间，判断你的活动量等级，并辅助理解TDEE活动系数。",
         "canonical": canonical_url("/activity-level"),
     }
 
@@ -5613,7 +5618,7 @@ def activity_level():
         result=result,
         page_kind="tool",
     )
-# 4.1.6 跑步消耗计算器
+# 4.1.6 跑步热量消耗计算器
 @app.route("/running-kcal", methods=["GET", "POST"])
 def running_kcal():
     error = None
@@ -5634,9 +5639,10 @@ def running_kcal():
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 
+    # /running-kcal
     meta = {
-        "title": "跑步消耗计算器（跑步30分钟大概消耗多少热量）- CalmyHealth",
-        "description": "输入体重、跑步时间和速度，估算跑步大概消耗多少热量，并帮助理解跑步和日常活动量之间的关系。",
+        "title": "跑步热量消耗计算器｜跑步消耗多少卡路里 - CalmyHealth",
+        "description": "跑步消耗多少卡路里？输入体重、跑步时间和速度，估算跑步热量消耗，适合运动和减脂参考。",
         "canonical": canonical_url("/running-kcal"),
     }
 
@@ -5678,9 +5684,10 @@ def running_pace():
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 
+    # /running-pace
     meta = {
-        "title": "跑步配速计算器（每公里配速 / 预计完赛时间）- CalmyHealth",
-        "description": "输入跑步距离和完成时间，计算每公里配速、平均速度，并估算 3K、5K、10K、半马和全马的预计完赛时间。",
+        "title": "跑步配速计算器｜每公里配速与完赛时间 - CalmyHealth",
+        "description": "输入跑步距离和完成时间，计算每公里配速、平均速度，并估算5K、10K、半马和全马完赛时间。",
         "canonical": canonical_url("/running-pace"),
     }
 
@@ -5717,12 +5724,12 @@ def heart_rate_zone():
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 
+    # /heart-rate-zone
     meta = {
-        "title": "心率区间计算器（Heart Rate Zone）- CalmyHealth",
-        "description": "输入年龄和可选的静息心率，估算运动心率训练区间，帮助理解恢复、燃脂、有氧、阈值和高强度心率范围。",
+        "title": "心率区间计算器｜运动燃脂与有氧心率 - CalmyHealth",
+        "description": "输入年龄和静息心率，估算运动心率区间，帮助理解恢复、燃脂、有氧、阈值和高强度训练范围。",
         "canonical": canonical_url("/heart-rate-zone"),
     }
-
     return render_template(
         "heart_rate_zone.html",
         meta=meta,
