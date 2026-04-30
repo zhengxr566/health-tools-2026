@@ -4314,7 +4314,7 @@ def sleep_debt():
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "睡眠债计算器（这一周你到底欠了多少睡眠）- CalmyHealth",
+        "title": "睡眠债计算器（这一周你欠了多少睡眠）- CalmyHealth",
         "description": "输入平均实际睡眠时长、目标睡眠时长和统计天数，估算累计睡眠债，并附结果说明、公式解释和相关睡眠工具推荐。",
         "canonical": canonical_url("/sleep-debt"),
     }
@@ -5114,7 +5114,7 @@ def meal_split():
 
     meta = {
         "title": "餐次分配计算器（一天三餐怎么分配热量和蛋白质）- CalmyHealth",
-        "description": "输入每日总热量和蛋白质目标，把一天三餐的热量与蛋白质分配得更清楚，适合减脂、维持和增肌饮食安排参考。",
+        "description": "根据总热量需求，合理分配三餐摄入，帮助控制体重和饮食结构。",
         "canonical": canonical_url("/meal-split"),
     }
 
@@ -5564,7 +5564,7 @@ def step_goal():
 
     # /step-goal
     meta = {
-        "title": "每日步数目标计算器｜每天走多少步合适 - CalmyHealth",
+        "title": "每日步数目标计算器（你应该走多少步）- CalmyHealth",
         "description": "每天走多少步合适？输入当前日均步数和目标，估算建议每日步数，适合提升活动量、减脂和习惯管理参考。",
         "canonical": canonical_url("/step-goal"),
     }
@@ -5603,8 +5603,8 @@ def activity_level():
 
     # /activity-level
     meta = {
-        "title": "活动量等级计算器｜判断日常活动水平 - CalmyHealth",
-        "description": "输入日均步数、运动频率和久坐时间，判断你的活动量等级，并辅助理解TDEE活动系数。",
+        "title": "活动水平计算器（久坐还是活跃）- CalmyHealth",
+        "description": "根据日常行为判断你的活动水平分类，用于计算热量消耗和健康评估。",
         "canonical": canonical_url("/activity-level"),
     }
 
