@@ -594,3 +594,35 @@ hr{
   }
 }
 
+.steps-distance-table {
+  table-layout: fixed;
+}
+
+.steps-distance-table th:first-child,
+.steps-distance-table td:first-child {
+  width: 35%;
+  white-space: nowrap;
+}
+
+.steps-distance-table th:nth-child(2),
+.steps-distance-table td:nth-child(2) {
+  width: 65%;
+  white-space: nowrap;
+}
+
+.step-chip-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.step-chip-row .step-chip {
+  width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .step-chip-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
