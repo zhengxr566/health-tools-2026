@@ -1,164 +1,143 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% set current_pace = pace_in or 'normal' %}
+
 <div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
   <div class="tool-col tool-col-form">
     <div class="tool-card">
-      <h1 class="h4 mb-1">步数转时间计算器｜10000步要走多久</h1>
+      <h1 class="h4 mb-1">步数转时间计算器｜10000步要走多久？</h1>
       <p class="text-muted mb-3">
-        输入步数并选择步行速度，快速估算这些步数大概要走多久。适合用来规划每日步数目标、步行时间、通勤活动和减脂计划。
+        10000步大约需要 75–125 分钟，具体取决于步行速度。
       </p>
 
-      <form method="post" class="row g-3">
+      <form method="post" class="row g-2">
         <div class="col-12">
           <label class="form-label">步数</label>
-          <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+          <input id="steps-input" name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+
+          <div class="d-flex flex-wrap gap-2 mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="3000">3000</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="5000">5000</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="8000">8000</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="10000">10000</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="12000">12000</button>
+          </div>
         </div>
 
         <div class="col-12">
           <label class="form-label">步行速度</label>
           <select name="pace" class="form-select">
-            <option value="slow" {% if pace_in == 'slow' %}selected{% endif %}>较慢步速</option>
-            <option value="normal" {% if pace_in == 'normal' %}selected{% endif %}>常见步速</option>
-            <option value="fast" {% if pace_in == 'fast' %}selected{% endif %}>较快步速</option>
+            <option value="slow" {% if pace_in == 'slow' %}selected{% endif %}>散步（约 80 步/分钟）</option>
+            <option value="normal" {% if pace_in == 'normal' %}selected{% endif %}>正常步行（约 100 步/分钟）</option>
+            <option value="fast" {% if pace_in == 'fast' %}selected{% endif %}>快走（约 130 步/分钟）</option>
           </select>
         </div>
 
         <div class="col-12">
-          <button class="btn btn-success w-100">计算步行时间</button>
+          <button class="btn btn-success w-100">计算</button>
         </div>
       </form>
 
       {% if error %}
         <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
       {% endif %}
-    </div>
 
-    {% if result %}
-    <div class="tool-card">
-      <div class="text-muted small mb-1">估算结果</div>
-      <div class="h3 mb-2">
-        {% if result.hours > 0 %}
-          {{ result.hours }} 小时 {{ result.minutes }} 分
-        {% else %}
-          {{ result.minutes }} 分
-        {% endif %}
-      </div>
-      <div class="text-muted small mb-3">{{ result.label }}</div>
-
-      <div class="alert alert-info mb-3">
-        你输入的 <b>{{ steps_in }} 步</b>，按 <b>{{ result.label }}</b> 估算，<br>
-        大约需要：<b>
+      {% if result %}
+      <div class="alert alert-info mt-3 mb-0">
+        <div class="text-muted small">估算结果</div>
+        <div class="h4 mb-0">
           {% if result.hours > 0 %}
             {{ result.hours }} 小时 {{ result.minutes }} 分
           {% else %}
-            {{ result.minutes }} 分
+            {{ result.minutes }} 分钟
           {% endif %}
-        </b>
+        </div>
       </div>
-
-      <div class="bg-light rounded-3 p-3 mb-3">
-        <div class="fw-semibold mb-1">估算步频</div>
-        <div class="small text-muted">约 {{ result.spm }} 步 / 分钟</div>
-      </div>
-
-      <div class="small text-muted">
-        这个结果适合作为日常活动参考，不代表跑步机、GPS、手机或手表记录的精确运动时间。
-      </div>
+      {% endif %}
     </div>
-    {% else %}
+
     <div class="tool-card">
-      <div class="text-muted">
-        输入步数并选择步行速度后，即可查看这些步数大概要走多久。
+      <h2 class="h6 mb-2">常见步数对应时间表</h2>
+      <p class="text-muted small mb-3">
+        计算速度：散步 80 步/分钟，正常步行 100 步/分钟，快走 130 步/分钟。
+      </p>
+
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>步数</th>
+              <th class="{% if current_pace == 'slow' %}table-success{% endif %}">散步<br><span class="small text-muted">80步/分</span></th>
+              <th class="{% if current_pace == 'normal' %}table-success{% endif %}">正常<br><span class="small text-muted">100步/分</span></th>
+              <th class="{% if current_pace == 'fast' %}table-success{% endif %}">快走<br><span class="small text-muted">130步/分</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3000步</td>
+              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约38分钟</td>
+              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约30分钟</td>
+              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约23分钟</td>
+            </tr>
+            <tr>
+              <td>5000步</td>
+              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约63分钟</td>
+              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约50分钟</td>
+              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约38分钟</td>
+            </tr>
+            <tr>
+              <td>8000步</td>
+              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约100分钟</td>
+              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约80分钟</td>
+              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约62分钟</td>
+            </tr>
+            <tr>
+              <td>10000步</td>
+              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约125分钟</td>
+              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约100分钟</td>
+              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约77分钟</td>
+            </tr>
+            <tr>
+              <td>12000步</td>
+              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约150分钟</td>
+              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约120分钟</td>
+              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约92分钟</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    {% endif %}
+
+    <div class="tool-card">
+      <h2 class="h6">相关步数计算器</h2>
+      <ul class="text-muted mb-0">
+        <li class="mb-2"><a href="/steps-distance">步数转距离计算（10000步多少公里）</a></li>
+        <li class="mb-2"><a href="/steps">步数转热量计算（10000步消耗多少卡路里）</a></li>
+        <li class="mb-0"><a href="/step-goal">每日步数目标计算器</a></li>
+      </ul>
+    </div>
   </div>
 
-  <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
     <div class="tool-card">
       <h2 class="h6">10000步要走多久？</h2>
       <p class="text-muted">
-        一般来说，在常见步速（约 100 步/分钟）下，10000 步大约需要 100 分钟，也就是约 1 小时 40 分钟。
+        10000步通常需要约 77–125 分钟。正常步行约 100 分钟，散步约 125 分钟，快走约 77 分钟。
       </p>
       <p class="text-muted mb-0">
-        如果走得较慢，可能需要 2 小时左右；如果步速较快，可能约 80 多分钟完成。实际时间会受到步频、步幅、路况、停顿和个人体力影响。
+        实际时间会受到步频、步幅、路况、停顿和个人体力影响，本工具适合做日常活动估算。
       </p>
     </div>
 
     <div class="tool-card">
-      <h2 class="h6">常见步数对应时间参考</h2>
-      <p class="text-muted mb-2">
-        以下按常见步速约 100 步/分钟估算：
-      </p>
-      <ul class="text-muted mb-0 ps-3">
-        <li class="mb-2">5000 步 ≈ 50 分钟</li>
-        <li class="mb-2">8000 步 ≈ 80 分钟</li>
-        <li class="mb-2">10000 步 ≈ 100 分钟，约 1 小时 40 分钟</li>
-        <li class="mb-0">12000 步 ≈ 120 分钟，约 2 小时</li>
-      </ul>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">这个步行时间计算器怎么算？</h2>
-
+      <h2 class="h6">计算方法</h2>
       <div class="bg-light rounded-3 p-3 small mb-3">
         步行时间 = 步数 ÷ 每分钟步数
       </div>
-
-      <p class="text-muted mb-2">本工具采用的简化步频参考：</p>
-      <ul class="text-muted mb-0 ps-3">
-        <li class="mb-2">较慢步速：80 步 / 分钟</li>
-        <li class="mb-2">常见步速：100 步 / 分钟</li>
-        <li class="mb-0">较快步速：120 步 / 分钟</li>
-      </ul>
-
-      <p class="text-muted mt-3 mb-0">
-        这样可以把 5000 步、8000 步、10000 步等日常步数目标，换算成更容易理解的分钟和小时。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">为什么同样是10000步，有人走得更快？</h2>
-      <p class="text-muted">
-        因为步数只表示“走了多少步”，并不直接等于“走了多久”。有人步频高、走路节奏快，完成同样步数所需时间就更短；有人走路偏慢、中途停顿较多，实际用时就会更长。
-      </p>
-
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">更实用的理解方式</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">步数适合看活动量大小</li>
-          <li class="mb-2">时间适合看今天到底花了多久在走路</li>
-          <li class="mb-2">距离适合帮助你理解今天走了多远</li>
-          <li class="mb-0">热量适合帮助你连接减脂和日常消耗</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">这个工具适合怎么用？</h2>
-      <p class="text-muted">
-        这个工具适合把每日步数目标换算成更现实的时间安排。比如你计划一天走 8000 步、10000 步或 12000 步，就可以先估算大概要花多久，再决定是否分散到通勤、午休、晚饭后或周末完成。
-      </p>
-
       <p class="text-muted mb-0">
-        对于减脂、增加日常活动量、久坐人群改善生活习惯来说，把“步数目标”换算成“时间目标”会更容易执行。
+        本页采用散步 80 步/分钟、正常步行 100 步/分钟、快走 130 步/分钟作为参考速度。
       </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">相关活动工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/steps-distance">步数转距离计算（10000步多少公里）</a></li>
-        <li><a href="/steps">步数转热量计算器</a></li>
-        <li><a href="/running-pace">跑步配速计算器</a></li>
-        <li><a href="/heart-rate-zone">心率区间计算器</a></li>
-        <li><a href="/calorie">每日热量需求 TDEE 计算器</a></li>
-        <li><a href="/deficit">热量缺口 / 目标热量计算器</a></li>
-        <li><a href="/goal-time">目标体重所需时间计算器</a></li>
-      </ul>
     </div>
 
     <div class="tool-card">
@@ -166,27 +145,17 @@
 
       <h3 class="h6 mt-3 mb-1">10000步一定要走100分钟吗？</h3>
       <p class="text-muted">
-        不一定。100 分钟只是按常见步速 100 步/分钟估算。如果你走得更快，时间会更短；如果走得较慢，时间会更长。
+        不一定。100分钟是按正常步行约100步/分钟估算，散步会更久，快走会更短。
       </p>
 
       <h3 class="h6 mt-3 mb-1">5000步大概要走多久？</h3>
       <p class="text-muted">
-        按常见步速估算，5000 步大约需要 50 分钟。如果是较慢步速，可能需要 60 分钟左右。
+        5000步通常约38–63分钟，正常步行约50分钟。
       </p>
 
       <h3 class="h6 mt-3 mb-1">8000步大概要走多久？</h3>
       <p class="text-muted">
-        按常见步速估算，8000 步大约需要 80 分钟，也就是约 1 小时 20 分钟。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">这个结果和手表记录时间不一样正常吗？</h3>
-      <p class="text-muted">
-        正常。手机、手表和运动平台通常会结合暂停、速度变化、GPS、运动状态识别等因素，而本工具是按步频进行简化估算。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">这个工具适合减脂和活动管理吗？</h3>
-      <p class="text-muted">
-        适合。它可以把抽象的步数目标转成更现实的步行时间，帮助你判断每天需要安排多少时间来完成活动目标。
+        8000步通常约62–100分钟，正常步行约80分钟。
       </p>
 
       <hr class="my-4">
@@ -196,5 +165,17 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll(".step-chip").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var input = document.getElementById("steps-input");
+      if (input) {
+        input.value = btn.dataset.steps;
+        input.focus();
+      }
+    });
+  });
+</script>
 
 {% endblock %}

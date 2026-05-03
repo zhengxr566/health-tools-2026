@@ -7,17 +7,25 @@
       <div class="tool-card tool-card-form">
         <h1 class="h4 mb-1">步数转距离计算器｜10000步等于多少公里</h1>
         <p class="text-muted mb-2">
-          输入步数、身高和性别，估算这些步数大概等于多少米和公里，帮助更直观理解日常活动量。
+          输入步数、身高和性别，估算这些步数大概等于多少公里。一般来说，10000步大约等于 6–8 公里，具体取决于身高、性别和步幅。
         </p>
         <p class="text-muted mb-3">
-          一般来说，10000步大约等于 6–8 公里，具体取决于身高、性别和步幅。
+          
         </p>
 
         <form method="post" class="row g-3" id="tool-form">
           <div class="col-12 col-md-4">
             <label class="form-label">步数</label>
-            <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
-          </div>
+            <input id="steps-input" name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="3000">3000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="5000">5000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="8000">8000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="10000">10000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="12000">12000</button>
+            </div>    
+          </div>      
           <div class="col-12 col-md-4">
             <label class="form-label">身高（cm）</label>
             <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例如 170">
@@ -147,6 +155,11 @@
         </p>
 
         <h2 class="h6 mt-4">这个工具怎么估算？</h2>
+
+        <div class="bg-light rounded-3 p-3 small mb-3">
+          步行距离 = 步数 × 步幅
+        </div>
+
         <p class="text-muted">
           本页使用简化步幅模型：男性步幅约等于身高 × 0.415，女性步幅约等于身高 × 0.413，再用步数 × 步幅去估算距离。
           这类结果更适合作为日常参考，不等于手表或 GPS 的精确距离。
@@ -201,5 +214,15 @@
     </div>
   </div>
 </div>
-
+<script>
+  document.querySelectorAll(".step-chip").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var input = document.getElementById("steps-input");
+      if (input) {
+        input.value = btn.dataset.steps;
+        input.focus();
+      }
+    });
+  });
+</script>
 {% endblock %}
