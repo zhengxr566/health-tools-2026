@@ -1,200 +1,285 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
-  <div class="tool-col tool-col-form">
-    <div class="tool-card">
-      <h1 class="h4 mb-1">睡眠债计算器（这一周你到底欠了多少睡眠）</h1>
-      <p class="text-muted mb-3">
-        输入你最近平均每天睡了多久、理想目标时长以及统计天数，估算累计睡眠债（仅供参考）。
-      </p>
+<div class="tool-page">
+  <div class="tool-page-main">
+    <div class="tool-main-col">
 
-      <form method="post" class="row g-3">
-        <div class="col-12">
-          <label class="form-label">平均实际睡眠时长（小时/天）</label>
-          <input name="actual_hours" class="form-control" inputmode="decimal" required value="{{ actual_in }}" placeholder="例如 6.5">
+      <div class="tool-card tool-card-form">
+        <h1 class="h4 mb-1">睡眠债是什么意思？怎么补回来？</h1>
+        <p class="text-muted mb-3">
+          睡眠债是实际睡眠时间和目标睡眠时间之间长期累计的差距。输入最近平均睡眠时长、目标时长和天数，估算你大约欠了多少睡眠。
+        </p>
+
+        <form method="post" class="row g-3" id="tool-form">
+          <div class="col-12 col-md-4">
+            <label class="form-label">实际睡眠（小时/天）</label>
+            <input name="actual_hours" class="form-control" inputmode="decimal" required value="{{ actual_in }}" placeholder="例如 6.5">
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label">目标睡眠（小时/天）</label>
+            <input name="target_hours" class="form-control" inputmode="decimal" required value="{{ target_in or '8' }}" placeholder="例如 8">
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label">统计天数</label>
+            <input name="days" class="form-control" inputmode="numeric" required value="{{ days_in or '7' }}" placeholder="例如 7">
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算睡眠债</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+      </div>
+
+      {% if result %}
+      <div class="tool-card text-center">
+        <div class="text-muted small mb-1">累计睡眠债</div>
+        <div class="display-4 fw-semibold mb-2">{{ result.total_debt }} 小时</div>
+        <div class="text-muted small mb-3">{{ result.level }} · 平均每天少睡 {{ result.daily_gap }} 小时</div>
+
+        <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.completion }}" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar" style="width: {{ result.completion }}%"></div>
+        </div>
+        <div class="small text-muted mb-3">
+          实际睡眠约达到目标的 {{ result.completion }}%
         </div>
 
-        <div class="col-12">
-          <label class="form-label">目标睡眠时长（小时/天）</label>
-          <input name="target_hours" class="form-control" inputmode="decimal" required value="{{ target_in }}" placeholder="例如 8">
+        <div class="step-link-grid mt-3">
+          <a class="btn btn-outline-primary btn-sm" href="/sleep">去算睡眠周期</a>
+          <a class="btn btn-outline-primary btn-sm" href="/sleep-duration">去算睡眠时长</a>
+          <a class="btn btn-outline-primary btn-sm" href="/sleep-need">去算睡眠需求</a>
+          <a class="btn btn-outline-primary btn-sm" href="/sleep-bedtime">去算入睡时间</a>
         </div>
-
-        <div class="col-12">
-          <label class="form-label">统计天数</label>
-          <input name="days" class="form-control" inputmode="numeric" required value="{{ days_in }}" placeholder="例如 7">
+      </div>
+      {% else %}
+      <div class="tool-card">
+        <div class="text-muted">
+          输入实际睡眠、目标睡眠和统计天数后，即可查看累计睡眠债。
         </div>
-
-        <div class="col-12">
-          <button class="btn btn-success w-100">计算睡眠债</button>
-        </div>
-      </form>
-
-      {% if error %}
-        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      </div>
       {% endif %}
-    </div>
 
-    {% if result %}
-    <div class="tool-card">
-      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
-        <div>
-          <div class="text-muted small">累计睡眠债</div>
-          <div class="display-6 fw-semibold mb-0">{{ result.total_debt }} 小时</div>
+      <div class="tool-card">
+        <h2 class="h6 mb-3">睡眠债怎么算？</h2>
+
+        <div class="bg-light rounded-3 p-3 small mb-2">
+          每日睡眠缺口 = 目标睡眠时长 − 实际睡眠时长
         </div>
-        <div class="text-muted small">{{ result.level }}</div>
-      </div>
 
-      <div class="alert alert-info mt-3 mb-3">
-        你最近大约累计少睡了：<b>{{ result.total_debt }} 小时</b><br>
-        平均每天少睡：<b>{{ result.daily_gap }} 小时</b>
-      </div>
-
-      <div class="small text-muted mb-2">目标完成度</div>
-      <div class="progress mb-2" role="progressbar" aria-valuenow="{{ result.completion }}" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: {{ result.completion }}%"></div>
-      </div>
-      <div class="small text-muted">
-        实际睡眠约达到目标的 {{ result.completion }}%
-      </div>
-
-      <hr class="my-3">
-
-      <div class="row g-3">
-        <div class="col-12 col-md-4">
-          <div class="bg-light rounded-3 p-3 h-100 text-center">
-            <div style="font-size: 1.5rem;">😴</div>
-            <div class="small text-muted mt-1">平均少睡</div>
-            <div class="fw-semibold mt-1">{{ result.daily_gap }} 小时/天</div>
-          </div>
+        <div class="bg-light rounded-3 p-3 small mb-3">
+          累计睡眠债 = 每日睡眠缺口 × 统计天数
         </div>
-        <div class="col-12 col-md-4">
-          <div class="bg-light rounded-3 p-3 h-100 text-center">
-            <div style="font-size: 1.5rem;">📉</div>
-            <div class="small text-muted mt-1">累计缺口</div>
-            <div class="fw-semibold mt-1">{{ result.total_debt }} 小时</div>
-          </div>
+
+        <p class="text-muted mb-0">
+          例如目标每天 8 小时，实际每天 6.5 小时，连续 7 天，则睡眠债约为 10.5 小时。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">常见睡眠债参考表</h2>
+        <p class="text-muted mb-3">
+          以下是简单估算，用来帮助理解“每天少睡一点”累计起来会有多明显。
+        </p>
+
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>每天少睡</th>
+                <th>持续 3 天</th>
+                <th>持续 7 天</th>
+                <th>持续 14 天</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0.5 小时</td>
+                <td>1.5 小时</td>
+                <td>3.5 小时</td>
+                <td>7 小时</td>
+              </tr>
+              <tr>
+                <td>1 小时</td>
+                <td>3 小时</td>
+                <td>7 小时</td>
+                <td>14 小时</td>
+              </tr>
+              <tr class="table-success">
+                <td><strong>1.5 小时</strong></td>
+                <td><strong>4.5 小时</strong></td>
+                <td><strong>10.5 小时</strong></td>
+                <td><strong>21 小时</strong></td>
+              </tr>
+              <tr>
+                <td>2 小时</td>
+                <td>6 小时</td>
+                <td>14 小时</td>
+                <td>28 小时</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="col-12 col-md-4">
-          <div class="bg-light rounded-3 p-3 h-100 text-center">
-            <div style="font-size: 1.5rem;">🛌</div>
-            <div class="small text-muted mt-1">状态判断</div>
-            <div class="fw-semibold mt-1">{{ result.level }}</div>
-          </div>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">什么是睡眠债？</h2>
+        <p class="text-muted">
+          睡眠债通常可以理解为：你实际睡到的时间，和你理想需要睡到的时间之间，长期累计下来的差距。
+          很多人平时感觉“也还能撑”，但一算才发现，一周可能已经少睡了好几个小时。
+        </p>
+
+        <h2 class="h6 mt-4">为什么要算睡眠债？</h2>
+        <p class="text-muted">
+          因为单看某一天睡得少，很多人不会太在意；但如果把 5 天、7 天甚至更长时间累计起来，问题会变得更直观。
+          睡眠债计算器的价值，就在于把这种“长期少睡”变成可以看懂的数字。
+        </p>
+
+        <h2 class="h6 mt-4">睡眠债和补觉是什么关系？</h2>
+        <p class="text-muted mb-0">
+          补觉有时能缓解短期疲劳，但长期作息不规律通常不能只靠一次睡很久解决。睡眠债更适合作为“趋势提醒”，而不是精确账本。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">睡眠债高就一定代表很糟吗？</h2>
+        <p class="text-muted">
+          不一定。这个工具更像一个提醒器，帮助你看清“最近到底少睡了多少”。它不能替代专业睡眠评估，也不能单独解释所有疲劳、困倦或睡眠不适。
+        </p>
+
+        <div class="bg-light rounded-3 p-3 mt-3">
+          <div class="fw-semibold mb-2">更实用的理解方式</div>
+          <ul class="text-muted mb-0 ps-3">
+            <li class="mb-2">先看累计少睡了多少小时。</li>
+            <li class="mb-2">再判断是短期波动，还是长期作息问题。</li>
+            <li class="mb-2">把结果转成“接下来几天怎么调整”会更有用。</li>
+            <li class="mb-0">规律睡眠通常比周末一次性猛补更稳妥。</li>
+          </ul>
         </div>
       </div>
 
-      <hr class="my-3">
+      <div class="tool-card">
+        <h2 class="h6">常见问题</h2>
 
-      <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">怎么理解这个结果？</div>
-        <ul class="small text-muted mb-0 ps-3">
-          <li class="mb-2">睡眠债是“和目标相比少睡了多少”的简化估算，不代表医学诊断。</li>
-          <li class="mb-2">连续多天少睡，累计缺口通常比单天少睡更值得关注。</li>
-          <li class="mb-2">补觉并不一定能完全线性“还清睡眠债”，但规律作息通常比一次睡很久更重要。</li>
-          <li class="mb-0">建议结合 <a href="/sleep">睡眠周期计算器</a> 一起看，更容易把结果转成实际作息安排。</li>
-        </ul>
-      </div>
-    </div>
-    {% else %}
-    <div class="tool-card">
-      <div class="text-muted">
-        输入平均实际睡眠时长、目标时长和统计天数后，即可查看累计睡眠债。
-      </div>
-    </div>
-    {% endif %}
-  </div>
+        <h3 class="h6 mt-3 mb-1">睡眠债可以一次补完吗？</h3>
+        <p class="text-muted">
+          通常不建议简单理解成“补一觉就完全归零”。多数情况下，连续几天逐步恢复作息会更实际。
+        </p>
 
-  <!-- 右侧：解释 / SEO 内容 -->
-  <div class="tool-col tool-col-result">
-    <div class="tool-card">
-      <h2 class="h6">什么是睡眠债？</h2>
-      <p class="text-muted">
-        睡眠债通常可以理解为：你实际睡到的时间，和你理想需要睡到的时间之间，长期累计下来的差距。
-        很多人平时感觉“也还能撑”，但一算才发现，一周可能已经少睡了好几个小时。
-      </p>
+        <h3 class="h6 mt-3 mb-1">睡眠债多久能恢复？</h3>
+        <p class="text-muted">
+          取决于累计缺口和接下来每天能多睡多久。比如欠 6 小时，如果每天多睡 1 小时，大约需要 6 天逐步恢复。
+        </p>
 
-      <h2 class="h6 mt-4">为什么要算睡眠债？</h2>
-      <p class="text-muted">
-        因为单看某一天睡得少，很多人不会太在意；但如果把 5 天、7 天甚至更长时间累计起来，问题会变得更直观。
-        睡眠债计算器的价值，就在于把这种“长期少睡”变成可以看懂的数字。
-      </p>
-    </div>
+        <h3 class="h6 mt-3 mb-1">这个工具适合长期看吗？</h3>
+        <p class="text-muted">
+          适合。你可以按最近 3 天、7 天或 14 天做对比，观察自己是不是长期处于少睡状态。
+        </p>
 
-    <div class="tool-card">
-      <h2 class="h6">这个工具的计算公式</h2>
+        <h3 class="h6 mt-3 mb-1">睡眠债高就一定代表睡眠质量差吗？</h3>
+        <p class="text-muted">
+          不一定。它主要反映“睡眠时长缺口”，不是完整的睡眠质量评估。
+        </p>
 
-      <div class="bg-light rounded-3 p-3 small">
-        每日睡眠缺口 = 目标睡眠时长 − 实际睡眠时长
-      </div>
-
-      <div class="bg-light rounded-3 p-3 small mt-2">
-        累计睡眠债 = 每日睡眠缺口 × 统计天数
-      </div>
-
-      <p class="text-muted mt-3 mb-0">
-        例如，如果目标是每天 8 小时，但最近平均每天只睡 6.5 小时，连续 7 天，那么累计睡眠债大约就是 10.5 小时。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">睡眠债高就一定代表很糟吗？</h2>
-      <p class="text-muted">
-        不一定。这个工具更像一个提醒器，帮助你看清“最近到底少睡了多少”。它不能替代专业睡眠评估，也不能单独解释所有疲劳、困倦或睡眠不适。
-      </p>
-
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">更实用的理解方式</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">先看累计少睡了多少小时</li>
-          <li class="mb-2">再思考是短期波动，还是长期作息问题</li>
-          <li class="mb-2">把结果转成“接下来几天怎么调整”会更有用</li>
-          <li class="mb-0">规律睡眠通常比周末一次性猛补更稳妥</li>
-        </ul>
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          本页面仅用于一般科普参考，不构成医疗建议。
+        </p>
       </div>
     </div>
 
-    <div class="tool-card">
-      <h2 class="h6">睡眠债和补觉是什么关系？</h2>
-      <p class="text-muted">
-        很多人会把“欠下的睡眠”理解成可以完全补回来，但现实通常没有这么机械。补觉有时能缓解短期疲劳，
-        但长期作息不规律仍然需要靠持续调整来改善。所以睡眠债更适合作为“趋势提醒”，而不是“精确账本”。
-      </p>
+    <aside class="tool-side-col">
+      <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 睡眠 / BMI / TDEE"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
 
-      <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/sleep">睡眠周期计算器</a>：推算更舒服的入睡 / 起床时间</li>
-        <li><a href="/caffeine-intake">咖啡因摄入计算器</a>：看看高咖啡因摄入是否可能和长期睡眠不足有关</li>
-        <li><a href="/water">每日饮水量</a>：基础生活习惯管理</li>
-        <li><a href="/calorie">每日热量需求（TDEE）</a>：配合作息看生活方式整体安排</li>
-      </ul>
-    </div>
+        <div class="tool-side-content">
+          <h2 class="h6">相关睡眠工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/sleep">睡眠周期计算器</a>：推算入睡 / 起床时间</li>
+            <li class="mb-2"><a href="/sleep-duration">睡眠时长计算器</a>：计算从几点睡到几点起</li>
+            <li class="mb-2"><a href="/sleep-need">睡眠需求计算器</a>：按年龄查看建议睡眠时长</li>
+            <li class="mb-2"><a href="/sleep-bedtime">入睡时间计算器</a>：根据起床时间反推入睡时间</li>
+            <li class="mb-2"><a href="/sleep-efficiency">睡眠效率计算器</a>：估算实际睡眠占比</li>
+            <li class="mb-0"><a href="/caffeine-cutoff">咖啡因截止时间</a>：估算几点后不宜喝咖啡</li>
+          </ul>
 
-    <div class="tool-card">
-      <h2 class="h6">常见问题</h2>
+          <h2 class="h6">下一步怎么调整？</h2>
+          <p class="text-muted">
+            先不要追求一次性补很多觉，更建议连续几天把入睡时间提前 20–30 分钟，并保持起床时间稳定。
+          </p>
 
-      <h3 class="h6 mt-3 mb-1">睡眠债可以一次补完吗？</h3>
-      <p class="text-muted">
-        很难简单理解成“补一觉就完全归零”。多数情况下，持续调整作息会更重要。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">这个工具适合长期看吗？</h3>
-      <p class="text-muted">
-        适合。你可以按最近 3 天、7 天或 14 天做对比，观察自己是不是长期处于少睡状态。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">睡眠债高就一定代表睡眠质量差吗？</h3>
-      <p class="text-muted">
-        不一定。它更主要反映“睡眠时长缺口”，不是完整的睡眠质量评估。
-      </p>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">
-        本页面仅用于一般科普参考，不构成医疗建议。
-      </p>
-    </div>
+          <h2 class="h6 mt-4">睡眠债看什么最重要？</h2>
+          <p class="text-muted mb-0">
+            重点不是单日数字，而是最近几天是否持续少睡。你可以结合
+            <a href="/sleep-duration">睡眠时长</a> 和
+            <a href="/sleep-efficiency">睡眠效率</a> 一起看。
+          </p>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>
+
+<script>
+(function () {
+  const input = document.getElementById("toolSearchInput");
+  const resultBox = document.getElementById("toolSearchResult");
+
+  const tools = [
+    { name: "睡眠债计算器", path: "/sleep-debt" },
+    { name: "睡眠周期计算器", path: "/sleep" },
+    { name: "睡眠时长计算器", path: "/sleep-duration" },
+    { name: "睡眠需求计算器", path: "/sleep-need" },
+    { name: "入睡时间计算器", path: "/sleep-bedtime" },
+    { name: "起床时间计算器", path: "/sleep-wake-time" },
+    { name: "睡眠效率计算器", path: "/sleep-efficiency" },
+    { name: "补觉时间计算器", path: "/sleep-recovery" },
+    { name: "咖啡因截止时间", path: "/caffeine-cutoff" },
+    { name: "作息类型测试", path: "/chronotype" },
+    { name: "BMI 计算器", path: "/bmi" },
+    { name: "每日热量需求 TDEE", path: "/calorie" }
+  ];
+
+  function renderResults(q) {
+    const query = q.trim().toLowerCase();
+
+    if (!query) {
+      resultBox.innerHTML = '<div class="text-muted">输入关键词可快速跳转到站内工具。</div>';
+      return;
+    }
+
+    const matched = tools.filter(t => t.name.toLowerCase().includes(query)).slice(0, 8);
+
+    if (!matched.length) {
+      resultBox.innerHTML = '<div class="text-muted">没有找到匹配工具。</div>';
+      return;
+    }
+
+    resultBox.innerHTML = matched.map(t => (
+      '<div class="mb-2"><a href="' + t.path + '">' + t.name + '</a></div>'
+    )).join('');
+  }
+
+  input.addEventListener("input", function () {
+    renderResults(this.value);
+  });
+
+  renderResults("");
+})();
+</script>
 
 {% endblock %}

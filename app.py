@@ -2778,61 +2778,61 @@ def sleep_recovery_info(debt_hours: float, recovery_ratio: float) -> dict:
     }
 # ========= 4.2. 睡眠时间 ======= 
 # 4.2.3 睡眠时长
-def sleep_duration_info(bed_hm: str, wake_hm: str, target_hours: float = 8.0) -> dict:
-    """
-    Calculate sleep duration from bedtime to wake time.
-    Supports crossing midnight.
+from datetime import datetime, timedelta
 
-    bed_hm / wake_hm format: HH:MM
-    """
-    def parse_hm(s: str) -> tuple[int, int]:
-        s = s.strip()
-        if ":" not in s:
-            raise ValueError("请输入正确时间格式，例如 23:30。")
-        hh, mm = s.split(":", 1)
-        h = int(hh)
-        m = int(mm)
-        if h < 0 or h > 23 or m < 0 or m > 59:
-            raise ValueError("请输入正确时间。")
-        return h, m
+def parse_hm_to_datetime(hm):
+    return datetime.strptime(hm, "%H:%M")
 
-    bed_h, bed_m = parse_hm(bed_hm)
-    wake_h, wake_m = parse_hm(wake_hm)
+def calc_sleep_duration(bed_hm, wake_hm):
+    bed_dt = parse_hm_to_datetime(bed_hm)
+    wake_dt = parse_hm_to_datetime(wake_hm)
 
-    bed_total = bed_h * 60 + bed_m
-    wake_total = wake_h * 60 + wake_m
+    if wake_dt <= bed_dt:
+        wake_dt += timedelta(days=1)
 
-    if wake_total <= bed_total:
-        wake_total += 24 * 60  # cross midnight
+    diff = wake_dt - bed_dt
+    total_minutes = int(diff.total_seconds() // 60)
 
-    duration_min = wake_total - bed_total
-    hours = duration_min // 60
-    minutes = duration_min % 60
-    duration_hours = duration_min / 60.0
-
-    gap = round1(duration_hours - target_hours)
-    completion = max(0, min(100, round(duration_hours / target_hours * 100)))
+    hours = total_minutes // 60
+    minutes = total_minutes % 60
+    duration_hours = round(total_minutes / 60, 2)
 
     if duration_hours < 6:
-        level = "睡眠偏少"
-    elif duration_hours < 7:
-        level = "略少"
+        level = "偏短"
     elif duration_hours <= 9:
-        level = "较常见范围"
+        level = "常见范围"
     else:
         level = "偏长"
 
     return {
-        "hours": int(hours),
-        "minutes": int(minutes),
-        "duration_hours": round1(duration_hours),
-        "gap": gap,
-        "completion": completion,
-        "level": level,
         "bed_hm": bed_hm,
         "wake_hm": wake_hm,
-        "target_hours": target_hours,
+        "hours": hours,
+        "minutes": minutes,
+        "duration_hours": duration_hours,
+        "level": level,
     }
+
+def format_duration_from_hours(hours):
+    h = int(hours)
+    m = int(round((hours - h) * 60))
+    if m == 0:
+        return f"{h}小时"
+    return f"{h}小时{m}分钟"
+
+def build_duration_rows_from_bedtime(bed_hm):
+    bed_dt = parse_hm_to_datetime(bed_hm)
+
+    rows = []
+    for hours in [6, 6.5, 7, 7.5, 8, 8.5, 9]:
+        wake_dt = bed_dt + timedelta(hours=hours)
+        rows.append({
+            "wake_hm": wake_dt.strftime("%H:%M"),
+            "duration_text": format_duration_from_hours(hours),
+            "is_recommended": hours in [7.5, 8, 8.5],
+        })
+
+    return rows
 
 def nap_time_info(mode: str, time_hm: str) -> dict:
     """
@@ -4277,8 +4277,8 @@ def sleep_debt():
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "睡眠债计算器（这一周你欠了多少睡眠）- CalmyHealth",
-        "description": "输入平均实际睡眠时长、目标睡眠时长和统计天数，估算累计睡眠债，并附结果说明、公式解释和相关睡眠工具推荐。",
+        "title": "睡眠债计算器｜这一周你欠了多少睡眠 - CalmyHealth",
+        "description": "如果每天少睡1小时，一周就会累计约7小时睡眠债。输入你的睡眠时长，快速估算睡眠债，并了解需要多久恢复。",
         "canonical": canonical_url("/sleep-debt"),
     }
 
@@ -4331,29 +4331,35 @@ def sleep_recovery():
 @app.route("/sleep-duration", methods=["GET", "POST"])
 def sleep_duration():
     error = None
-    bed_in = "23:30"
-    wake_in = "07:00"
-    target_in = "8"
     result = None
+    duration_rows = None
+
+    bed_hour_in = "23"
+    bed_minute_in = "30"
+    wake_hour_in = "07"
+    wake_minute_in = "00"
 
     if request.method == "POST":
-        bed_in = request.form.get("bed_hm", "23:30").strip()
-        wake_in = request.form.get("wake_hm", "07:00").strip()
-        target_in = request.form.get("target_hours", "8").strip()
+        bed_hour_in = request.form.get("bed_hour", "23").strip()
+        bed_minute_in = request.form.get("bed_minute", "30").strip()
+        wake_hour_in = request.form.get("wake_hour", "07").strip()
+        wake_minute_in = request.form.get("wake_minute", "00").strip()
+
+        bed_hm = f"{bed_hour_in}:{bed_minute_in}"
+        wake_hm = f"{wake_hour_in}:{wake_minute_in}"
 
         try:
-            target_hours = float(target_in)
-            if target_hours <= 0 or target_hours > 24:
-                raise ValueError("请输入合理的目标睡眠时长。")
-
-            result = sleep_duration_info(bed_in, wake_in, target_hours)
-
+            result = calc_sleep_duration(bed_hm, wake_hm)
+            duration_rows = build_duration_rows_from_bedtime(bed_hm)
         except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
+            error = str(e) if str(e) else "请输入有效时间。"
+    else:
+        bed_hm = f"{bed_hour_in}:{bed_minute_in}"
+        duration_rows = build_duration_rows_from_bedtime(bed_hm)
 
     meta = {
-        "title": "睡眠时长计算器（从几点睡到几点起一共睡了多久）- CalmyHealth",
-        "description": "输入入睡时间、起床时间和目标睡眠时长，计算总睡眠时间、和目标的差距，并附时间轴展示、公式说明与相关睡眠工具推荐。",
+        "title": "从几点睡到几点起一共睡了多久？睡眠时长计算器 - CalmyHealth",
+        "description": "23:30到07:00大约是7小时30分钟。选择入睡时间和起床时间，快速计算睡眠时长，并查看不同起床时间对应的睡眠时长表。",
         "canonical": canonical_url("/sleep-duration"),
     }
 
@@ -4361,10 +4367,13 @@ def sleep_duration():
         "sleep_duration.html",
         meta=meta,
         error=error,
-        bed_in=bed_in,
-        wake_in=wake_in,
-        target_in=target_in,
         result=result,
+        duration_rows=duration_rows,
+        bed_hm_for_table=f"{bed_hour_in}:{bed_minute_in}",
+        bed_hour_in=bed_hour_in,
+        bed_minute_in=bed_minute_in,
+        wake_hour_in=wake_hour_in,
+        wake_minute_in=wake_minute_in,
         page_kind="tool",
     )
 # 4.2.5 午睡时间
