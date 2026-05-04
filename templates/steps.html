@@ -1,166 +1,304 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="tool-layout">
-  <!-- 左侧：计算器 + 结果 -->
-  <div class="tool-col tool-col-form">
-    <div class="tool-card">
-      <h1 class="h4 mb-1">步数转热量消耗</h1>
-      <p class="text-muted mb-3">
-        按步数与体重粗略估算步行消耗（kcal，仅供参考），适合做日常活动趋势记录。
-      </p>
+<div class="tool-page">
+  <div class="tool-page-main">
+    <div class="tool-main-col">
 
-      <form method="post" class="row g-3">
-        <div class="col-12">
-          <label class="form-label">步数</label>
-          <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}">
+      <div class="tool-card tool-card-form">
+        <h1 class="h4 mb-1">步数转热量计算器｜10000步消耗多少卡路里</h1>
+        <p class="text-muted mb-3">
+          输入步数和体重，粗略估算步行消耗热量。10000步通常可消耗约 250–500 kcal，具体取决于体重、速度和步幅。
+        </p>
+
+        <form method="post" class="row g-3" id="tool-form">
+          <div class="col-12 col-md-6">
+            <label class="form-label">步数</label>
+            <input id="steps-input" name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例如 10000">
+
+            <div class="step-chip-row mt-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="3000">3000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="5000">5000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="8000">8000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="10000">10000</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="12000">12000</button>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label">体重（kg）</label>
+            <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in or '60' }}" placeholder="例如 60">
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-success w-100">计算步行消耗</button>
+          </div>
+        </form>
+
+        {% if error %}
+          <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+        {% endif %}
+      </div>
+
+      {% if kcal is not none %}
+      <div class="tool-card text-center">
+        <div class="text-muted small mb-1">估算消耗 </div>
+        <div class="display-4 fw-semibold mb-2">
+          {{ kcal }} kcal
         </div>
-
-        <div class="col-12">
-          <label class="form-label">体重（kg）</label>
-          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+        <div class="d-flex flex-wrap gap-2 justify-content-center">
+          <a class="btn btn-outline-primary btn-sm" href="/calorie">去算TDEE</a>
+          <a class="btn btn-outline-primary btn-sm" href="/deficit">去算减脂热量</a>
+          <a class="btn btn-outline-primary btn-sm" href="/steps-distance">去算步数距离</a>
+          <a class="btn btn-outline-primary btn-sm" href="/steps-time">去算步行时间</a>
         </div>
-
-        <div class="col-12">
-          <button class="btn btn-success w-100">计算步行消耗</button>
+      </div>
+      {% else %}
+      <div class="tool-card">
+        <div class="text-muted">
+          输入步数和体重后，即可查看估算的步行热量消耗。
         </div>
-      </form>
-
-      {% if error %}
-        <div class="alert alert-warning mt-3 mb-0">{{ error }}</div>
+      </div>
       {% endif %}
-    </div>
 
-    {% if kcal is not none %}
-    <div class="tool-card">
-      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
-        <div>
-          <div class="text-muted small">估算步行消耗</div>
-          <div class="display-5 fw-semibold mb-0">{{ kcal }} kcal</div>
+      <div class="tool-card">
+        <h2 class="h6 mb-3">不同体重下，步数对应的热量消耗(kcal)</h2>
+
+        <p class="text-muted mb-3">
+          以下为常见体重下的估算值，实际消耗会随步速、步幅和地形变化。
+        </p>
+
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>步数</th>
+                <th>50kg</th>
+                <th>60kg</th>
+                <th>70kg</th>
+                <th>80kg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>3000</td>
+                <td>120</td>
+                <td>150</td>
+                <td>180</td>
+                <td>210</td>
+              </tr>
+              <tr>
+                <td>5000</td>
+                <td>200</td>
+                <td>250</td>
+                <td>300</td>
+                <td>350</td>
+              </tr>
+              <tr>
+                <td>8000</td>
+                <td>320</td>
+                <td>400</td>
+                <td>480</td>
+                <td>560</td>
+              </tr>
+              <tr class="table-success">
+                <td><strong>10000</strong></td>
+                <td><strong>400</strong></td>
+                <td><strong>500</strong></td>
+                <td><strong>600</strong></td>
+                <td><strong>700</strong></td>
+              </tr>
+              <tr>
+                <td>12000</td>
+                <td>480</td>
+                <td>600</td>
+                <td>720</td>
+                <td>840</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="text-muted small">经验估算</div>
+      </div>
+      <div class="tool-card">
+        <h2 class="h6">为什么“步数”是最容易坚持的活动？</h2>
+        <p class="text-muted">
+          相比高强度运动，步行门槛更低、风险更小，也更容易融入通勤、散步、买菜、上下班和日常家务中。
+          对很多人来说，持续提高日均步数，比偶尔进行一次高强度训练更容易长期坚持。
+        </p>
+
+        <h2 class="h6 mt-4">步数和热量消耗有什么关系？</h2>
+        <p class="text-muted">
+          一般来说，步数越多、体重越高，步行带来的热量消耗通常也越高。
+          但真实消耗还会受步幅、速度、路面坡度、地形、是否负重以及个体差异影响，
+          所以这类工具更适合做粗略参考，而不是精确运动测量。
+        </p>
       </div>
 
-      <div class="alert alert-info mt-3 mb-3">
-        估算步行消耗约：<b>{{ kcal }} kcal</b>
+      <div class="tool-card">
+        <h2 class="h6">为什么相同步数，不同人消耗会不同？</h2>
+        <p class="text-muted">
+          因为每个人的体重、步幅、走路速度、肌肉量和运动效率不同。
+          例如同样走 8000 步，体重较大、步幅较大或上坡较多的人，消耗往往会更高；
+          而轻松慢走和快走之间，热量消耗也会有差异。
+        </p>
+
+        <div class="bg-light rounded-3 p-3 mt-3">
+          <div class="fw-semibold mb-2">影响步行消耗的常见因素</div>
+          <ul class="text-muted mb-0 ps-3">
+            <li class="mb-2">体重大小</li>
+            <li class="mb-2">步行速度和步幅</li>
+            <li class="mb-2">是否上坡、爬楼或负重</li>
+            <li class="mb-0">当天整体活动状态和疲劳程度</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="small text-muted">
-        这个结果更适合作为“活动量参考”和“趋势记录”，而不是绝对准确的运动消耗数值。
+      <div class="tool-card">
+        <h2 class="h6">怎么把步数用到减脂计划里？</h2>
+        <p class="text-muted">
+          建议先计算 <a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>，
+          再把“步数”作为提高活动量的手段。与其追求某一天爆走很多，不如稳定增加每天 1000–2000 步，
+          并持续 2–4 周观察体重趋势、围度和执行难度。
+        </p>
+
+        <h2 class="h6 mt-4">日均多少步比较合适？</h2>
+        <p class="text-muted">
+          并没有适合所有人的唯一标准。对久坐人群来说，从当前平均步数稍微增加，通常就已经是很好的开始。
+          最重要的是你能否长期保持，而不是一次把目标定得过高。
+        </p>
       </div>
 
-      <hr class="my-3">
-
-      <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">怎么更实用地看这个结果？</div>
-        <ul class="small text-muted mb-0 ps-3">
-          <li class="mb-2">步数增加带来的消耗通常是逐步累积的，不一定当天就看出变化。</li>
-          <li class="mb-2">相比追求一次走很多，长期保持更高的日均步数更有价值。</li>
-          <li class="mb-2">最好结合体重趋势、饮食和睡眠一起看。</li>
-          <li class="mb-0">如果你正在减脂，步数更适合做“提高活动量”的辅助手段。</li>
-        </ul>
+      <div class="tool-card">
+        <h2 class="h6">步数对健康只有减脂作用吗？</h2>
+        <p class="text-muted">
+          不只是减脂。规律步行还常常与更好的精神状态、恢复质量、心肺耐力和整体生活节奏相关。
+          对长期久坐的人来说，单纯增加日常步数，往往就是很有价值的生活方式改善。
+        </p>
       </div>
-    </div>
-    {% else %}
-    <div class="tool-card">
-      <div class="text-muted">
-        输入步数和体重后，即可查看估算的步行热量消耗。
-      </div>
-    </div>
-    {% endif %}
-  </div>
 
-  <!-- 右侧：解释 / SEO 内容 -->
-  <div class="tool-col tool-col-result">
-    <div class="tool-card">
-      <h2 class="h6">为什么“步数”是最容易坚持的活动？</h2>
-      <p class="text-muted">
-        相比高强度运动，步行门槛更低、风险更小，也更容易融入通勤、散步、买菜、上下班和日常家务中。
-        对很多人来说，持续提高日均步数，比偶尔进行一次高强度训练更容易长期坚持。
-      </p>
+      <div class="tool-card">
+        <h2 class="h6">常见问题</h2>
 
-      <h2 class="h6 mt-4">步数和热量消耗有什么关系？</h2>
-      <p class="text-muted">
-        一般来说，步数越多、体重越高，步行带来的热量消耗通常也越高。
-        但真实消耗还会受步幅、速度、路面坡度、地形、是否负重以及个体差异影响，
-        所以这类工具更适合做粗略参考，而不是精确运动测量。
-      </p>
-    </div>
+        <h3 class="h6 mt-3 mb-1">每天一定要走 10000 步吗？</h3>
+        <p class="text-muted">
+          不一定。10000 步更像一个常见目标，而不是所有人必须达到的标准。对很多人来说，从当前水平逐步增加更实际。
+        </p>
 
-    <div class="tool-card">
-      <h2 class="h6">为什么相同步数，不同人消耗会不同？</h2>
-      <p class="text-muted">
-        因为每个人的体重、步幅、走路速度、肌肉量和运动效率不同。
-        例如同样走 8000 步，体重较大、步幅较大或上坡较多的人，消耗往往会更高；
-        而轻松慢走和快走之间，热量消耗也会有差异。
-      </p>
+        <h3 class="h6 mt-3 mb-1">步数多就一定能减脂吗？</h3>
+        <p class="text-muted">
+          不一定。减脂最终仍然和总热量平衡有关。步数可以帮助提高消耗，但通常需要和饮食管理一起看。
+        </p>
 
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">影响步行消耗的常见因素</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">体重大小</li>
-          <li class="mb-2">步行速度和步幅</li>
-          <li class="mb-2">是否上坡、爬楼或负重</li>
-          <li class="mb-0">当天整体活动状态和疲劳程度</li>
-        </ul>
+        <h3 class="h6 mt-3 mb-1">为什么我步数增加了，体重还是没变化？</h3>
+        <p class="text-muted">
+          体重会受水分、饮食、睡眠、压力和周期性波动影响。更建议看数周趋势，而不是几天内的即时变化。
+        </p>
+
+        <hr class="my-4">
+        <p class="small text-muted mb-0">
+          免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+        </p>
       </div>
     </div>
 
-    <div class="tool-card">
-      <h2 class="h6">怎么把步数用到减脂计划里？</h2>
-      <p class="text-muted">
-        建议先计算 <a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>，
-        再把“步数”作为提高活动量的手段。与其追求某一天爆走很多，不如稳定增加每天 1000–2000 步，
-        并持续 2–4 周观察体重趋势、围度和执行难度。
-      </p>
+    <aside class="tool-side-col">
+      <div class="tool-side-sticky">
+        <div class="tool-side-search mb-4">
+          <div class="fw-semibold mb-2">搜索工具</div>
+          <input
+            type="text"
+            id="toolSearchInput"
+            class="form-control"
+            placeholder="搜索工具，例如 步数 / 热量 / BMI"
+          >
+          <div id="toolSearchResult" class="mt-3 small"></div>
+        </div>
 
-      <h2 class="h6 mt-4">日均多少步比较合适？</h2>
-      <p class="text-muted">
-        并没有适合所有人的唯一标准。对久坐人群来说，从当前平均步数稍微增加，通常就已经是很好的开始。
-        最重要的是你能否长期保持，而不是一次把目标定得过高。
-      </p>
-    </div>
+        <div class="tool-side-content">
+          <h2 class="h6">相关工具</h2>
+          <ul class="text-muted ps-3 mb-4">
+            <li class="mb-2"><a href="/steps-time">步数转时间</a>：10000步要走多久</li>
+            <li class="mb-2"><a href="/steps-distance">步数转距离</a>：10000步多少公里</li>
+            <li class="mb-2"><a href="/step-goal">每日步数目标</a>：规划每天走多少步</li>
+            <li class="mb-2"><a href="/activity-level">活动量等级</a>：判断日常活动水平</li>
+            <li class="mb-2"><a href="/calorie">每日热量需求 TDEE</a>：结合活动量看热量</li>
+            <li class="mb-0"><a href="/deficit">热量缺口 / 目标热量</a>：制定减脂目标</li>
+          </ul>
 
-    <div class="tool-card">
-      <h2 class="h6">步数对健康只有减脂作用吗？</h2>
-      <p class="text-muted">
-        不只是减脂。规律步行还常常与更好的精神状态、恢复质量、心肺耐力和整体生活节奏相关。
-        对长期久坐的人来说，单纯增加日常步数，往往就是很有价值的生活方式改善。
-      </p>
+          <h2 class="h6">10000步消耗多少卡路里？</h2>
+          <p class="text-muted">
+            10000步通常约消耗 250–500 kcal。体重越高、速度越快、坡度越大，消耗通常越高。
+          </p>
 
-      <h2 class="h6 mt-4">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/calorie">TDEE</a> 与 <a href="/deficit">目标热量</a>：明确日计划</li>
-        <li><a href="/sleep">睡眠周期</a>：恢复好更容易坚持活动习惯</li>
-        <li><a href="/protein">蛋白质需求</a>：配合饮食更利于长期管理</li>
-        <li><a href="/goal-time">目标体重所需时间</a>：看长期趋势而不是单日数字</li>
-      </ul>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">常见问题</h2>
-
-      <h3 class="h6 mt-3 mb-1">每天一定要走 10000 步吗？</h3>
-      <p class="text-muted">
-        不一定。10000 步更像一个常见目标，而不是所有人必须达到的标准。对很多人来说，从当前水平逐步增加更实际。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">步数多就一定能减脂吗？</h3>
-      <p class="text-muted">
-        不一定。减脂最终仍然和总热量平衡有关。步数可以帮助提高消耗，但通常需要和饮食管理一起看。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">为什么我步数增加了，体重还是没变化？</h3>
-      <p class="text-muted">
-        体重会受水分、饮食、睡眠、压力和周期性波动影响。更建议看数周趋势，而不是几天内的即时变化。
-      </p>
-
-      <hr class="my-4">
-      <p class="small text-muted mb-0">
-        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
-      </p>
-    </div>
+          <h2 class="h6 mt-4">下一步可以看什么？</h2>
+          <p class="text-muted mb-0">
+            可以继续查看
+            <a href="/steps-distance">步数距离</a>、
+            <a href="/steps-time">步数时间</a> 和
+            <a href="/calorie">每日热量需求</a>。
+          </p>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>
+
+<script>
+(function () {
+  const input = document.getElementById("toolSearchInput");
+  const resultBox = document.getElementById("toolSearchResult");
+
+  const tools = [
+    { name: "步数转热量计算器", path: "/steps" },
+    { name: "步数转距离计算器", path: "/steps-distance" },
+    { name: "步数转时间计算器", path: "/steps-time" },
+    { name: "每日步数目标计算器", path: "/step-goal" },
+    { name: "活动量等级计算器", path: "/activity-level" },
+    { name: "每日热量需求 TDEE", path: "/calorie" },
+    { name: "热量缺口/目标热量", path: "/deficit" },
+    { name: "BMI 计算器", path: "/bmi" },
+    { name: "体脂率计算器", path: "/bodyfat" },
+    { name: "蛋白质需求", path: "/protein" }
+  ];
+
+  function renderResults(q) {
+    const query = q.trim().toLowerCase();
+
+    if (!query) {
+      resultBox.innerHTML = '<div class="text-muted">输入关键词可快速跳转到站内工具。</div>';
+      return;
+    }
+
+    const matched = tools.filter(t => t.name.toLowerCase().includes(query)).slice(0, 8);
+
+    if (!matched.length) {
+      resultBox.innerHTML = '<div class="text-muted">没有找到匹配工具。</div>';
+      return;
+    }
+
+    resultBox.innerHTML = matched.map(t => (
+      '<div class="mb-2"><a href="' + t.path + '">' + t.name + '</a></div>'
+    )).join('');
+  }
+
+  input.addEventListener("input", function () {
+    renderResults(this.value);
+  });
+
+  renderResults("");
+})();
+</script>
+
+<script>
+document.querySelectorAll(".step-chip").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    var input = document.getElementById("steps-input");
+    if (input) {
+      input.value = btn.dataset.steps;
+      input.focus();
+    }
+  });
+});
+</script>
 
 {% endblock %}
