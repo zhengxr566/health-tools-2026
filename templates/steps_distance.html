@@ -77,10 +77,8 @@
         <div class="form-text mt-2">
           估算步幅：约 {{ result.stride_cm }} cm / 步。
         </div>
-      </div>
 
-      <div class="tool-card">
-        <h2 class="h6 mb-3">按当前性别与身高估算的步数对应公里数</h2>
+                <h2 class="h6 mb-3">按当前性别与身高估算的步数对应公里数</h2>
         <div class="table-responsive">
           <table class="table align-middle mb-0 steps-distance-table">
             <thead>
@@ -103,7 +101,18 @@
             </tbody>
           </table>
         </div>
+        <div class="step-link-grid mt-3">
+          <a class="btn btn-outline-primary btn-sm" href="/steps-distance">去算步数距离</a>
+          <a class="btn btn-outline-primary btn-sm" href="/steps-time">去算步行时间</a>
+          <a class="btn btn-outline-primary btn-sm" href="/steps">去算步行消耗热量</a>
+          <a class="btn btn-outline-primary btn-sm" href="/calorie">去算TDEE</a>
+          <a class="btn btn-outline-primary btn-sm" href="/deficit">去算减脂热量</a>
+        </div>
       </div>
+
+
+
+
 
       {% else %}
       <div class="tool-card">
