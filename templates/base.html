@@ -21,7 +21,7 @@
 
   <meta property="og:title" content="{{ meta.title }}">
   <meta property="og:description" content="{{ meta.description }}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{{ meta.og_type or 'website' }}">
   <meta property="og:url" content="{{ meta.canonical }}">
   <meta property="og:site_name" content="{{ site_name or 'CalmyHealth' }}">
 
@@ -556,6 +556,7 @@
       }
     }
   </style>
+  {% block head_extra %}{% endblock %}
 </head>
 <body>
   <nav class="navbar navbar-expand-lg topbar">
@@ -611,6 +612,7 @@
         </ul>
 
         <div class="topbar-links-meta ms-lg-3">
+          <a class="nav-link {% if request.path.startswith('/guide') %}active{% endif %}" href="/guide">健康指南</a>
           <a class="nav-link {% if request.path.startswith('/about') %}active{% endif %}" href="/about">关于</a>
           <a class="nav-link {% if request.path.startswith('/privacy') %}active{% endif %}" href="/privacy">隐私</a>
           <a class="nav-link {% if request.path.startswith('/contact') %}active{% endif %}" href="/contact">联系</a>
@@ -802,6 +804,18 @@
 
             {% block content %}{% endblock %}
 
+            {% if page_articles and not request.path.startswith('/guide') %}
+            <section class="bg-white rounded-4 shadow-sm p-4 mt-4">
+              <h2 class="h6 mb-3">相关阅读</h2>
+              <ul class="list-unstyled mb-0">
+                {% for a in page_articles %}
+                <li class="mb-2"><a class="text-decoration-none" href="/guide/{{ a.slug }}">{{ a.h1 }}</a>
+                  <div class="small text-muted">{{ a.description }}</div></li>
+                {% endfor %}
+              </ul>
+            </section>
+            {% endif %}
+
             <footer class="footer-wrap">
               <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <div>
@@ -810,6 +824,7 @@
                 </div>
                 <div class="small footer-links">
                   <a href="/tools">工具导航</a>
+                  <a href="/guide">健康指南</a>
                   <a href="/about">关于</a>
                   <a href="/privacy">隐私</a>
                   <a href="/contact">联系</a>

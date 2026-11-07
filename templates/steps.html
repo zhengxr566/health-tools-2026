@@ -8,7 +8,7 @@
       <div class="tool-card tool-card-form">
         <h1 class="h4 mb-1">步数转热量计算器｜10000步消耗多少卡路里</h1>
         <p class="text-muted mb-3">
-          输入步数和体重，粗略估算步行消耗热量。10000步通常可消耗约 250–500 kcal，具体取决于体重、速度和步幅。
+          输入步数和体重，用 MET 法估算步行消耗热量。按正常步速，10000步约消耗 290–470 kcal（体重 50–80 kg），快走会更多、慢走会更少。
         </p>
 
         <form method="post" class="row g-3" id="tool-form">
@@ -46,6 +46,10 @@
         <div class="display-4 fw-semibold mb-2">
           {{ kcal }} kcal
         </div>
+        <div class="small text-muted">
+          这是包含基础代谢的总消耗；其中因为走路而<b>额外</b>多消耗的约为 {{ (kcal * 5 / 7)|round|int }} kcal。
+          做减脂计划时建议参考额外消耗。
+        </div>
         <div class="step-link-grid mt-3">
           <a class="btn btn-outline-primary btn-sm" href="/calorie">去算TDEE</a>
           <a class="btn btn-outline-primary btn-sm" href="/deficit">去算减脂热量</a>
@@ -65,7 +69,7 @@
         <h2 class="h6 mb-3">不同体重下，步数对应的热量消耗(kcal)</h2>
 
         <p class="text-muted mb-3">
-          以下为常见体重下的估算值，实际消耗会随步速、步幅和地形变化。
+          按正常步速（约 100 步/分钟、3.5 MET）估算的总消耗，实际会随步速、步幅和地形变化。
         </p>
 
         <div class="table-responsive">
@@ -73,51 +77,23 @@
             <thead>
               <tr>
                 <th>步数</th>
-                <th>50kg</th>
-                <th>60kg</th>
-                <th>70kg</th>
-                <th>80kg</th>
+                {% for kg in table_weights %}<th>{{ kg }}kg</th>{% endfor %}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>3000</td>
-                <td>120</td>
-                <td>150</td>
-                <td>180</td>
-                <td>210</td>
+              {% for n, row in kcal_table %}
+              <tr{% if n == 10000 %} class="table-success"{% endif %}>
+                <td>{% if n == 10000 %}<strong>{{ n }}</strong>{% else %}{{ n }}{% endif %}</td>
+                {% for v in row %}<td>{% if n == 10000 %}<strong>{{ v }}</strong>{% else %}{{ v }}{% endif %}</td>{% endfor %}
               </tr>
-              <tr>
-                <td>5000</td>
-                <td>200</td>
-                <td>250</td>
-                <td>300</td>
-                <td>350</td>
-              </tr>
-              <tr>
-                <td>8000</td>
-                <td>320</td>
-                <td>400</td>
-                <td>480</td>
-                <td>560</td>
-              </tr>
-              <tr class="table-success">
-                <td><strong>10000</strong></td>
-                <td><strong>400</strong></td>
-                <td><strong>500</strong></td>
-                <td><strong>600</strong></td>
-                <td><strong>700</strong></td>
-              </tr>
-              <tr>
-                <td>12000</td>
-                <td>480</td>
-                <td>600</td>
-                <td>720</td>
-                <td>840</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
+        <p class="small text-muted mt-3 mb-0">
+          计算方法：热量 ≈ MET × 体重（kg）× 时间（小时）。详细说明见
+          <a href="/guide/10000-steps-km#kcal">一万步是多少公里？距离、时间和热量</a>。
+        </p>
       </div>
       <div class="tool-card">
         <h2 class="h6">为什么“步数”是最容易坚持的活动？</h2>
@@ -227,7 +203,7 @@
 
           <h2 class="h6">10000步消耗多少卡路里？</h2>
           <p class="text-muted">
-            10000步通常约消耗 250–500 kcal。体重越高、速度越快、坡度越大，消耗通常越高。
+            按正常步速，10000步约消耗 290–470 kcal（体重 50–80 kg，含基础代谢）。体重越高、速度越快、坡度越大，消耗通常越高。
           </p>
 
           <h2 class="h6 mt-4">下一步可以看什么？</h2>

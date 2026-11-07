@@ -10,6 +10,11 @@ from flask import (
     url_for,
 )
 import calendar
+import json
+
+from flask import abort
+
+from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR
 
 app = Flask(__name__)
 
@@ -857,6 +862,8 @@ def inject_global_nav():
         "site_name": SITE_NAME,
         "site_name_zh": SITE_NAME_ZH,
         "page_noindex": is_noindex(request.path),
+        # 工具页底部“相关阅读”：哪些文章把当前页列为相关工具
+        "page_articles": [a for a in ARTICLES if request.path in a.get("related_tools", [])],
     }
 
 def meta_for(title: str, description: str, path: str) -> dict:
@@ -1656,9 +1663,17 @@ def caffeine_intake_estimate(
     }
 # ========== 4.1. 运动消耗 ==========
 # 4.1.1 步数转热量
+STEP_WALK_MET = 3.5   # 正常步速（约 4.8 km/h）步行，Compendium of Physical Activities
+STEP_CADENCE = 100    # 正常步频，步/分钟
+
+
 def steps_to_kcal(steps: int, weight_kg: float) -> float:
-    kcal_per_step = 0.05 * (weight_kg / 60.0)
-    return steps * kcal_per_step
+    """
+    MET 法估算步行总消耗：kcal = MET × 体重(kg) × 时间(h)
+    时间按正常步频 100 步/分钟换算；60 kg 走 10000 步 ≈ 350 kcal。
+    """
+    hours = steps / STEP_CADENCE / 60.0
+    return STEP_WALK_MET * weight_kg * hours
 # 4.1.2 步数转距离
 def steps_to_distance(steps: int, height_cm: float, sex: str) -> dict:
     """
@@ -2713,10 +2728,14 @@ def robots():
 
 @app.get("/sitemap.xml")
 def sitemap():
-    core_paths = ["/", "/tools", "/about", "/privacy", "/contact"]
+    core_paths = ["/", "/tools", "/guide", "/about", "/privacy", "/contact"]
     category_paths = [f"/category/{slug}" for slug in CATEGORY_META.keys()]
     tool_paths = [t["path"] for t in TOOLS]
-    all_paths = [p for p in core_paths + category_paths + tool_paths if not is_noindex(p)]
+    article_paths = [f"/guide/{a['slug']}" for a in ARTICLES]
+    all_paths = [
+        p for p in core_paths + category_paths + tool_paths + article_paths
+        if not is_noindex(p)
+    ]
 
     xml = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -2730,6 +2749,97 @@ def sitemap():
 
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
+
+
+# -----------------------
+# 健康指南（文章）
+# -----------------------
+def _jsonld(data) -> str:
+    # 防止正文里出现 </script> 截断标签
+    return json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+
+
+def article_jsonld(a: dict) -> str:
+    url = canonical_url(f"/guide/{a['slug']}")
+    graph = [
+        {
+            "@type": "Article",
+            "headline": a["h1"],
+            "description": a["description"],
+            "datePublished": a["published"],
+            "dateModified": a["updated"],
+            "inLanguage": "zh-CN",
+            "mainEntityOfPage": url,
+            "author": {
+                "@type": "Person",
+                "name": ARTICLE_AUTHOR["name"],
+                "url": canonical_url(ARTICLE_AUTHOR["url"]),
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": SITE_NAME,
+                "url": canonical_url("/"),
+            },
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "首页", "item": canonical_url("/")},
+                {"@type": "ListItem", "position": 2, "name": "健康指南", "item": canonical_url("/guide")},
+                {"@type": "ListItem", "position": 3, "name": a["h1"], "item": url},
+            ],
+        },
+    ]
+    if a.get("faq"):
+        graph.append({
+            "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question", "name": q,
+                 "acceptedAnswer": {"@type": "Answer", "text": ans}}
+                for q, ans in a["faq"]
+            ],
+        })
+    return _jsonld({"@context": "https://schema.org", "@graph": graph})
+
+
+@app.get("/guide")
+def guide_index():
+    meta = meta_for(
+        f"健康指南：步数、睡眠、热量常见问题 - {SITE_NAME}",
+        "CalmyHealth 健康指南：用研究和公式讲清楚步数、睡眠、热量等常见问题，每篇附参考来源和可直接计算的工具。",
+        "/guide",
+    )
+    articles = sorted(ARTICLES, key=lambda a: a["updated"], reverse=True)
+    return render_template("guide_index.html", meta=meta, articles=articles)
+
+
+@app.get("/guide/<slug>")
+def guide_article(slug: str):
+    a = ARTICLES_BY_SLUG.get(slug)
+    if a is None:
+        abort(404)
+
+    tools_by_path = {t["path"]: t for t in TOOLS}
+    related_tools = [
+        {"path": p, "name": tools_by_path[p]["name"], "desc": tools_by_path[p].get("desc", "")}
+        for p in a.get("related_tools", []) if p in tools_by_path
+    ]
+    related_articles = [
+        ARTICLES_BY_SLUG[s] for s in a.get("related_articles", []) if s in ARTICLES_BY_SLUG
+    ]
+
+    meta = meta_for(f"{a['title']} - {SITE_NAME}", a["description"], f"/guide/{slug}")
+    meta["og_type"] = "article"
+
+    return render_template(
+        f"guide/{slug}.html",
+        meta=meta,
+        article=a,
+        author=ARTICLE_AUTHOR,
+        article_jsonld=article_jsonld(a),
+        related_tools=related_tools,
+        related_articles=related_articles,
+    )
 
 
 
@@ -5489,9 +5599,15 @@ def steps():
         else:
             kcal = round0(steps_to_kcal(s, w))
 
+    table_weights = [50, 60, 70, 80]
+    kcal_table = [
+        (n, [round0(steps_to_kcal(n, kg)) for kg in table_weights])
+        for n in (3000, 5000, 8000, 10000, 12000)
+    ]
+
     meta = meta_for(
         "步数转热量计算器｜10000步消耗多少卡路里 - CalmyHealth",
-        "10000步通常可消耗约250–500卡路里（取决于体重和步速）。例如50kg体重大约消耗400kcal。输入步数和体重，快速估算步行热量消耗，适合日常活动与减脂参考。",
+        "10000步大约消耗 290–470 卡路里（体重 50–80 kg、正常步速），例如 60 kg 约 350 kcal。输入步数和体重，用 MET 法估算步行热量消耗，适合日常活动与减脂参考。",
         "/steps",
     )
     return render_template(
@@ -5501,6 +5617,8 @@ def steps():
         steps_in=steps_in,
         weight_kg_in=weight_kg_in,
         kcal=kcal,
+        table_weights=table_weights,
+        kcal_table=kcal_table,
     )
 # 4.1.2 步数转距离 (Route)
 @app.route("/steps-distance", methods=["GET", "POST"])

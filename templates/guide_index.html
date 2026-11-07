@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <h1 class="h3 mb-2">健康指南</h1>
+  <p class="text-muted mb-0">
+    把步数、睡眠、热量这些常见问题讲清楚：数字从哪里来、研究怎么说、日常怎么用。每篇文章都列出参考来源，并配有可以直接计算的工具。
+  </p>
+</div>
+
+<div class="row g-4">
+  {% for a in articles %}
+  <div class="col-12 col-lg-6">
+    <a class="guide-card bg-white rounded-4 shadow-sm p-4 h-100 d-block" href="/guide/{{ a.slug }}">
+      <div class="small text-success fw-semibold mb-2">{{ a.category }}</div>
+      <h2 class="h5 mb-2">{{ a.h1 }}</h2>
+      <p class="text-muted small mb-3">{{ a.description }}</p>
+      <div class="small text-muted">{{ a.updated }} · 约 {{ a.read_minutes }} 分钟</div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+<style>
+  .guide-card { text-decoration: none; color: inherit; transition: border-color .15s; }
+  .guide-card:hover h2 { color: #198754; }
+</style>
+{% endblock %}
