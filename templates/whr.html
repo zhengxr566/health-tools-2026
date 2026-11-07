@@ -61,16 +61,16 @@
       <hr class="my-3">
 
       <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">常见参考</div>
+        <div class="fw-semibold mb-2">参考标准（WHO 2008）</div>
         <ul class="small text-muted mb-0 ps-3">
           {% if sex_in == "male" %}
-            <li class="mb-2">&lt; 0.90：通常较理想</li>
-            <li class="mb-2">0.90 – 0.99：需要注意</li>
-            <li class="mb-2">≥ 1.00：风险更高</li>
+            <li class="mb-2">&lt; 0.85：通常较理想</li>
+            <li class="mb-2">0.85 – 0.89：需要注意</li>
+            <li class="mb-2">≥ 0.90：代谢风险明显升高（WHO 界值）</li>
           {% else %}
             <li class="mb-2">&lt; 0.80：通常较理想</li>
             <li class="mb-2">0.80 – 0.84：需要注意</li>
-            <li class="mb-2">≥ 0.85：风险更高</li>
+            <li class="mb-2">≥ 0.85：代谢风险明显升高（WHO 界值）</li>
           {% endif %}
           <li class="mb-0">更建议结合腰围、体脂率、BMI 和体检指标一起看。</li>
         </ul>

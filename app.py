@@ -989,11 +989,13 @@ def whr_info(waist_cm: float, hip_cm: float, sex: str) -> dict:
     """
     Waist-to-Hip Ratio (WHR) calculator.
 
-    Simple reference:
+    Reference (WHO Expert Consultation on Waist Circumference and
+    Waist-Hip Ratio, 2008: substantially increased risk at
+    men >= 0.90, women >= 0.85):
     male:
-        < 0.90   -> 较低风险
-        < 1.00   -> 需要注意
-        >= 1.00  -> 风险较高
+        < 0.85   -> 较低风险
+        < 0.90   -> 需要注意
+        >= 0.90  -> 风险较高
 
     female:
         < 0.80   -> 较低风险
@@ -1009,13 +1011,13 @@ def whr_info(waist_cm: float, hip_cm: float, sex: str) -> dict:
         raise ValueError("性别选择不正确。")
 
     ratio = waist_cm / hip_cm
-    ratio_rounded = round1(ratio)
+    ratio_rounded = f"{ratio:.2f}"  # 固定两位小数显示，如 0.80
 
     if sex == "male":
-        if ratio < 0.90:
+        if ratio < 0.85:
             level = "较低风险"
             progress = 38
-        elif ratio < 1.00:
+        elif ratio < 0.90:
             level = "需要注意"
             progress = 68
         else:
@@ -1033,9 +1035,9 @@ def whr_info(waist_cm: float, hip_cm: float, sex: str) -> dict:
             progress = 88
 
     if sex == "male":
-        ref_text = "男性常见参考：WHR < 0.90 通常更理想，0.90–0.99 需要注意，≥ 1.00 风险更高。"
+        ref_text = "男性参考（WHO）：WHR < 0.85 通常更理想，0.85–0.89 需要注意，≥ 0.90 代谢风险明显升高。"
     else:
-        ref_text = "女性常见参考：WHR < 0.80 通常更理想，0.80–0.84 需要注意，≥ 0.85 风险更高。"
+        ref_text = "女性参考（WHO）：WHR < 0.80 通常更理想，0.80–0.84 需要注意，≥ 0.85 代谢风险明显升高。"
 
     return {
         "ratio": ratio_rounded,
