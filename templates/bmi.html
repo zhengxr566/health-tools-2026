@@ -61,9 +61,18 @@
         </div>
       </div>
 
-      <!-- 有结果时：高亮基准表 -->
+      {% endif %}
+
+      <!-- 基准表：简体版为中国标准，繁体版为台湾国健署标准（数据见 app.py 的 BMI_STANDARDS） -->
       <div class="tool-card">
-        <h2 class="h6 mb-3">BMI 基准表</h2>
+        {% if bmi is none %}
+        <div class="text-muted mb-3">
+          输入身高和体重后，即可查看 BMI 数值、所在区间与行动建议。
+        </div>
+        {% endif %}
+
+        <h2 class="h6 mb-1">BMI 基准表</h2>
+        <div class="small text-muted mb-3">{{ bmi_std.name }}</div>
         <div class="table-responsive">
           <table class="table align-middle mb-0">
             <thead>
@@ -71,99 +80,45 @@
                 <th>分类</th>
                 <th>BMI 范围</th>
                 <th>说明</th>
-                <th>你的位置</th>
+                {% if bmi is not none %}<th>你的位置</th>{% endif %}
               </tr>
             </thead>
             <tbody>
-              <tr class="{% if bmi < 18.5 %}table-warning{% endif %}">
+              {% for b in bmi_std.bands %}
+              {% set is_cur = bmi is not none and (b.lo is none or bmi >= b.lo) and (b.hi is none or bmi < b.hi) %}
+              {% set tone = 'success' if b.kind == 'normal' else ('danger' if b.kind == 'obese' else 'warning') %}
+              <tr class="{% if is_cur %}table-{{ tone }}{% endif %}">
                 <td>
-                  体重过低
-                  {% if bmi < 18.5 %}
-                    <span class="badge text-bg-warning ms-2">当前</span>
-                  {% endif %}
+                  {{ b.label }}
+                  {% if is_cur %}<span class="badge text-bg-{{ tone }} ms-2">当前</span>{% endif %}
                 </td>
-                <td>&lt; 18.5</td>
-                <td class="text-muted small">提示体重偏低，可结合饮食摄入、力量训练和恢复情况综合观察。</td>
-                <td>
-                  {% if bmi < 18.5 %}
-                    <strong>BMI {{ bmi }}</strong>
-                  {% else %}
-                    <span class="text-muted">—</span>
-                  {% endif %}
+                <td class="text-nowrap">
+                  {% if b.lo is none %}&lt; {{ b.hi }}
+                  {% elif b.hi is none %}≥ {{ b.lo }}
+                  {% else %}{{ b.lo }} – {{ '%.1f'|format(b.hi - 0.1) }}{% endif %}
                 </td>
+                <td class="text-muted small">{{ b.note }}</td>
+                {% if bmi is not none %}
+                <td>{% if is_cur %}<strong>BMI {{ bmi }}</strong>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                {% endif %}
               </tr>
-
-              <tr class="{% if bmi >= 18.5 and bmi <= 24.9 %}table-success{% endif %}">
-                <td>
-                  正常
-                  {% if bmi >= 18.5 and bmi <= 24.9 %}
-                    <span class="badge text-bg-success ms-2">当前</span>
-                  {% endif %}
-                </td>
-                <td>18.5 – 24.9</td>
-                <td class="text-muted small">WHO 成人正常参考范围，建议继续结合体脂率、腰围和生活方式一起评估。</td>
-                <td>
-                  {% if bmi >= 18.5 and bmi <= 24.9 %}
-                    <strong>BMI {{ bmi }}</strong>
-                  {% else %}
-                    <span class="text-muted">—</span>
-                  {% endif %}
-                </td>
-              </tr>
-
-              <tr class="{% if bmi >= 25 and bmi <= 29.9 %}table-warning{% endif %}">
-                <td>
-                  超重
-                  {% if bmi >= 25 and bmi <= 29.9 %}
-                    <span class="badge text-bg-warning ms-2">当前</span>
-                  {% endif %}
-                </td>
-                <td>25.0 – 29.9</td>
-                <td class="text-muted small">建议优先关注总热量摄入、活动量、睡眠情况，以及腰围等指标变化。</td>
-                <td>
-                  {% if bmi >= 25 and bmi <= 29.9 %}
-                    <strong>BMI {{ bmi }}</strong>
-                  {% else %}
-                    <span class="text-muted">—</span>
-                  {% endif %}
-                </td>
-              </tr>
-
-              <tr class="{% if bmi >= 30 %}table-danger{% endif %}">
-                <td>
-                  肥胖
-                  {% if bmi >= 30 %}
-                    <span class="badge text-bg-danger ms-2">当前</span>
-                  {% endif %}
-                </td>
-                <td>≥ 30.0</td>
-                <td class="text-muted small">建议尽早结合饮食、运动和专业评估进行体重管理，不宜只看单一数字。</td>
-                <td>
-                  {% if bmi >= 30 %}
-                    <strong>BMI {{ bmi }}</strong>
-                  {% else %}
-                    <span class="text-muted">—</span>
-                  {% endif %}
-                </td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
 
         <div class="form-text mt-2">
-          分类参考：世界卫生组织（WHO）成人 BMI 标准：&lt;18.5 体重过低，18.5–24.9 正常，25.0–29.9 超重，≥30.0 肥胖。
+          对照：世界卫生组织（WHO）国际标准为 &lt;18.5 体重过低，18.5–24.9 正常，25.0–29.9 超重，≥30.0 肥胖。
+          亚洲人群在较低 BMI 时代谢风险就会上升，因此中国大陆、台湾等地采用更低的切点。
         </div>
-
         <div class="small text-muted mt-1">
-          来源：
-          <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
-             target="_blank" rel="nofollow noopener">
-            World Health Organization (WHO) — Obesity and overweight
-          </a>
+          来源：{% if bmi_std.source_url %}<a href="{{ bmi_std.source_url }}" target="_blank" rel="nofollow noopener">{{ bmi_std.source_text }}</a>{% else %}{{ bmi_std.source_text }}{% endif %}；
+          <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight" target="_blank" rel="nofollow noopener">WHO — Obesity and overweight</a>
         </div>
       </div>
 
-      <!-- 行动建议移到基准表后面 -->
+      {% if bmi is not none %}
+      <!-- 行动建议放在基准表后面 -->
       <div class="tool-card">
         <h2 class="h6 mb-2">{{ suggestion_title }}</h2>
         <ul class="mb-2">
@@ -172,61 +127,6 @@
           {% endfor %}
         </ul>
         <div class="small text-muted">{{ risk_note }}</div>
-      </div>
-
-      {% else %}
-      <!-- 无结果时：默认显示不高亮基准表 -->
-      <div class="tool-card">
-        <div class="text-muted mb-3">
-          输入身高和体重后，即可查看 BMI 数值、所在区间与行动建议。
-        </div>
-
-        <h2 class="h6 mb-3">BMI 基准表</h2>
-        <div class="table-responsive">
-          <table class="table align-middle mb-0">
-            <thead>
-              <tr>
-                <th>分类</th>
-                <th>BMI 范围</th>
-                <th>说明</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>体重过低</td>
-                <td>&lt; 18.5</td>
-                <td class="text-muted small">提示体重偏低，可结合饮食摄入、力量训练和恢复情况综合观察。</td>
-              </tr>
-              <tr>
-                <td>正常</td>
-                <td>18.5 – 24.9</td>
-                <td class="text-muted small">WHO 成人正常参考范围，建议继续结合体脂率、腰围和生活方式一起评估。</td>
-              </tr>
-              <tr>
-                <td>超重</td>
-                <td>25.0 – 29.9</td>
-                <td class="text-muted small">建议优先关注总热量摄入、活动量、睡眠情况，以及腰围等指标变化。</td>
-              </tr>
-              <tr>
-                <td>肥胖</td>
-                <td>≥ 30.0</td>
-                <td class="text-muted small">建议尽早结合饮食、运动和专业评估进行体重管理，不宜只看单一数字。</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="form-text mt-2">
-          分类参考：世界卫生组织（WHO）成人 BMI 标准：&lt;18.5 体重过低，18.5–24.9 正常，25.0–29.9 超重，≥30.0 肥胖。
-        </div>
-
-        <div class="small text-muted mt-1">
-          来源：
-          <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight"
-             target="_blank" rel="nofollow noopener">
-            World Health Organization (WHO) — Obesity and overweight
-          </a>
-        </div>
       </div>
       {% endif %}
 
@@ -239,7 +139,7 @@
 
         <h2 class="h6 mt-4">BMI 正常范围是多少？</h2>
         <p class="text-muted">
-          常见成人参考：&lt;18.5 偏瘦，18.5–23.9 正常，24.0–27.9 偏胖，≥28 肥胖。
+          {% for b in bmi_std.bands %}{{ b.label }} {% if b.lo is none %}&lt; {{ b.hi }}{% elif b.hi is none %}≥ {{ b.lo }}{% else %}{{ b.lo }}–{{ '%.1f'|format(b.hi - 0.1) }}{% endif %}{% if not loop.last %}，{% endif %}{% endfor %}（{{ bmi_std.name }}）。
           建议把 BMI 看作“起点”，再结合腰围、体脂率与体检指标综合评估。
         </p>
 

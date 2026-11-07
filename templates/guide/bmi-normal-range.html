@@ -4,17 +4,53 @@
 <h2 id="answer">先说结论</h2>
 <div class="callout">
   <ul>
+{% if is_hant %}
+    <li><b>台湾成人标准（国民健康署）：</b>BMI <b>18.5–24（不含 24）</b>为健康体位，24–27 为过重，≥ 27 为肥胖，&lt; 18.5 为体重过轻。</li>
+    <li><b>WHO 国际标准：</b>正常范围是 <b>18.5–24.9</b>，25.0–29.9 为超重，≥ 30.0 为肥胖。台湾标准的切点更低，因为亚洲人在相同 BMI 下往往体脂更高、代谢风险出现得更早。</li>
+    <li><b>换算成体重：</b>身高 160 cm 的健康体重约 47.4–61.2 kg，170 cm 约 53.5–69.1 kg（按台湾标准）。</li>
+{% else %}
     <li><b>中国成年人标准：</b>BMI <b>18.5–23.9</b> 为正常，24.0–27.9 为超重，≥ 28.0 为肥胖，&lt; 18.5 为偏瘦。</li>
     <li><b>WHO 国际标准：</b>正常范围是 <b>18.5–24.9</b>，25.0–29.9 为超重，≥ 30.0 为肥胖。中国标准的切点更低，因为亚洲人在相同 BMI 下往往体脂更高、代谢风险出现得更早。</li>
     <li><b>换算成体重：</b>身高 160 cm 的正常体重约 47.4–61.2 kg，170 cm 约 53.5–69.1 kg（按中国标准）。</li>
+{% endif %}
     <li><b>BMI 只是筛查工具：</b>它分不清肌肉和脂肪，最好配合腰围、体脂率一起看。</li>
   </ul>
 </div>
 <p>
+{% if is_hant %}
+  BMI（身体质量指数）是最常用的体重评估指标，计算简单、不需要任何设备。但同一个 BMI 数值，在台湾标准和 WHO 标准下可能得出不同结论。
+{% else %}
   BMI（身体质量指数）是最常用的体重评估指标，计算简单、不需要任何设备。但同一个 BMI 数值，在中国标准和 WHO 标准下可能得出不同结论。
+{% endif %}
   下面先讲两套标准的区别，再给出按身高的正常体重对照表，最后说明 BMI 的局限和到达目标体重大概需要多久。
 </p>
 
+{% if is_hant %}
+<h2 id="standard">台湾标准和 WHO 标准有什么区别</h2>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>分类</th><th>台湾成人标准（国民健康署）</th><th>WHO 国际标准</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>体重过轻</td><td>&lt; 18.5</td><td>&lt; 18.5</td></tr>
+      <tr><td>健康体位 / 正常</td><td>18.5 ≤ BMI &lt; 24</td><td>18.5–24.9</td></tr>
+      <tr><td>过重 / 超重</td><td>24 ≤ BMI &lt; 27</td><td>25.0–29.9</td></tr>
+      <tr><td>轻度肥胖</td><td>27 ≤ BMI &lt; 30</td><td rowspan="3">≥ 30.0</td></tr>
+      <tr><td>中度肥胖</td><td>30 ≤ BMI &lt; 35</td></tr>
+      <tr><td>重度肥胖</td><td>≥ 35</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  WHO 的标准主要基于欧美人群数据。2004 年 WHO 专家组在《柳叶刀》发表的报告指出，亚洲人群在 BMI 低于 25 时，
+  2 型糖尿病和心血管疾病的风险就已明显上升，因此建议各地可以采用更低的切点。台湾由卫生福利部国民健康署公布成人体位标准，
+  以 24 和 27 作为过重和肥胖的分界，并把肥胖再细分为轻度、中度和重度。
+</p>
+<p>
+  中国大陆的标准与台湾接近，只是肥胖切点为 28（24–27.9 为超重）。如果你生活在台湾或香港，参考台湾标准更合适，本站繁体版的 BMI 工具也采用台湾标准。
+</p>
+{% else %}
 <h2 id="standard">中国标准和 WHO 标准有什么区别</h2>
 <div class="table-responsive">
   <table class="table table-sm table-bordered align-middle text-center">
@@ -37,18 +73,44 @@
 <p>
   如果你生活在中国，或者是亚洲人群，参考中国标准更合适。本站的 BMI 工具也采用中国标准。
 </p>
+{% endif %}
 
 <h2 id="calc">BMI 怎么算</h2>
 <p class="text-center"><b>BMI = 体重（kg）÷ 身高（m）²</b></p>
 <p>
   例如身高 170 cm、体重 65 kg：65 ÷ (1.70 × 1.70) ≈ 22.5，属于正常范围。
+{% if is_hant %}
+  身高 165 cm、体重 70 kg：70 ÷ (1.65 × 1.65) ≈ 25.7，按台湾标准属于过重，按 WHO 标准也刚好进入超重区间。
+{% else %}
   身高 165 cm、体重 70 kg：70 ÷ (1.65 × 1.65) ≈ 25.7，按中国标准属于超重，按 WHO 标准也刚好进入超重区间。
+{% endif %}
 </p>
 <p>注意身高要换算成“米”再平方，这是自己手算时最容易出错的地方。</p>
 
 <a class="tool-cta" href="/bmi">→ 输入身高体重，直接看 BMI 和对应的正常体重范围：BMI 计算器</a>
 
 <h2 id="table">按身高的正常体重范围表</h2>
+{% if is_hant %}
+<p>下表按台湾标准计算（健康体位 = BMI 18.5 至未满 24，肥胖 = BMI ≥ 27），并附上 WHO 标准的超重起点，体重保留一位小数：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>身高</th><th>健康体重（台湾）</th><th>过重起点（BMI 24）</th><th>肥胖起点（BMI 27）</th><th>WHO 超重起点（BMI 25）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>150 cm</td><td>41.6–53.8 kg</td><td>54.0 kg</td><td>60.8 kg</td><td>56.2 kg</td></tr>
+      <tr><td>155 cm</td><td>44.4–57.4 kg</td><td>57.7 kg</td><td>64.9 kg</td><td>60.1 kg</td></tr>
+      <tr><td>160 cm</td><td>47.4–61.2 kg</td><td>61.4 kg</td><td>69.1 kg</td><td>64.0 kg</td></tr>
+      <tr><td>165 cm</td><td>50.4–65.1 kg</td><td>65.3 kg</td><td>73.5 kg</td><td>68.1 kg</td></tr>
+      <tr><td>170 cm</td><td>53.5–69.1 kg</td><td>69.4 kg</td><td>78.0 kg</td><td>72.2 kg</td></tr>
+      <tr><td>175 cm</td><td>56.7–73.2 kg</td><td>73.5 kg</td><td>82.7 kg</td><td>76.6 kg</td></tr>
+      <tr><td>180 cm</td><td>59.9–77.4 kg</td><td>77.8 kg</td><td>87.5 kg</td><td>81.0 kg</td></tr>
+      <tr><td>185 cm</td><td>63.3–81.8 kg</td><td>82.1 kg</td><td>92.4 kg</td><td>85.6 kg</td></tr>
+      <tr><td>190 cm</td><td>66.8–86.3 kg</td><td>86.6 kg</td><td>97.5 kg</td><td>90.2 kg</td></tr>
+    </tbody>
+  </table>
+</div>
+{% else %}
 <p>下表按中国标准计算（正常 = BMI 18.5–23.9，肥胖 = BMI ≥ 28），并附上 WHO 标准的超重起点，体重保留一位小数：</p>
 <div class="table-responsive">
   <table class="table table-sm table-bordered align-middle text-center">
@@ -68,6 +130,7 @@
     </tbody>
   </table>
 </div>
+{% endif %}
 <p>
   可以看到，“正常”是一个跨度约 12–20 kg 的范围，而不是某一个固定数字。只要落在范围内，不必为了一两公斤纠结。
 </p>

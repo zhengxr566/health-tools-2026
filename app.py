@@ -15,7 +15,7 @@ import json
 
 from flask import abort
 
-from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR
+from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR, HANT_OVERRIDES
 from seo_meta import SEO_OVERRIDES
 from i18n_hant import ENV_KEY as LANG_ENV_KEY, HANT_PREFIX, HantPrefixMiddleware, convert_html
 
@@ -900,7 +900,7 @@ def inject_global_nav():
             (SEO_OVERRIDES.get(request.path) or {}).get("hant") if is_hant() else None
         ) or SEO_OVERRIDES.get(request.path),
         # 工具页底部“相关阅读”：哪些文章把当前页列为相关工具
-        "page_articles": [a for a in ARTICLES if request.path in a.get("related_tools", [])],
+        "page_articles": [local_article(a) for a in ARTICLES if request.path in a.get("related_tools", [])],
     }
 
 def meta_for(title: str, description: str, path: str) -> dict:
@@ -943,6 +943,59 @@ def round0(x: float) -> int:
 def mifflin_st_jeor(sex: str, age: int, height_cm: float, weight_kg: float) -> float:
     base = 10 * weight_kg + 6.25 * height_cm - 5 * age
     return base + (5 if sex == "male" else -161)
+
+
+# BMI 分级标准：简体版用中国成人标准，繁体版（台湾/香港读者）用台湾卫福部国健署标准。
+# 文字用简体书写，繁体版输出时会自动转换（例如“健康体位”→“健康體位”）。
+# kind 用于选择行动建议：low / normal / over / obese
+BMI_STANDARDS = {
+    "cn": {
+        "name": "中国成人体重判定标准（WS/T 428-2013）",
+        "source_text": "国家卫生行业标准《成人体重判定》WS/T 428-2013",
+        "source_url": "",
+        "bands": [
+            {"label": "偏瘦", "lo": None, "hi": 18.5, "kind": "low",
+             "note": "体重偏低，可结合饮食摄入、力量训练和恢复情况综合观察。"},
+            {"label": "正常", "lo": 18.5, "hi": 24.0, "kind": "normal",
+             "note": "处于正常范围，建议继续结合腰围、体脂率和生活方式一起评估。"},
+            {"label": "超重", "lo": 24.0, "hi": 28.0, "kind": "over",
+             "note": "建议关注总热量摄入、活动量、睡眠，以及腰围变化。"},
+            {"label": "肥胖", "lo": 28.0, "hi": None, "kind": "obese",
+             "note": "建议结合饮食、运动和专业评估进行体重管理，不宜只看单一数字。"},
+        ],
+    },
+    "tw": {
+        "name": "台湾成人体位标准（卫生福利部国民健康署）",
+        "source_text": "卫生福利部国民健康署：成人肥胖定义",
+        "source_url": "https://www.hpa.gov.tw/",
+        "bands": [
+            {"label": "体重过轻", "lo": None, "hi": 18.5, "kind": "low",
+             "note": "体重偏低，可结合饮食摄入、力量训练和恢复情况综合观察。"},
+            {"label": "健康体位", "lo": 18.5, "hi": 24.0, "kind": "normal",
+             "note": "处于健康范围，建议继续结合腰围、体脂率和生活方式一起评估。"},
+            {"label": "过重", "lo": 24.0, "hi": 27.0, "kind": "over",
+             "note": "建议关注总热量摄入、活动量、睡眠，以及腰围变化。"},
+            {"label": "轻度肥胖", "lo": 27.0, "hi": 30.0, "kind": "obese",
+             "note": "建议开始有计划地控制体重，并留意血压、血糖、血脂等指标。"},
+            {"label": "中度肥胖", "lo": 30.0, "hi": 35.0, "kind": "obese",
+             "note": "建议在医师或营养师协助下制定体重管理计划。"},
+            {"label": "重度肥胖", "lo": 35.0, "hi": None, "kind": "obese",
+             "note": "建议尽早就医评估，由专业人员协助制定体重管理方案。"},
+        ],
+    },
+}
+
+
+def bmi_standard() -> dict:
+    return BMI_STANDARDS["tw" if is_hant() else "cn"]
+
+
+def bmi_band(bmi: float, std: dict | None = None) -> dict:
+    std = std or bmi_standard()
+    for b in std["bands"]:
+        if (b["lo"] is None or bmi >= b["lo"]) and (b["hi"] is None or bmi < b["hi"]):
+            return b
+    return std["bands"][-1]
 
 
 def bmi_category_cn(bmi: float) -> str:
@@ -2809,6 +2862,18 @@ def _jsonld(data) -> str:
     return json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 
 
+def local_article(a: dict) -> dict:
+    """繁体版时套用 HANT_OVERRIDES（按台湾标准改写的标题、描述、目录、FAQ 和补充来源）。"""
+    if not is_hant():
+        return a
+    ov = HANT_OVERRIDES.get(a["slug"])
+    if not ov:
+        return a
+    merged = {**a, **{k: v for k, v in ov.items() if k != "extra_sources"}}
+    merged["sources"] = list(a.get("sources", [])) + list(ov.get("extra_sources", []))
+    return merged
+
+
 def article_jsonld(a: dict) -> str:
     url = canonical_url(f"/guide/{a['slug']}")
     graph = [
@@ -2862,7 +2927,7 @@ def guide_index():
     order = ["体重与体型", "代谢与热量", "营养摄入", "运动与步数", "睡眠"]
     names = order + sorted({a["category"] for a in ARTICLES} - set(order))
     groups = [
-        {"name": n, "articles": [a for a in ARTICLES if a["category"] == n]}
+        {"name": n, "articles": [local_article(a) for a in ARTICLES if a["category"] == n]}
         for n in names
     ]
     groups = [g for g in groups if g["articles"]]
@@ -2874,6 +2939,7 @@ def guide_article(slug: str):
     a = ARTICLES_BY_SLUG.get(slug)
     if a is None:
         abort(404)
+    a = local_article(a)
 
     tools_by_path = {t["path"]: t for t in TOOLS}
     related_tools = [
@@ -2881,7 +2947,7 @@ def guide_article(slug: str):
         for p in a.get("related_tools", []) if p in tools_by_path
     ]
     related_articles = [
-        ARTICLES_BY_SLUG[s] for s in a.get("related_articles", []) if s in ARTICLES_BY_SLUG
+        local_article(ARTICLES_BY_SLUG[s]) for s in a.get("related_articles", []) if s in ARTICLES_BY_SLUG
     ]
 
     meta = meta_for(f"{a['title']} - {SITE_NAME}", a["description"], f"/guide/{slug}")
@@ -3336,7 +3402,7 @@ def index():
         categories=grouped_tools(),
         featured_tools=featured_tools,
         guide_articles=[
-            ARTICLES_BY_SLUG[s] for s in (
+            local_article(ARTICLES_BY_SLUG[s]) for s in (
                 "bmi-normal-range", "bmr-vs-tdee", "protein-intake-per-day",
                 "10000-steps-km", "running-pace-chart", "sleep-cycle-90-minutes",
             ) if s in ARTICLES_BY_SLUG
@@ -3462,7 +3528,9 @@ def bmi():
             hm = h / 100.0
             bmi_raw = w / (hm * hm)
             bmi_val = round1(bmi_raw)
-            category = bmi_category_cn(bmi_raw)
+            band = bmi_band(bmi_raw)
+            category = band["label"]
+            band_kind = band["kind"]
             progress = bmi_progress(bmi_raw)
 
             ideal_min = round1(18.5 * hm * hm)
@@ -3473,19 +3541,19 @@ def bmi():
             elif bmi_raw > 23.9:
                 to_max = round1(w - ideal_max)
 
-            if bmi_raw < 18.5:
+            if band_kind == "low":
                 suggestions = [
                     "优先保证规律三餐与足够蛋白质摄入。",
                     "每周进行 2–3 次力量训练，提升肌肉量与体能。",
                     "关注睡眠质量与压力水平，避免长期熬夜。",
                 ]
-            elif bmi_raw < 24.0:
+            elif band_kind == "normal":
                 suggestions = [
                     "保持当前体重趋势，重点关注腰围与体脂率。",
                     "每周累计 150 分钟中等强度运动更容易长期维持。",
                     "饮食上优先选择高纤维、足够蛋白质与稳定作息。",
                 ]
-            elif bmi_raw < 28.0:
+            elif band_kind == "over":
                 suggestions = [
                     "先算 TDEE，尝试每天减少约 300–500 kcal 的热量缺口。",
                     "增加步行与力量训练，帮助维持代谢与肌肉量。",
@@ -3520,6 +3588,7 @@ def bmi():
         risk_note=risk_note,
         height_cm_in=height_cm_in,
         weight_kg_in=weight_kg_in,
+        bmi_std=bmi_standard(),
     )
 
 
