@@ -1,17 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="bg-white rounded-3 shadow-sm p-4">
-  <h1 class="h4 mb-2">关于</h1>
-  <p class="text-muted">
-    本站提供常见健康指标与生活方式相关的在线计算工具（如 BMI、BMR、TDEE、体脂率等），
-    并在每个工具页面提供结构化说明与下一步建议，帮助你更容易理解数据与形成行动路径。
-  </p>
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h1 class="h4 mb-2">关于 CalmyHealth</h1>
+  <p class="small text-muted mb-3">最后更新：2026-11-07</p>
 
-  <h2 class="h6 mt-4">使用说明</h2>
-  <ul class="text-muted">
-    <li>所有结果为估算与参考，不构成医疗建议。</li>
-    <li>更建议关注长期趋势（2–4 周），而非单日波动。</li>
-    <li>如有慢病、怀孕、或不适症状，请咨询专业人士。</li>
+  <p class="text-muted">
+    CalmyHealth 是一个独立运营的免费在线计算工具网站，提供体重与体型、代谢与热量、营养摄入、运动、睡眠等方面的常用计算器，
+    例如 BMI、基础代谢率（BMR）、每日总消耗（TDEE）、体脂率、步数换算、跑步配速、睡眠周期等。
+  </p>
+  <p class="text-muted mb-0">
+    我们希望把常见的健身与生活方式指标做成“输入即得、结果看得懂”的工具：每个页面除了计算结果，
+    还会说明公式怎么来的、结果怎么理解、有哪些局限，以及下一步可以参考什么。
+  </p>
+</div>
+
+{# TODO: 运营者介绍。请填写真实信息，例如名字或昵称、背景、为什么做这个网站。不要写不存在的资质。 #}
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">运营者</h2>
+  <p class="text-muted mb-0">
+    本站由个人开发者独立开发和维护，所有工具、页面与说明文字均由运营者编写与更新。
+    如对内容有疑问或发现错误，欢迎通过 <a href="/contact">联系页面</a> 反馈。
+  </p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">内容与编辑方针</h2>
+  <ul class="text-muted mb-0 ps-3">
+    <li class="mb-2"><b>使用公开、通用的公式与标准。</b>本站计算方法来自公开发表的研究或公共卫生机构的参考标准，主要来源列在下方。</li>
+    <li class="mb-2"><b>说明局限。</b>估算公式对平均人群有效，对个体可能存在误差；页面会尽量写明适用范围和不准确的情况。</li>
+    <li class="mb-2"><b>不做诊断、不做治疗建议。</b>所有结果只用于自我了解和日常规划，不能替代医生、营养师等专业人士的评估。</li>
+    <li class="mb-2"><b>持续修订。</b>发现错误或标准更新时会修改页面；收到的纠错反馈会优先处理。</li>
+    <li class="mb-0"><b>广告与内容分开。</b>如页面展示广告，广告内容由第三方提供，不影响本站的计算方法和说明文字。</li>
   </ul>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">主要公式与参考来源</h2>
+  <div class="table-responsive">
+    <table class="table table-sm align-middle mb-0">
+      <thead>
+        <tr><th style="min-width:9em">工具</th><th>方法 / 参考</th></tr>
+      </thead>
+      <tbody class="text-muted">
+        <tr><td><a href="/bmr">基础代谢率 BMR</a></td><td>Mifflin-St Jeor 公式（Mifflin MD, St Jeor ST, et al. <i>Am J Clin Nutr</i>, 1990）</td></tr>
+        <tr><td><a href="/calorie">每日总消耗 TDEE</a></td><td>BMR × 活动系数（1.2 久坐 ～ 1.9 高强度活动的常用分级）</td></tr>
+        <tr><td><a href="/bmi">BMI</a></td><td>体重(kg) ÷ 身高(m)²；分级采用中国成人标准（18.5 / 24 / 28），参考世界卫生组织（WHO）对亚洲人群的建议</td></tr>
+        <tr><td><a href="/bodyfat">体脂率</a></td><td>美国海军围度法（Hodgdon JA, Beckett MB. Naval Health Research Center, 1984）</td></tr>
+        <tr><td><a href="/ideal-weight">理想体重</a></td><td>Devine（1974）、Robinson（1983）、Miller（1983）、Hamwi（1964）四种公式及其平均值</td></tr>
+        <tr><td><a href="/waist">腰围风险</a></td><td>腰围身高比（WHtR）0.5 / 0.6 分界（Ashwell M 等的研究）</td></tr>
+        <tr><td><a href="/whr">腰臀比</a></td><td>WHO《腰围与腰臀比专家咨询报告》（2008）</td></tr>
+        <tr><td><a href="/heart-rate-zone">心率区间</a></td><td>最大心率 220 − 年龄；提供静息心率时使用 Karvonen 储备心率法</td></tr>
+        <tr><td><a href="/sleep">睡眠周期</a>、<a href="/sleep-need">睡眠需求</a></td><td>约 90 分钟睡眠周期的经验值；分年龄睡眠时长参考美国国家睡眠基金会（NSF）建议（Hirshkowitz M, et al. <i>Sleep Health</i>, 2015）</td></tr>
+        <tr><td><a href="/steps-distance">步数换算</a></td><td>按身高与性别估算步幅（常用经验系数），用于步数与距离、时间、消耗的换算</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted mt-3 mb-0">
+    其他工具（饮水、蛋白质、碳水、脂肪、膳食纤维、盐、糖、咖啡因等）使用常见膳食参考值和简化估算，具体依据见各工具页面的说明部分。
+  </p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">免责声明</h2>
+  <ul class="text-muted mb-0 ps-3">
+    <li class="mb-2">本站所有计算结果均为估算，仅供参考，不构成医疗、营养或运动处方建议。</li>
+    <li class="mb-2">建议关注 2–4 周的长期趋势，而不是单日数值波动。</li>
+    <li class="mb-0">如有慢性病、怀孕或备孕、未成年、体检异常或身体不适，请先咨询医生等专业人士，不要仅凭本站结果作决定。</li>
+  </ul>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4">
+  <h2 class="h5 mb-3">联系与纠错</h2>
+  <p class="text-muted mb-0">
+    发现计算错误、说明不准确或有新工具建议，请发送邮件至
+    <a href="mailto:calmyhealth@hotmail.com">calmyhealth@hotmail.com</a>，
+    或查看 <a href="/contact">联系页面</a>。隐私相关说明见 <a href="/privacy">隐私政策</a>。
+  </p>
 </div>
 {% endblock %}

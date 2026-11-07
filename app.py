@@ -717,6 +717,31 @@ TOOLS = [
 
 from flask import request
 
+# -----------------------
+# Noindex: 高风险（孕产 / 生殖健康）页面
+# 页面仍可访问，但不进搜索结果、不进 sitemap、不放广告。
+# 想恢复收录：把分类从 NOINDEX_CATEGORIES 去掉，或把单个 path 加到 INDEX_OVERRIDE_PATHS。
+# -----------------------
+NOINDEX_CATEGORIES = {"pregnancy"}
+INDEX_OVERRIDE_PATHS: set[str] = set()
+
+NOINDEX_PATHS = {
+    t["path"]
+    for t in TOOLS
+    if t.get("category") in NOINDEX_CATEGORIES and t["path"] not in INDEX_OVERRIDE_PATHS
+} | {f"/category/{slug}" for slug in NOINDEX_CATEGORIES}
+
+
+def is_noindex(path: str) -> bool:
+    return path.rstrip("/") in NOINDEX_PATHS if path != "/" else False
+
+
+@app.after_request
+def add_noindex_header(resp):
+    if is_noindex(request.path):
+        resp.headers["X-Robots-Tag"] = "noindex, follow"
+    return resp
+
 def grouped_tools(current_path=None):
     """
     Return 3-level navigation data for sidebar / tools pages.
@@ -831,6 +856,7 @@ def inject_global_nav():
         "top_tools": top_tools(10),
         "site_name": SITE_NAME,
         "site_name_zh": SITE_NAME_ZH,
+        "page_noindex": is_noindex(request.path),
     }
 
 def meta_for(title: str, description: str, path: str) -> dict:
@@ -2690,7 +2716,7 @@ def sitemap():
     core_paths = ["/", "/tools", "/about", "/privacy", "/contact"]
     category_paths = [f"/category/{slug}" for slug in CATEGORY_META.keys()]
     tool_paths = [t["path"] for t in TOOLS]
-    all_paths = core_paths + category_paths + tool_paths
+    all_paths = [p for p in core_paths + category_paths + tool_paths if not is_noindex(p)]
 
     xml = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -3166,7 +3192,7 @@ def tools():
 
 def top_tools(limit=10):
     ranked = sorted(
-        TOOLS,
+        [t for t in TOOLS if not is_noindex(t["path"])],
         key=lambda x: (
             not x.get("featured", False),
             x.get("name", "")
@@ -3201,7 +3227,7 @@ def category_page(slug: str):
 def about():
     meta = meta_for(
         f"关于 - {SITE_NAME}",
-        "关于 CalmyHealth：围绕健康数据理解与工具化场景，持续扩展可读、可用、可导航的健康工具页面。",
+        "关于 CalmyHealth：独立运营的免费健身与生活方式计算器网站，说明编辑方针、各工具使用的公式与参考来源及免责声明。",
         "/about",
     )
     return render_template("about.html", meta=meta)
@@ -3211,7 +3237,7 @@ def about():
 def privacy():
     meta = meta_for(
         f"隐私政策 - {SITE_NAME}",
-        "隐私政策：CalmyHealth 不要求账号，不出售个人信息；输入数据仅用于当次计算展示（服务器日志除外）。",
+        "CalmyHealth 隐私政策：无需注册，计算输入不保存；说明服务器日志、访问统计、Google 广告 Cookie 及如何关闭个性化广告。",
         "/privacy",
     )
     return render_template("privacy.html", meta=meta)
@@ -3759,6 +3785,49 @@ def fertility_calculator():
         page_kind="tool",
     )
 # 5.1.8 着床时间
+@app.route("/implantation-calculator", methods=["GET", "POST"])
+def implantation_calculator():
+    error = None
+    result = None
+
+    mode_in = "lmp"
+    lmp_in = ""
+    ovulation_in = ""
+
+    if request.method == "POST":
+        mode_in = request.form.get("mode", "lmp").strip()
+        lmp_in = request.form.get("lmp", "").strip()
+        ovulation_in = request.form.get("ovulation_date", "").strip()
+
+        try:
+            if mode_in == "ovulation":
+                if not ovulation_in:
+                    raise ValueError("请输入排卵日。")
+                result = implantation_info(ovulation_date=parse_date(ovulation_in))
+            else:
+                mode_in = "lmp"
+                if not lmp_in:
+                    raise ValueError("请输入末次月经开始日期。")
+                result = implantation_info(lmp_date=parse_date(lmp_in))
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
+
+    meta = {
+        "title": "着床时间计算器 - CalmyHealth",
+        "description": "输入排卵日或末次月经开始日期，估算常见的着床时间范围（排卵后约 6–10 天），仅供参考。",
+        "canonical": canonical_url("/implantation-calculator"),
+    }
+
+    return render_template(
+        "implantation_calculator.html",
+        meta=meta,
+        error=error,
+        result=result,
+        mode_in=mode_in,
+        lmp_in=lmp_in,
+        ovulation_in=ovulation_in,
+        page_kind="tool",
+    )
 # ========= 5.2. 孕期健康 ======= 
 # 5.2.1 孕期体重增长
 @app.route("/pregnancy-weight", methods=["GET", "POST"])
@@ -5299,62 +5368,53 @@ def salt():
         page_kind="tool",
     )
 # 3.1.7 糖摄入
-def sugar_intake_estimate(
-    sugary_drinks: int,
-    desserts: int,
-    sweet_snacks: int,
-    sweet_sauces: int,
-    sweet_coffee_tea: int,
-) -> dict:
-    """
-    Very simplified daily sugar estimator.
+@app.route("/sugar-intake", methods=["GET", "POST"])
+def sugar_intake():
+    error = None
+    result = None
 
-    Estimated sugar per serving (g):
-    - sugary drink: 25 g
-    - dessert: 18 g
-    - sweet snack: 12 g
-    - sweet sauce / syrup use: 8 g
-    - sweetened coffee / tea: 10 g
+    sugary_drinks_in = "1"
+    desserts_in = "0"
+    sweet_snacks_in = "1"
+    sweet_sauces_in = "0"
+    sweet_coffee_tea_in = "1"
 
-    Educational estimate only.
-    """
+    if request.method == "POST":
+        sugary_drinks_in = request.form.get("sugary_drinks", "1").strip()
+        desserts_in = request.form.get("desserts", "0").strip()
+        sweet_snacks_in = request.form.get("sweet_snacks", "1").strip()
+        sweet_sauces_in = request.form.get("sweet_sauces", "0").strip()
+        sweet_coffee_tea_in = request.form.get("sweet_coffee_tea", "1").strip()
 
-    vals = [sugary_drinks, desserts, sweet_snacks, sweet_sauces, sweet_coffee_tea]
-    if any(v < 0 or v > 20 for v in vals):
-        raise ValueError("请输入合理的份数。")
+        try:
+            result = sugar_intake_estimate(
+                int(sugary_drinks_in),
+                int(desserts_in),
+                int(sweet_snacks_in),
+                int(sweet_sauces_in),
+                int(sweet_coffee_tea_in),
+            )
+        except Exception as e:
+            error = str(e) if str(e) else "请输入有效数据。"
 
-    total_sugar_g = (
-        sugary_drinks * 25
-        + desserts * 18
-        + sweet_snacks * 12
-        + sweet_sauces * 8
-        + sweet_coffee_tea * 10
-    )
-
-    total_sugar_g = round1(total_sugar_g)
-    total_sugar_kcal = round0(total_sugar_g * 4)
-
-    if total_sugar_g <= 25:
-        level = "较低"
-        note = "整体糖摄入大致偏低或较克制。"
-        progress = 35
-    elif total_sugar_g <= 50:
-        level = "需要注意"
-        note = "已经进入很多人日常容易不知不觉偏高的区间。"
-        progress = 65
-    else:
-        level = "偏高"
-        note = "糖摄入相对偏高，更建议留意饮料、甜点和零食来源。"
-        progress = 88
-
-    return {
-        "total_sugar_g": total_sugar_g,
-        "total_sugar_kcal": total_sugar_kcal,
-        "level": level,
-        "note": note,
-        "progress": progress,
-        "rule_text": "本工具采用站内简化估算模型，根据常见含糖饮料、甜点、零食和调味场景粗略估算每日糖摄入。",
+    meta = {
+        "title": "糖摄入估算器（你每天吃糖会不会太多）- CalmyHealth",
+        "description": "根据含糖饮料、甜点、甜味零食、调味酱和加糖咖啡茶的份数，粗略估算每天添加糖摄入量与对应热量，并给出控糖建议。",
+        "canonical": canonical_url("/sugar-intake"),
     }
+
+    return render_template(
+        "sugar_intake.html",
+        meta=meta,
+        error=error,
+        result=result,
+        sugary_drinks_in=sugary_drinks_in,
+        desserts_in=desserts_in,
+        sweet_snacks_in=sweet_snacks_in,
+        sweet_sauces_in=sweet_sauces_in,
+        sweet_coffee_tea_in=sweet_coffee_tea_in,
+        page_kind="tool",
+    )
 # 3.1.8 咖啡因摄入
 @app.route("/caffeine-intake", methods=["GET", "POST"])
 def caffeine_intake():
