@@ -8,6 +8,7 @@ from flask import (
     request,
     send_from_directory,
     url_for,
+    has_request_context,
 )
 import calendar
 import json
@@ -16,8 +17,11 @@ from flask import abort
 
 from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR
 from seo_meta import SEO_OVERRIDES
+from i18n_hant import ENV_KEY as LANG_ENV_KEY, HANT_PREFIX, HantPrefixMiddleware, convert_html
 
 app = Flask(__name__)
+# 繁体版：/zh-hant/... 共用同一套路由，输出时转繁体（见 i18n_hant.py）
+app.wsgi_app = HantPrefixMiddleware(app.wsgi_app)
 
 # -----------------------
 # Brand / SEO / Domain
@@ -37,7 +41,7 @@ def redirect_old_domain():
     host = request.host.split(":")[0].lower()
     if host in OLD_HOSTS:
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
-        return redirect(f"{BASE_URL_ENV}{request.path}{qs}", code=301)
+        return redirect(f"{BASE_URL_ENV}{request.script_root}{request.path}{qs}", code=301)
 
 
 @app.route("/google984348f5d29aa2c5.html")
@@ -45,8 +49,24 @@ def google_verify():
     return send_from_directory(".", "google984348f5d29aa2c5.html")
 
 
+def is_hant() -> bool:
+    return has_request_context() and request.environ.get(LANG_ENV_KEY) == "hant"
+
+
 def canonical_url(path: str) -> str:
-    return BASE_URL_ENV.rstrip("/") + path
+    # 繁体页面的 canonical 指向 /zh-hant/...（各语言版本各自是独立页面）
+    prefix = HANT_PREFIX if is_hant() else ""
+    if prefix and path == "/":
+        return BASE_URL_ENV.rstrip("/") + prefix + "/"
+    return BASE_URL_ENV.rstrip("/") + prefix + path
+
+
+def lang_urls(path: str) -> dict:
+    base = BASE_URL_ENV.rstrip("/")
+    return {
+        "hans": base + path,
+        "hant": base + HANT_PREFIX + (path if path != "/" else "/"),
+    }
 
 
 # -----------------------
@@ -748,6 +768,15 @@ def add_noindex_header(resp):
         resp.headers["X-Robots-Tag"] = "noindex, follow"
     return resp
 
+
+@app.after_request
+def convert_to_hant(resp):
+    # 繁体版：把渲染好的 HTML 转成台湾正体，并把站内链接改成 /zh-hant/ 开头
+    if is_hant() and resp.mimetype == "text/html" and not resp.direct_passthrough:
+        resp.set_data(convert_html(resp.get_data(as_text=True)))
+        resp.headers["Content-Language"] = "zh-Hant"
+    return resp
+
 def grouped_tools(current_path=None):
     """
     Return 3-level navigation data for sidebar / tools pages.
@@ -863,8 +892,13 @@ def inject_global_nav():
         "site_name": SITE_NAME,
         "site_name_zh": SITE_NAME_ZH,
         "page_noindex": is_noindex(request.path),
+        # 语言版本：简体 / 繁体对应网址（用于 hreflang 和语言切换）
+        "is_hant": is_hant(),
+        "lang_urls": lang_urls(request.path),
         # 搜索标题 / 描述覆盖（见 seo_meta.py）
-        "seo_override": SEO_OVERRIDES.get(request.path),
+        "seo_override": (
+            (SEO_OVERRIDES.get(request.path) or {}).get("hant") if is_hant() else None
+        ) or SEO_OVERRIDES.get(request.path),
         # 工具页底部“相关阅读”：哪些文章把当前页列为相关工具
         "page_articles": [a for a in ARTICLES if request.path in a.get("related_tools", [])],
     }
@@ -2747,10 +2781,21 @@ def sitemap():
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
 
+    # 每个页面列出简体和繁体两个网址，并互相标注 hreflang
+    xml[1] = ('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+              'xmlns:xhtml="http://www.w3.org/1999/xhtml">')
     for path in all_paths:
-        xml.append("  <url>")
-        xml.append(f"    <loc>{canonical_url(path)}</loc>")
-        xml.append("  </url>")
+        urls = lang_urls(path)
+        alternates = [
+            f'    <xhtml:link rel="alternate" hreflang="zh-Hans" href="{urls["hans"]}"/>',
+            f'    <xhtml:link rel="alternate" hreflang="zh-Hant" href="{urls["hant"]}"/>',
+            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{urls["hans"]}"/>',
+        ]
+        for loc in (urls["hans"], urls["hant"]):
+            xml.append("  <url>")
+            xml.append(f"    <loc>{loc}</loc>")
+            xml.extend(alternates)
+            xml.append("  </url>")
 
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")

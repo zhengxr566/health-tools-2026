@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="{{ 'zh-Hant' if is_hant else 'zh-CN' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +9,11 @@
   <meta name="description" content="{{ page_description }}">
   <link rel="canonical" href="{{ meta.canonical }}">
   {% if page_noindex %}<meta name="robots" content="noindex, follow">{% endif %}
+  {% if lang_urls and not page_noindex %}
+  <link rel="alternate" hreflang="zh-Hans" href="{{ lang_urls.hans }}">
+  <link rel="alternate" hreflang="zh-Hant" href="{{ lang_urls.hant }}">
+  <link rel="alternate" hreflang="x-default" href="{{ lang_urls.hans }}">
+  {% endif %}
 
   {% if request.host.split(':')[0].endswith('calmyhealth.com') %}
   <!-- Google Analytics (GA4)，只在正式域名加载 -->
@@ -614,6 +619,12 @@
         </ul>
 
         <div class="topbar-links-meta ms-lg-3">
+          {# 语言切换用绝对网址，避免被繁体版的链接改写处理 #}
+          {% if is_hant %}
+<!--nohant--><a class="nav-link lang-switch" href="{{ lang_urls.hans }}" lang="zh-CN" title="切换到简体中文">简体</a><!--/nohant-->
+          {% else %}
+          <a class="nav-link lang-switch" href="{{ lang_urls.hant }}" lang="zh-Hant" title="切換到繁體中文">繁體</a>
+          {% endif %}
           <a class="nav-link {% if request.path.startswith('/guide') %}active{% endif %}" href="/guide">健康指南</a>
           <a class="nav-link {% if request.path.startswith('/about') %}active{% endif %}" href="/about">关于</a>
           <a class="nav-link {% if request.path.startswith('/privacy') %}active{% endif %}" href="/privacy">隐私</a>
