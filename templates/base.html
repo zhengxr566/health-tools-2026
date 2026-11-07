@@ -8,6 +8,17 @@
   <link rel="canonical" href="{{ meta.canonical }}">
   {% if page_noindex %}<meta name="robots" content="noindex, follow">{% endif %}
 
+  {% if request.host.split(':')[0].endswith('calmyhealth.com') %}
+  <!-- Google Analytics (GA4)，只在正式域名加载 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1LZB526GC5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1LZB526GC5');
+  </script>
+  {% endif %}
+
   <meta property="og:title" content="{{ meta.title }}">
   <meta property="og:description" content="{{ meta.description }}">
   <meta property="og:type" content="website">
