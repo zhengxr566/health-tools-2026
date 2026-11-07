@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ meta.title }}</title>
-  <meta name="description" content="{{ meta.description }}">
+  {% set page_title = seo_override.title if seo_override else meta.title %}
+  {% set page_description = seo_override.description if seo_override else meta.description %}
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description }}">
   <link rel="canonical" href="{{ meta.canonical }}">
   {% if page_noindex %}<meta name="robots" content="noindex, follow">{% endif %}
 
@@ -19,8 +21,8 @@
   </script>
   {% endif %}
 
-  <meta property="og:title" content="{{ meta.title }}">
-  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
   <meta property="og:type" content="{{ meta.og_type or 'website' }}">
   <meta property="og:url" content="{{ meta.canonical }}">
   <meta property="og:site_name" content="{{ site_name or 'CalmyHealth' }}">

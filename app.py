@@ -15,6 +15,7 @@ import json
 from flask import abort
 
 from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR
+from seo_meta import SEO_OVERRIDES
 
 app = Flask(__name__)
 
@@ -862,6 +863,8 @@ def inject_global_nav():
         "site_name": SITE_NAME,
         "site_name_zh": SITE_NAME_ZH,
         "page_noindex": is_noindex(request.path),
+        # 搜索标题 / 描述覆盖（见 seo_meta.py）
+        "seo_override": SEO_OVERRIDES.get(request.path),
         # 工具页底部“相关阅读”：哪些文章把当前页列为相关工具
         "page_articles": [a for a in ARTICLES if request.path in a.get("related_tools", [])],
     }
