@@ -24,6 +24,25 @@
 </div>
 {% endif %}
 
+{% if guide_articles %}
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h2 class="h5 mb-0">健康指南</h2>
+    <a class="small text-decoration-none" href="/guide">查看全部文章 →</a>
+  </div>
+  <div class="row g-3">
+    {% for a in guide_articles %}
+    <div class="col-12 col-md-6">
+      <a class="guide-mini d-block h-100" href="/guide/{{ a.slug }}">
+        <div class="small text-success mb-1">{{ a.category }}</div>
+        <div class="fw-semibold">{{ a.h1 }}</div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
 <div class="bg-white rounded-4 shadow-sm p-4">
   <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
     <h2 class="h5 mb-0">全部工具分类</h2>
@@ -79,6 +98,22 @@
   }
 
   .tool-link-chip:hover {
+    background: #f3f8f5;
+    border-color: #cfe8d8;
+    color: #198754;
+  }
+
+  .guide-mini {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #e7edf5;
+    border-radius: 0.8rem;
+    background: #fafcff;
+    text-decoration: none;
+    color: #1f2937;
+    line-height: 1.45;
+  }
+
+  .guide-mini:hover {
     background: #f3f8f5;
     border-color: #cfe8d8;
     color: #198754;

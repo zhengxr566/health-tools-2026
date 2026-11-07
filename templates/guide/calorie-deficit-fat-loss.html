@@ -1,0 +1,125 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>热量缺口 = 每日总消耗（TDEE）− 每日摄入。</b>先算出 TDEE，再每天少吃（或多消耗）<b>300–500 kcal</b>，是比较常见、也较容易坚持的做法。</li>
+    <li><b>一周减多少合适：</b>多数人以每周减重约 <b>体重的 0.5%–1%</b> 为宜。例如 70 kg 的人约为每周 0.35–0.7 kg。</li>
+    <li><b>粗略换算：</b>1 kg 脂肪约含 7,700 kcal，每天 500 kcal 缺口理论上每周约减 0.45 kg 脂肪。但这只是短期近似，时间越长越会高估。</li>
+    <li><b>减 5 kg 要多久：</b>按每周 0.5 kg 约 10 周，按每周 0.25 kg 约 20 周。</li>
+  </ul>
+</div>
+<p>
+  减脂的底层原理并不复杂：长期摄入少于消耗，身体就会动用储存的能量。难点在于缺口要多大、速度多快才既有效又能坚持。
+  下面一步步说明怎么算，以及为什么减到一定阶段体重会变慢。
+</p>
+
+<h2 id="how">热量缺口怎么算</h2>
+<p>计算分三步：</p>
+<ol>
+  <li><b>算 TDEE：</b>用 Mifflin-St Jeor 公式算出基础代谢（BMR），再乘以活动系数。不清楚这一步可以先看 <a href="/guide/bmr-vs-tdee">BMR 和 TDEE 有什么区别</a>。</li>
+  <li><b>选缺口：</b>温和减脂每天少 300 kcal，较快减脂每天少 500 kcal。</li>
+  <li><b>得到目标摄入：</b>目标摄入 = TDEE − 缺口。</li>
+</ol>
+<p>本站热量缺口工具按以下规则计算，并设置了每日 1,200 kcal 的下限，避免算出过低的数字：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>你的 TDEE</th><th>温和减脂（−300）</th><th>较快减脂（−500）</th><th>温和增重（+250）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1,600 kcal</td><td>1,300</td><td>1,200*</td><td>1,850</td></tr>
+      <tr><td>1,800 kcal</td><td>1,500</td><td>1,300</td><td>2,050</td></tr>
+      <tr><td>2,000 kcal</td><td>1,700</td><td>1,500</td><td>2,250</td></tr>
+      <tr><td>2,200 kcal</td><td>1,900</td><td>1,700</td><td>2,450</td></tr>
+      <tr><td>2,500 kcal</td><td>2,200</td><td>2,000</td><td>2,750</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">单位：kcal/天。* 1,600 − 500 = 1,100，低于工具设置的 1,200 kcal 下限，因此显示为 1,200。</p>
+<p>
+  如果你的 TDEE 本来就不高（例如身材娇小、久坐的女性），较快减脂的缺口会被下限“截住”。这种情况下更适合选温和缺口，
+  并通过增加日常步数来扩大消耗，而不是继续压低饮食。
+</p>
+
+<a class="tool-cta" href="/deficit">→ 输入你的 TDEE，算出减脂或增重的目标摄入：热量缺口计算器</a>
+
+<h2 id="7700">1 kg 脂肪约 7,700 kcal：怎么用，有什么局限</h2>
+<p>
+  人体脂肪组织并不全是纯脂肪，还含有水分等成分，常用的近似值是 <b>1 kg 脂肪组织 ≈ 7,700 kcal</b>。据此可以粗算：
+</p>
+<ul>
+  <li>每天缺口 300 kcal：每周 2,100 kcal，约 <b>0.27 kg</b>；每月约 1.2 kg。</li>
+  <li>每天缺口 500 kcal：每周 3,500 kcal，约 <b>0.45 kg</b>；每月约 2 kg。</li>
+</ul>
+<p>这个换算适合用来理解“大概量级”，但有几个明显局限：</p>
+<ul>
+  <li><b>身体会适应：</b>体重下降后，BMR 和活动消耗都会变少，原来的缺口会越来越小。所以按 7,700 kcal 直线外推，时间越长越会高估减重效果。</li>
+  <li><b>减掉的不全是脂肪：</b>初期常伴随较多水分和糖原的减少，所以第一两周体重可能掉得很快，之后放缓是正常的。</li>
+  <li><b>短期体重波动大：</b>盐、碳水摄入、排便、月经周期等都会让体重一天内波动 0.5–1 kg，单日数字说明不了问题。</li>
+</ul>
+<p>
+  美国国立卫生研究院的 Hall KD 等人 2011 年在《柳叶刀》上发表的体重动态模型就指出，静态的“7,700 kcal 规则”会高估长期减重。
+  他们给出的粗略经验是：每天持续少摄入约 100 kJ（约 24 kcal），最终体重约下降 1 kg；换算下来，每天少吃 100 kcal，最终约下降 4 kg，其中约一半在第一年内发生，接近稳定需要约 3 年。
+</p>
+
+<h2 id="rate">一周减多少合适：按体重的参考表</h2>
+<p>
+  比起固定的“每周 1 kg”，按自身体重的比例来定更合理：体重基数大的人可以稍快，体重基数小的人应当更慢。下表按每周 0.5%–1% 计算：
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>当前体重</th><th>每周 0.5%</th><th>每周 1%</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>55 kg</td><td>约 0.28 kg</td><td>约 0.55 kg</td></tr>
+      <tr><td>65 kg</td><td>约 0.33 kg</td><td>约 0.65 kg</td></tr>
+      <tr><td>75 kg</td><td>约 0.38 kg</td><td>约 0.75 kg</td></tr>
+      <tr><td>85 kg</td><td>约 0.43 kg</td><td>约 0.85 kg</td></tr>
+      <tr><td>100 kg</td><td>约 0.50 kg</td><td>约 1.00 kg</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  对照前面的换算，每天 300–500 kcal 的缺口对应每周约 0.27–0.45 kg，大致落在多数人 0.5% 附近。如果你想更接近 1%，
+  更好的办法是增加活动量（例如每天多走 3,000 步），而不是把饮食压得很低。
+  速度过快时，肌肉流失、饥饿感和反弹的风险都会增加；有力量训练、蛋白质摄入充足（参考 <a href="/guide/protein-intake-per-day">一天要吃多少蛋白质</a>）有助于在减脂期保留肌肉。
+</p>
+
+<h2 id="weeks">到达目标需要几周</h2>
+<p>本站目标体重时间工具按“需要减的重量 ÷ 每周速度”估算，结果如下：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>要减的体重</th><th>每周 0.25 kg</th><th>每周 0.5 kg</th><th>每周 0.75 kg</th><th>每周 1.0 kg</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>3 kg</td><td>12 周</td><td>6 周</td><td>4 周</td><td>3 周</td></tr>
+      <tr><td>5 kg</td><td>20 周</td><td>10 周</td><td>约 6.7 周</td><td>5 周</td></tr>
+      <tr><td>10 kg</td><td>40 周</td><td>20 周</td><td>约 13.3 周</td><td>10 周</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  这是匀速的简化估算。由于前面提到的代谢适应，实际进度通常是“前快后慢”，后半程往往需要比表中更长的时间，
+  或者需要随体重下降重新计算 TDEE 并调整摄入。中途安排 1–2 周按维持热量吃的“休息期”，也是很多人坚持下来的方法。
+</p>
+
+<a class="tool-cta" href="/goal-time">→ 输入当前体重、目标体重和每周速度，估算需要几周：目标体重时间计算器</a>
+
+<h2 id="plateau">减脂平台期怎么办</h2>
+<p>连续 3–4 周周平均体重几乎不变，才算比较确定的平台期。可以按顺序检查：</p>
+<ul>
+  <li><b>记录是否准确：</b>食用油、调味酱、饮料、零食最容易被漏记。认真记录一周，常能找到“隐藏”的几百 kcal。</li>
+  <li><b>TDEE 是否已经变了：</b>减掉 5 kg 以上，就用新体重重新算一次，原来的“缺口”可能已经接近 0。</li>
+  <li><b>日常活动是否变少：</b>节食后人往往不自觉地少动，留意日均步数是否下降。</li>
+  <li><b>看腰围而不只看体重：</b>开始力量训练的人，体重不变但腰围变小也很常见。</li>
+</ul>
+<p>
+  调整时每次改变 100–200 kcal 或增加约 2,000 步，观察 2–3 周再决定下一步。不建议用极低热量饮食或长时间断食来“冲破”平台期。
+  有慢性疾病、正在服药、未成年，或有进食障碍经历的人，制定减重计划前建议咨询医生或注册营养师。
+</p>
+
+{% endblock %}

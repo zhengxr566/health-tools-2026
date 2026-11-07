@@ -2,26 +2,42 @@
 {% block content %}
 <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
   <h1 class="h3 mb-2">健康指南</h1>
-  <p class="text-muted mb-0">
-    把步数、睡眠、热量这些常见问题讲清楚：数字从哪里来、研究怎么说、日常怎么用。每篇文章都列出参考来源，并配有可以直接计算的工具。
+  <p class="text-muted mb-3">
+    把体重、热量、营养、步数、睡眠这些常见问题讲清楚：数字从哪里来、研究怎么说、日常怎么用。每篇文章都列出参考来源，并配有可以直接计算的工具。
   </p>
+  {% if groups|length > 1 %}
+  <div class="guide-jump small">
+    {% for g in groups %}<a href="#cat-{{ loop.index }}">{{ g.name }}<span class="text-muted">（{{ g.articles|length }}）</span></a>{% endfor %}
+  </div>
+  {% endif %}
 </div>
 
-<div class="row g-4">
-  {% for a in articles %}
-  <div class="col-12 col-lg-6">
-    <a class="guide-card bg-white rounded-4 shadow-sm p-4 h-100 d-block" href="/guide/{{ a.slug }}">
-      <div class="small text-success fw-semibold mb-2">{{ a.category }}</div>
-      <h2 class="h5 mb-2">{{ a.h1 }}</h2>
-      <p class="text-muted small mb-3">{{ a.description }}</p>
-      <div class="small text-muted">{{ a.updated }} · 约 {{ a.read_minutes }} 分钟</div>
-    </a>
+{% for g in groups %}
+<section class="mb-4" id="cat-{{ loop.index }}">
+  <h2 class="h5 mb-3">{{ g.name }}</h2>
+  <div class="row g-3">
+    {% for a in g.articles %}
+    <div class="col-12 col-lg-6">
+      <a class="guide-card bg-white rounded-4 shadow-sm p-4 h-100 d-block" href="/guide/{{ a.slug }}">
+        <h3 class="h6 mb-2">{{ a.h1 }}</h3>
+        <p class="text-muted small mb-2">{{ a.description }}</p>
+        <div class="small text-muted">{{ a.updated }} · 约 {{ a.read_minutes }} 分钟</div>
+      </a>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
+</section>
+{% endfor %}
 
 <style>
-  .guide-card { text-decoration: none; color: inherit; transition: border-color .15s; }
-  .guide-card:hover h2 { color: #198754; }
+  .guide-jump { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .guide-jump a {
+    text-decoration: none; padding: .3rem .7rem; border: 1px solid #e7edf5;
+    border-radius: 999px; background: #fafcff; color: #1f2937;
+  }
+  .guide-jump a:hover { border-color: #cfe8d8; color: #198754; }
+  .guide-card { text-decoration: none; color: inherit; }
+  .guide-card:hover h3 { color: #198754; }
+  section[id^="cat-"] { scroll-margin-top: 84px; }
 </style>
 {% endblock %}

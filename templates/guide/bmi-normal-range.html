@@ -1,0 +1,153 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>中国成年人标准：</b>BMI <b>18.5–23.9</b> 为正常，24.0–27.9 为超重，≥ 28.0 为肥胖，&lt; 18.5 为偏瘦。</li>
+    <li><b>WHO 国际标准：</b>正常范围是 <b>18.5–24.9</b>，25.0–29.9 为超重，≥ 30.0 为肥胖。中国标准的切点更低，因为亚洲人在相同 BMI 下往往体脂更高、代谢风险出现得更早。</li>
+    <li><b>换算成体重：</b>身高 160 cm 的正常体重约 47.4–61.2 kg，170 cm 约 53.5–69.1 kg（按中国标准）。</li>
+    <li><b>BMI 只是筛查工具：</b>它分不清肌肉和脂肪，最好配合腰围、体脂率一起看。</li>
+  </ul>
+</div>
+<p>
+  BMI（身体质量指数）是最常用的体重评估指标，计算简单、不需要任何设备。但同一个 BMI 数值，在中国标准和 WHO 标准下可能得出不同结论。
+  下面先讲两套标准的区别，再给出按身高的正常体重对照表，最后说明 BMI 的局限和到达目标体重大概需要多久。
+</p>
+
+<h2 id="standard">中国标准和 WHO 标准有什么区别</h2>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>分类</th><th>中国成人标准</th><th>WHO 国际标准</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>偏瘦（体重过低）</td><td>&lt; 18.5</td><td>&lt; 18.5</td></tr>
+      <tr><td>正常</td><td>18.5–23.9</td><td>18.5–24.9</td></tr>
+      <tr><td>超重</td><td>24.0–27.9</td><td>25.0–29.9</td></tr>
+      <tr><td>肥胖</td><td>≥ 28.0</td><td>≥ 30.0</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  WHO 的标准主要基于欧美人群数据。2004 年 WHO 专家组在《柳叶刀》发表的报告指出，亚洲人群在 BMI 低于 25 时，
+  2 型糖尿病和心血管疾病的风险就已明显上升，因此建议各国可以采用更低的切点。中国的 18.5 / 24 / 28 分界来自中国肥胖问题工作组对国内人群数据的汇总分析，
+  后来写入了国家卫生行业标准《成人体重判定》（WS/T 428-2013）。
+</p>
+<p>
+  如果你生活在中国，或者是亚洲人群，参考中国标准更合适。本站的 BMI 工具也采用中国标准。
+</p>
+
+<h2 id="calc">BMI 怎么算</h2>
+<p class="text-center"><b>BMI = 体重（kg）÷ 身高（m）²</b></p>
+<p>
+  例如身高 170 cm、体重 65 kg：65 ÷ (1.70 × 1.70) ≈ 22.5，属于正常范围。
+  身高 165 cm、体重 70 kg：70 ÷ (1.65 × 1.65) ≈ 25.7，按中国标准属于超重，按 WHO 标准也刚好进入超重区间。
+</p>
+<p>注意身高要换算成“米”再平方，这是自己手算时最容易出错的地方。</p>
+
+<a class="tool-cta" href="/bmi">→ 输入身高体重，直接看 BMI 和对应的正常体重范围：BMI 计算器</a>
+
+<h2 id="table">按身高的正常体重范围表</h2>
+<p>下表按中国标准计算（正常 = BMI 18.5–23.9，肥胖 = BMI ≥ 28），并附上 WHO 标准的超重起点，体重保留一位小数：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>身高</th><th>正常体重（中国）</th><th>超重起点（BMI 24）</th><th>肥胖起点（BMI 28）</th><th>WHO 超重起点（BMI 25）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>150 cm</td><td>41.6–53.8 kg</td><td>54.0 kg</td><td>63.0 kg</td><td>56.2 kg</td></tr>
+      <tr><td>155 cm</td><td>44.4–57.4 kg</td><td>57.7 kg</td><td>67.3 kg</td><td>60.1 kg</td></tr>
+      <tr><td>160 cm</td><td>47.4–61.2 kg</td><td>61.4 kg</td><td>71.7 kg</td><td>64.0 kg</td></tr>
+      <tr><td>165 cm</td><td>50.4–65.1 kg</td><td>65.3 kg</td><td>76.2 kg</td><td>68.1 kg</td></tr>
+      <tr><td>170 cm</td><td>53.5–69.1 kg</td><td>69.4 kg</td><td>80.9 kg</td><td>72.2 kg</td></tr>
+      <tr><td>175 cm</td><td>56.7–73.2 kg</td><td>73.5 kg</td><td>85.8 kg</td><td>76.6 kg</td></tr>
+      <tr><td>180 cm</td><td>59.9–77.4 kg</td><td>77.8 kg</td><td>90.7 kg</td><td>81.0 kg</td></tr>
+      <tr><td>185 cm</td><td>63.3–81.8 kg</td><td>82.1 kg</td><td>95.8 kg</td><td>85.6 kg</td></tr>
+      <tr><td>190 cm</td><td>66.8–86.3 kg</td><td>86.6 kg</td><td>101.1 kg</td><td>90.2 kg</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  可以看到，“正常”是一个跨度约 12–20 kg 的范围，而不是某一个固定数字。只要落在范围内，不必为了一两公斤纠结。
+</p>
+
+<h2 id="limits">BMI 的局限：哪些情况不太准</h2>
+<p>BMI 只用到身高和体重两个数字，适合大规模人群筛查，但对个人来说有几个明显的盲区：</p>
+<ul>
+  <li><b>分不清肌肉和脂肪：</b>经常力量训练的人肌肉量大，BMI 可能显示“超重”，但体脂并不高。</li>
+  <li><b>看不出脂肪分布：</b>同样的 BMI，脂肪集中在腹部的人代谢风险通常更高。这时腰围、腰身高比更有参考价值。</li>
+  <li><b>“正常体重”也可能体脂偏高：</b>肌肉少、久坐的人，BMI 正常但体脂率偏高的情况并不少见。</li>
+  <li><b>不适用于所有人群：</b>儿童和青少年要用按年龄、性别划分的 BMI 百分位标准，不能直接套成人切点；老年人、运动员、孕期人群的解读也不同。</li>
+</ul>
+<p>
+  所以更推荐把 BMI 当作“第一道筛查”，再结合
+  <a href="/guide/waist-to-height-ratio">腰围和腰身高比</a> 以及 <a href="/guide/body-fat-percentage-chart">体脂率</a> 一起判断。
+  有慢性疾病、未成年人或对体重有较大困扰的人，建议咨询医生。
+</p>
+
+<h2 id="ideal">理想体重公式对比</h2>
+<p>
+  除了 BMI 范围，你可能还见过各种“理想体重公式”。它们最初多用于临床估算药物剂量，基于身高超过 5 英尺（152.4 cm）的部分线性增加。
+  本站的理想体重工具同时给出 4 种常见公式：
+</p>
+<ul>
+  <li>Devine（1974）：男 50 kg、女 45.5 kg，每超出 1 英寸加 2.3 kg</li>
+  <li>Robinson（1983）：男 52 kg + 1.9 kg/英寸，女 49 kg + 1.7 kg/英寸</li>
+  <li>Miller（1983）：男 56.2 kg + 1.41 kg/英寸，女 53.1 kg + 1.36 kg/英寸</li>
+  <li>Hamwi（1964）：男 48 kg + 2.7 kg/英寸，女 45.5 kg + 2.2 kg/英寸</li>
+</ul>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>身高</th><th>男性（4 种公式范围）</th><th>男性平均</th><th>女性（4 种公式范围）</th><th>女性平均</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>155 cm</td><td>50.8–57.6 kg</td><td>53.7 kg</td><td>47.8–54.5 kg</td><td>50.2 kg</td></tr>
+      <tr><td>160 cm</td><td>56.1–60.4 kg</td><td>57.8 kg</td><td>52.1–57.2 kg</td><td>53.9 kg</td></tr>
+      <tr><td>165 cm</td><td>61.4–63.2 kg</td><td>61.9 kg</td><td>56.4–59.8 kg</td><td>57.7 kg</td></tr>
+      <tr><td>170 cm</td><td>65.2–66.7 kg</td><td>65.9 kg</td><td>60.7–62.5 kg</td><td>61.4 kg</td></tr>
+      <tr><td>175 cm</td><td>68.7–72.0 kg</td><td>70.0 kg</td><td>64.1–66.0 kg</td><td>65.1 kg</td></tr>
+      <tr><td>180 cm</td><td>71.5–77.3 kg</td><td>74.1 kg</td><td>67.5–70.5 kg</td><td>68.8 kg</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  这些公式算出的都是一个“点”，而且来自西方人群，个子越矮或越高，不同公式之间差得越多。
+  它们大多落在 BMI 正常范围的中段附近，可以作为参考，但不必把它当作“必须达到”的目标。
+</p>
+
+<a class="tool-cta" href="/ideal-weight">→ 一次对比 4 种理想体重公式的结果：理想体重计算器</a>
+
+<h2 id="time">到达目标体重要多久</h2>
+<p>
+  估算方法很简单：<b>所需周数 = 需要改变的体重 ÷ 每周变化速度</b>。常见的减重建议速度是每周约 0.25–1 kg，越接近目标越适合放慢。
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>每周变化</th><th>减 5 kg</th><th>减 10 kg</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0.25 kg/周</td><td>约 20 周</td><td>约 40 周</td></tr>
+      <tr><td>0.5 kg/周</td><td>约 10 周</td><td>约 20 周</td></tr>
+      <tr><td>0.75 kg/周</td><td>约 6.7 周</td><td>约 13.3 周</td></tr>
+      <tr><td>1.0 kg/周</td><td>约 5 周</td><td>约 10 周</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  这是一个线性估算。实际中，减重初期往往掉得较快（部分是水分），之后会变慢并出现平台期，所以真实所需时间通常比表里更长一些。
+  按 1 kg 脂肪约 7,700 kcal 粗略估算，每周减 0.5 kg 大约需要每天 550 kcal 左右的热量缺口，具体可以参考
+  <a href="/guide/calorie-deficit-fat-loss">热量缺口与减脂</a> 一文。
+</p>
+<p>几个实用建议：</p>
+<ul>
+  <li>固定在早上起床、如厕后称重，看一周平均值，而不是单日波动。</li>
+  <li>目标先定在“回到正常范围”，比追求某个理想数字更容易坚持。</li>
+  <li>减重同时保持力量训练和足够蛋白质，有助于减少肌肉流失。</li>
+</ul>
+
+<a class="tool-cta" href="/goal-time">→ 输入当前体重、目标体重和每周速度，估算需要几周：目标体重时间计算器</a>
+
+{% endblock %}

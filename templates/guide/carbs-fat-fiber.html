@@ -1,0 +1,175 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>碳水化合物：</b>中国营养学会建议成年人碳水提供每日总能量的 <b>50%–65%</b>。按 2000 kcal 计算，约 250–325 g。</li>
+    <li><b>脂肪：</b>建议占总能量的 <b>20%–30%</b>，2000 kcal 时约 44–67 g；烹调油每天 25–30 g。</li>
+    <li><b>膳食纤维：</b>成年人每天约 <b>25–30 g</b>，大多数人实际吃得不够。</li>
+    <li><b>按体重的简便估算：</b>碳水约 3–5 g/kg、脂肪约 0.8–1.1 g/kg（随减脂、维持、增肌目标调整）。60 kg 的人维持体重时约碳水 240 g、脂肪 60 g。</li>
+  </ul>
+</div>
+<p>
+  碳水、脂肪和蛋白质是三大供能营养素，而膳食纤维虽然几乎不提供能量，却对肠道和血糖平稳很重要。
+  下面分别说明“吃多少”有两种常用算法（按供能比、按体重），给出常见食物的含量参考，以及怎样选更好的碳水和脂肪来源。
+</p>
+
+<h2 id="ratio">按供能比：碳水 50%–65%，脂肪 20%–30%</h2>
+<p>
+  营养学上最常用的方式是“供能比”，即某种营养素提供的热量占全天总热量的比例。换算成克数时：碳水和蛋白质每克约 4 kcal，脂肪每克约 9 kcal。
+  按中国居民膳食营养素参考摄入量中成年人的宏量营养素可接受范围计算：
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>每日总热量</th><th>碳水 50%–65%</th><th>脂肪 20%–30%</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1600 kcal</td><td>约 200–260 g</td><td>约 36–53 g</td></tr>
+      <tr><td>1800 kcal</td><td>约 225–292 g</td><td>约 40–60 g</td></tr>
+      <tr><td>2000 kcal</td><td>约 250–325 g</td><td>约 44–67 g</td></tr>
+      <tr><td>2200 kcal</td><td>约 275–358 g</td><td>约 49–73 g</td></tr>
+      <tr><td>2400 kcal</td><td>约 300–390 g</td><td>约 53–80 g</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  如果不知道自己每天消耗多少热量，可以先用 <a href="/calorie">每日总消耗（TDEE）工具</a> 估算，再对照上表。
+  需要同时规划蛋白质时，可以用 <a href="/macro">三大营养素分配工具</a> 一次算出三者的克数。
+</p>
+
+<h2 id="weight">按体重和目标估算克数</h2>
+<p>
+  另一种更直观的方法是按体重估算。本站的碳水和脂肪工具采用以下简化系数：碳水在减脂、维持、增肌时分别约 3、4、5 g/kg；
+  脂肪分别约 0.8、1.0、1.1 g/kg。计算结果如下：
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th rowspan="2">体重</th><th colspan="2">减脂期</th><th colspan="2">维持期</th><th colspan="2">增肌期</th></tr>
+      <tr><th>碳水</th><th>脂肪</th><th>碳水</th><th>脂肪</th><th>碳水</th><th>脂肪</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>50 kg</td><td>150 g</td><td>40 g</td><td>200 g</td><td>50 g</td><td>250 g</td><td>55 g</td></tr>
+      <tr><td>55 kg</td><td>165 g</td><td>44 g</td><td>220 g</td><td>55 g</td><td>275 g</td><td>61 g</td></tr>
+      <tr><td>60 kg</td><td>180 g</td><td>48 g</td><td>240 g</td><td>60 g</td><td>300 g</td><td>66 g</td></tr>
+      <tr><td>65 kg</td><td>195 g</td><td>52 g</td><td>260 g</td><td>65 g</td><td>325 g</td><td>72 g</td></tr>
+      <tr><td>70 kg</td><td>210 g</td><td>56 g</td><td>280 g</td><td>70 g</td><td>350 g</td><td>77 g</td></tr>
+      <tr><td>75 kg</td><td>225 g</td><td>60 g</td><td>300 g</td><td>75 g</td><td>375 g</td><td>82 g</td></tr>
+      <tr><td>80 kg</td><td>240 g</td><td>64 g</td><td>320 g</td><td>80 g</td><td>400 g</td><td>88 g</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  两种方法的结果大体一致，但不会完全重合。例如 60 kg、维持期：碳水 240 g（960 kcal）+ 脂肪 60 g（540 kcal），
+  如果全天吃 2000 kcal，碳水约占 48%、脂肪约占 27%，碳水略低于 50% 的下限。按体重估算是一个便于记忆的起点，
+  体重较大、肥胖或活动量很大的人，用它算出的数字可能偏离较多，这时以供能比和实际体重变化为准更稳妥。
+</p>
+
+<a class="tool-cta" href="/carbs">→ 按体重和目标估算每天的碳水克数：碳水摄入量计算工具</a>
+
+<h2 id="foods">常见食物的碳水、脂肪、纤维含量</h2>
+<p>
+  下表是常见食物的大致含量，参考《中国食物成分表》和美国农业部（USDA）食物成分数据库中的常见值，不同品种、做法和品牌会有差异，购买包装食品时以营养成分表为准。
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>食物（份量）</th><th>碳水</th><th>脂肪</th><th>膳食纤维</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>白米饭（熟，150 g，约一小碗）</td><td>约 39 g</td><td>约 0.5 g</td><td>约 0.5 g</td></tr>
+      <tr><td>糙米饭（熟，150 g）</td><td>约 35 g</td><td>约 1.5 g</td><td>约 2.5 g</td></tr>
+      <tr><td>燕麦片（干，40 g）</td><td>约 26 g</td><td>约 3 g</td><td>约 4 g</td></tr>
+      <tr><td>全麦面包（2 片，约 60 g）</td><td>约 25 g</td><td>约 2 g</td><td>约 4 g</td></tr>
+      <tr><td>红薯（200 g）</td><td>约 40 g</td><td>&lt; 0.5 g</td><td>约 6 g</td></tr>
+      <tr><td>苹果（中等 1 个，约 200 g）</td><td>约 28 g</td><td>&lt; 0.5 g</td><td>约 5 g</td></tr>
+      <tr><td>西兰花（200 g）</td><td>约 13 g</td><td>约 1 g</td><td>约 5 g</td></tr>
+      <tr><td>煮熟的黑豆、红豆等（100 g）</td><td>约 23–25 g</td><td>约 0.5 g</td><td>约 7–9 g</td></tr>
+      <tr><td>鸡蛋（1 个，约 50 g）</td><td>&lt; 1 g</td><td>约 5 g</td><td>0</td></tr>
+      <tr><td>全脂牛奶（250 ml）</td><td>约 12 g</td><td>约 8 g</td><td>0</td></tr>
+      <tr><td>杏仁等坚果（15 g，一小把）</td><td>约 3 g</td><td>约 7–8 g</td><td>约 2 g</td></tr>
+      <tr><td>食用油（1 汤匙，约 10 g）</td><td>0</td><td>约 10 g</td><td>0</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  从表中可以看出：主食是碳水的主要来源，烹调油、坚果、肉类是脂肪的主要来源，而膳食纤维主要来自全谷物、豆类、蔬菜和水果。
+  精白米面的纤维很少，这也是只吃精米白面时纤维容易不够的原因。
+</p>
+
+<h2 id="quality">好的碳水和脂肪从哪里来</h2>
+<p><b>碳水：</b>重点不只是“吃多少”，还有“吃什么”。</p>
+<ul>
+  <li>多选全谷物和杂豆（糙米、燕麦、全麦、小米、红豆等），《中国居民膳食指南（2022）》建议每天全谷物和杂豆 50–150 g，薯类 50–100 g。</li>
+  <li>少吃添加糖：甜饮料、甜点里的糖也是碳水，但几乎不提供其他营养，参见 <a href="/guide/sugar-salt-limit">每天吃多少糖和盐算超标</a>。</li>
+</ul>
+<p><b>脂肪：</b>脂肪并不是越少越好，关键在种类。</p>
+<ul>
+  <li>以植物油、坚果、鱼类中的不饱和脂肪为主，烹调油每天 25–30 g。</li>
+  <li>控制肥肉、黄油、油炸食品等饱和脂肪的来源，世界卫生组织建议饱和脂肪低于总能量的 10%。</li>
+  <li>尽量避免反式脂肪（常见于部分起酥油、人造奶油制品），指南建议每天不超过 2 g。</li>
+</ul>
+
+<a class="tool-cta" href="/fat-intake">→ 按体重和目标估算每天的脂肪克数：脂肪摄入量计算工具</a>
+
+<h2 id="fiber">膳食纤维 25–30 g 怎么吃够</h2>
+<p>
+  本站的膳食纤维工具按“每 1000 kcal 约 14 g 纤维”估算，并设置了最低值（男性 30 g、女性 25 g）。例如：
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>每日热量</th><th>男性参考</th><th>女性参考</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1600 kcal</td><td>30 g</td><td>25 g</td></tr>
+      <tr><td>2000 kcal</td><td>30 g</td><td>28 g</td></tr>
+      <tr><td>2400 kcal</td><td>34 g</td><td>34 g</td></tr>
+      <tr><td>2800 kcal</td><td>39 g</td><td>39 g</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>按上面的食物表，一天吃够约 25–30 g 纤维的组合可以是：</p>
+<ul>
+  <li>早餐燕麦片 40 g（约 4 g）+ 苹果 1 个（约 5 g）</li>
+  <li>午餐把一半白米饭换成糙米或杂粮（约 1–2 g）+ 蔬菜 250 g（约 3–6 g，因品种而异）</li>
+  <li>晚餐红薯 200 g（约 6 g）+ 蔬菜 200 g（约 4–5 g）+ 一份豆制品或煮豆子</li>
+</ul>
+<p>
+  增加纤维时最好循序渐进，并同时多喝水，否则可能出现腹胀、排气增多等不适。有肠道疾病的人请遵医嘱调整。
+</p>
+
+<a class="tool-cta" href="/fiber">→ 按每日热量算出你的膳食纤维参考量：膳食纤维计算工具</a>
+
+<h2 id="gi-gl">GI 和 GL 有什么区别</h2>
+<p>
+  <b>GI（血糖生成指数）</b>描述的是“同样含 50 g 可利用碳水时，这种食物让血糖升高的速度”，与份量无关。一般 GI &lt; 55 为低、55–69 为中、≥ 70 为高。
+  <b>GL（血糖负荷）</b>则把份量考虑进来：
+</p>
+<p class="text-center"><b>GL = GI × 这份食物的可利用碳水（g）÷ 100</b>（可利用碳水 ≈ 总碳水 − 膳食纤维）</p>
+<p>按本站血糖负荷工具的公式，用常见 GI 值和上表的份量计算：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>食物（份量）</th><th>GI（常见值）</th><th>可利用碳水</th><th>GL</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>白米饭 150 g</td><td>约 73</td><td>约 38 g</td><td>约 28（高）</td></tr>
+      <tr><td>燕麦片 40 g（干）</td><td>约 55</td><td>约 22 g</td><td>约 12（中）</td></tr>
+      <tr><td>白面包 1 片（30 g）</td><td>约 75</td><td>约 14 g</td><td>约 10（中）</td></tr>
+      <tr><td>西瓜 200 g</td><td>约 76</td><td>约 14 g</td><td>约 11（中）</td></tr>
+      <tr><td>苹果 200 g</td><td>约 36</td><td>约 23 g</td><td>约 8（低）</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  西瓜的 GI 偏高，但因为含水多、碳水少，吃一块的 GL 并不算高；米饭 GI 高、份量也大，所以 GL 较高。
+  GL 低于 10 一般视为低、10–19 为中、20 及以上为高。GI 会受品种、烹调方式、搭配的蛋白质和脂肪影响，表中只是参考。
+  糖尿病或血糖异常的人如何安排主食，<b>建议咨询医生或注册营养师</b>。
+</p>
+
+<a class="tool-cta" href="/glycemic-load">→ 输入 GI 和碳水克数，算出一份食物的血糖负荷：GL 计算工具</a>
+
+{% endblock %}

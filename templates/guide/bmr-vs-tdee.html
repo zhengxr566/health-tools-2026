@@ -1,0 +1,119 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>BMR（基础代谢）</b>是你躺着不动、维持呼吸心跳体温等基本生命活动所需的热量；<b>TDEE（每日总消耗）</b>是 BMR 再加上走路、工作、运动和消化食物的消耗。</li>
+    <li><b>算法：</b>先用 Mifflin-St Jeor 公式算 BMR，再乘以活动系数（1.2–1.9）得到 TDEE。</li>
+    <li><b>举例：</b>30 岁、身高 160 cm、体重 55 kg 的女性，BMR 约 <b>1,240 kcal</b>，轻度活动时 TDEE 约 <b>1,700 kcal</b>；30 岁、175 cm、70 kg 的男性，BMR 约 1,650 kcal，轻度活动时 TDEE 约 2,270 kcal。</li>
+    <li><b>吃饭看 TDEE，不看 BMR：</b>想维持体重就吃到 TDEE 附近，想减脂在 TDEE 基础上少 300–500 kcal。</li>
+  </ul>
+</div>
+<p>
+  很多人第一次算出 BMR，会以为“一天只需要吃这么多”。其实 BMR 只是总消耗中最大的一块，并不是你一天的全部需求。
+  下面分别解释两者的含义、计算方法，以及活动量等级该怎么选。
+</p>
+
+<h2 id="difference">BMR 和 TDEE 有什么区别</h2>
+<p>一天的总能量消耗（TDEE）通常可以拆成三部分：</p>
+<ul>
+  <li><b>基础代谢（BMR）：</b>维持心脏跳动、呼吸、体温、大脑和各器官运作的消耗。对大多数久坐或轻度活动的人来说，它占总消耗的一大半。</li>
+  <li><b>活动消耗：</b>包括有计划的运动，也包括通勤、做家务、站立、走动等日常活动（常被称为 NEAT）。这是个体差异最大、也最容易改变的部分。</li>
+  <li><b>食物热效应：</b>消化、吸收食物本身也要耗能，一般约占总消耗的 10% 左右，蛋白质的热效应比碳水和脂肪更高。</li>
+</ul>
+<p>
+  简单记：<b>BMR 是“开机待机”的耗电，TDEE 是“一整天实际用电”</b>。同样身高体重的两个人，BMR 可能很接近，
+  但一个每天久坐、一个每天走一万多步还规律运动，TDEE 可以相差几百 kcal。
+</p>
+
+<h2 id="formula">BMR 怎么算：Mifflin-St Jeor 公式</h2>
+<p>本站的 BMR 和 TDEE 工具都采用 Mifflin-St Jeor 公式（1990 年发表），它是目前营养领域常用的估算公式之一：</p>
+<ul>
+  <li>男性：BMR = 10 × 体重（kg）+ 6.25 × 身高（cm）− 5 × 年龄 + 5</li>
+  <li>女性：BMR = 10 × 体重（kg）+ 6.25 × 身高（cm）− 5 × 年龄 − 161</li>
+</ul>
+<p>
+  例如 30 岁、身高 160 cm、体重 55 kg 的女性：10 × 55 + 6.25 × 160 − 5 × 30 − 161 = 1,239 kcal。
+</p>
+<p>下表按公式计算，身高固定（女性 160 cm、男性 172 cm），方便你看出年龄和体重的影响：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>性别 / 体重</th><th>25 岁</th><th>35 岁</th><th>45 岁</th><th>55 岁</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>女 160 cm / 50 kg</td><td>1,214</td><td>1,164</td><td>1,114</td><td>1,064</td></tr>
+      <tr><td>女 160 cm / 55 kg</td><td>1,264</td><td>1,214</td><td>1,164</td><td>1,114</td></tr>
+      <tr><td>女 160 cm / 60 kg</td><td>1,314</td><td>1,264</td><td>1,214</td><td>1,164</td></tr>
+      <tr><td>女 160 cm / 70 kg</td><td>1,414</td><td>1,364</td><td>1,314</td><td>1,264</td></tr>
+      <tr><td>男 172 cm / 60 kg</td><td>1,555</td><td>1,505</td><td>1,455</td><td>1,405</td></tr>
+      <tr><td>男 172 cm / 70 kg</td><td>1,655</td><td>1,605</td><td>1,555</td><td>1,505</td></tr>
+      <tr><td>男 172 cm / 80 kg</td><td>1,755</td><td>1,705</td><td>1,655</td><td>1,605</td></tr>
+      <tr><td>男 172 cm / 90 kg</td><td>1,855</td><td>1,805</td><td>1,755</td><td>1,705</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">单位：kcal/天。按公式，每增加 10 岁 BMR 少 50 kcal，每增加 10 kg 体重多 100 kcal。</p>
+<p>
+  需要注意，公式只用性别、年龄、身高、体重四个数字，不知道你的肌肉量。肌肉较多的人实际 BMR 往往高于公式结果，
+  体脂率较高的人则可能偏低。研究中这类公式对个人的误差常见在 ±10% 左右，所以结果应当看作“起点”，而不是精确值。
+</p>
+
+<a class="tool-cta" href="/bmr">→ 输入你的数据，直接算出基础代谢：BMR 计算器</a>
+
+<h2 id="tdee">一天需要多少热量：活动系数表</h2>
+<p>TDEE ≈ BMR × 活动系数。本站 TDEE 工具使用以下五档系数：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>活动水平</th><th>典型情况</th><th>系数</th><th>女 30 岁 160 cm 55 kg</th><th>男 30 岁 175 cm 70 kg</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>久坐</td><td>几乎不运动，以坐为主</td><td>1.2</td><td>1,487</td><td>1,978</td></tr>
+      <tr><td>轻度活动</td><td>每周运动 1–3 次</td><td>1.375</td><td>1,704</td><td>2,267</td></tr>
+      <tr><td>中度活动</td><td>每周运动 3–5 次</td><td>1.55</td><td>1,920</td><td>2,556</td></tr>
+      <tr><td>较高活动</td><td>每周运动 6–7 次</td><td>1.725</td><td>2,137</td><td>2,844</td></tr>
+      <tr><td>非常高</td><td>体力劳动或高强度训练</td><td>1.9</td><td>2,354</td><td>3,133</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">单位：kcal/天。示例女性 BMR 1,239 kcal，男性 BMR 约 1,649 kcal。</p>
+
+<a class="tool-cta" href="/calorie">→ 选择你的活动水平，估算每日总消耗：TDEE 计算器</a>
+
+<h2 id="level">活动量等级怎么选才不高估</h2>
+<p>活动系数是 TDEE 误差最大的来源。很多人会高估自己的活动量，常见情况有：</p>
+<ul>
+  <li><b>每周健身 3 次，但其余时间整天坐着：</b>一次 1 小时的训练，对一整天的消耗影响有限，这类人往往更接近“轻度活动”而不是“中度活动”。</li>
+  <li><b>只看运动次数，忽略日常步数：</b>一个不去健身房、但每天走路通勤一万多步的人，活动量可能比每周练两次的上班族更高。</li>
+  <li><b>拿不准时选低一档：</b>先按较低的系数执行 2–3 周，观察体重变化再调整，比一开始就高估更稳妥。</li>
+</ul>
+<p>
+  如果你不确定自己属于哪一档，可以用 <a href="/activity-level">活动量等级工具</a>：它根据日均步数、每周运动天数和久坐时长给出一个综合判断，
+  并提示大致对应的系数。也可以参考 <a href="/guide/daily-steps-health">一天走多少步才健康</a> 了解步数的参考范围。
+</p>
+
+<a class="tool-cta" href="/activity-level">→ 按步数、运动和久坐时长判断你的活动量等级</a>
+
+<h2 id="why-not-bmr">为什么不能按 BMR 吃</h2>
+<p>
+  有人减脂时直接把每日摄入定在 BMR，甚至更低。这样做的问题是：BMR 只是你躺一整天的消耗，而你实际上还要走路、工作、思考、运动。
+  按 BMR 吃，相当于每天制造了“TDEE − BMR”这么大的缺口，对轻度活动的人来说常常是 400–600 kcal 甚至更多，再叠加刻意节食，缺口很容易过大。
+</p>
+<p>缺口过大常见的后果包括饥饿感强、精力和训练表现下降、肌肉流失增加，也更难长期坚持。更实际的做法是：</p>
+<ul>
+  <li><b>维持体重：</b>吃到 TDEE 附近。</li>
+  <li><b>减脂：</b>在 TDEE 基础上每天少 300–500 kcal，详见 <a href="/guide/calorie-deficit-fat-loss">热量缺口怎么算</a>。</li>
+  <li><b>增肌：</b>在 TDEE 基础上适度增加约 250 kcal，同时保证蛋白质和力量训练。</li>
+</ul>
+
+<h2 id="tips">实用建议</h2>
+<ul>
+  <li><b>把计算结果当作起点：</b>按估算的 TDEE 吃 2–3 周，每周固定时间（如早晨空腹）称重，看周平均值。体重稳定说明接近你的真实维持热量；持续下降或上升，就相应加减 100–200 kcal。</li>
+  <li><b>体重变化后要重新计算：</b>体重下降后 BMR 和 TDEE 都会降低，减掉 5 kg 左右就值得重新算一次。</li>
+  <li><b>年龄增长时也要留意：</b>按公式每增加 10 岁 BMR 少约 50 kcal，保持活动和力量训练有助于减缓肌肉流失。</li>
+  <li><b>特殊情况请咨询医生：</b>如果你有甲状腺疾病、糖尿病等慢性病，或者未成年、处于进食障碍恢复期，通用公式可能不适用，建议咨询医生或注册营养师。</li>
+</ul>
+
+{% endblock %}

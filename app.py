@@ -2805,12 +2805,18 @@ def article_jsonld(a: dict) -> str:
 @app.get("/guide")
 def guide_index():
     meta = meta_for(
-        f"健康指南：步数、睡眠、热量常见问题 - {SITE_NAME}",
-        "CalmyHealth 健康指南：用研究和公式讲清楚步数、睡眠、热量等常见问题，每篇附参考来源和可直接计算的工具。",
+        f"健康指南：体重、热量、营养、运动与睡眠常见问题 - {SITE_NAME}",
+        "CalmyHealth 健康指南：用研究和公式讲清楚 BMI、体脂、热量缺口、蛋白质、饮水、步数、跑步、心率和睡眠等常见问题，每篇附参考来源和可直接计算的工具。",
         "/guide",
     )
-    articles = sorted(ARTICLES, key=lambda a: a["updated"], reverse=True)
-    return render_template("guide_index.html", meta=meta, articles=articles)
+    order = ["体重与体型", "代谢与热量", "营养摄入", "运动与步数", "睡眠"]
+    names = order + sorted({a["category"] for a in ARTICLES} - set(order))
+    groups = [
+        {"name": n, "articles": [a for a in ARTICLES if a["category"] == n]}
+        for n in names
+    ]
+    groups = [g for g in groups if g["articles"]]
+    return render_template("guide_index.html", meta=meta, groups=groups)
 
 
 @app.get("/guide/<slug>")
@@ -3271,7 +3277,7 @@ def index():
     # 首页
     meta = meta_for(
         "CalmyHealth｜健康计算器与减脂工具导航",
-        "CalmyHealth 提供 BMI、TDEE、BMR、步数热量、步数距离、睡眠、孕期等在线健康计算器，适合日常健康管理和减脂参考。",
+        "CalmyHealth 提供 BMI、TDEE、BMR、体脂率、步数距离、跑步配速、睡眠等在线计算器和健康指南文章，适合日常健康管理和减脂参考。",
         "/",
     )
     return render_template(
@@ -3279,6 +3285,12 @@ def index():
         meta=meta,
         categories=grouped_tools(),
         featured_tools=featured_tools,
+        guide_articles=[
+            ARTICLES_BY_SLUG[s] for s in (
+                "bmi-normal-range", "bmr-vs-tdee", "protein-intake-per-day",
+                "10000-steps-km", "running-pace-chart", "sleep-cycle-90-minutes",
+            ) if s in ARTICLES_BY_SLUG
+        ],
         tools=TOOLS,
         page_kind="home",
     )

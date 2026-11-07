@@ -1,0 +1,157 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>男性：</b>体脂率约 <b>14%–24%</b> 属于常见的健康范围，≥ 25% 通常被视为偏高。</li>
+    <li><b>女性：</b>体脂率约 <b>21%–31%</b> 属于常见的健康范围，≥ 32% 通常被视为偏高。女性天然需要更多必需脂肪，所以参考值比男性高约 7–10 个百分点。</li>
+    <li><b>不是越低越好：</b>男性低于约 5%、女性低于约 13%（接近“必需脂肪”水平）不适合长期维持。</li>
+    <li><b>在家怎么测：</b>用一根软尺量颈围、腰围（女性加臀围），套用美国海军围度公式就能估算，适合长期追踪变化。</li>
+  </ul>
+</div>
+<p>
+  体脂率是身体脂肪重量占总体重的百分比。和 BMI 只看身高体重不同，它更直接地反映“胖不胖”。
+  下面给出男女体脂率参考表，讲清楚围度法怎么量、体脂率和 BMI 的关系、FFMI 是什么，以及从当前体脂降到目标大概需要多久。
+</p>
+
+<h2 id="chart">男女体脂率参考表</h2>
+<p>体脂率目前没有像 BMI 那样统一的国家标准。下面是美国运动委员会（ACE）常用的分级，被很多健身和健康资料引用：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>分级</th><th>男性</th><th>女性</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>必需脂肪</td><td>2%–5%</td><td>10%–13%</td></tr>
+      <tr><td>运动员</td><td>6%–13%</td><td>14%–20%</td></tr>
+      <tr><td>健身良好</td><td>14%–17%</td><td>21%–24%</td></tr>
+      <tr><td>一般水平</td><td>18%–24%</td><td>25%–31%</td></tr>
+      <tr><td>偏高（肥胖）</td><td>≥ 25%</td><td>≥ 32%</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>使用这张表时要注意几点：</p>
+<ul>
+  <li>它是通用参考，没有按年龄细分。随着年龄增长，肌肉量通常减少，同样体重下体脂率会略有上升，中老年人的数值稍高一些也常见。</li>
+  <li>“必需脂肪”是维持激素、神经和生殖功能所需的最低水平，长期接近这个水平对健康不利。</li>
+  <li>不同测量方法（体脂秤、围度法、皮褶钳、DXA）得出的数值可能相差几个百分点，比较时最好固定用同一种方法。</li>
+</ul>
+
+<h2 id="navy">美国海军围度法怎么测</h2>
+<p>
+  美国海军围度法由 Hodgdon 和 Beckett 在 1984 年提出，只需要身高和几个围度数据，本站的体脂率工具采用的就是这个公式（公制版本）：
+</p>
+<ul>
+  <li><b>男性：</b>体脂率 = 495 ÷ (1.0324 − 0.19077 × log<sub>10</sub>(腰围 − 颈围) + 0.15456 × log<sub>10</sub>(身高)) − 450</li>
+  <li><b>女性：</b>体脂率 = 495 ÷ (1.29579 − 0.35004 × log<sub>10</sub>(腰围 + 臀围 − 颈围) + 0.22100 × log<sub>10</sub>(身高)) − 450</li>
+</ul>
+<p>所有数值都用 cm。测量方法：</p>
+<ul>
+  <li><b>颈围：</b>在喉结（甲状软骨）下方，软尺略向前下方倾斜绕颈一圈。</li>
+  <li><b>腰围：</b>男性在肚脐水平测量；女性在腰部最细处测量。自然站立、正常呼气后读数，不要收腹。</li>
+  <li><b>臀围（女性）：</b>臀部最突出的位置，软尺保持水平。</li>
+</ul>
+<p>按公式计算的几个例子：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>性别</th><th>身高</th><th>颈围</th><th>腰围</th><th>臀围</th><th>估算体脂率</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>男</td><td>175 cm</td><td>38 cm</td><td>85 cm</td><td>—</td><td>约 16.9%</td></tr>
+      <tr><td>男</td><td>175 cm</td><td>38 cm</td><td>90 cm</td><td>—</td><td>约 20.7%</td></tr>
+      <tr><td>女</td><td>162 cm</td><td>32 cm</td><td>72 cm</td><td>94 cm</td><td>约 26.2%</td></tr>
+      <tr><td>女</td><td>162 cm</td><td>32 cm</td><td>78 cm</td><td>98 cm</td><td>约 31.2%</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  可以看到，腰围变化对结果影响很大：同一名男性腰围从 85 cm 增加到 90 cm，估算体脂率上升约 3.7 个百分点。
+  围度法是估算，对个人来说可能有数个百分点的偏差，但只要每次用同样的方法、同样的位置测量，用来看“趋势”是很实用的。
+</p>
+
+<a class="tool-cta" href="/bodyfat">→ 用软尺测量后，直接算出你的估算体脂率：体脂率计算器</a>
+
+<h2 id="vs-bmi">体脂率和 BMI 有什么区别</h2>
+<p>
+  BMI 只看身高和体重，体脂率看的是“体重里有多少是脂肪”。两者大多数时候方向一致，但会在以下情况出现分歧：
+</p>
+<ul>
+  <li><b>BMI 偏高、体脂正常：</b>常见于长期力量训练、肌肉量较大的人。</li>
+  <li><b>BMI 正常、体脂偏高：</b>常见于肌肉量少、久坐的人，有时被称为“隐性肥胖”。</li>
+</ul>
+<p>
+  所以建议两者结合看：先用 <a href="/bmi">BMI</a> 做初步筛查，再用体脂率和 <a href="/guide/waist-to-height-ratio">腰围</a> 补充判断。
+  关于 BMI 标准的详细说明，可以看 <a href="/guide/bmi-normal-range">BMI 正常范围是多少</a>。
+</p>
+
+<h2 id="ffmi">FFMI 是什么</h2>
+<p>
+  FFMI（去脂体重指数）可以理解为“只算肌肉、骨骼等非脂肪部分的 BMI”，用来衡量肌肉量的多少：
+</p>
+<ul>
+  <li>去脂体重 = 体重 × (1 − 体脂率)</li>
+  <li>FFMI = 去脂体重（kg）÷ 身高（m）²</li>
+  <li>校正 FFMI = FFMI + 6.1 × (1.8 − 身高 m)，用于减少身高对结果的影响</li>
+</ul>
+<p>本站 FFMI 工具使用以下简化分档（按校正 FFMI）：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>分档</th><th>男性</th><th>女性</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>偏低</td><td>&lt; 18</td><td>&lt; 14</td></tr>
+      <tr><td>常见范围</td><td>18–20.9</td><td>14–16.9</td></tr>
+      <tr><td>较高</td><td>21–22.9</td><td>17–18.9</td></tr>
+      <tr><td>很高</td><td>≥ 23</td><td>≥ 19</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  举例：身高 175 cm、体重 70 kg、体脂率 15% 的男性，去脂体重约 59.5 kg，FFMI 约 19.4，校正后约 19.7，属于常见范围。
+  身高 162 cm、体重 55 kg、体脂率 25% 的女性，去脂体重约 41.2 kg，FFMI 约 15.7，校正后约 16.8。
+</p>
+<p>
+  FFMI 的价值在于：减脂时如果体重下降但 FFMI 基本不变，说明减掉的主要是脂肪而不是肌肉。
+  这些分档只是一般参考，不同研究的划分并不统一。
+</p>
+
+<a class="tool-cta" href="/ffmi">→ 输入身高、体重和体脂率，查看你的 FFMI：FFMI 计算器</a>
+
+<h2 id="time">降体脂要多久</h2>
+<p>
+  本站的体脂目标工具采用一个简化模型：假设减脂期间去脂体重基本不变，只减脂肪；每减 1 kg 脂肪约需 7,700 kcal 的累计热量缺口。
+</p>
+<ul>
+  <li>目标体重 = 去脂体重 ÷ (1 − 目标体脂率)</li>
+  <li>所需时间 = 需减脂肪（kg）× 7,700 ÷ 每日热量缺口</li>
+</ul>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>起点</th><th>目标</th><th>需减脂肪</th><th>每日缺口 300 kcal</th><th>每日缺口 500 kcal</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>80 kg，体脂 25%</td><td>20%（约 75.0 kg）</td><td>约 5.0 kg</td><td>约 18 周</td><td>约 11 周</td></tr>
+      <tr><td>80 kg，体脂 25%</td><td>15%（约 70.6 kg）</td><td>约 9.4 kg</td><td>约 35 周</td><td>约 21 周</td></tr>
+      <tr><td>65 kg，体脂 32%</td><td>27%（约 60.5 kg）</td><td>约 4.5 kg</td><td>约 16 周</td><td>约 10 周</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  可以看到，按这个模型，体脂率降低 5 个百分点大约需要 2–4 个月，降低 10 个百分点则需要 5–8 个月。实际过程中，代谢适应、水分波动和饮食执行误差都会让进度慢于计算值，
+  减脂期间也很难完全不掉肌肉，所以请把这些数字当作大致方向。
+  热量缺口的设置可以参考 <a href="/guide/calorie-deficit-fat-loss">热量缺口与减脂</a>。
+</p>
+<p>几个实用建议：</p>
+<ul>
+  <li>每 2–4 周在同一时间、同一位置测一次围度，比天天称重更能看出体型变化。</li>
+  <li>保持规律力量训练和足够蛋白质摄入，有助于在减脂时尽量保住肌肉。</li>
+  <li>有慢性疾病、进食障碍史或未成年人，在设定减脂目标前建议咨询医生。</li>
+</ul>
+
+<a class="tool-cta" href="/body-fat-goal">→ 输入当前和目标体脂率，估算需要多久：体脂目标时间计算器</a>
+
+{% endblock %}
