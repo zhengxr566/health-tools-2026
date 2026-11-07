@@ -39,7 +39,8 @@ OLD_HOSTS = {
 @app.before_request
 def redirect_old_domain():
     host = request.host.split(":")[0].lower()
-    if host in OLD_HOSTS:
+    # 旧的 Render 域名和 Cloud Run 自带的 *.run.app 网址都 301 到正式域名，避免重复内容
+    if host in OLD_HOSTS or host.endswith(".run.app"):
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
         return redirect(f"{BASE_URL_ENV}{request.script_root}{request.path}{qs}", code=301)
 
