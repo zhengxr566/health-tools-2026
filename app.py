@@ -43,7 +43,7 @@ def redirect_old_domain():
     # 带 X-Calmy-Preview: 1 请求头时不跳转，便于切换 DNS 前在 run.app 上测试（搜索引擎不会带这个头）。
     if host.endswith(".run.app") and request.headers.get("X-Calmy-Preview") == "1":
         return None
-    if host in OLD_HOSTS or host.endswith(".run.app"):
+    if host in OLD_HOSTS or host.endswith(".run.app") or host == "www.calmyhealth.com":
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
         return redirect(f"{BASE_URL_ENV}{request.script_root}{request.path}{qs}", code=301)
 
