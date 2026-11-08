@@ -1,4 +1,5 @@
 {% extends "article.html" %}
+{% import "_macros.html" as ui with context %}
 {% block article_body %}
 
 <h2 id="answer">先说结论</h2>
@@ -139,6 +140,7 @@
   <li><b>臀围位置：</b>臀部最突出的地方，软尺保持水平。</li>
   <li><b>松紧：</b>软尺贴紧皮肤但不勒进肉里，最好对着镜子确认软尺前后水平。</li>
 </ul>
+{{ ui.figure("body-measurement") }}
 <p>
   注意：用美国海军围度法<a href="/bodyfat">估算体脂率</a>时，男性腰围是在肚脐水平测量的，和上面的位置略有不同。
   不管用哪种方法，关键是每次都在同一位置量，同一位置连量两次取平均值。

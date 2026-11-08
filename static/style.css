@@ -644,3 +644,22 @@ hr{
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+/* ---------- 结果色带（_macros.html: gauge） ---------- */
+.gauge { margin-top: 1rem; }
+.gauge-track { position: relative; padding-top: 34px; }
+.gauge-bar { position: relative; height: 14px; border-radius: 7px; overflow: hidden; background: #f3f4f6; }
+.gauge-seg { position: absolute; top: 0; bottom: 0; border-right: 2px solid #fff; }
+.gauge-marker { position: absolute; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; z-index: 1; }
+.gauge-value { font-size: .8rem; font-weight: 600; background: #1f2937; color: #fff; border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+.gauge-arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #1f2937; margin-bottom: 1px; }
+.gauge-ticks { position: relative; height: 20px; font-size: .72rem; color: #6b7280; }
+.gauge-ticks span { position: absolute; top: 3px; transform: translateX(-50%); }
+.gauge-legend { list-style: none; padding: 0; margin: .5rem 0 0; display: flex; flex-wrap: wrap; gap: .35rem .9rem; font-size: .82rem; color: #6b7280; }
+.gauge-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.gauge-legend .is-current { color: #1f2937; font-weight: 600; }
+.gauge-legend b { font-weight: 600; color: #198754; }
+
+/* ---------- 示意图（_macros.html: figure） ---------- */
+.ch-figure { margin: 1.25rem 0; text-align: center; }
+.ch-figure img { max-width: 100%; height: auto; border: 1px solid #e7edf5; border-radius: 12px; background: #fff; }
+.ch-figure figcaption { font-size: .82rem; color: #6b7280; margin-top: .45rem; }

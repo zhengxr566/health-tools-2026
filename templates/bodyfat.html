@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -59,8 +60,10 @@
         <div class="text-muted small">US Navy 公式</div>
       </div>
 
+      {{ ui.gauge(gauge, "你的体脂率在 ACE 分级中的位置") }}
+
       <div class="alert alert-info mt-3 mb-3">
-        你的估算体脂率约为：<b>{{ bf }}%</b>
+        你的估算体脂率约为 <b>{{ bf }}%</b>，在 ACE 分级中属于「<b>{{ bf_category }}</b>」。
       </div>
 
       <div class="small text-muted">
@@ -91,6 +94,8 @@
   <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
     <div class="tool-card">
+      {{ ui.figure("bodyfat-ranges", lazy=false) }}
+
       <h2 class="h6">体脂率为什么比 BMI 更有参考价值？</h2>
       <p class="text-muted">
         BMI 只反映身高与体重比例，无法区分肌肉与脂肪；而体脂率更接近“脂肪占比”，
@@ -115,12 +120,13 @@
       <div class="bg-light rounded-3 p-3 mt-3">
         <div class="fw-semibold mb-2">测量小建议</div>
         <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">颈围：保持自然站立，软尺贴合但不要勒紧。</li>
-          <li class="mb-2">腰围：一般取腹部自然状态下最细或常规标准测量位置。</li>
+          <li class="mb-2">颈围：喉结下方，软尺略向前下方倾斜，贴合但不要勒紧。</li>
+          <li class="mb-2">腰围：美国海军公式中，男性在肚脐水平测量，女性在腰部最细处测量；不要收腹。</li>
           <li class="mb-2">臀围（女性）：取臀部最宽位置，保持水平测量。</li>
           <li class="mb-0">同一人最好一直使用同一种测量习惯。</li>
         </ul>
       </div>
+      {{ ui.figure("body-measurement") }}
     </div>
 
     <div class="tool-card">

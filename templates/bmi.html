@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-page">
@@ -43,14 +44,13 @@
           </div>
         </div>
 
-        <div class="mt-3">
-          <div class="d-flex justify-content-between small text-muted">
-            <span>偏低</span><span>正常</span><span>偏高</span>
-          </div>
-          <div class="progress" role="progressbar" aria-label="BMI gauge" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar" style="width: {{ progress }}%"></div>
-          </div>
-          <div class="form-text">提示：此条仅作直观展示（将 BMI 映射到 15–35 的范围）。</div>
+        {{ ui.gauge(gauge, "你的 BMI 在分级中的位置") }}
+
+        <div class="bg-light rounded-3 p-3 mt-3 small">
+          按你的身高，{{ bmi_std.name }}的正常 BMI 对应体重约 <b>{{ ideal_min }}–{{ ideal_max }} kg</b>。
+          {% if to_min %}距离正常范围下限还差约 <b>{{ to_min }} kg</b>，建议优先保证热量和蛋白质摄入。
+          {% elif to_max %}比正常范围上限多约 <b>{{ to_max }} kg</b>；按每周减 0.5 kg 的温和速度，大约需要 {{ ((to_max / 0.5) | round(0, 'ceil')) | int }} 周。
+          {% else %}你目前就在这个范围内，可以把注意力放在腰围和体脂率上。{% endif %}
         </div>
 
         <div class="mt-3 d-flex flex-wrap gap-2">
@@ -115,6 +115,8 @@
           来源：{% if bmi_std.source_url %}<a href="{{ bmi_std.source_url }}" target="_blank" rel="nofollow noopener">{{ bmi_std.source_text }}</a>{% else %}{{ bmi_std.source_text }}{% endif %}；
           <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight" target="_blank" rel="nofollow noopener">WHO — Obesity and overweight</a>
         </div>
+
+        {{ ui.figure("bmi-chart") }}
       </div>
 
       {% if bmi is not none %}

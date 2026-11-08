@@ -1,4 +1,5 @@
 {% extends "article.html" %}
+{% import "_macros.html" as ui with context %}
 {% block article_body %}
 
 <h2 id="answer">先说结论</h2>
@@ -31,6 +32,7 @@
     </tbody>
   </table>
 </div>
+{{ ui.figure("bodyfat-ranges") }}
 <p>使用这张表时要注意几点：</p>
 <ul>
   <li>它是通用参考，没有按年龄细分。随着年龄增长，肌肉量通常减少，同样体重下体脂率会略有上升，中老年人的数值稍高一些也常见。</li>
@@ -52,6 +54,7 @@
   <li><b>腰围：</b>男性在肚脐水平测量；女性在腰部最细处测量。自然站立、正常呼气后读数，不要收腹。</li>
   <li><b>臀围（女性）：</b>臀部最突出的位置，软尺保持水平。</li>
 </ul>
+{{ ui.figure("body-measurement") }}
 <p>按公式计算的几个例子：</p>
 <div class="table-responsive">
   <table class="table table-sm table-bordered align-middle text-center">

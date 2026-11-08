@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" width="720" height="560" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC','Noto Sans CJK SC',sans-serif" role="img">
+<title>围度测量位置：颈围、腰围、臀围怎么量</title>
+<desc>人体正面示意图，标出颈围、腰围（肋骨下缘与髂嵴连线中点）、肚脐水平和臀围的测量位置。</desc>
+<rect width="720" height="560" fill="#ffffff"/>
+<path d="M 148 170 Q 112 270 108 400" stroke="#c9a98a" stroke-width="32" stroke-linecap="round" fill="none"/>
+<path d="M 148 170 Q 112 270 108 400" stroke="#f3e3d3" stroke-width="28" stroke-linecap="round" fill="none"/>
+<path d="M 312 170 Q 348 270 352 400" stroke="#c9a98a" stroke-width="32" stroke-linecap="round" fill="none"/>
+<path d="M 312 170 Q 348 270 352 400" stroke="#f3e3d3" stroke-width="28" stroke-linecap="round" fill="none"/>
+<path d="M 212 132 Q 212 150 150 158 Q 128 164 140 205 Q 166 252 183 300 Q 158 342 160 385 Q 162 440 175 525 L 222 525 L 230 452 L 238 525 L 285 525 Q 298 440 300 385 Q 302 342 277 300 Q 294 252 320 205 Q 332 164 310 158 Q 248 150 248 132 Z" fill="#f3e3d3" stroke="#c9a98a" stroke-width="2"/>
+<rect x="212" y="100" width="36" height="40" fill="#f3e3d3"/>
+<line x1="212" y1="104" x2="212" y2="134" stroke="#c9a98a" stroke-width="2"/>
+<line x1="248" y1="104" x2="248" y2="134" stroke="#c9a98a" stroke-width="2"/>
+<ellipse cx="230" cy="64" rx="38" ry="46" fill="#f3e3d3" stroke="#c9a98a" stroke-width="2"/>
+<circle cx="230" cy="318" r="3" fill="#c9a98a"/>
+<line x1="150" y1="268" x2="200" y2="268" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="146" y="273" font-size="13" fill="#6b7280" text-anchor="end" font-weight="normal">肋骨下缘</text>
+<line x1="150" y1="330" x2="200" y2="330" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="146" y="335" font-size="13" fill="#6b7280" text-anchor="end" font-weight="normal">髂嵴（髋骨最高点）</text>
+<path d="M 156 272 L 156 326" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+<text x="146" y="304" font-size="13" fill="#6b7280" text-anchor="end" font-weight="normal">中点</text>
+<ellipse cx="230" cy="121" rx="26" ry="7" fill="none" stroke="#2563eb" stroke-width="3"/>
+<path d="M 258 121 L 380 121 L 400 99" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+<circle cx="258" cy="121" r="3.5" fill="#2563eb"/>
+<text x="410" y="104" font-size="17" fill="#2563eb" text-anchor="start" font-weight="bold">颈围</text>
+<text x="410" y="126" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">喉结下方，软尺略向前下方倾斜</text>
+<ellipse cx="230" cy="299" rx="56" ry="7" fill="none" stroke="#dc2626" stroke-width="3"/>
+<path d="M 288 299 L 380 299 L 400 233" stroke="#dc2626" stroke-width="1.5" fill="none"/>
+<circle cx="288" cy="299" r="3.5" fill="#dc2626"/>
+<text x="410" y="238" font-size="17" fill="#dc2626" text-anchor="start" font-weight="bold">腰围（WHO 标准位置）</text>
+<text x="410" y="260" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">肋骨下缘与髂嵴连线的中点</text>
+<text x="410" y="280" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">自然站立，呼气结束时读数，不要收腹</text>
+<ellipse cx="230" cy="318" rx="54" ry="7" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 4"/>
+<path d="M 286 318 L 380 318 L 400 325" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+<circle cx="286" cy="318" r="3.5" fill="#f59e0b"/>
+<text x="410" y="330" font-size="17" fill="#f59e0b" text-anchor="start" font-weight="bold">肚脐水平</text>
+<text x="410" y="352" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">美国海军体脂公式：男性腰围在此测量</text>
+<ellipse cx="230" cy="385" rx="78" ry="7" fill="none" stroke="#7c3aed" stroke-width="3"/>
+<path d="M 310 385 L 380 385 L 400 417" stroke="#7c3aed" stroke-width="1.5" fill="none"/>
+<circle cx="310" cy="385" r="3.5" fill="#7c3aed"/>
+<text x="410" y="422" font-size="17" fill="#7c3aed" text-anchor="start" font-weight="bold">臀围</text>
+<text x="410" y="444" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">臀部最突出处，软尺保持水平</text>
+<text x="410" y="44" font-size="24" fill="#1f2937" text-anchor="start" font-weight="bold">围度测量位置</text>
+<text x="410" y="70" font-size="15" fill="#6b7280" text-anchor="start" font-weight="normal">颈围 · 腰围 · 臀围怎么量</text>
+<text x="410" y="496" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">软尺贴合皮肤但不勒紧，</text>
+<text x="410" y="516" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">每次固定同一位置、同一时间测量。</text>
+<text x="704" y="546" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

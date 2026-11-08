@@ -12,6 +12,7 @@ from flask import (
 )
 import calendar
 import json
+from pathlib import Path
 
 from flask import abort
 
@@ -888,6 +889,71 @@ def grouped_tools(current_path=None):
     return groups
 
 
+# -----------------------
+# 示意图与分享卡片（由 scripts/make_figures.py 生成，简体 / 繁体各一份）
+# -----------------------
+STATIC_DIR = Path(app.root_path) / "static"
+
+FIGURES = {
+    "body-measurement": {
+        "w": 720, "h": 560,
+        "alt": "围度测量位置示意图：颈围在喉结下方，腰围在肋骨下缘与髂嵴连线的中点，臀围在臀部最突出处",
+        "caption": "颈围、腰围、臀围的测量位置。美国海军体脂公式中，男性腰围改在肚脐水平测量。",
+    },
+    "bmi-chart": {
+        "w": 782, "h": 528,
+        "alt": "BMI 身高体重对照表：身高 150–190 cm、体重 40–115 kg 对应的 BMI 数值，按中国标准分级着色",
+        "caption": "BMI 身高体重对照表（中国成人体重判定标准 WS/T 428-2013）。找到自己的身高行和体重列，交叉格就是 BMI。",
+        "hant": {
+            "h": 548,
+            "alt": "BMI 身高体重对照表：身高 150–190 cm、体重 40–115 kg 对应的 BMI 数值，按台湾国民健康署标准分级着色",
+            "caption": "BMI 身高体重对照表（台湾国民健康署成人体位标准）。找到自己的身高行和体重列，交叉格就是 BMI。",
+        },
+    },
+    "bodyfat-ranges": {
+        "w": 760, "h": 330,
+        "alt": "男女体脂率参考范围条形图：必需脂肪、运动员、健身良好、一般水平、偏高（ACE 分级）",
+        "caption": "男女体脂率参考范围（美国运动委员会 ACE 分级）。女性的必需脂肪比男性多，参考值整体高 7–10 个百分点。",
+    },
+}
+
+# 哪些页面放了哪些示意图（用于图片 sitemap 和文章 JSON-LD；模板里用 ui.figure(key) 显示）
+PAGE_FIGURES = {
+    "/bmi": ["bmi-chart"],
+    "/waist": ["body-measurement"],
+    "/whr": ["body-measurement"],
+    "/bodyfat": ["bodyfat-ranges", "body-measurement"],
+    "/guide/bmi-normal-range": ["bmi-chart"],
+    "/guide/waist-to-height-ratio": ["body-measurement"],
+    "/guide/body-fat-percentage-chart": ["bodyfat-ranges", "body-measurement"],
+}
+
+OG_KEYS = {p.stem for p in (STATIC_DIR / "og").glob("*.png") if not p.stem.endswith(".hant")}
+
+
+def fig_src(key: str, absolute: bool = False, hant: bool | None = None) -> str:
+    hant = is_hant() if hant is None else hant
+    path = f"/static/img/{key}{'.hant' if hant else ''}.svg"
+    return f"{BASE_URL_ENV}{path}" if absolute else path
+
+
+def local_figures() -> dict:
+    """繁体版套用 FIGURES 里的 "hant" 覆盖（例如 BMI 图改用台湾标准的说明）。"""
+    if not is_hant():
+        return FIGURES
+    return {k: {**v, **v.get("hant", {})} for k, v in FIGURES.items()}
+
+
+def og_image_url(path: str, hant: bool | None = None) -> str | None:
+    if not OG_KEYS:
+        return None
+    hant = is_hant() if hant is None else hant
+    key = path.rstrip("/").split("/")[-1] or "default"
+    if key not in OG_KEYS:
+        key = "default"
+    return f"{BASE_URL_ENV}/static/og/{key}{'.hant' if hant else ''}.png"
+
+
 @app.context_processor
 def inject_global_nav():
     return {
@@ -905,6 +971,9 @@ def inject_global_nav():
         ) or SEO_OVERRIDES.get(request.path),
         # 工具页底部“相关阅读”：哪些文章把当前页列为相关工具
         "page_articles": [local_article(a) for a in ARTICLES if request.path in a.get("related_tools", [])],
+        "figures": local_figures(),
+        "fig_src": fig_src,
+        "og_image": og_image_url(request.path),
     }
 
 def meta_for(title: str, description: str, path: str) -> dict:
@@ -1017,6 +1086,89 @@ def bmi_progress(bmi: float) -> int:
     return int(round(clamp(p, 0, 100)))
 
 
+# -----------------------
+# 结果色带（工具页“你在这里”可视化，和 static/img 里的示意图共用一套颜色）
+# -----------------------
+BAND_COLORS = {
+    "low": ("#93c5fd", "#1f2937"),
+    "normal": ("#86efac", "#1f2937"),
+    "over": ("#fde68a", "#1f2937"),
+    "obese": [("#fca5a5", "#1f2937"), ("#f87171", "#1f2937"), ("#dc2626", "#ffffff")],
+}
+
+
+def band_color(std: dict, idx: int) -> tuple[str, str]:
+    """返回 (填充色, 文字色)。多个肥胖分级时颜色逐级加深。"""
+    kind = std["bands"][idx]["kind"]
+    if kind != "obese":
+        return BAND_COLORS[kind]
+    obese_idx = [i for i, b in enumerate(std["bands"]) if b["kind"] == "obese"]
+    shades = BAND_COLORS["obese"]
+    n = obese_idx.index(idx)
+    if len(obese_idx) == 1:
+        return shades[1]
+    return shades[min(n, len(shades) - 1)]
+
+
+def make_gauge(bands: list[dict], value: float, vmin: float, vmax: float,
+               decimals: int = 1, unit: str = "") -> dict:
+    """把分级区间转换成色带数据。bands 每项含 label / lo / hi / color（lo、hi 可为 None）。"""
+    span = vmax - vmin
+
+    def pct(v: float) -> float:
+        return round(clamp((v - vmin) / span * 100.0, 0.0, 100.0), 2)
+
+    segs, ticks = [], []
+    for b in bands:
+        lo = vmin if b["lo"] is None else b["lo"]
+        hi = vmax if b["hi"] is None else b["hi"]
+        if hi <= vmin or lo >= vmax:
+            continue
+        x0, x1 = pct(lo), pct(hi)
+        cur = (b["lo"] is None or value >= b["lo"]) and (b["hi"] is None or value < b["hi"])
+        segs.append({"x": x0, "w": round(x1 - x0, 2), "mid": round((x0 + x1) / 2, 2),
+                     "label": b["label"], "color": b["color"], "current": cur})
+        if b["lo"] is not None and vmin < b["lo"] < vmax:
+            ticks.append({"x": x0, "text": f"{b['lo']:g}{unit}"})
+    return {"segments": segs, "ticks": ticks, "marker": pct(value),
+            "value_text": f"{value:.{decimals}f}{unit}"}
+
+
+def bmi_gauge(bmi: float, std: dict) -> dict:
+    bands = [{**b, "color": band_color(std, i)[0]} for i, b in enumerate(std["bands"])]
+    return make_gauge(bands, bmi, 14.0, 40.0)
+
+
+# 体脂率分级：美国运动委员会（ACE），与 scripts/make_figures.py 的示意图一致
+BODYFAT_BANDS = {
+    "male": [("必需脂肪", None, 6), ("运动员", 6, 14), ("健身良好", 14, 18), ("一般水平", 18, 25), ("偏高", 25, None)],
+    "female": [("必需脂肪", None, 14), ("运动员", 14, 21), ("健身良好", 21, 25), ("一般水平", 25, 32), ("偏高", 32, None)],
+}
+BODYFAT_COLORS = ["#cbd5e1", "#93c5fd", "#86efac", "#fde68a", "#fca5a5"]
+
+# 腰围身高比：0.4–0.5 为常用健康区间（Ashwell 等），≥0.6 风险明显升高
+WHTR_BANDS = [
+    {"label": "偏低", "lo": None, "hi": 0.4, "color": "#93c5fd"},
+    {"label": "较好", "lo": 0.4, "hi": 0.5, "color": "#86efac"},
+    {"label": "需要注意", "lo": 0.5, "hi": 0.6, "color": "#fde68a"},
+    {"label": "风险较高", "lo": 0.6, "hi": None, "color": "#f87171"},
+]
+
+# 腰臀比：WHO 2008（男 ≥0.90、女 ≥0.85 风险明显升高），与 whr_info 的分级一致
+WHR_BANDS = {
+    "male": [
+        {"label": "较低风险", "lo": None, "hi": 0.85, "color": "#86efac"},
+        {"label": "需要注意", "lo": 0.85, "hi": 0.90, "color": "#fde68a"},
+        {"label": "风险较高", "lo": 0.90, "hi": None, "color": "#f87171"},
+    ],
+    "female": [
+        {"label": "较低风险", "lo": None, "hi": 0.80, "color": "#86efac"},
+        {"label": "需要注意", "lo": 0.80, "hi": 0.85, "color": "#fde68a"},
+        {"label": "风险较高", "lo": 0.85, "hi": None, "color": "#f87171"},
+    ],
+}
+
+
 def bodyfat_us_navy(
     sex: str,
     height_cm: float,
@@ -1071,7 +1223,9 @@ def ideal_weight_methods(height_cm: float, sex: str) -> dict:
 # 1.2.2. 腰围风险
 def waist_risk(wc_cm: float, height_cm: float) -> tuple[float, str]:
     whtr = wc_cm / height_cm
-    if whtr < 0.5:
+    if whtr < 0.4:
+        level = "偏低（体重可能偏轻）"
+    elif whtr < 0.5:
         level = "较好"
     elif whtr < 0.6:
         level = "需要注意"
@@ -2840,7 +2994,8 @@ def sitemap():
 
     # 每个页面列出简体和繁体两个网址，并互相标注 hreflang
     xml[1] = ('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
-              'xmlns:xhtml="http://www.w3.org/1999/xhtml">')
+              'xmlns:xhtml="http://www.w3.org/1999/xhtml" '
+              'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">')
     for path in all_paths:
         urls = lang_urls(path)
         alternates = [
@@ -2848,10 +3003,12 @@ def sitemap():
             f'    <xhtml:link rel="alternate" hreflang="zh-Hant" href="{urls["hant"]}"/>',
             f'    <xhtml:link rel="alternate" hreflang="x-default" href="{urls["hans"]}"/>',
         ]
-        for loc in (urls["hans"], urls["hant"]):
+        for loc, hant in ((urls["hans"], False), (urls["hant"], True)):
             xml.append("  <url>")
             xml.append(f"    <loc>{loc}</loc>")
             xml.extend(alternates)
+            for key in PAGE_FIGURES.get(path, []):
+                xml.append(f"    <image:image><image:loc>{fig_src(key, absolute=True, hant=hant)}</image:loc></image:image>")
             xml.append("  </url>")
 
     xml.append("</urlset>")
@@ -2885,6 +3042,9 @@ def article_jsonld(a: dict) -> str:
             "@type": "Article",
             "headline": a["h1"],
             "description": a["description"],
+            "image": [u for u in [og_image_url(f"/guide/{a['slug']}")] if u] + [
+                fig_src(k, absolute=True) for k in PAGE_FIGURES.get(f"/guide/{a['slug']}", [])
+            ],
             "datePublished": a["published"],
             "dateModified": a["updated"],
             "inLanguage": "zh-CN",
@@ -3513,6 +3673,7 @@ def bmi():
     progress = None
     ideal_min = ideal_max = None
     to_min = to_max = None
+    gauge = None
     suggestion_title = "行动建议（仅供参考）"
     suggestions = []
     risk_note = "提示：本工具仅用于一般参考，不构成医疗建议。"
@@ -3536,13 +3697,16 @@ def bmi():
             category = band["label"]
             band_kind = band["kind"]
             progress = bmi_progress(bmi_raw)
+            std = bmi_standard()
+            gauge = bmi_gauge(bmi_raw, std)
 
-            ideal_min = round1(18.5 * hm * hm)
-            ideal_max = round1(23.9 * hm * hm)
+            normal = next(b for b in std["bands"] if b["kind"] == "normal")
+            ideal_min = round1(normal["lo"] * hm * hm)
+            ideal_max = round1((normal["hi"] - 0.1) * hm * hm)
 
-            if bmi_raw < 18.5:
+            if w < ideal_min:
                 to_min = round1(ideal_min - w)
-            elif bmi_raw > 23.9:
+            elif w > ideal_max:
                 to_max = round1(w - ideal_max)
 
             if band_kind == "low":
@@ -3583,6 +3747,7 @@ def bmi():
         bmi=bmi_val,
         category=category,
         progress=progress,
+        gauge=gauge,
         ideal_min=ideal_min,
         ideal_max=ideal_max,
         to_min=to_min,
@@ -4920,6 +5085,8 @@ def chronotype():
 def bodyfat():
     error = None
     bf = None
+    gauge = None
+    bf_category = None
     sex_in = "male"
     height_cm_in = ""
     neck_cm_in = ""
@@ -4954,6 +5121,11 @@ def bodyfat():
 
             bf_val = bodyfat_us_navy(sex_in, h, n, w, hip)
             bf = round1(clamp(bf_val, 2.0, 60.0))
+            bf_bands = [{"label": n, "lo": lo, "hi": hi, "color": BODYFAT_COLORS[i]}
+                        for i, (n, lo, hi) in enumerate(BODYFAT_BANDS[sex_in])]
+            gauge = make_gauge(bf_bands, bf, 0.0, 45.0, unit="%")
+            bf_category = next(g["label"] for g in gauge["segments"] if g["current"]) if any(
+                g["current"] for g in gauge["segments"]) else bf_bands[-1]["label"]
         except Exception as e:
             error = str(e)
 
@@ -4967,6 +5139,8 @@ def bodyfat():
         meta=meta,
         error=error,
         bf=bf,
+        gauge=gauge,
+        bf_category=bf_category,
         sex_in=sex_in,
         height_cm_in=height_cm_in,
         neck_cm_in=neck_cm_in,
@@ -5133,6 +5307,8 @@ def waist():
     height_cm_in = ""
     whtr = None
     level = None
+    gauge = None
+    waist_limit = None
 
     if request.method == "POST":
         wc_in = request.form.get("waist_cm", "")
@@ -5145,8 +5321,11 @@ def waist():
         elif not h or h <= 0:
             error = "请输入正确身高（cm）。"
         else:
-            whtr, level = waist_risk(wc, h)
-            whtr = round1(whtr)
+            whtr_raw, level = waist_risk(wc, h)
+            whtr = f"{whtr_raw:.2f}"
+            gauge = make_gauge(WHTR_BANDS, whtr_raw, 0.3, 0.8, decimals=2)
+            # 腰围低于身高一半（WHtR < 0.5）对应的腰围上限
+            waist_limit = round1(h * 0.5)
 
     meta = meta_for(
         "腰围风险（WHtR）- CalmyHealth",
@@ -5161,6 +5340,8 @@ def waist():
         height_cm_in=height_cm_in,
         whtr=whtr,
         level=level,
+        gauge=gauge,
+        waist_limit=waist_limit,
     )
 
 # 1.2.3. 腰臀比
@@ -5181,6 +5362,7 @@ def whr():
             waist_cm = float(waist_cm_in)
             hip_cm = float(hip_cm_in)
             result = whr_info(waist_cm, hip_cm, sex_in)
+            result["gauge"] = make_gauge(WHR_BANDS[sex_in], waist_cm / hip_cm, 0.65, 1.1, decimals=2)
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 

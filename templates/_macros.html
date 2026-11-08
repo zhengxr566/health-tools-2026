@@ -1,0 +1,33 @@
+{# 共用组件。用法：{% import "_macros.html" as ui with context %} #}
+
+{# 结果色带：g 来自 app.make_gauge()，title 为无障碍描述 #}
+{% macro gauge(g, title) %}
+<div class="gauge" role="img" aria-label="{{ title }}：{{ g.value_text }}">
+  <div class="gauge-track">
+    <div class="gauge-marker" style="left: {{ g.marker }}%">
+      <span class="gauge-value">{{ g.value_text }}</span>
+      <span class="gauge-arrow"></span>
+    </div>
+    <div class="gauge-bar">
+      {% for s in g.segments %}<span class="gauge-seg" style="left: {{ s.x }}%; width: {{ s.w }}%; background: {{ s.color }}"></span>{% endfor %}
+    </div>
+    <div class="gauge-ticks">
+      {% for t in g.ticks %}<span style="left: {{ t.x }}%">{{ t.text }}</span>{% endfor %}
+    </div>
+  </div>
+  <ul class="gauge-legend">
+    {% for s in g.segments %}
+    <li class="{% if s.current %}is-current{% endif %}"><i style="background: {{ s.color }}"></i>{{ s.label }}{% if s.current %}<b>（你在这里）</b>{% endif %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endmacro %}
+
+{# 示意图：key 见 app.FIGURES；繁体版自动换成 .hant.svg #}
+{% macro figure(key, lazy=true) %}
+{% set f = figures[key] %}
+<figure class="ch-figure">
+  <img src="{{ fig_src(key) }}" alt="{{ f.alt }}" width="{{ f.w }}" height="{{ f.h }}"{% if lazy %} loading="lazy"{% endif %} decoding="async">
+  <figcaption>{{ f.caption }}</figcaption>
+</figure>
+{% endmacro %}

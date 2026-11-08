@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -48,6 +49,8 @@
         </div>
         <div class="text-muted small">WHR</div>
       </div>
+
+      {{ ui.gauge(result.gauge, "你的腰臀比在分级中的位置") }}
 
       <div class="alert alert-info mt-3 mb-3">
         你的 WHR（腰围 / 臀围）≈ <b>{{ result.ratio }}</b><br>
@@ -142,9 +145,10 @@
       <h2 class="h6">如何更准确地测量腰围和臀围？</h2>
       <p class="text-muted">
         为了让结果更稳定，建议每次都在相似条件下测量，例如早晨、空腹、自然站立、呼气后放松状态。
-        腰围通常测在腹部较细或肚脐附近的稳定位置，臀围则测在臀部最宽处。
+        按 WHO 的方法，腰围测在最下肋骨下缘与髂嵴（髋骨最高点）连线的中点，臀围测在臀部最突出处（见下图）。
         软尺应贴合身体但不要勒紧，并尽量保持每次测量位置一致。
       </p>
+      {{ ui.figure("body-measurement") }}
 
       <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
