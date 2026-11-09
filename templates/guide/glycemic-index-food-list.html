@@ -1,0 +1,217 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>GI 怎么分级：</b>以葡萄糖为 100，<b>GI ≤ 55 为低</b>、56–69 为中、≥ 70 为高。</li>
+    <li><b>高 GI 的常见主食：</b>白米饭约 73、白粥约 78、白面包约 75、即食燕麦粥约 79、煮土豆约 78。</li>
+    <li><b>低 GI 的常见食物：</b>豆类（黄豆约 16、扁豆约 32）、牛奶约 39、苹果约 36、橙子约 43、意大利面约 49、大麦约 28。</li>
+    <li><b>只看 GI 不够：</b>GI 不考虑份量，也不代表食物健康。要同时看 <b>GL（血糖负荷）= GI × 这份的可利用碳水 ÷ 100</b>，以及整餐搭配。</li>
+  </ul>
+</div>
+<p>
+  GI（Glycemic Index，血糖生成指数）描述的是：吃下含 50 g 可利用碳水的某种食物后，血糖在 2 小时内升高的幅度，和吃 50 g 葡萄糖相比是多少。
+  下面的对照表整理了约 55 种常见食物的 GI 值，并说明怎么用 GL 把份量考虑进去，以及哪些吃法可以让同一种食物的血糖反应更平稳。
+</p>
+
+<h2 id="levels">GI 和 GL 的分级标准</h2>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>等级</th><th>GI（血糖生成指数）</th><th>GL（一份食物的血糖负荷）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>低</td><td>≤ 55</td><td>≤ 10</td></tr>
+      <tr><td>中</td><td>56–69</td><td>11–19</td></tr>
+      <tr><td>高</td><td>≥ 70</td><td>≥ 20</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  GI 描述的是“碳水的质量”，与吃多少无关；GL 则把份量算进去，更接近一份食物实际带来的血糖负担。
+  计算方法是：<b>GL = GI × 这份食物的可利用碳水（g）÷ 100</b>，可利用碳水约等于总碳水减去膳食纤维。
+</p>
+
+<h2 id="table">常见食物 GI 值对照表</h2>
+<p>
+  以下数值来自悉尼大学等机构整理的《国际 GI 与 GL 值表（2008）》，以葡萄糖 = 100 为基准，取多项测定的平均值。
+  同一种食物会因品种、产地、成熟度和烹调方式不同而有差异，表中数值适合用来比较“大致高低”，不宜当成精确数字。
+</p>
+
+<h3 class="h6 mt-4">主食与谷物</h3>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>食物</th><th>GI</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>白粥（米粥）</td><td>78</td><td>高</td></tr>
+      <tr><td>白面包</td><td>75</td><td>高</td></tr>
+      <tr><td>全麦面包（全麦粉制）</td><td>74</td><td>高</td></tr>
+      <tr><td>白米饭（煮）</td><td>73</td><td>高</td></tr>
+      <tr><td>无酵小麦饼</td><td>70</td><td>高</td></tr>
+      <tr><td>糙米饭（煮）</td><td>68</td><td>中</td></tr>
+      <tr><td>小米粥</td><td>67</td><td>中</td></tr>
+      <tr><td>北非小米（库斯库斯）</td><td>65</td><td>中</td></tr>
+      <tr><td>印度烤饼（roti）</td><td>62</td><td>中</td></tr>
+      <tr><td>乌冬面</td><td>55</td><td>低</td></tr>
+      <tr><td>杂粮面包（含完整谷粒）</td><td>53</td><td>低</td></tr>
+      <tr><td>米粉 / 河粉</td><td>53</td><td>低</td></tr>
+      <tr><td>甜玉米</td><td>52</td><td>低</td></tr>
+      <tr><td>意大利面（白）</td><td>49</td><td>低</td></tr>
+      <tr><td>意大利面（全麦）</td><td>48</td><td>低</td></tr>
+      <tr><td>玉米饼（墨西哥薄饼）</td><td>46</td><td>低</td></tr>
+      <tr><td>大麦</td><td>28</td><td>低</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">
+  “全麦面包”和白面包差不多高，是因为表中的全麦面包用的是磨细的全麦粉；含完整谷粒、颗粒感明显的杂粮面包 GI 才明显较低。
+</p>
+
+<h3 class="h6 mt-4">早餐谷物</h3>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>食物</th><th>GI</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>玉米片（cornflakes）</td><td>81</td><td>高</td></tr>
+      <tr><td>即食燕麦粥</td><td>79</td><td>高</td></tr>
+      <tr><td>小麦片饼干（早餐麦片）</td><td>69</td><td>中</td></tr>
+      <tr><td>什锦燕麦（muesli）</td><td>57</td><td>中</td></tr>
+      <tr><td>传统燕麦片煮粥（rolled oats）</td><td>55</td><td>低</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">同样是燕麦，加工越细、越“即食”，GI 越高：传统燕麦片约 55，即食燕麦约 79。</p>
+
+<h3 class="h6 mt-4">薯类与蔬菜</h3>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>食物</th><th>GI</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>即食土豆泥</td><td>87</td><td>高</td></tr>
+      <tr><td>土豆（煮）</td><td>78</td><td>高</td></tr>
+      <tr><td>南瓜（煮）</td><td>64</td><td>中</td></tr>
+      <tr><td>炸薯条</td><td>63</td><td>中</td></tr>
+      <tr><td>红薯（煮）</td><td>63</td><td>中</td></tr>
+      <tr><td>青香蕉 / 大蕉（煮）</td><td>55</td><td>低</td></tr>
+      <tr><td>芋头（煮）</td><td>53</td><td>低</td></tr>
+      <tr><td>蔬菜汤</td><td>48</td><td>低</td></tr>
+      <tr><td>胡萝卜（煮）</td><td>39</td><td>低</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="h6 mt-4">水果与果汁</h3>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>食物</th><th>GI</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>西瓜</td><td>76</td><td>高</td></tr>
+      <tr><td>菠萝</td><td>59</td><td>中</td></tr>
+      <tr><td>香蕉</td><td>51</td><td>低</td></tr>
+      <tr><td>芒果</td><td>51</td><td>低</td></tr>
+      <tr><td>橙汁</td><td>50</td><td>低</td></tr>
+      <tr><td>草莓果酱</td><td>49</td><td>低</td></tr>
+      <tr><td>橙子</td><td>43</td><td>低</td></tr>
+      <tr><td>桃（罐头）</td><td>43</td><td>低</td></tr>
+      <tr><td>椰枣</td><td>42</td><td>低</td></tr>
+      <tr><td>苹果汁</td><td>41</td><td>低</td></tr>
+      <tr><td>苹果</td><td>36</td><td>低</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">果汁的 GI 不算高，但去掉了大部分纤维，一杯里的糖也比一个水果多，喝起来很容易过量，参见 <a href="/guide/sugar-salt-limit">每天吃多少糖算超标</a>。</p>
+
+<h3 class="h6 mt-4">乳制品与豆类</h3>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>食物</th><th>GI</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>米浆（米奶）</td><td>86</td><td>高</td></tr>
+      <tr><td>冰淇淋</td><td>51</td><td>低</td></tr>
+      <tr><td>水果酸奶</td><td>41</td><td>低</td></tr>
+      <tr><td>全脂牛奶</td><td>39</td><td>低</td></tr>
+      <tr><td>脱脂牛奶</td><td>37</td><td>低</td></tr>
+      <tr><td>豆浆</td><td>34</td><td>低</td></tr>
+      <tr><td>扁豆（小扁豆）</td><td>32</td><td>低</td></tr>
+      <tr><td>鹰嘴豆</td><td>28</td><td>低</td></tr>
+      <tr><td>红腰豆</td><td>24</td><td>低</td></tr>
+      <tr><td>黄豆</td><td>16</td><td>低</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="h6 mt-4">零食、饮料与糖</h3>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>食物</th><th>GI</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>葡萄糖</td><td>103</td><td>高</td></tr>
+      <tr><td>米饼 / 米果</td><td>87</td><td>高</td></tr>
+      <tr><td>蔗糖（白砂糖）</td><td>65</td><td>中</td></tr>
+      <tr><td>爆米花</td><td>65</td><td>中</td></tr>
+      <tr><td>蜂蜜</td><td>61</td><td>中</td></tr>
+      <tr><td>含糖汽水</td><td>59</td><td>中</td></tr>
+      <tr><td>薯片</td><td>56</td><td>中</td></tr>
+      <tr><td>巧克力</td><td>40</td><td>低</td></tr>
+      <tr><td>果糖</td><td>15</td><td>低</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="gl">为什么还要看 GL：同一碗饭和一块西瓜</h2>
+<p>
+  GI 是按“50 g 可利用碳水”测出来的，但实际吃的份量差别很大。比如西瓜 GI 约 76，可 200 g 西瓜只含约 14 g 可利用碳水；
+  一碗 150 g 的白米饭 GI 约 73，却含约 38 g。按 GL 公式计算一份常见份量：
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>食物（份量）</th><th>GI</th><th>可利用碳水（约）</th><th>GL</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>白米饭 150 g（约一碗）</td><td>73</td><td>38 g</td><td>约 28（高）</td></tr>
+      <tr><td>含糖汽水 330 ml（一罐）</td><td>59</td><td>35 g</td><td>约 21（高）</td></tr>
+      <tr><td>土豆（煮）150 g</td><td>78</td><td>25 g</td><td>约 20（高）</td></tr>
+      <tr><td>全麦面包 2 片（60 g）</td><td>74</td><td>24 g</td><td>约 18（中）</td></tr>
+      <tr><td>红薯（煮）150 g</td><td>63</td><td>23 g</td><td>约 14（中）</td></tr>
+      <tr><td>香蕉 1 根（约 120 g 果肉）</td><td>51</td><td>24 g</td><td>约 12（中）</td></tr>
+      <tr><td>西瓜 200 g</td><td>76</td><td>14 g</td><td>约 11（中）</td></tr>
+      <tr><td>苹果 200 g</td><td>36</td><td>23 g</td><td>约 8（低）</td></tr>
+      <tr><td>全脂牛奶 250 ml</td><td>39</td><td>12 g</td><td>约 5（低）</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  可利用碳水是按常见营养成分数据估算的。可以看到：西瓜 GI 高但 GL 中等；米饭 GI 高、份量又大，所以 GL 最高。
+  日常控制血糖反应时，<b>主食的份量</b>往往比挑选“低 GI 食物”影响更大。
+</p>
+
+<a class="tool-cta" href="/glycemic-load">→ 输入 GI、总碳水和膳食纤维，算出一份食物的血糖负荷：GI/GL 估算器</a>
+
+<h2 id="factors">同一种食物，GI 为什么会变</h2>
+<ul>
+  <li><b>加工程度：</b>越精细、越“即食”，消化越快，GI 越高。传统燕麦片约 55，即食燕麦约 79；完整谷粒的杂粮面包低于全麦粉面包。</li>
+  <li><b>烹调方式和时间：</b>煮得越软烂，淀粉越容易消化。粥的 GI 高于米饭，煮到稍有嚼劲的意大利面低于煮软的。</li>
+  <li><b>冷却：</b>米饭、土豆煮熟后冷藏，部分淀粉会变成“抗性淀粉”。一项研究中，煮好后冷藏 24 小时再加热的白米饭，GI 比刚煮好的低（约 53 对 64）。</li>
+  <li><b>成熟度：</b>越熟的香蕉糖分越多，GI 越高；偏青的香蕉 GI 较低。</li>
+  <li><b>同餐搭配：</b>和蛋白质、脂肪、膳食纤维或醋一起吃，胃排空变慢，血糖上升会更平缓。</li>
+</ul>
+
+<h2 id="tips">怎么用 GI 让一餐更平稳</h2>
+<ul>
+  <li><b>先控制主食份量：</b>米饭、面条、面包按一拳左右的量来估算，再考虑换成杂粮饭、糙米或掺豆类的饭。</li>
+  <li><b>换“更完整”的形态：</b>白粥换成米饭，即食燕麦换成传统燕麦片，白面包换成颗粒明显的杂粮面包，果汁换成完整水果。</li>
+  <li><b>调整进食顺序：</b>研究发现，先吃蔬菜和蛋白质、最后吃主食，餐后血糖和胰岛素的上升明显低于先吃主食。</li>
+  <li><b>每餐都有蛋白质：</b>蛋、豆腐、鱼、肉或奶类和主食一起吃，有助于平稳血糖，也更耐饿，参见 <a href="/guide/protein-intake-per-day">一天要吃多少蛋白质</a>。</li>
+  <li><b>不要把低 GI 等同于健康：</b>巧克力（约 40）、冰淇淋（约 51）、薯片（约 56）的 GI 都不高，是因为含大量脂肪，热量却很高。</li>
+</ul>
+
+<h2 id="who">谁需要特别留意 GI</h2>
+<p>
+  对一般健康的人来说，GI 是帮助挑选主食的参考，不必每样食物都查。
+  有糖尿病、糖尿病前期或妊娠期血糖异常的人，GI 和 GL 可以作为了解食物的工具之一，但具体每餐吃多少碳水、怎么搭配药物，
+  <b>请遵循医生或营养师的个别建议</b>，不要只靠查表调整饮食。
+</p>
+
+{% endblock %}

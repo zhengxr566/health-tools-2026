@@ -161,7 +161,7 @@ ARTICLES = [
          'Devine BJ, 1974; Robinson JD et al., 1983; Miller DR et al., 1983; Hamwi GJ, '
          '1964（理想体重公式，与本站理想体重工具一致）。'],
         'related_tools': ['/bmi', '/ideal-weight', '/goal-time'],
-        'related_articles': ['body-fat-percentage-chart', 'waist-to-height-ratio', 'calorie-deficit-fat-loss'],
+        'related_articles': ['body-fat-percentage-chart', 'waist-to-height-ratio', 'calorie-deficit-fat-loss', 'weight-fluctuation-plateau'],
     },
     {
         'slug': 'body-fat-percentage-chart',
@@ -267,7 +267,7 @@ ARTICLES = [
          'nonobese and obese adults: a systematic review. J Am Diet Assoc, 2005.',
          '活动系数 1.2 / 1.375 / 1.55 / 1.725 / 1.9 为常用经验分档（与本站 TDEE 工具一致）。'],
         'related_tools': ['/bmr', '/calorie', '/activity-level'],
-        'related_articles': ['calorie-deficit-fat-loss', 'protein-intake-per-day', 'daily-steps-health'],
+        'related_articles': ['calorie-deficit-fat-loss', 'protein-intake-per-day', 'daily-steps-health', 'boost-metabolism'],
     },
     {
         'slug': 'calorie-deficit-fat-loss',
@@ -299,7 +299,7 @@ ARTICLES = [
          'healthy individuals. Am J Clin Nutr, 1990.',
          '本站热量缺口工具：温和 −300 kcal、较快 −500 kcal、增重 +250 kcal，每日下限 1,200 kcal；目标时间工具按“体重差 ÷ 每周速度”估算。'],
         'related_tools': ['/deficit', '/goal-time', '/calorie'],
-        'related_articles': ['bmr-vs-tdee', 'protein-intake-per-day', 'bmi-normal-range'],
+        'related_articles': ['bmr-vs-tdee', 'protein-intake-per-day', 'bmi-normal-range', 'weight-fluctuation-plateau', 'intermittent-fasting-16-8'],
     },
     {
         'slug': 'protein-intake-per-day',
@@ -408,7 +408,7 @@ ARTICLES = [
          '杨月欣 主编.《中国食物成分表》；U.S. Department of Agriculture, FoodData Central.（食物成分常见值）',
          '按体重的碳水（3/4/5 g/kg）、脂肪（0.8/1.0/1.1 g/kg）系数及膳食纤维每 1000 kcal 约 14 g 的规则，与本站相应工具一致。'],
         'related_tools': ['/carbs', '/fat-intake', '/fiber', '/glycemic-load'],
-        'related_articles': ['protein-intake-per-day', 'sugar-salt-limit', 'calorie-deficit-fat-loss'],
+        'related_articles': ['protein-intake-per-day', 'sugar-salt-limit', 'calorie-deficit-fat-loss', 'glycemic-index-food-list'],
     },
     {
         'slug': 'sugar-salt-limit',
@@ -442,7 +442,7 @@ ARTICLES = [
          'GB 28050-2011《食品安全国家标准 预包装食品营养标签通则》.（钠的营养素参考值 2000 mg）',
          '含糖、含盐的每份估算值与本站糖摄入量、盐摄入量工具的简化模型一致；包装食品数值为常见标签值，实际以营养成分表为准。'],
         'related_tools': ['/sugar-intake', '/salt', '/glycemic-load'],
-        'related_articles': ['carbs-fat-fiber', 'daily-water-intake', 'caffeine-limit'],
+        'related_articles': ['carbs-fat-fiber', 'daily-water-intake', 'caffeine-limit', 'glycemic-index-food-list'],
     },
     {
         'slug': 'caffeine-limit',
@@ -626,6 +626,152 @@ ARTICLES = [
         'related_tools': ['/jet-lag', '/chronotype', '/caffeine-cutoff', '/sleep-bedtime'],
         'related_articles': ['sleep-debt-nap', 'sleep-cycle-90-minutes', 'caffeine-limit'],
     },
+    {'slug': 'glycemic-index-food-list',
+     'title': 'GI 值对照表：55 种常见食物升糖指数（附 GL 血糖负荷）',
+     'h1': 'GI 值对照表：常见食物升糖指数与血糖负荷',
+     'description': 'GI ≤ 55 为低、56–69 为中、≥ 70 为高。白米饭约 73、白粥约 78、白面包约 75，豆类、牛奶、苹果、意大利面属于低 GI。本文整理约 55 种常见食物的 GI '
+                    '值，并说明怎么用 GL 把份量考虑进去、哪些吃法能让血糖更平稳。',
+     'category': '营养摄入',
+     'published': '2026-11-09',
+     'updated': '2026-11-09',
+     'read_minutes': 9,
+     'toc': [('answer', '先说结论'),
+             ('levels', 'GI 和 GL 的分级标准'),
+             ('table', '常见食物 GI 值对照表'),
+             ('gl', '为什么还要看 GL'),
+             ('factors', '同一种食物，GI 为什么会变'),
+             ('tips', '怎么用 GI 让一餐更平稳'),
+             ('who', '谁需要特别留意 GI'),
+             ('faq', '常见问题')],
+     'faq': [('GI 多少算低？', '以葡萄糖为 100，GI ≤ 55 为低、56–69 为中、≥ 70 为高。一份食物的 GL ≤ 10 为低、11–19 为中、≥ 20 为高。'),
+             ('白米饭和糙米饭的 GI 差多少？', '按国际 GI 值表，煮白米饭约 73、糙米饭约 68，差距没有想象中大。控制份量、搭配蔬菜和蛋白质，对血糖的影响往往更明显。'),
+             ('西瓜 GI 很高，是不是不能吃？', '西瓜 GI 约 76，但 200 g 西瓜只含约 14 g 可利用碳水，GL 约 11，属于中等。适量吃一两块通常没问题，关键是别一次吃太多。'),
+             ('低 GI 食物就一定健康吗？', '不一定。巧克力、冰淇淋、薯片的 GI 都不高，是因为脂肪多，热量反而很高。GI 只是选择碳水来源时的参考之一。'),
+             ('米饭放凉再吃 GI 会变低吗？', '会降低一些。米饭煮熟后冷藏，部分淀粉会变成抗性淀粉；有研究发现冷藏 24 小时后再加热的白米饭，GI 比刚煮好的低（约 53 对 64）。')],
+     'sources': ['Atkinson FS, Foster-Powell K, Brand-Miller JC. International tables of glycemic index and '
+                 'glycemic load values: 2008. Diabetes Care, 2008.',
+                 'ISO 26642:2010. Food products — Determination of the glycaemic index (GI) and recommendation '
+                 'for food classification.',
+                 'Sonia S, Witjaksono F, Ridwan R. Effect of cooling of cooked white rice on resistant starch '
+                 'content and glycemic response. Asia Pac J Clin Nutr, 2015.',
+                 'Shukla AP, Iliescu RG, Thomas CE, Aronne LJ. Food order has a significant impact on '
+                 'postprandial glucose and insulin levels. Diabetes Care, 2015.',
+                 'GL 示例中的可利用碳水为按常见营养成分数据估算的数值；GL = GI × 可利用碳水 ÷ 100，与本站 GI/GL 估算器一致。'],
+     'related_tools': ['/glycemic-load', '/carbs', '/fiber', '/sugar-intake'],
+     'related_articles': ['carbs-fat-fiber', 'sugar-salt-limit', 'protein-intake-per-day']},
+    {'slug': 'weight-fluctuation-plateau',
+     'title': '体重一天差多少正常？体重波动与减肥平台期怎么分辨',
+     'h1': '体重一天差多少正常？体重波动与平台期怎么分辨',
+     'description': '体重一天上下 0.5–2 kg '
+                    '很常见，多半是水分、食物、盐分和糖原的变化，不是脂肪。本文说明体重为什么波动、怎样称重才看得出趋势、连续几周不降才算平台期，以及平台期的原因和调整顺序。',
+     'category': '体重与体型',
+     'published': '2026-11-09',
+     'updated': '2026-11-09',
+     'read_minutes': 8,
+     'toc': [('answer', '先说结论'),
+             ('why', '体重为什么一天会差 1–2 kg'),
+             ('weigh', '怎样称重才看得出真实趋势'),
+             ('plateau', '波动还是平台期：怎么判断'),
+             ('causes', '平台期为什么会出现'),
+             ('break', '遇到平台期怎么办'),
+             ('doctor', '什么时候需要就医'),
+             ('faq', '常见问题')],
+     'faq': [('体重一天波动多少算正常？', '一天内或隔天相差 0.5–2 kg 都很常见，主要来自水分、胃肠里的食物、盐分、碳水（糖原带水）和排便。脂肪每天能减少的量通常不到 0.1 kg。'),
+             ('为什么吃了火锅第二天体重变重？', '盐吃多后身体会暂时留住更多水分，加上食物本身的重量，第二天体重常会上升 0.5–1.5 kg，通常 1–3 天内回落。'),
+             ('多久体重不降才算平台期？', '连续 3–4 周的周平均体重和腰围都几乎不变，才比较确定是平台期。只有 1–2 周不降，多半只是正常波动。'),
+             ('平台期该少吃还是多动？', '先按现在的体重重算热量，并认真记录 1–2 周确认没有漏记；再优先增加日常步数，最后才考虑每天少吃 100–200 kcal。'),
+             ('每天称体重好还是每周称好？', '每天在相同条件下称、再看每周平均值最准确。如果看到数字会焦虑，每周固定称 2–3 次、取平均也可以。')],
+     'sources': ['Orsama AL, Mattila E, Ermes M, et al. Weight rhythms: weight increases during weekends and '
+                 'decreases during weekdays. Obes Facts, 2014.',
+                 'Olsson KE, Saltin B. Variation in total body water with muscle glycogen changes in man. Acta '
+                 'Physiol Scand, 1970.',
+                 'Polidori D, Sanghvi A, Seeley RJ, Hall KD. How strongly does appetite counter weight loss? '
+                 'Quantification of the feedback control of human energy intake. Obesity, 2016.',
+                 'Lichtman SW, Pisarska K, Berman ER, et al. Discrepancy between self-reported and actual '
+                 'caloric intake and exercise in obese subjects. N Engl J Med, 1992.',
+                 'Byrne NM, Sainsbury A, King NA, et al. Intermittent energy restriction improves weight loss '
+                 'efficiency in obese men: the MATADOR study. Int J Obes, 2018.',
+                 'Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in '
+                 'healthy individuals. Am J Clin Nutr, 1990.'],
+     'related_tools': ['/deficit', '/calorie', '/goal-time', '/waist'],
+     'related_articles': ['calorie-deficit-fat-loss', 'boost-metabolism', 'bmr-vs-tdee']},
+    {'slug': 'intermittent-fasting-16-8',
+     'title': '168 断食有效吗？研究证据、一天怎么吃、谁不适合',
+     'h1': '168 断食有效吗？研究证据与正确做法',
+     'description': '168 断食是每天在 8 '
+                    '小时内进食。随机对照试验发现，总热量相同时它和普通少吃的减重效果差不多，主要作用是帮人更容易少吃。本文整理研究证据、入门方法和一日安排示例，并列出不适合尝试的人群。',
+     'category': '代谢与热量',
+     'published': '2026-11-09',
+     'updated': '2026-11-09',
+     'read_minutes': 8,
+     'toc': [('answer', '先说结论'),
+             ('types', '常见的间歇性断食方式'),
+             ('evidence', '168 断食真的比较有效吗'),
+             ('how', '怎么开始：一天怎么安排'),
+             ('mistakes', '常见误区'),
+             ('who', '哪些人不适合 168 断食'),
+             ('faq', '常见问题')],
+     'faq': [('168 断食真的能减肥吗？',
+              '能，但主要是因为进食时间变短后，多数人会不知不觉少吃。2022 年《新英格兰医学杂志》的研究发现，在总热量相同时，限时进食和单纯限制热量的 12 个月减重效果没有明显差别。'),
+             ('168 断食期间可以喝什么？', '白开水、气泡水、无糖茶和黑咖啡。加糖或加奶的饮料、果汁、代餐和零食都会打断断食。'),
+             ('168 断食的进食时间怎么选？', '配合作息即可，例如 10:00–18:00 或 12:00–20:00。如果条件允许，窗口偏白天可能比偏晚上更理想；新手可以先从 12:12 开始。'),
+             ('168 断食会流失肌肉吗？', '如果蛋白质吃不够、又不做力量训练，就有可能。建议每天每公斤体重约 1.2–1.6 g 蛋白质，分配到窗口内的每一餐，并每周做 2–3 次力量训练。'),
+             ('哪些人不适合 168 断食？', '孕期和哺乳期女性、未成年人、有饮食障碍史的人、使用胰岛素或降血糖药的糖尿病患者、体重过轻的人，都不建议自行尝试，应先咨询医生。')],
+     'sources': ['Liu D, Huang Y, Huang C, et al. Calorie restriction with or without time-restricted eating in '
+                 'weight loss. N Engl J Med, 2022.',
+                 'Lowe DA, Wu N, Rohdin-Bibby L, et al. Effects of time-restricted eating on weight loss and '
+                 'other metabolic parameters in women and men with overweight and obesity: the TREAT randomized '
+                 'clinical trial. JAMA Intern Med, 2020.',
+                 'Trepanowski JF, Kroeger CM, Barnosky A, et al. Effect of alternate-day fasting on weight loss, '
+                 'weight maintenance, and cardioprotection among metabolically healthy obese adults. JAMA Intern '
+                 'Med, 2017.',
+                 'Sutton EF, Beyl R, Early KS, et al. Early time-restricted feeding improves insulin '
+                 'sensitivity, blood pressure, and oxidative stress even without weight loss in men with '
+                 'prediabetes. Cell Metab, 2018.',
+                 'American Heart Association. 8-hour time-restricted eating linked to a 91% higher risk of '
+                 'cardiovascular death（EPI|Lifestyle Scientific Sessions 会议摘要新闻稿）, 2024.'],
+     'related_tools': ['/meal-split', '/deficit', '/protein', '/caffeine-cutoff'],
+     'related_articles': ['calorie-deficit-fat-loss', 'protein-intake-per-day', 'boost-metabolism']},
+    {'slug': 'boost-metabolism',
+     'title': '基础代谢能提高吗？增肌、年龄与节食对代谢的真实影响',
+     'h1': '基础代谢能提高吗？哪些方法有用、哪些是误区',
+     'description': '基础代谢主要由去脂体重决定，1 kg 肌肉每天只多消耗约 13 kcal；20–60 岁代谢基本稳定，60 岁后才每年下降约 '
+                    '0.7%。本文说明增肌、日常活动、年龄和节食对代谢的影响，以及喝冰水、吃辣等说法的研究结论。',
+     'category': '代谢与热量',
+     'published': '2026-11-09',
+     'updated': '2026-11-09',
+     'read_minutes': 9,
+     'toc': [('answer', '先说结论'),
+             ('what', '基础代谢由什么决定'),
+             ('muscle', '增肌能提高多少代谢'),
+             ('neat', '比基础代谢更值得关注的：日常活动消耗'),
+             ('age', '年纪大了代谢一定变慢吗'),
+             ('diet', '节食为什么会让代谢下降'),
+             ('myths', '常见误区：这些方法有用吗'),
+             ('thyroid', '什么时候要怀疑是健康问题'),
+             ('faq', '常见问题')],
+     'faq': [('怎么提高基础代谢？', '最可靠的方法是做力量训练增加或保住肌肉，同时吃够蛋白质、避免过度节食。但效果有限：1 kg 肌肉每天约多消耗 13 kcal，增加日常步数对总消耗的影响往往更大。'),
+             ('过了 30 岁代谢会变慢吗？', '2021 年《科学》的研究发现，按体型校正后，20–60 岁之间的代谢基本稳定，60 岁以后才每年下降约 0.7%。中年发福更多与活动减少和肌肉流失有关。'),
+             ('节食会让基础代谢下降吗？', '会。体重减轻本身会降低消耗，热量缺口过大或蛋白质不足时还会流失肌肉，并出现额外的适应性下降。温和的热量缺口、足够蛋白质和力量训练可以减少下降幅度。'),
+             ('喝冰水能提高代谢吗？', '效果很小。较严谨的研究发现喝 500 ml 水后代谢只上升约 4.5%，一天下来只多消耗几 kcal 到十几 kcal。'),
+             ('少吃多餐能提高代谢吗？', '基本不能。消化食物的消耗取决于总共吃了多少，同样的热量分成 3 餐或 6 餐，总消耗相近。')],
+     'sources': ['Johnstone AM, Murison SD, Duncan JS, et al. Factors influencing variation in basal metabolic '
+                 'rate include fat-free mass, fat mass, age, and circulating thyroxine but not sex, circulating '
+                 'leptin, or triiodothyronine. Am J Clin Nutr, 2005.',
+                 'Elia M. Organ and tissue contribution to metabolic rate. In: Kinney JM, Tucker HN, eds. Energy '
+                 'Metabolism: Tissue Determinants and Cellular Corollaries. Raven Press, 1992.',
+                 'Levine JA, Eberhardt NL, Jensen MD. Role of nonexercise activity thermogenesis in resistance '
+                 'to fat gain in humans. Science, 1999.',
+                 'Pontzer H, Yamada Y, Sagayama H, et al. Daily energy expenditure through the human life '
+                 'course. Science, 2021.',
+                 'Fothergill E, Guo J, Howard L, et al. Persistent metabolic adaptation 6 years after "The '
+                 'Biggest Loser" competition. Obesity, 2016.',
+                 'Westerterp KR. Diet induced thermogenesis. Nutr Metab, 2004.',
+                 'Brown CM, Dulloo AG, Montani JP. Water-induced thermogenesis reconsidered: the effects of '
+                 'osmolality and water temperature on energy expenditure after drinking. J Clin Endocrinol '
+                 'Metab, 2006.'],
+     'related_tools': ['/bmr', '/calorie', '/activity-level', '/protein'],
+     'related_articles': ['bmr-vs-tdee', 'weight-fluctuation-plateau', 'calorie-deficit-fat-loss']},
 ]
 
 ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}

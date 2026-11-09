@@ -1584,14 +1584,14 @@ def glycemic_load_info(gi: float, carbs_g: float, fiber_g: float = 0.0) -> dict:
     available_carbs = max(0.0, carbs_g - fiber_g)
     gl = gi * available_carbs / 100.0
 
-    if gi < 55:
+    if gi <= 55:
         gi_level = "低 GI"
     elif gi < 70:
         gi_level = "中 GI"
     else:
         gi_level = "高 GI"
 
-    if gl < 10:
+    if gl <= 10:
         gl_level = "低 GL"
         note = "这份食物的血糖负荷相对较低，通常更接近小份量或可利用碳水较少的情况。"
         progress = 32
