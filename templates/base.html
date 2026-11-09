@@ -26,6 +26,11 @@
     gtag('config', 'G-1LZB526GC5');
   </script>
   {% endif %}
+  {% if request.host.split(':')[0].endswith('calmyhealth.com') and not page_noindex %}
+  <!-- Google AdSense，只在正式域名、且可被索引的页面加载 -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8372619640631658"
+     crossorigin="anonymous"></script>
+  {% endif %}
 
   <meta property="og:title" content="{{ page_title }}">
   <meta property="og:description" content="{{ page_description }}">

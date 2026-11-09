@@ -3081,6 +3081,16 @@ def robots():
     return Response("\n".join(lines) + "\n", mimetype="text/plain")
 
 
+ADSENSE_PUB_ID = "pub-8372619640631658"
+
+
+@app.get("/ads.txt")
+def ads_txt():
+    # 授权数字卖方声明：只允许 Google AdSense 以本站发布商 ID 销售广告位
+    line = f"google.com, {ADSENSE_PUB_ID}, DIRECT, f08c47fec0942fa0"
+    return Response(line + "\n", mimetype="text/plain")
+
+
 @app.get("/sitemap.xml")
 def sitemap():
     core_paths = ["/", "/tools", "/guide", "/about", "/privacy", "/contact"]
