@@ -1,0 +1,118 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">BMI計算・肥満度判定</h1>
+  <p class="text-muted mb-3">身長と体重を入れると、BMIと日本肥満学会の基準による判定、標準体重（BMI22）がわかります。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">身長（cm）</label>
+      <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例：165">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">体重（kg）</label>
+      <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例：60">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">BMIを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if bmi is not none %}
+{% set hm = (height_cm_in | float) / 100 %}
+<div class="tool-card">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <div>
+      <div class="text-muted small">あなたのBMI</div>
+      <div class="display-6 fw-semibold mb-0">{{ bmi }}</div>
+    </div>
+    <span class="badge text-bg-primary p-2">{{ category }}</span>
+  </div>
+
+  {{ ui.gauge(gauge, "日本肥満学会の判定基準でのあなたの位置") }}
+
+  <div class="bg-light rounded-3 p-3 mt-3 small">
+    身長 {{ height_cm_in }} cm の<b>標準体重（BMI22）は {{ '%.1f' | format(22 * hm * hm) }} kg</b>、
+    普通体重（BMI18.5〜25未満）の範囲は <b>{{ ideal_min }}〜{{ ideal_max }} kg</b> です。
+    {% if to_min %}普通体重まであと約 <b>{{ to_min }} kg</b> です。
+    {% elif to_max %}普通体重の上限より約 <b>{{ to_max }} kg</b> 多い状態です。1週間に0.5kgのペースなら約 {{ ((to_max / 0.5) | round(0, 'ceil')) | int }} 週間が目安です。
+    {% else %}普通体重の範囲内です。{% endif %}
+  </div>
+
+  <h2 class="h6 mt-4 mb-2">これからのポイント</h2>
+  <ul class="mb-0 small">
+    {% if band_kind == 'low' %}
+    <li>3食しっかり食べ、毎食たんぱく質（肉・魚・卵・大豆製品・乳製品）をとりましょう。</li>
+    <li>週2〜3回の筋トレで筋肉量を増やすと、体重が増えても体脂肪がつきにくくなります。</li>
+    <li>急にやせた、食欲がないなどの場合は、医療機関に相談しましょう。</li>
+    {% elif band_kind == 'normal' %}
+    <li>今の体重を維持しつつ、<a href="/waist">腹囲</a>や<a href="/bodyfat">体脂肪率</a>もチェックしましょう。BMIが普通でも内臓脂肪が多い場合があります。</li>
+    <li>1日約8,000歩を目安に体を動かすと、体重の維持に役立ちます（<a href="/steps">歩数のカロリー計算</a>）。</li>
+    {% else %}
+    <li>まず<a href="/calorie">1日の消費カロリー</a>を計算し、1日300〜500kcal 少なめを目安にしましょう。</li>
+    <li>たんぱく質を十分にとり、筋トレと歩く量を増やすと、筋肉を保ちながら減量できます。</li>
+    <li>健診の血圧・血糖・脂質の値もあわせて確認しましょう。BMI35以上の場合は医療機関への相談をおすすめします。</li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6 mb-1">BMIの判定基準（日本肥満学会）</h2>
+  <div class="small text-muted mb-3">{{ bmi_std.name }}</div>
+  <div class="table-responsive">
+    <table class="table align-middle mb-0">
+      <thead><tr><th>判定</th><th>BMI</th><th>ひとこと</th></tr></thead>
+      <tbody>
+        {% for b in bmi_std.bands %}
+        {% set is_cur = bmi is not none and (b.lo is none or bmi >= b.lo) and (b.hi is none or bmi < b.hi) %}
+        <tr class="{% if is_cur %}table-{{ 'success' if b.kind == 'normal' else ('danger' if b.kind == 'obese' else 'warning') }}{% endif %}">
+          <td class="text-nowrap">{{ b.label }}{% if is_cur %} <span class="badge text-bg-secondary ms-1">あなた</span>{% endif %}</td>
+          <td class="text-nowrap">{% if b.lo is none %}{{ '%g' | format(b.hi) }} 未満{% elif b.hi is none %}{{ '%g' | format(b.lo) }} 以上{% else %}{{ '%g' | format(b.lo) }} 以上 {{ '%g' | format(b.hi) }} 未満{% endif %}</td>
+          <td class="text-muted small">{{ b.note }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="form-text mt-2">
+    WHO の国際基準では BMI 25〜30 未満を「過体重（pre-obese）」、30 以上を「肥満」としています。
+    日本人は欧米人より低い BMI で糖尿病などのリスクが高まるため、日本では 25 以上を肥満としています。
+  </div>
+  {{ ui.figure("bmi-chart") }}
+</div>
+
+<div class="tool-card">
+  <h2 class="h6">BMIの計算式</h2>
+  <p class="text-muted">
+    <b>BMI ＝ 体重（kg）÷ 身長（m）÷ 身長（m）</b><br>
+    例：身長165cm・体重60kgなら、60 ÷ 1.65 ÷ 1.65 ≒ 22.0 です。
+  </p>
+  <h2 class="h6 mt-4">標準体重とは</h2>
+  <p class="text-muted">
+    <b>標準体重（kg）＝ 身長（m）× 身長（m）× 22</b> です。日本の研究で、BMI22 前後の人がもっとも病気になりにくかったことから、
+    この値が「標準」として使われています。ただし BMI22 ちょうどを目指す必要はなく、普通体重（18.5〜25未満）の範囲で、腹囲や健診結果が良好なら問題ありません。
+  </p>
+  <h2 class="h6 mt-4">年齢別の目標BMI</h2>
+  <p class="text-muted">厚生労働省「日本人の食事摂取基準」では、年齢によって目標とする BMI の範囲が示されています。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>年齢</th><th>目標とするBMI</th></tr></thead>
+      <tbody>
+        <tr><td>18〜49歳</td><td>18.5〜24.9</td></tr>
+        <tr><td>50〜64歳</td><td>20.0〜24.9</td></tr>
+        <tr><td>65歳以上</td><td>21.5〜24.9</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted small">高齢になるほど下限が高いのは、やせによる筋力低下（フレイル）を防ぐためです。</p>
+  <h2 class="h6 mt-4">BMIの注意点</h2>
+  <p class="text-muted">
+    BMI は身長と体重だけで計算するため、筋肉と脂肪の区別がつきません。筋肉量が多い人は BMI が高めに、
+    筋肉が少ない人は BMI が普通でも体脂肪が多い「隠れ肥満」のことがあります。<a href="/waist">腹囲</a>や<a href="/bodyfat">体脂肪率</a>もあわせて確認しましょう。
+  </p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

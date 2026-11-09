@@ -1,4 +1,4 @@
-"""生成站内示意图（SVG）和社交分享卡片（PNG），简体和繁体各一份。
+"""生成站内示意图（SVG）和社交分享卡片（PNG），简体、繁体、日语各一份。
 
 用法（在仓库根目录）：
     python scripts/make_figures.py
@@ -7,8 +7,8 @@
 分享卡片的字体用 Noto Sans SC（SIL OFL 授权），默认在 C:/Windows/Fonts 里找，也可以用环境变量 CALMY_FONT 指定路径。
 
 输出：
-    static/img/<name>.svg 和 <name>.hant.svg    —— 页面里用 <img> 引用的示意图
-    static/og/<key>.png   和 <key>.hant.png     —— og:image 分享卡片（1200×630）
+    static/img/<name>.svg、<name>.hant.svg、<name>.ja.svg —— 页面里用 <img> 引用的示意图
+    static/og/<key>.png、<key>.hant.png、<key>.ja.png      —— og:image 分享卡片（1200×630）
 """
 from __future__ import annotations
 
@@ -23,29 +23,73 @@ sys.path.insert(0, str(ROOT))
 from app import BMI_STANDARDS, BODYFAT_BANDS, BODYFAT_COLORS, TOOLS, band_color  # noqa: E402
 from articles import ARTICLES, HANT_OVERRIDES  # noqa: E402
 from i18n_hant import to_hant_text  # noqa: E402
+from i18n_ja import JA_TOOLS  # noqa: E402
+from articles_ja import JA_ARTICLES  # noqa: E402
 
 IMG_DIR = ROOT / "static" / "img"
 OG_DIR = ROOT / "static" / "og"
 
 FONT_HANS = "'PingFang SC','Microsoft YaHei','Noto Sans SC','Noto Sans CJK SC',sans-serif"
 FONT_HANT = "'PingFang TC','Microsoft JhengHei','Noto Sans TC','Noto Sans CJK TC',sans-serif"
+FONT_JA = "'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif"
+LANGS = ("hans", "hant", "ja")
+
+# 日语版图片里的文字（键为简体原文）。没有登记的文字原样输出，例如本来就是日语的 BMI 分级名称。
+JA_FIG = {
+    "肋骨下缘": "肋骨の下端",
+    "髂嵴（髋骨最高点）": "腸骨の上端（腰骨）",
+    "中点": "中間",
+    "颈围": "首囲",
+    "喉结下方，软尺略向前下方倾斜": "のどぼとけの下、やや前下がりに",
+    "腰围（WHO 标准位置）": "ウエスト（WHO の位置）",
+    "肋骨下缘与髂嵴连线的中点": "肋骨の下端と腸骨の上端の中間",
+    "自然站立，呼气结束时读数，不要收腹": "立って力を抜き、息を吐き終えて測る",
+    "肚脐水平": "おへその高さ",
+    "美国海军体脂公式：男性腰围在此测量": "メタボ健診の腹囲・米海軍式（男性）",
+    "臀围": "ヒップ",
+    "臀部最突出处，软尺保持水平": "お尻のいちばん出ているところを水平に",
+    "围度测量位置": "周囲径の測り方",
+    "颈围 · 腰围 · 臀围怎么量": "首囲・ウエスト・ヒップの位置",
+    "软尺贴合皮肤但不勒紧，": "メジャーは肌に沿わせ、締めつけない。",
+    "每次固定同一位置、同一时间测量。": "毎回同じ位置・同じ時間帯に測る。",
+    "围度测量位置：颈围、腰围、臀围怎么量": "周囲径の測り方：首囲・ウエスト・ヒップ",
+    "人体正面示意图，标出颈围、腰围（肋骨下缘与髂嵴连线中点）、肚脐水平和臀围的测量位置。":
+        "体の正面図に、首囲、ウエスト（肋骨の下端と腸骨の上端の中間）、おへその高さ、ヒップの測る位置を示した図。",
+    "BMI 身高体重对照表": "BMI早見表",
+    "身高": "身長",
+    "BMI = 体重（kg）÷ 身高（m）²。区间含下限、不含上限；仅适用于成人。": "BMI＝体重（kg）÷ 身長（m）²。各区分は下限を含み、上限を含みません。成人が対象です。",
+    "男女体脂率参考范围": "男女別・体脂肪率の目安",
+    "美国运动委员会（ACE）分级 · 单位：体脂率 %": "米国運動協議会（ACE）の区分・単位：体脂肪率 %",
+    "必需脂肪": "必須脂肪",
+    "运动员": "アスリート",
+    "健身良好": "引き締まり",
+    "一般水平": "標準",
+    "偏高": "高め",
+    "低于必需脂肪的水平不宜长期维持；同一体重下，年龄越大体脂率通常越高。": "必須脂肪を下回る状態を長く続けるのは避けましょう。同じ体重でも、年齢が上がると体脂肪率は高めになりがちです。",
+    "男女体脂率参考范围（ACE 分级）": "男女別・体脂肪率の目安（ACEの区分）",
+    "男性和女性体脂率分级条形图：必需脂肪、运动员、健身良好、一般水平、偏高。": "男性と女性の体脂肪率の区分を示した帯グラフ：必須脂肪、アスリート、引き締まり、標準、高め。",
+}
 INK = "#1f2937"
 SOFT = "#6b7280"
 LINE = "#e5e7eb"
 BRAND = "#198754"
 
 
-def t(text: str, hant: bool) -> str:
-    return to_hant_text(text) if hant else text
+def t(text: str, lang: str) -> str:
+    if lang == "hant":
+        return to_hant_text(text)
+    if lang == "ja":
+        return JA_FIG.get(text, text)
+    return text
 
 
-def svg_doc(w: int, h: int, body: list[str], hant: bool, title: str, desc: str) -> str:
-    font = FONT_HANT if hant else FONT_HANS
+def svg_doc(w: int, h: int, body: list[str], lang: str, title: str, desc: str) -> str:
+    font = {"hans": FONT_HANS, "hant": FONT_HANT, "ja": FONT_JA}[lang]
     return "\n".join([
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
         f'font-family="{font}" role="img">',
-        f"<title>{escape(t(title, hant))}</title>",
-        f"<desc>{escape(t(desc, hant))}</desc>",
+        f"<title>{escape(t(title, lang))}</title>",
+        f"<desc>{escape(t(desc, lang))}</desc>",
         f'<rect width="{w}" height="{h}" fill="#ffffff"/>',
         *body,
         f'<text x="{w - 16}" y="{h - 14}" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>',
@@ -54,15 +98,15 @@ def svg_doc(w: int, h: int, body: list[str], hant: bool, title: str, desc: str) 
     ])
 
 
-def text(x, y, s, hant, size=14, fill=INK, anchor="start", weight="normal") -> str:
+def text(x, y, s, lang, size=14, fill=INK, anchor="start", weight="normal") -> str:
     return (f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" text-anchor="{anchor}" '
-            f'font-weight="{weight}">{escape(t(s, hant))}</text>')
+            f'font-weight="{weight}">{escape(t(s, lang))}</text>')
 
 
 # ---------------------------------------------------------------------------
 # 1. 围度测量位置（颈围 / 腰围 / 臀围）
 # ---------------------------------------------------------------------------
-def fig_body_measurement(hant: bool) -> str:
+def fig_body_measurement(lang: str) -> str:
     cx = 230
     b: list[str] = []
     skin, edge = "#f3e3d3", "#c9a98a"
@@ -92,9 +136,9 @@ def fig_body_measurement(hant: bool) -> str:
     # 骨性标志：肋骨下缘、髂嵴
     for y, label in ((268, "肋骨下缘"), (330, "髂嵴（髋骨最高点）")):
         b.append(f'<line x1="150" y1="{y}" x2="200" y2="{y}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>')
-        b.append(text(146, y + 5, label, hant, 13, SOFT, "end"))
+        b.append(text(146, y + 5, label, lang, 13, SOFT, "end"))
     b.append(f'<path d="M 156 272 L 156 326" stroke="#94a3b8" stroke-width="1.5" fill="none"/>')
-    b.append(text(146, 304, "中点", hant, 13, SOFT, "end"))
+    b.append(text(146, 304, "中点", lang, 13, SOFT, "end"))
 
     tapes = [
         # (y, 半宽, 颜色, 标签y, 标题, 说明行)
@@ -109,23 +153,23 @@ def fig_body_measurement(hant: bool) -> str:
         x_start = cx + hw + 6
         b.append(f'<path d="M {x_start} {y} L 380 {y} L 400 {ly - 5}" stroke="{color}" stroke-width="1.5" fill="none"/>')
         b.append(f'<circle cx="{x_start}" cy="{y}" r="3.5" fill="{color}"/>')
-        b.append(text(410, ly, title, hant, 17, color, weight="bold"))
+        b.append(text(410, ly, title, lang, 17, color, weight="bold"))
         for i, line in enumerate(lines):
-            b.append(text(410, ly + 22 + i * 20, line, hant, 14, INK))
+            b.append(text(410, ly + 22 + i * 20, line, lang, 14, INK))
 
-    b.append(text(410, 44, "围度测量位置", hant, 24, INK, weight="bold"))
-    b.append(text(410, 70, "颈围 · 腰围 · 臀围怎么量", hant, 15, SOFT))
-    b.append(text(410, 496, "软尺贴合皮肤但不勒紧，", hant, 13, SOFT))
-    b.append(text(410, 516, "每次固定同一位置、同一时间测量。", hant, 13, SOFT))
-    return svg_doc(720, 560, b, hant, "围度测量位置：颈围、腰围、臀围怎么量",
+    b.append(text(410, 44, "围度测量位置", lang, 24, INK, weight="bold"))
+    b.append(text(410, 70, "颈围 · 腰围 · 臀围怎么量", lang, 15, SOFT))
+    b.append(text(410, 496, "软尺贴合皮肤但不勒紧，", lang, 13, SOFT))
+    b.append(text(410, 516, "每次固定同一位置、同一时间测量。", lang, 13, SOFT))
+    return svg_doc(720, 560, b, lang, "围度测量位置：颈围、腰围、臀围怎么量",
                    "人体正面示意图，标出颈围、腰围（肋骨下缘与髂嵴连线中点）、肚脐水平和臀围的测量位置。")
 
 
 # ---------------------------------------------------------------------------
 # 2. BMI 身高体重对照表（简体：中国标准；繁体：台湾国健署标准）
 # ---------------------------------------------------------------------------
-def fig_bmi_chart(hant: bool) -> str:
-    std = BMI_STANDARDS["tw" if hant else "cn"]
+def fig_bmi_chart(lang: str) -> str:
+    std = BMI_STANDARDS[{"hans": "cn", "hant": "tw", "ja": "jp"}[lang]]
     heights = list(range(150, 191, 5))
     weights = list(range(40, 116, 5))
     x0, y0, cw, ch = 86, 112, 42, 34
@@ -133,16 +177,17 @@ def fig_bmi_chart(hant: bool) -> str:
     h = y0 + ch * len(heights) + 110
     b: list[str] = []
     title = "BMI 身高体重对照表"
-    b.append(text(24, 40, title, hant, 24, INK, weight="bold"))
-    b.append(text(24, 66, f"按{std['name']}着色 · 格内数字为 BMI", hant, 14, SOFT))
-    b.append(text(x0 + cw * len(weights) / 2, y0 - 26, "体重（kg）", hant, 13, SOFT, "middle"))
-    b.append(text(24, y0 - 8, "身高", hant, 13, SOFT))
-    b.append(text(24, y0 + 8, "（cm）", hant, 12, SOFT))
+    b.append(text(24, 40, title, lang, 24, INK, weight="bold"))
+    sub = (f"{std['name']}で色分け・マス内の数字がBMI" if lang == "ja" else f"按{std['name']}着色 · 格内数字为 BMI")
+    b.append(text(24, 66, sub, lang, 14, SOFT))
+    b.append(text(x0 + cw * len(weights) / 2, y0 - 26, "体重（kg）", lang, 13, SOFT, "middle"))
+    b.append(text(24, y0 - 8, "身高", lang, 13, SOFT))
+    b.append(text(24, y0 + 8, "（cm）", lang, 12, SOFT))
     for j, wt in enumerate(weights):
-        b.append(text(x0 + j * cw + cw / 2, y0 - 8, str(wt), hant, 13, INK, "middle", "bold"))
+        b.append(text(x0 + j * cw + cw / 2, y0 - 8, str(wt), lang, 13, INK, "middle", "bold"))
     for i, ht in enumerate(heights):
         y = y0 + i * ch
-        b.append(text(x0 - 12, y + ch / 2 + 5, str(ht), hant, 13, INK, "end", "bold"))
+        b.append(text(x0 - 12, y + ch / 2 + 5, str(ht), lang, 13, INK, "end", "bold"))
         for j, wt in enumerate(weights):
             bmi = wt / (ht / 100) ** 2
             idx = next(k for k, band in enumerate(std["bands"])
@@ -150,7 +195,7 @@ def fig_bmi_chart(hant: bool) -> str:
             fill, ink = band_color(std, idx)
             x = x0 + j * cw
             b.append(f'<rect x="{x}" y="{y}" width="{cw}" height="{ch}" fill="{fill}" stroke="#ffffff" stroke-width="1.5"/>')
-            b.append(text(x + cw / 2, y + ch / 2 + 4, f"{bmi:.1f}", hant, 12, ink, "middle"))
+            b.append(text(x + cw / 2, y + ch / 2 + 4, f"{bmi:.1f}", lang, 12, ink, "middle"))
     # 图例
     ly = y0 + ch * len(heights) + 34
     lx = 24
@@ -163,12 +208,15 @@ def fig_bmi_chart(hant: bool) -> str:
         if lx + item_w > w - 16:
             lx, ly = 24, ly + 26
         b.append(f'<rect x="{lx}" y="{ly - 13}" width="16" height="16" rx="3" fill="{fill}"/>')
-        b.append(text(lx + 22, ly, label, hant, 13, INK))
+        b.append(text(lx + 22, ly, label, lang, 13, INK))
         lx += item_w
     h = max(h, ly + 70)
-    b.append(text(24, ly + 30, "BMI = 体重（kg）÷ 身高（m）²。区间含下限、不含上限；仅适用于成人。", hant, 12, SOFT))
+    b.append(text(24, ly + 30, "BMI = 体重（kg）÷ 身高（m）²。区间含下限、不含上限；仅适用于成人。", lang, 12, SOFT))
+    if lang == "ja":
+        desc = f"身長150〜190cm・体重40〜115kgのBMIを、{std['name']}で色分けした早見表。"
+        return svg_doc(w, h, b, lang, f"BMI早見表・{std['name']}", desc)
     desc = f"身高 150–190 cm、体重 40–115 kg 的 BMI 数值对照表，按{std['name']}的分级着色。"
-    return svg_doc(w, h, b, hant, f"BMI 身高体重对照表 · {std['name']}", desc)
+    return svg_doc(w, h, b, lang, f"BMI 身高体重对照表 · {std['name']}", desc)
 
 
 # ---------------------------------------------------------------------------
@@ -178,16 +226,16 @@ def fig_bmi_chart(hant: bool) -> str:
 BODYFAT_FLOOR = {"male": 2, "female": 10}
 
 
-def fig_bodyfat_ranges(hant: bool) -> str:
+def fig_bodyfat_ranges(lang: str) -> str:
     w, h = 760, 330
     x0, x1, vmax = 90, 730, 45
     sx = (x1 - x0) / vmax
     b: list[str] = []
-    b.append(text(24, 40, "男女体脂率参考范围", hant, 24, INK, weight="bold"))
-    b.append(text(24, 66, "美国运动委员会（ACE）分级 · 单位：体脂率 %", hant, 14, SOFT))
+    b.append(text(24, 40, "男女体脂率参考范围", lang, 24, INK, weight="bold"))
+    b.append(text(24, 66, "美国运动委员会（ACE）分级 · 单位：体脂率 %", lang, 14, SOFT))
     for row, (sex, label) in enumerate((("male", "男性"), ("female", "女性"))):
         y = 104 + row * 92
-        b.append(text(x0 - 14, y + 30, label, hant, 17, INK, "end", "bold"))
+        b.append(text(x0 - 14, y + 30, label, lang, 17, INK, "end", "bold"))
         b.append(f'<rect x="{x0}" y="{y}" width="{x1 - x0}" height="46" rx="6" fill="#f3f4f6"/>')
         for k, (name, lo, hi) in enumerate(BODYFAT_BANDS[sex]):
             lo = BODYFAT_FLOOR[sex] if lo is None else lo
@@ -195,19 +243,20 @@ def fig_bodyfat_ranges(hant: bool) -> str:
             bx, bw = x0 + lo * sx, (hi - lo) * sx
             b.append(f'<rect x="{bx:.1f}" y="{y}" width="{bw:.1f}" height="46" fill="{BODYFAT_COLORS[k]}" '
                      f'stroke="#ffffff" stroke-width="2"/>')
-            b.append(text(f"{bx + bw / 2:.1f}", y + 28, name, hant, 13 if bw > 60 else 11, INK, "middle"))
-            b.append(text(f"{bx:.1f}", y + 64, f"{lo}%", hant, 12, SOFT, "middle"))
-    b.append(text(24, 292, "低于必需脂肪的水平不宜长期维持；同一体重下，年龄越大体脂率通常越高。", hant, 12, SOFT))
-    return svg_doc(w, h, b, hant, "男女体脂率参考范围（ACE 分级）",
+            b.append(text(f"{bx + bw / 2:.1f}", y + 28, name, lang, 13 if bw > 60 else 11, INK, "middle"))
+            b.append(text(f"{bx:.1f}", y + 64, f"{lo}%", lang, 12, SOFT, "middle"))
+    b.append(text(24, 292, "低于必需脂肪的水平不宜长期维持；同一体重下，年龄越大体脂率通常越高。", lang, 12, SOFT))
+    return svg_doc(w, h, b, lang, "男女体脂率参考范围（ACE 分级）",
                    "男性和女性体脂率分级条形图：必需脂肪、运动员、健身良好、一般水平、偏高。")
 
 
 # ---------------------------------------------------------------------------
 # 4. 分享卡片（og:image，1200×630 PNG）
 # ---------------------------------------------------------------------------
-def find_font() -> str:
-    cand = [os.environ.get("CALMY_FONT", ""), "C:/Windows/Fonts/NotoSansSC-VF.ttf",
-            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"]
+def find_font(ja: bool = False) -> str:
+    env = os.environ.get("CALMY_FONT_JA" if ja else "CALMY_FONT", "")
+    name = "NotoSansJP-VF.ttf" if ja else "NotoSansSC-VF.ttf"
+    cand = [env, f"C:/Windows/Fonts/{name}", "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"]
     for p in cand:
         if p and Path(p).exists():
             return p
@@ -227,6 +276,14 @@ def og_cards() -> list[tuple[str, str, str, str]]:
     for a in ARTICLES:
         hant_h1 = HANT_OVERRIDES.get(a["slug"], {}).get("h1") or a["h1"]
         cards.append((a["slug"], a["h1"], to_hant_text(hant_h1), "健康指南 · " + a["category"]))
+    return cards
+
+
+def og_cards_ja() -> list[tuple[str, str, str]]:
+    """日语版分享卡片：(key, 标题, 小标题)。"""
+    cards = [("default", "無料の健康計算ツールと健康ガイド", "BMI・基礎代謝・カロリー・歩数・睡眠")]
+    cards += [(tl["path"].strip("/"), tl["name"], "健康計算ツール") for tl in JA_TOOLS]
+    cards += [(a["slug"], a["h1"], "健康ガイド・" + a["category"]) for a in JA_ARTICLES]
     return cards
 
 
@@ -281,16 +338,19 @@ def main() -> None:
         "bodyfat-ranges": fig_bodyfat_ranges,
     }
     for name, fn in figs.items():
-        for hant in (False, True):
-            out = IMG_DIR / f"{name}{'.hant' if hant else ''}.svg"
-            out.write_text(fn(hant), encoding="utf-8", newline="\n")
+        for lang in LANGS:
+            out = IMG_DIR / f"{name}{'' if lang == 'hans' else '.' + lang}.svg"
+            out.write_text(fn(lang), encoding="utf-8", newline="\n")
             print("wrote", out.relative_to(ROOT))
 
     font_path = find_font()
     for key, hans_title, hant_title, kicker in og_cards():
         draw_card(font_path, hans_title, kicker, OG_DIR / f"{key}.png")
         draw_card(font_path, hant_title, to_hant_text(kicker), OG_DIR / f"{key}.hant.png")
-    print("wrote", len(og_cards()) * 2, "og cards")
+    font_ja = find_font(ja=True)
+    for key, title, kicker in og_cards_ja():
+        draw_card(font_ja, title, kicker, OG_DIR / f"{key}.ja.png")
+    print("wrote", len(og_cards()) * 2 + len(og_cards_ja()), "og cards")
 
 
 if __name__ == "__main__":

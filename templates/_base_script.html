@@ -1,0 +1,158 @@
+{# 共用的侧栏开关、宽度拖动和滚动位置记忆脚本 #}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      const body = document.body;
+      const toggleBtn = document.getElementById("sidebarToggle");
+      const resizer = document.getElementById("sidebarResizer");
+      const sidebar = document.getElementById("sidebarPanel");
+      const mobileNavCollapseEl = document.getElementById("mobileNavCollapse");
+
+      const STORAGE_COLLAPSED = "calmyhealth_sidebar_collapsed";
+      const STORAGE_WIDTH = "calmyhealth_sidebar_width";
+      const STORAGE_SCROLL = "calmyhealth_sidebar_scroll";
+      const STORAGE_LAST_PATH = "calmyhealth_sidebar_last_path";
+
+      const minWidth = 220;
+      const maxWidth = 480;
+      const defaultWidth = 290;
+
+      function isMobileLike() {
+        return window.innerWidth <= 991.98;
+      }
+
+      function setSidebarWidth(width) {
+        const w = Math.max(minWidth, Math.min(maxWidth, width));
+        document.documentElement.style.setProperty("--sidebar-w", w + "px");
+        try {
+          localStorage.setItem(STORAGE_WIDTH, String(w));
+        } catch (e) {}
+      }
+
+      function applyCollapsed(collapsed) {
+        if (collapsed) {
+          body.classList.add("sidebar-collapsed");
+        } else {
+          body.classList.remove("sidebar-collapsed");
+        }
+        try {
+          localStorage.setItem(STORAGE_COLLAPSED, collapsed ? "1" : "0");
+        } catch (e) {}
+      }
+
+      let savedWidth = defaultWidth;
+      let savedCollapsed = false;
+
+      try {
+        savedWidth = parseInt(localStorage.getItem(STORAGE_WIDTH) || defaultWidth, 10);
+        savedCollapsed = localStorage.getItem(STORAGE_COLLAPSED) === "1";
+      } catch (e) {}
+
+      setSidebarWidth(savedWidth);
+      applyCollapsed(savedCollapsed);
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener("click", function () {
+          if (isMobileLike()) {
+            if (!mobileNavCollapseEl) return;
+
+            const bsCollapse = bootstrap.Collapse.getOrCreateInstance(mobileNavCollapseEl, {
+              toggle: false
+            });
+            bsCollapse.toggle();
+
+            const mobileToc = document.querySelector(".mobile-toc");
+            if (mobileToc) {
+              mobileToc.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          } else {
+            applyCollapsed(!body.classList.contains("sidebar-collapsed"));
+          }
+        });
+      }
+
+      if (resizer) {
+        let dragging = false;
+
+        resizer.addEventListener("mousedown", function (e) {
+          dragging = true;
+          document.body.style.userSelect = "none";
+          document.body.style.cursor = "col-resize";
+          e.preventDefault();
+        });
+
+        window.addEventListener("mousemove", function (e) {
+          if (!dragging || isMobileLike()) return;
+          setSidebarWidth(e.clientX);
+        });
+
+        window.addEventListener("mouseup", function () {
+          if (!dragging) return;
+          dragging = false;
+          document.body.style.userSelect = "";
+          document.body.style.cursor = "";
+        });
+      }
+
+      function restoreSidebarPosition() {
+        if (!sidebar || isMobileLike()) return;
+
+        let savedScroll = null;
+        let savedPath = null;
+
+        try {
+          savedScroll = localStorage.getItem(STORAGE_SCROLL);
+          savedPath = localStorage.getItem(STORAGE_LAST_PATH);
+        } catch (e) {}
+
+        if (savedScroll !== null && savedPath) {
+          sidebar.scrollTop = parseInt(savedScroll, 10) || 0;
+          return;
+        }
+
+        const activeLink = sidebar.querySelector(".sidebar-link.active");
+        if (activeLink) {
+          const sidebarRect = sidebar.getBoundingClientRect();
+          const activeRect = activeLink.getBoundingClientRect();
+
+          if (activeRect.top < sidebarRect.top || activeRect.bottom > sidebarRect.bottom) {
+            const offset = activeLink.offsetTop - sidebar.clientHeight * 0.35;
+            sidebar.scrollTop = Math.max(0, offset);
+          }
+        }
+      }
+
+      window.addEventListener("load", function () {
+        setTimeout(restoreSidebarPosition, 0);
+      });
+
+      if (sidebar) {
+        sidebar.addEventListener("scroll", function () {
+          try {
+            localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
+          } catch (e) {}
+        });
+
+        const sidebarLinks = sidebar.querySelectorAll("a");
+        sidebarLinks.forEach(function (link) {
+          link.addEventListener("click", function () {
+            try {
+              localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
+              localStorage.setItem(STORAGE_LAST_PATH, window.location.pathname);
+            } catch (e) {}
+          });
+        });
+
+        const collapseToggles = sidebar.querySelectorAll("[data-bs-toggle='collapse']");
+        collapseToggles.forEach(function (toggle) {
+          toggle.addEventListener("click", function () {
+            setTimeout(function () {
+              try {
+                localStorage.setItem(STORAGE_SCROLL, String(sidebar.scrollTop));
+              } catch (e) {}
+            }, 250);
+          });
+        });
+      }
+    })();
+  </script>

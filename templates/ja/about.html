@@ -1,0 +1,83 @@
+{% extends "ja/base.html" %}
+{% block content %}
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h1 class="h4 mb-2">CalmyHealth について</h1>
+  <p class="small text-muted mb-3">最終更新：2026-11-09</p>
+  <p class="text-muted">
+    CalmyHealth は、個人で運営している無料の健康計算ツールのサイトです。BMI、基礎代謝、1日の消費カロリー、体脂肪率、
+    歩数のカロリー、睡眠サイクルなど、体重・代謝・栄養・運動・睡眠に関するよく使う計算をまとめています。
+  </p>
+  <p class="text-muted mb-0">
+    「入力するとすぐに結果が出て、その意味もわかる」ことを目指しています。各ページでは計算結果に加えて、
+    計算式の根拠、結果の見方、計算の限界、次に確認するとよいことを説明しています。
+  </p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">運営者</h2>
+  <p class="text-muted">
+    運営者の <b>Zooey</b> です。個人でウェブツールを開発しています。健康的な生活に関心があり、
+    日常で何度も計算したり調べたりすることを、シンプルで使いやすいツールにするのが好きです。
+  </p>
+  <p class="text-muted">
+    BMIやカロリー、歩数、睡眠の計算サイトは、広告ばかりだったり、数字だけで意味の説明がなかったりすることが多いと感じていました。
+    CalmyHealth では、結果がどこから来て、どう読めばよく、次に何をすればいいのかがわかるように心がけています。
+  </p>
+  <p class="text-muted mb-0">
+    サイト内のツール、ページ、解説文はすべて運営者が開発・執筆・管理しています。運営者は医師や管理栄養士ではないため、
+    計算には公開されている推定式と公的な基準を使い、出典を下記に記載しています。内容は日常的な目安としてご利用ください。
+    誤りや改善点にお気づきの場合は、<a href="/contact">お問い合わせ</a>からお知らせください。
+  </p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">編集方針</h2>
+  <ul class="text-muted mb-0 ps-3">
+    <li class="mb-2"><b>公開された計算式と基準を使います。</b>計算方法は、公表された研究や公的機関の基準にもとづいています。</li>
+    <li class="mb-2"><b>限界を説明します。</b>推定式は集団の平均にもとづくため、個人には誤差が出ることがあります。適用範囲や不正確になりやすいケースもできるだけ記載します。</li>
+    <li class="mb-2"><b>診断や治療の助言は行いません。</b>結果は自己理解や日々の計画のためのもので、医師や管理栄養士などの専門家による評価に代わるものではありません。</li>
+    <li class="mb-2"><b>継続的に見直します。</b>誤りや基準の改定に気づいた場合はページを修正します。</li>
+    <li class="mb-0"><b>広告と内容は分けています。</b>広告を表示する場合、広告は第三者が配信するもので、計算方法や解説の内容には影響しません。</li>
+  </ul>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">主な計算式と出典</h2>
+  <div class="table-responsive">
+    <table class="table table-sm align-middle mb-0">
+      <thead><tr><th style="min-width:9em">ツール</th><th>方法・出典</th></tr></thead>
+      <tbody class="text-muted">
+        <tr><td><a href="/bmi">BMI・肥満度</a></td><td>体重(kg) ÷ 身長(m)²。判定は日本肥満学会『肥満症診療ガイドライン2022』の基準、標準体重は BMI22</td></tr>
+        <tr><td><a href="/bmr">基礎代謝</a></td><td>国立健康・栄養研究所の式（Ganpule AA, et al. <i>Eur J Clin Nutr</i>, 2007）と Mifflin-St Jeor 式（<i>Am J Clin Nutr</i>, 1990）</td></tr>
+        <tr><td><a href="/calorie">1日の消費カロリー</a></td><td>基礎代謝 × 身体活動レベル（厚生労働省『日本人の食事摂取基準』の区分を参考）</td></tr>
+        <tr><td><a href="/bodyfat">体脂肪率</a></td><td>米海軍の周径囲法（Hodgdon JA, Beckett MB. Naval Health Research Center, 1984）</td></tr>
+        <tr><td><a href="/waist">ウエスト身長比</a></td><td>ウエスト÷身長 0.5 / 0.6 の区分（Ashwell M らの研究）。メタボ健診の腹囲基準も併記</td></tr>
+        <tr><td><a href="/whr">ウエストヒップ比</a></td><td>WHO『Waist circumference and waist-hip ratio』専門家会議報告（2008）</td></tr>
+        <tr><td><a href="/protein">たんぱく質</a></td><td>厚生労働省『日本人の食事摂取基準（2025年版）』と体重あたりの目安量</td></tr>
+        <tr><td><a href="/steps">歩数のカロリー</a></td><td>メッツ法（Compendium of Physical Activities）、普通歩行 3.5 メッツ・1分100歩で換算</td></tr>
+        <tr><td><a href="/sleep">睡眠サイクル</a></td><td>約90分の睡眠周期の目安。睡眠時間は厚生労働省『健康づくりのための睡眠ガイド2023』を参考</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">免責事項</h2>
+  <ul class="text-muted mb-0 ps-3">
+    <li class="mb-2">計算結果はすべて推定値で、医療・栄養・運動の処方ではありません。</li>
+    <li class="mb-2">1日の数値の上下より、2〜4週間の傾向を見ることをおすすめします。</li>
+    <li class="mb-0">持病のある方、妊娠中・妊娠を希望している方、未成年の方、健診で異常を指摘された方、体調がすぐれない方は、本サイトの結果だけで判断せず、医師などの専門家にご相談ください。</li>
+  </ul>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4">
+  <h2 class="h5 mb-3">お問い合わせ・誤りの報告</h2>
+  <p class="text-muted mb-0">
+    計算の誤り、説明の不正確な点、新しいツールのご要望は
+    <a href="mailto:calmyhealth@hotmail.com">calmyhealth@hotmail.com</a> までお送りください（日本語で大丈夫です）。
+    個人情報の取り扱いは<a href="/privacy">プライバシーポリシー</a>をご覧ください。
+  </p>
+</div>
+
+{% endblock %}

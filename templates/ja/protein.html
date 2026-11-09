@@ -1,0 +1,74 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+{% set goals = [('maintain', '健康維持（体重×1.2g）'), ('fat_loss', '減量中（体重×1.6g）'), ('muscle_gain', '筋肉をつけたい（体重×1.8g）')] %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">たんぱく質の1日必要量計算</h1>
+  <p class="text-muted mb-3">体重と目的から、1日にとりたいたんぱく質の量（g）の目安を計算します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">体重（kg）</label>
+      <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例：60">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">目的</label>
+      <select name="goal" class="form-select">
+        {% for v, label in goals %}<option value="{{ v }}" {% if goal_in == v %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">たんぱく質量を計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if grams is not none %}
+<div class="tool-card">
+  <div class="text-muted small">1日のたんぱく質の目安</div>
+  <div class="display-6 fw-semibold">{{ grams }} <span class="fs-5">g/日</span></div>
+  <p class="text-muted small mb-2">3食に分けると、1食あたり約 <b>{{ (grams / 3) | round | int }} g</b> です。</p>
+  <p class="small text-muted mb-0">腎臓の病気がある方や、医師から食事制限を指示されている方は、この目安ではなく主治医の指示に従ってください。</p>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">食事摂取基準のたんぱく質の推奨量</h2>
+  <p class="text-muted">厚生労働省「日本人の食事摂取基準（2025年版）」では、成人のたんぱく質の推奨量を次のように示しています。これは不足しないための量で、運動や減量をしている人は多めが目安になります。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>年齢</th><th>男性</th><th>女性</th></tr></thead>
+      <tbody>
+        <tr><td>18〜64歳</td><td>65 g/日</td><td>50 g/日</td></tr>
+        <tr><td>65歳以上</td><td>60 g/日</td><td>50 g/日</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted">エネルギー全体に占めるたんぱく質の割合は13〜20％（50歳以上は下限がやや高め）が目標量とされています。</p>
+
+  <h2 class="h6 mt-4">体重あたりの目安</h2>
+  <ul class="text-muted">
+    <li><b>健康維持：</b>体重1kgあたり約1.0〜1.2g</li>
+    <li><b>減量中：</b>体重1kgあたり約1.6g。筋肉を落とさずに減量しやすくなります。</li>
+    <li><b>筋トレ・筋肉増量：</b>体重1kgあたり約1.6〜2.0g</li>
+  </ul>
+
+  <h2 class="h6 mt-4">たんぱく質20gの目安になる食品</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>食品</th><th>量のめやす</th></tr></thead>
+      <tbody>
+        <tr><td>鶏むね肉（皮なし）</td><td>約 85 g</td></tr>
+        <tr><td>鮭</td><td>約 90 g（1切れ強）</td></tr>
+        <tr><td>卵</td><td>約 3 個</td></tr>
+        <tr><td>木綿豆腐</td><td>約 300 g（1丁弱）</td></tr>
+        <tr><td>納豆</td><td>約 2.5 パック</td></tr>
+        <tr><td>牛乳</td><td>約 600 ml</td></tr>
+        <tr><td>ギリシャヨーグルト（無糖）</td><td>約 200 g</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted">食品の量は一般的な成分値から計算したおおよその目安です。商品によって異なるため、栄養成分表示もご確認ください。</p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+"""日语版健康指南文章的元数据（正文在 templates/ja/guide/<slug>.html）。
+
+slug 与中文版相同，这样 hreflang 能把同一主题的各语言版本对应起来。
+新增文章：在 JA_ARTICLES 加一项，再新建对应的日语模板。
+"""
+
+JA_AUTHOR = {
+    "name": "Zooey",
+    "url": "/about",
+    "bio": "個人でウェブツールを開発しています。健康的な生活と、日常で役立つ計算ツールづくりに関心があります。",
+}
+
+JA_ARTICLES = [
+    {
+        "slug": "bmi-normal-range",
+        "title": "BMIの普通体重・標準体重はいくつ？日本肥満学会の基準と身長別早見表",
+        "h1": "BMIの普通体重・標準体重はいくつ？日本の基準と身長別早見表",
+        "description": ("日本肥満学会の基準ではBMI18.5以上25未満が「普通体重」、25以上が「肥満」。標準体重はBMI22で計算します。"
+                        "身長別の普通体重・標準体重の早見表、年齢別の目標BMI、WHO基準との違いを解説します。"),
+        "category": "体重・体型",
+        "published": "2026-11-09",
+        "updated": "2026-11-09",
+        "read_minutes": 7,
+        "toc": [("answer", "まず結論"),
+                ("standard", "日本肥満学会の判定基準"),
+                ("calc", "BMIと標準体重の計算方法"),
+                ("table", "身長別の普通体重・標準体重早見表"),
+                ("age", "年齢別の目標BMI（食事摂取基準）"),
+                ("limits", "BMIだけではわからないこと"),
+                ("faq", "よくある質問")],
+        "faq": [("BMIの普通体重の範囲は？", "日本肥満学会の基準では、BMI18.5以上25未満が「普通体重」です。18.5未満は「低体重」、25以上は「肥満」と判定され、肥満は1度〜4度に分けられます。"),
+                ("標準体重はどうやって計算する？", "標準体重（kg）＝身長（m）×身長（m）×22 です。BMI22は統計的に病気になりにくいとされる値で、身長160cmなら約56.3kg、170cmなら約63.6kgです。"),
+                ("BMI25は太りすぎ？", "日本の基準ではBMI25以上が「肥満（1度）」です。WHOの国際基準では25〜30未満は「過体重（pre-obese）」で、肥満は30以上と定義されています。"),
+                ("年齢によって目標BMIは変わる？", "厚生労働省の「日本人の食事摂取基準」では、18〜49歳は18.5〜24.9、50〜64歳は20.0〜24.9、65歳以上は21.5〜24.9を目標とするBMIの範囲としています。")],
+        "sources": ["日本肥満学会『肥満症診療ガイドライン2022』",
+                    "厚生労働省『日本人の食事摂取基準（2025年版）』",
+                    "World Health Organization. Obesity: preventing and managing the global epidemic. WHO Technical Report Series 894, 2000.",
+                    "WHO Expert Consultation. Appropriate body-mass index for Asian populations and its implications for policy and intervention strategies. Lancet, 2004."],
+        "related_tools": ["/bmi", "/bodyfat", "/waist"],
+        "related_articles": ["10000-steps-km", "sleep-cycle-90-minutes"],
+    },
+    {
+        "slug": "10000-steps-km",
+        "title": "1万歩は何キロ？距離・時間・消費カロリーを身長と体重別に計算",
+        "h1": "1万歩は何キロ？距離・時間・消費カロリーの目安",
+        "description": ("1万歩の距離は身長150〜185cmで約6.2〜7.7km、普通の速さで約100分、消費カロリーは体重60kgで約350kcal。"
+                        "身長別の距離早見表と、厚生労働省がすすめる1日8,000歩の根拠を解説します。"),
+        "category": "運動・睡眠",
+        "published": "2026-11-09",
+        "updated": "2026-11-09",
+        "read_minutes": 7,
+        "toc": [("answer", "まず結論"),
+                ("stride", "歩幅の計算方法"),
+                ("table", "身長別・1万歩の距離早見表"),
+                ("time", "1万歩にかかる時間"),
+                ("kcal", "1万歩の消費カロリー"),
+                ("goal", "1日何歩歩けばいい？"),
+                ("faq", "よくある質問")],
+        "faq": [("1万歩は何キロ？", "歩幅を身長×約0.41として計算すると、身長150cmで約6.2km、160cmで約6.6km、170cmで約7.1km（男性）です。"),
+                ("1万歩歩くのに何分かかる？", "普通の速さ（1分間に約100歩）で約1時間40分です。速歩き（約130歩/分）なら約1時間17分です。"),
+                ("1万歩で何キロカロリー消費する？", "体重60kgで約350kcal、70kgで約410kcalです（3.5メッツで計算した総消費量）。安静時の分を除いた「歩いたことで増えた分」はその約7割です。"),
+                ("1日何歩歩けばいい？", "厚生労働省の「健康づくりのための身体活動・運動ガイド2023」では、成人は1日約8,000歩以上、高齢者は約6,000歩以上を目安としています。")],
+        "sources": ["厚生労働省『健康づくりのための身体活動・運動ガイド2023』",
+                    "厚生労働省『令和元年 国民健康・栄養調査報告』",
+                    "Ainsworth BE, et al. 2011 Compendium of Physical Activities. Med Sci Sports Exerc, 2011.",
+                    "Tudor-Locke C, et al. How fast is fast enough? Walking cadence (steps/min) as a practical estimate of intensity in adults. Int J Behav Nutr Phys Act, 2018.",
+                    "歩幅は「身長×0.415（男性）／0.413（女性）」、消費カロリーは「3.5メッツ×体重×時間（100歩/分）」で計算。本サイトの歩数ツールと同じ方法です。"],
+        "related_tools": ["/steps", "/calorie", "/bmi"],
+        "related_articles": ["bmi-normal-range", "sleep-cycle-90-minutes"],
+    },
+    {
+        "slug": "sleep-cycle-90-minutes",
+        "title": "睡眠サイクル90分は本当？起きる時間から逆算する就寝時刻表",
+        "h1": "睡眠サイクル90分は本当？すっきり起きる就寝時刻の考え方",
+        "description": ("睡眠サイクルは平均約90分ですが、実際は70〜120分と個人差があります。起床時刻から逆算した就寝時刻表と、"
+                        "厚生労働省「睡眠ガイド2023」がすすめる年代別の睡眠時間を紹介します。"),
+        "category": "運動・睡眠",
+        "published": "2026-11-09",
+        "updated": "2026-11-09",
+        "read_minutes": 7,
+        "toc": [("answer", "まず結論"),
+                ("stages", "1回の睡眠サイクルで起きていること"),
+                ("table", "起床時刻から逆算した就寝時刻表"),
+                ("hours", "何時間寝ればいい？年代別の目安"),
+                ("tips", "サイクルより大切なこと"),
+                ("faq", "よくある質問")],
+        "faq": [("睡眠サイクルは本当に90分？", "平均すると約90分ですが、1回のサイクルは70〜120分ほどの幅があり、同じ人でも夜の前半と後半で変わります。90分はあくまで目安です。"),
+                ("6時に起きたいなら何時に寝ればいい？", "寝付くまで約15分かかるとして、7時間半眠るなら22:15ごろ、6時間なら23:45ごろに布団に入るのが目安です。"),
+                ("何時間寝るのがいい？", "厚生労働省の「健康づくりのための睡眠ガイド2023」では、成人は6時間以上を目安に必要な睡眠時間を確保すること、高齢者は床上時間が8時間以上にならないことをすすめています。"),
+                ("寝起きが悪いのはなぜ？", "深い睡眠の途中で起こされると「睡眠慣性」と呼ばれるぼんやりした状態が強く出ます。慢性的な睡眠不足でも起きにくくなるため、まずは睡眠時間の確保が大切です。")],
+        "sources": ["厚生労働省『健康づくりのための睡眠ガイド2023』",
+                    "Carskadon MA, Dement WC. Normal human sleep: an overview. In: Principles and Practice of Sleep Medicine.",
+                    "Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations. Sleep Health, 2015.",
+                    "Tassi P, Muzet A. Sleep inertia. Sleep Med Rev, 2000."],
+        "related_tools": ["/sleep", "/steps"],
+        "related_articles": ["10000-steps-km", "bmi-normal-range"],
+    },
+]
+
+JA_ARTICLES_BY_SLUG = {a["slug"]: a for a in JA_ARTICLES}

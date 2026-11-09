@@ -1,0 +1,88 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">基礎代謝計算</h1>
+  <p class="text-muted mb-3">性別・年齢・身長・体重から、1日の基礎代謝量（kcal）を2つの式で計算します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">性別</label>
+      <select name="sex" class="form-select">
+        <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男性</option>
+        <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女性</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">年齢</label>
+      <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}" placeholder="例：35">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">身長（cm）</label>
+      <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例：165">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">体重（kg）</label>
+      <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例：60">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">基礎代謝を計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if bmr is not none %}
+<div class="tool-card">
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <div class="p-3 rounded-3 bg-light h-100">
+        <div class="small text-muted">国立健康・栄養研究所の式（日本人向け）</div>
+        <div class="display-6 fw-semibold">{{ bmr_jp }} <span class="fs-5">kcal/日</span></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="p-3 rounded-3 bg-light h-100">
+        <div class="small text-muted">Mifflin-St Jeor 式（国際的に広く使用）</div>
+        <div class="display-6 fw-semibold">{{ bmr }} <span class="fs-5">kcal/日</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="small text-muted mt-3 mb-0">
+    2つの式の差は、推定式の違いによるものです。日本人には国立健康・栄養研究所の式のほうが実測値に近いという報告があります。
+    1日に必要なカロリーは、基礎代謝に活動量をかけて計算します。
+  </p>
+  <a class="btn btn-outline-primary btn-sm mt-3" href="/calorie">1日の消費カロリーを計算する →</a>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">基礎代謝とは</h2>
+  <p class="text-muted">
+    基礎代謝は、目が覚めた状態で安静にしているときに、呼吸や体温の維持、心臓や脳などの活動のために使われる最低限のエネルギーです。
+    1日の消費カロリーのうち約60〜70％を占め、残りは食事による消費（約10％）と身体活動によるものです。
+  </p>
+  <h2 class="h6 mt-4">計算式</h2>
+  <p class="text-muted mb-1"><b>国立健康・栄養研究所の式</b>（kcal/日）</p>
+  <ul class="text-muted small">
+    <li>男性：（0.0481×体重kg ＋ 0.0234×身長cm − 0.0138×年齢 − 0.4235）× 1000 ÷ 4.186</li>
+    <li>女性：（0.0481×体重kg ＋ 0.0234×身長cm − 0.0138×年齢 − 0.9708）× 1000 ÷ 4.186</li>
+  </ul>
+  <p class="text-muted mb-1"><b>Mifflin-St Jeor 式</b>（kcal/日）</p>
+  <ul class="text-muted small">
+    <li>男性：10×体重kg ＋ 6.25×身長cm − 5×年齢 ＋ 5</li>
+    <li>女性：10×体重kg ＋ 6.25×身長cm − 5×年齢 − 161</li>
+  </ul>
+  <h2 class="h6 mt-4">基礎代謝は上げられる？</h2>
+  <p class="text-muted">
+    基礎代謝の個人差の多くは、筋肉や臓器などを合わせた「除脂肪量」で説明されます。筋トレで筋肉を増やすことは役立ちますが、
+    筋肉1kgあたりの安静時の消費は1日約13kcalと大きくありません。それよりも、歩く・立つ・家事をするといった日常の活動量を増やすほうが、
+    1日の消費カロリーへの影響は大きくなります。
+  </p>
+  <h2 class="h6 mt-4">注意点</h2>
+  <p class="text-muted">
+    推定式は平均的な人を前提にしているため、筋肉量が多い人や少ない人、肥満度が高い人では実際の値とずれることがあります。
+    また、極端な食事制限を続けると基礎代謝が下がりやすいため、減量中も基礎代謝を大きく下回る食事は避けましょう。
+  </p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

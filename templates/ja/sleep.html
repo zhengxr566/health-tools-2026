@@ -1,0 +1,68 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">睡眠サイクル計算</h1>
+  <p class="text-muted mb-3">約90分の睡眠サイクルをもとに、すっきり起きやすい起床時刻・就寝時刻の目安を計算します。寝付くまでの時間として15分を加えています。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">計算したいこと</label>
+      <select name="mode" class="form-select">
+        <option value="sleep_now" {% if mode_in == 'sleep_now' %}selected{% endif %}>この時刻に寝る → 起きる時刻を計算</option>
+        <option value="wake_at" {% if mode_in == 'wake_at' %}selected{% endif %}>この時刻に起きたい → 寝る時刻を計算</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">時刻</label>
+      <input name="time_hm" class="form-control" type="time" required value="{{ time_hm_in }}">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if times %}
+{% set cycles = [3, 4, 5, 6] %}
+<div class="tool-card">
+  <h2 class="h6 mb-3">{% if mode_in == 'sleep_now' %}{{ time_hm_in }} に布団に入った場合のおすすめ起床時刻{% else %}{{ time_hm_in }} に起きたい場合のおすすめ就寝時刻{% endif %}</h2>
+  <div class="row g-2">
+    {% for t in times %}
+    {% set c = cycles[loop.index0] %}
+    <div class="col-6 col-md-3">
+      <div class="p-3 rounded-3 border text-center h-100 {% if c in [5, 6] %}border-success{% endif %}">
+        <div class="fs-4 fw-semibold">{{ t }}</div>
+        <div class="small text-muted">{{ c }} サイクル・{{ '%g' | format(c * 1.5) }} 時間</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <p class="small text-muted mt-3 mb-0">成人は6時間以上の睡眠が目安です。緑の枠（7.5〜9時間）を目標にしましょう。</p>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">睡眠サイクルとは</h2>
+  <p class="text-muted">
+    眠っている間は、浅い眠り・深い眠り（ノンレム睡眠）と、夢を見やすいレム睡眠が、約90分の周期で一晩に4〜5回くり返されます。
+    深い眠りの途中で起きるとぼんやりしやすく、サイクルの区切り（眠りが浅いとき）に起きるとすっきりしやすいと言われています。
+    ただし1回のサイクルは70〜120分ほどと個人差があるため、計算結果は目安として使い、自分に合う時刻を見つけましょう。
+  </p>
+  <h2 class="h6 mt-4">年代別の睡眠時間の目安</h2>
+  <p class="text-muted">厚生労働省「健康づくりのための睡眠ガイド2023」では、次のような目安が示されています。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+      <thead class="table-light"><tr><th>対象</th><th>目安</th></tr></thead>
+      <tbody>
+        <tr><td>小学生</td><td>9〜12時間</td></tr>
+        <tr><td>中学・高校生</td><td>8〜10時間</td></tr>
+        <tr><td>成人</td><td>6時間以上を目安に、必要な睡眠時間を確保する</td></tr>
+        <tr><td>高齢者</td><td>寝床にいる時間が8時間以上にならないようにする</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted">くわしくは<a href="/guide/sleep-cycle-90-minutes">睡眠サイクル90分は本当？</a>をご覧ください。</p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>男女別・体脂肪率の目安（ACEの区分）</title>
+<desc>男性と女性の体脂肪率の区分を示した帯グラフ：必須脂肪、アスリート、引き締まり、標準、高め。</desc>
+<rect width="760" height="330" fill="#ffffff"/>
+<text x="24" y="40" font-size="24" fill="#1f2937" text-anchor="start" font-weight="bold">男女別・体脂肪率の目安</text>
+<text x="24" y="66" font-size="14" fill="#6b7280" text-anchor="start" font-weight="normal">米国運動協議会（ACE）の区分・単位：体脂肪率 %</text>
+<text x="76" y="134" font-size="17" fill="#1f2937" text-anchor="end" font-weight="bold">男性</text>
+<rect x="90" y="104" width="640" height="46" rx="6" fill="#f3f4f6"/>
+<rect x="118.4" y="104" width="56.9" height="46" fill="#cbd5e1" stroke="#ffffff" stroke-width="2"/>
+<text x="146.9" y="132" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">必須脂肪</text>
+<text x="118.4" y="168" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">2%</text>
+<rect x="175.3" y="104" width="113.8" height="46" fill="#93c5fd" stroke="#ffffff" stroke-width="2"/>
+<text x="232.2" y="132" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="normal">アスリート</text>
+<text x="175.3" y="168" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">6%</text>
+<rect x="289.1" y="104" width="56.9" height="46" fill="#86efac" stroke="#ffffff" stroke-width="2"/>
+<text x="317.6" y="132" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">引き締まり</text>
+<text x="289.1" y="168" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">14%</text>
+<rect x="346.0" y="104" width="99.6" height="46" fill="#fde68a" stroke="#ffffff" stroke-width="2"/>
+<text x="395.8" y="132" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="normal">標準</text>
+<text x="346.0" y="168" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">18%</text>
+<rect x="445.6" y="104" width="284.4" height="46" fill="#fca5a5" stroke="#ffffff" stroke-width="2"/>
+<text x="587.8" y="132" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="normal">高め</text>
+<text x="445.6" y="168" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">25%</text>
+<text x="76" y="226" font-size="17" fill="#1f2937" text-anchor="end" font-weight="bold">女性</text>
+<rect x="90" y="196" width="640" height="46" rx="6" fill="#f3f4f6"/>
+<rect x="232.2" y="196" width="56.9" height="46" fill="#cbd5e1" stroke="#ffffff" stroke-width="2"/>
+<text x="260.7" y="224" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">必須脂肪</text>
+<text x="232.2" y="260" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">10%</text>
+<rect x="289.1" y="196" width="99.6" height="46" fill="#93c5fd" stroke="#ffffff" stroke-width="2"/>
+<text x="338.9" y="224" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="normal">アスリート</text>
+<text x="289.1" y="260" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">14%</text>
+<rect x="388.7" y="196" width="56.9" height="46" fill="#86efac" stroke="#ffffff" stroke-width="2"/>
+<text x="417.1" y="224" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">引き締まり</text>
+<text x="388.7" y="260" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">21%</text>
+<rect x="445.6" y="196" width="99.6" height="46" fill="#fde68a" stroke="#ffffff" stroke-width="2"/>
+<text x="495.3" y="224" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="normal">標準</text>
+<text x="445.6" y="260" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">25%</text>
+<rect x="545.1" y="196" width="184.9" height="46" fill="#fca5a5" stroke="#ffffff" stroke-width="2"/>
+<text x="637.6" y="224" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="normal">高め</text>
+<text x="545.1" y="260" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">32%</text>
+<text x="24" y="292" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">必須脂肪を下回る状態を長く続けるのは避けましょう。同じ体重でも、年齢が上がると体脂肪率は高めになりがちです。</text>
+<text x="744" y="316" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

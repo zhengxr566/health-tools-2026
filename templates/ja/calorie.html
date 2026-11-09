@@ -1,0 +1,89 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+{% set levels = [
+  ('1.5', '低い（レベルⅠ・1.50）', '生活の大部分が座った状態で、静的な活動が中心'),
+  ('1.75', 'ふつう（レベルⅡ・1.75）', '座り仕事が中心だが、職場内の移動や立ち作業、通勤・買い物での歩行、家事、軽い運動のいずれかを含む'),
+  ('2.0', '高い（レベルⅢ・2.00）', '移動や立ち作業の多い仕事、または余暇に活発な運動習慣がある'),
+] %}
+{% set cur = activity_in if activity_in in ['1.5', '1.75', '2.0'] else '1.75' %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">1日の消費カロリー計算</h1>
+  <p class="text-muted mb-3">基礎代謝に身体活動レベルをかけて、1日に消費するカロリー（TDEE）の目安を計算します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">性別</label>
+      <select name="sex" class="form-select">
+        <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男性</option>
+        <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女性</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">年齢</label>
+      <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}" placeholder="例：35">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">身長（cm）</label>
+      <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例：165">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">体重（kg）</label>
+      <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例：60">
+    </div>
+    <div class="col-12">
+      <label class="form-label">身体活動レベル</label>
+      <select name="activity" class="form-select">
+        {% for v, label, desc in levels %}
+        <option value="{{ v }}" {% if cur == v %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">消費カロリーを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if tdee is not none %}
+<div class="tool-card">
+  <div class="text-muted small">1日の消費カロリーの目安</div>
+  <div class="display-6 fw-semibold mb-3">{{ tdee }} <span class="fs-5">kcal/日</span></div>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle mb-0">
+      <thead class="table-light"><tr><th>目的</th><th>1日の摂取カロリーの目安</th></tr></thead>
+      <tbody>
+        <tr><td>ゆるやかに減量（−300〜500kcal）</td><td>{{ tdee - 500 }}〜{{ tdee - 300 }} kcal</td></tr>
+        <tr><td>体重を維持</td><td>約 {{ tdee }} kcal</td></tr>
+        <tr><td>筋肉をつけて増量（＋250kcal）</td><td>約 {{ tdee + 250 }} kcal</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted mt-2 mb-0">基礎代謝は Mifflin-St Jeor 式で計算しています。減量中も、基礎代謝を大きく下回る食事は避けましょう。</p>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">身体活動レベルの選び方</h2>
+  <p class="text-muted">厚生労働省「日本人の食事摂取基準」では、成人の身体活動レベルを3段階に分けています。迷ったら「ふつう」を選び、2〜4週間の体重の変化を見て調整しましょう。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+      <thead class="table-light"><tr><th style="min-width:8em">レベル</th><th>日常生活の内容</th></tr></thead>
+      <tbody>
+        {% for v, label, desc in levels %}<tr><td>{{ label }}</td><td class="small">{{ desc }}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <h2 class="h6 mt-4">計算方法</h2>
+  <p class="text-muted">
+    <b>1日の消費カロリー ＝ 基礎代謝 × 身体活動レベル</b><br>
+    基礎代謝は、安静にしていても消費されるエネルギーです。くわしくは<a href="/bmr">基礎代謝計算</a>をご覧ください。
+  </p>
+  <h2 class="h6 mt-4">減量するときの目安</h2>
+  <p class="text-muted">
+    体脂肪1kgはおよそ7,200kcalに相当すると言われます。1日500kcal少なくすると、1週間で約0.5kgが目安です。
+    ただし体重が減ると消費カロリーも少しずつ減るため、数週間ごとに今の体重で計算し直しましょう。
+  </p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

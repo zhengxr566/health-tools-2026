@@ -1,0 +1,66 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">ウエストヒップ比（WHR）計算</h1>
+  <p class="text-muted mb-3">ウエストをヒップで割った比率で、脂肪がおなかまわりにつきやすいタイプかを WHO の基準で確認します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">性別</label>
+      <select name="sex" class="form-select">
+        <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男性</option>
+        <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女性</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">ウエスト（cm）</label>
+      <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}" placeholder="例：78">
+    </div>
+    <div class="col-12">
+      <label class="form-label">ヒップ（cm）</label>
+      <input name="hip_cm" class="form-control" inputmode="decimal" required value="{{ hip_cm_in }}" placeholder="例：95">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">WHRを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if result %}
+<div class="tool-card">
+  <div class="text-muted small">ウエストヒップ比（ウエスト ÷ ヒップ）</div>
+  <div class="display-6 fw-semibold">{{ result.ratio }}</div>
+  {{ ui.gauge(result.gauge, "WHOの基準でのあなたの位置") }}
+  <div class="alert alert-info mt-3 mb-0">判定：<b>{{ result.level | ja_msg }}</b></div>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">判定の目安（WHO 2008）</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>判定</th><th>男性</th><th>女性</th></tr></thead>
+      <tbody>
+        <tr><td>低リスク</td><td>0.85 未満</td><td>0.80 未満</td></tr>
+        <tr><td>注意</td><td>0.85〜0.89</td><td>0.80〜0.84</td></tr>
+        <tr><td>高リスク</td><td>0.90 以上</td><td>0.85 以上</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted">
+    WHO の専門家会議報告では、男性 0.90 以上、女性 0.85 以上で代謝性疾患のリスクが大きく高まるとしています。
+    日本のメタボ健診ではウエストヒップ比ではなく腹囲（男性85cm・女性90cm）を使うため、<a href="/waist">腹囲・ウエスト身長比</a>もあわせて確認しましょう。
+  </p>
+</div>
+
+<div class="tool-card">
+  <h2 class="h6">ウエストとヒップの測り方</h2>
+  <ul class="text-muted">
+    <li><b>ウエスト：</b>WHO の方法では、いちばん下の肋骨と腰骨（腸骨）の上端の中間で測ります。息を吐き終えたときに、おなかをへこませずに読みます。</li>
+    <li><b>ヒップ：</b>お尻のいちばん出ているところで、メジャーを床と平行にして測ります。</li>
+  </ul>
+  {{ ui.figure("body-measurement") }}
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

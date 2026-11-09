@@ -1,0 +1,49 @@
+{% extends "ja/base.html" %}
+{% block content %}
+
+<section class="tool-card mb-4">
+  <h1 class="h3 mb-2">無料の健康計算ツール</h1>
+  <p class="text-muted mb-0">
+    BMI・肥満度、体脂肪率、腹囲、基礎代謝、1日の消費カロリー、歩数のカロリー、睡眠サイクルを無料で計算できます。
+    日本肥満学会や厚生労働省の基準に合わせ、計算式と根拠、結果の見方もあわせて解説しています。
+  </p>
+</section>
+
+{% for c in ja_categories %}
+<section class="tool-card mb-4" id="{{ c.slug }}">
+  <h2 class="h5 mb-1">{{ c.name }}</h2>
+  <p class="small text-muted mb-3">{{ c.desc }}</p>
+  <div class="row g-3">
+    {% for t in ja_tools if t.cat == c.slug %}
+    <div class="col-12 col-md-6">
+      <a class="d-block h-100 p-3 rounded-3 border text-decoration-none" href="{{ t.path }}">
+        <div class="fw-semibold mb-1">{{ t.name }}</div>
+        <div class="small text-muted">{{ t.desc }}</div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<section class="tool-card mb-4">
+  <h2 class="h5 mb-3">健康ガイド</h2>
+  <ul class="list-unstyled mb-0">
+    {% for a in ja_articles %}
+    <li class="mb-3">
+      <a class="fw-semibold text-decoration-none" href="/guide/{{ a.slug }}">{{ a.h1 }}</a>
+      <div class="small text-muted">{{ a.description }}</div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="tool-card">
+  <h2 class="h6">CalmyHealth について</h2>
+  <p class="small text-muted mb-0">
+    CalmyHealth は個人で運営している健康計算ツールのサイトです。計算には公開されている推定式と公的な基準を使い、
+    各ページに出典を記載しています。結果はあくまで目安としてご利用ください。運営者や編集方針は<a href="/about">運営者情報</a>をご覧ください。
+  </p>
+</section>
+
+{% endblock %}

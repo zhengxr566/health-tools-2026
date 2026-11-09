@@ -19,10 +19,16 @@ from flask import abort
 from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR, HANT_OVERRIDES
 from seo_meta import SEO_OVERRIDES
 from i18n_hant import ENV_KEY as LANG_ENV_KEY, HANT_PREFIX, HantPrefixMiddleware, convert_html
+from i18n_ja import (
+    JA_CATEGORIES, JA_META, JA_PAGES, JA_PREFIX, JA_TOOLS, JaPrefixMiddleware, ja_links, ja_msg,
+)
+from articles_ja import JA_ARTICLES, JA_ARTICLES_BY_SLUG, JA_AUTHOR
 
 app = Flask(__name__)
 # 繁体版：/zh-hant/... 共用同一套路由，输出时转繁体（见 i18n_hant.py）
-app.wsgi_app = HantPrefixMiddleware(app.wsgi_app)
+# 日语版：/ja/... 共用路由和计算逻辑，模板单独翻译（见 i18n_ja.py）
+app.wsgi_app = JaPrefixMiddleware(HantPrefixMiddleware(app.wsgi_app))
+app.jinja_env.filters["ja_msg"] = ja_msg
 
 # -----------------------
 # Brand / SEO / Domain
@@ -58,9 +64,26 @@ def is_hant() -> bool:
     return has_request_context() and request.environ.get(LANG_ENV_KEY) == "hant"
 
 
+def is_ja() -> bool:
+    return has_request_context() and request.environ.get(LANG_ENV_KEY) == "ja"
+
+
+def lang_prefix() -> str:
+    return HANT_PREFIX if is_hant() else JA_PREFIX if is_ja() else ""
+
+
+def ja_available(path: str) -> bool:
+    """这个路径有没有日语版（日语版只包含已翻译的页面）。"""
+    if path in JA_PAGES:
+        return True
+    if path.startswith("/guide/"):
+        return path[len("/guide/"):] in JA_ARTICLES_BY_SLUG
+    return False
+
+
 def canonical_url(path: str) -> str:
-    # 繁体页面的 canonical 指向 /zh-hant/...（各语言版本各自是独立页面）
-    prefix = HANT_PREFIX if is_hant() else ""
+    # 各语言版本的 canonical 指向各自的网址（/zh-hant/...、/ja/...）
+    prefix = lang_prefix()
     if prefix and path == "/":
         return BASE_URL_ENV.rstrip("/") + prefix + "/"
     return BASE_URL_ENV.rstrip("/") + prefix + path
@@ -71,7 +94,27 @@ def lang_urls(path: str) -> dict:
     return {
         "hans": base + path,
         "hant": base + HANT_PREFIX + (path if path != "/" else "/"),
+        "ja": (base + JA_PREFIX + (path if path != "/" else "/")) if ja_available(path) else None,
     }
+
+
+_flask_render_template = render_template
+
+
+def render_template(name: str, **context):
+    """日语版优先使用 templates/ja/ 下的同名模板。"""
+    if is_ja():
+        ja_name = f"ja/{name}"
+        if (Path(app.root_path) / "templates" / ja_name).exists():
+            name = ja_name
+    return _flask_render_template(name, **context)
+
+
+@app.before_request
+def ja_only_translated_pages():
+    # 没有翻译的页面不提供日语版
+    if is_ja() and not ja_available(request.path):
+        abort(404)
 
 
 # -----------------------
@@ -780,6 +823,9 @@ def convert_to_hant(resp):
     if is_hant() and resp.mimetype == "text/html" and not resp.direct_passthrough:
         resp.set_data(convert_html(resp.get_data(as_text=True)))
         resp.headers["Content-Language"] = "zh-Hant"
+    elif is_ja() and resp.mimetype == "text/html" and not resp.direct_passthrough:
+        resp.set_data(ja_links(resp.get_data(as_text=True)))
+        resp.headers["Content-Language"] = "ja"
     return resp
 
 def grouped_tools(current_path=None):
@@ -899,6 +945,10 @@ FIGURES = {
         "w": 720, "h": 560,
         "alt": "围度测量位置示意图：颈围在喉结下方，腰围在肋骨下缘与髂嵴连线的中点，臀围在臀部最突出处",
         "caption": "颈围、腰围、臀围的测量位置。美国海军体脂公式中，男性腰围改在肚脐水平测量。",
+        "ja": {
+            "alt": "周囲径の測り方の図：首囲はのどぼとけの下、ウエストは肋骨の下端と腸骨の上端の中間、ヒップはお尻のいちばん出ているところ",
+            "caption": "首囲・ウエスト・ヒップの測る位置。メタボ健診の腹囲と米海軍式の男性の腹囲は、おへその高さで測ります。",
+        },
     },
     "bmi-chart": {
         "w": 782, "h": 528,
@@ -909,11 +959,20 @@ FIGURES = {
             "alt": "BMI 身高体重对照表：身高 150–190 cm、体重 40–115 kg 对应的 BMI 数值，按台湾国民健康署标准分级着色",
             "caption": "BMI 身高体重对照表（台湾国民健康署成人体位标准）。找到自己的身高行和体重列，交叉格就是 BMI。",
         },
+        "ja": {
+            "h": 548,
+            "alt": "BMI早見表：身長150〜190cm・体重40〜115kgのBMIを、日本肥満学会の基準で色分けした表",
+            "caption": "BMI早見表（日本肥満学会の判定基準）。自分の身長の行と体重の列が交わるマスがBMIです。",
+        },
     },
     "bodyfat-ranges": {
         "w": 760, "h": 330,
         "alt": "男女体脂率参考范围条形图：必需脂肪、运动员、健身良好、一般水平、偏高（ACE 分级）",
         "caption": "男女体脂率参考范围（美国运动委员会 ACE 分级）。女性的必需脂肪比男性多，参考值整体高 7–10 个百分点。",
+        "ja": {
+            "alt": "男女別の体脂肪率の目安を示した帯グラフ：必須脂肪、アスリート、引き締まっている、標準、高め（ACEの区分）",
+            "caption": "男女別の体脂肪率の目安（米国運動協議会 ACE の区分）。女性は必須脂肪が多いため、全体に男性より7〜10ポイント高めです。",
+        },
     },
 }
 
@@ -928,30 +987,41 @@ PAGE_FIGURES = {
     "/guide/body-fat-percentage-chart": ["bodyfat-ranges", "body-measurement"],
 }
 
-OG_KEYS = {p.stem for p in (STATIC_DIR / "og").glob("*.png") if not p.stem.endswith(".hant")}
+# 已生成的分享卡片文件名（例如 bmi.png、bmi.hant.png、bmi.ja.png），按语言分别判断有没有专属卡片
+OG_FILES = {p.name for p in (STATIC_DIR / "og").glob("*.png")}
 
 
-def fig_src(key: str, absolute: bool = False, hant: bool | None = None) -> str:
-    hant = is_hant() if hant is None else hant
-    path = f"/static/img/{key}{'.hant' if hant else ''}.svg"
+def current_lang() -> str:
+    return "hant" if is_hant() else "ja" if is_ja() else "hans"
+
+
+def lang_suffix(lang: str) -> str:
+    return "" if lang == "hans" else f".{lang}"
+
+
+def fig_src(key: str, absolute: bool = False, lang: str | None = None) -> str:
+    lang = lang or current_lang()
+    path = f"/static/img/{key}{lang_suffix(lang)}.svg"
     return f"{BASE_URL_ENV}{path}" if absolute else path
 
 
 def local_figures() -> dict:
-    """繁体版套用 FIGURES 里的 "hant" 覆盖（例如 BMI 图改用台湾标准的说明）。"""
-    if not is_hant():
+    """繁体 / 日语版套用 FIGURES 里的 "hant" / "ja" 覆盖（说明文字、图高等）。"""
+    lang = current_lang()
+    if lang == "hans":
         return FIGURES
-    return {k: {**v, **v.get("hant", {})} for k, v in FIGURES.items()}
+    return {k: {**v, **v.get(lang, {})} for k, v in FIGURES.items()}
 
 
-def og_image_url(path: str, hant: bool | None = None) -> str | None:
-    if not OG_KEYS:
-        return None
-    hant = is_hant() if hant is None else hant
+def og_image_url(path: str, lang: str | None = None) -> str | None:
+    lang = lang or current_lang()
     key = path.rstrip("/").split("/")[-1] or "default"
-    if key not in OG_KEYS:
-        key = "default"
-    return f"{BASE_URL_ENV}/static/og/{key}{'.hant' if hant else ''}.png"
+    name = f"{key}{lang_suffix(lang)}.png"
+    if name not in OG_FILES:
+        name = f"default{lang_suffix(lang)}.png"
+        if name not in OG_FILES:
+            return None
+    return f"{BASE_URL_ENV}/static/og/{name}"
 
 
 @app.context_processor
@@ -961,7 +1031,7 @@ def inject_global_nav():
         "top_tools": top_tools(10),
         "site_name": SITE_NAME,
         "site_name_zh": SITE_NAME_ZH,
-        "page_noindex": is_noindex(request.path),
+        "page_noindex": is_noindex(request.path) and not is_ja(),
         # 语言版本：简体 / 繁体对应网址（用于 hreflang 和语言切换）
         "is_hant": is_hant(),
         "lang_urls": lang_urls(request.path),
@@ -970,10 +1040,19 @@ def inject_global_nav():
             (SEO_OVERRIDES.get(request.path) or {}).get("hant") if is_hant() else None
         ) or SEO_OVERRIDES.get(request.path),
         # 工具页底部“相关阅读”：哪些文章把当前页列为相关工具
-        "page_articles": [local_article(a) for a in ARTICLES if request.path in a.get("related_tools", [])],
+        "page_articles": (
+            [a for a in JA_ARTICLES if request.path in a.get("related_tools", [])] if is_ja() else
+            [local_article(a) for a in ARTICLES if request.path in a.get("related_tools", [])]
+        ),
         "figures": local_figures(),
         "fig_src": fig_src,
         "og_image": og_image_url(request.path),
+        # 日语版
+        "is_ja": is_ja(),
+        "ja_meta": JA_META.get(request.path) if is_ja() else None,
+        "ja_tools": JA_TOOLS,
+        "ja_categories": JA_CATEGORIES,
+        "ja_articles": JA_ARTICLES,
     }
 
 def meta_for(title: str, description: str, path: str) -> dict:
@@ -1056,11 +1135,31 @@ BMI_STANDARDS = {
              "note": "建议尽早就医评估，由专业人员协助制定体重管理方案。"},
         ],
     },
+    # 日语版：日本肥满学会（JASSO）的判定基准，文字直接用日语
+    "jp": {
+        "name": "日本肥満学会の判定基準（肥満症診療ガイドライン2022）",
+        "source_text": "日本肥満学会『肥満症診療ガイドライン2022』",
+        "source_url": "https://www.jasso.or.jp/",
+        "bands": [
+            {"label": "低体重（やせ）", "lo": None, "hi": 18.5, "kind": "low",
+             "note": "やせ気味です。食事量やたんぱく質が足りているか見直しましょう。"},
+            {"label": "普通体重", "lo": 18.5, "hi": 25.0, "kind": "normal",
+             "note": "普通体重の範囲です。腹囲や体脂肪率もあわせて確認しましょう。"},
+            {"label": "肥満（1度）", "lo": 25.0, "hi": 30.0, "kind": "obese",
+             "note": "食事と活動量を見直し、腹囲や健診の数値も確認しましょう。"},
+            {"label": "肥満（2度）", "lo": 30.0, "hi": 35.0, "kind": "obese",
+             "note": "計画的な減量がすすめられます。健診結果もあわせて確認しましょう。"},
+            {"label": "肥満（3度）", "lo": 35.0, "hi": 40.0, "kind": "obese",
+             "note": "高度肥満にあたります。医療機関での相談をおすすめします。"},
+            {"label": "肥満（4度）", "lo": 40.0, "hi": None, "kind": "obese",
+             "note": "高度肥満にあたります。医療機関での相談をおすすめします。"},
+        ],
+    },
 }
 
 
 def bmi_standard() -> dict:
-    return BMI_STANDARDS["tw" if is_hant() else "cn"]
+    return BMI_STANDARDS["tw" if is_hant() else "jp" if is_ja() else "cn"]
 
 
 def bmi_band(bmi: float, std: dict | None = None) -> dict:
@@ -1081,6 +1180,12 @@ def bmi_category_cn(bmi: float) -> str:
     return "肥胖"
 
 
+def bmr_nibiohn(sex: str, age: int, height_cm: float, weight_kg: float) -> float:
+    """国立健康・栄养研究所の式（Ganpule AA, et al. Eur J Clin Nutr, 2007），日本人向け。kcal/天。"""
+    const = 0.4235 if sex == "male" else 0.9708
+    return (0.0481 * weight_kg + 0.0234 * height_cm - 0.0138 * age - const) * 1000 / 4.186
+
+
 def bmi_progress(bmi: float) -> int:
     p = (bmi - 15.0) / (35.0 - 15.0) * 100.0
     return int(round(clamp(p, 0, 100)))
@@ -1093,7 +1198,7 @@ BAND_COLORS = {
     "low": ("#93c5fd", "#1f2937"),
     "normal": ("#86efac", "#1f2937"),
     "over": ("#fde68a", "#1f2937"),
-    "obese": [("#fca5a5", "#1f2937"), ("#f87171", "#1f2937"), ("#dc2626", "#ffffff")],
+    "obese": [("#fca5a5", "#1f2937"), ("#f87171", "#1f2937"), ("#dc2626", "#ffffff"), ("#991b1b", "#ffffff")],
 }
 
 
@@ -3001,14 +3106,19 @@ def sitemap():
         alternates = [
             f'    <xhtml:link rel="alternate" hreflang="zh-Hans" href="{urls["hans"]}"/>',
             f'    <xhtml:link rel="alternate" hreflang="zh-Hant" href="{urls["hant"]}"/>',
-            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{urls["hans"]}"/>',
         ]
-        for loc, hant in ((urls["hans"], False), (urls["hant"], True)):
+        if urls["ja"]:
+            alternates.append(f'    <xhtml:link rel="alternate" hreflang="ja" href="{urls["ja"]}"/>')
+        alternates.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{urls["hans"]}"/>')
+        versions = [(urls["hans"], "hans"), (urls["hant"], "hant")]
+        if urls["ja"]:
+            versions.append((urls["ja"], "ja"))
+        for loc, lang in versions:
             xml.append("  <url>")
             xml.append(f"    <loc>{loc}</loc>")
             xml.extend(alternates)
             for key in PAGE_FIGURES.get(path, []):
-                xml.append(f"    <image:image><image:loc>{fig_src(key, absolute=True, hant=hant)}</image:loc></image:image>")
+                xml.append(f"    <image:image><image:loc>{fig_src(key, absolute=True, lang=lang)}</image:loc></image:image>")
             xml.append("  </url>")
 
     xml.append("</urlset>")
@@ -3083,6 +3193,9 @@ def article_jsonld(a: dict) -> str:
 
 @app.get("/guide")
 def guide_index():
+    if is_ja():
+        meta = meta_for(JA_META["/guide"][0], JA_META["/guide"][1], "/guide")
+        return render_template("guide_index.html", meta=meta, articles=JA_ARTICLES)
     meta = meta_for(
         f"健康指南：体重、热量、营养、运动与睡眠常见问题 - {SITE_NAME}",
         "CalmyHealth 健康指南：用研究和公式讲清楚 BMI、体脂、热量缺口、蛋白质、饮水、步数、跑步、心率和睡眠等常见问题，每篇附参考来源和可直接计算的工具。",
@@ -3100,6 +3213,8 @@ def guide_index():
 
 @app.get("/guide/<slug>")
 def guide_article(slug: str):
+    if is_ja():
+        return guide_article_ja(slug)
     a = ARTICLES_BY_SLUG.get(slug)
     if a is None:
         abort(404)
@@ -3127,6 +3242,62 @@ def guide_article(slug: str):
         related_articles=related_articles,
     )
 
+
+
+def guide_article_ja(slug: str):
+    a = JA_ARTICLES_BY_SLUG.get(slug)
+    if a is None:
+        abort(404)
+    url = canonical_url(f"/guide/{slug}")
+    tools_by_path = {t["path"]: t for t in JA_TOOLS}
+    related_tools = [
+        {"path": p, "name": tools_by_path[p]["name"], "desc": tools_by_path[p]["desc"]}
+        for p in a.get("related_tools", []) if p in tools_by_path
+    ]
+    related_articles = [JA_ARTICLES_BY_SLUG[s] for s in a.get("related_articles", []) if s in JA_ARTICLES_BY_SLUG]
+    graph = [
+        {
+            "@type": "Article",
+            "headline": a["h1"],
+            "description": a["description"],
+            "image": [u for u in [og_image_url(f"/guide/{slug}")] if u] + [
+                fig_src(k, absolute=True) for k in PAGE_FIGURES.get(f"/guide/{slug}", [])
+            ],
+            "datePublished": a["published"],
+            "dateModified": a["updated"],
+            "inLanguage": "ja",
+            "mainEntityOfPage": url,
+            "author": {"@type": "Person", "name": JA_AUTHOR["name"], "url": canonical_url(JA_AUTHOR["url"])},
+            "publisher": {"@type": "Organization", "name": SITE_NAME, "url": canonical_url("/")},
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "ホーム", "item": canonical_url("/")},
+                {"@type": "ListItem", "position": 2, "name": "健康ガイド", "item": canonical_url("/guide")},
+                {"@type": "ListItem", "position": 3, "name": a["h1"], "item": url},
+            ],
+        },
+    ]
+    if a.get("faq"):
+        graph.append({
+            "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": ans}}
+                for q, ans in a["faq"]
+            ],
+        })
+    meta = meta_for(f"{a['title']} - {SITE_NAME}", a["description"], f"/guide/{slug}")
+    meta["og_type"] = "article"
+    return render_template(
+        f"guide/{slug}.html",
+        meta=meta,
+        article=a,
+        author=JA_AUTHOR,
+        article_jsonld=_jsonld({"@context": "https://schema.org", "@graph": graph}),
+        related_tools=related_tools,
+        related_articles=related_articles,
+    )
 
 
 def sleep_debt_info(actual_hours: float, target_hours: float, days: int) -> dict:
@@ -3674,6 +3845,7 @@ def bmi():
     ideal_min = ideal_max = None
     to_min = to_max = None
     gauge = None
+    band_kind = None
     suggestion_title = "行动建议（仅供参考）"
     suggestions = []
     risk_note = "提示：本工具仅用于一般参考，不构成医疗建议。"
@@ -3748,6 +3920,7 @@ def bmi():
         category=category,
         progress=progress,
         gauge=gauge,
+        band_kind=band_kind,
         ideal_min=ideal_min,
         ideal_max=ideal_max,
         to_min=to_min,
@@ -4424,6 +4597,7 @@ def pregnancy_water():
 def bmr():
     error = None
     bmr_val = None
+    bmr_jp = None
     sex_in = "male"
     age_in = ""
     height_cm_in = ""
@@ -4449,6 +4623,7 @@ def bmr():
             error = "请输入正确体重（kg）。"
         else:
             bmr_val = round0(mifflin_st_jeor(sex_in, age, h, w))
+            bmr_jp = round0(bmr_nibiohn(sex_in, age, h, w))
 
     meta = meta_for(
         "基础代谢率 BMR - CalmyHealth",
@@ -4460,6 +4635,7 @@ def bmr():
         meta=meta,
         error=error,
         bmr=bmr_val,
+        bmr_jp=bmr_jp,
         sex_in=sex_in,
         age_in=age_in,
         height_cm_in=height_cm_in,

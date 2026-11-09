@@ -1,0 +1,68 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">腹囲・ウエスト身長比（WHtR）計算</h1>
+  <p class="text-muted mb-3">腹囲を身長で割った「ウエスト身長比」で、おなかまわりの脂肪（内臓脂肪）のリスクの目安を確認します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">腹囲（cm）</label>
+      <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}" placeholder="例：82">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">身長（cm）</label>
+      <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例：168">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if whtr is not none %}
+<div class="tool-card">
+  <div class="text-muted small">ウエスト身長比（腹囲 ÷ 身長）</div>
+  <div class="display-6 fw-semibold">{{ whtr }}</div>
+  {{ ui.gauge(gauge, "ウエスト身長比でのあなたの位置") }}
+  <div class="alert alert-info mt-3 mb-0">
+    判定：<b>{{ level | ja_msg }}</b><br>
+    身長 {{ height_cm_in }} cm の場合、腹囲を <b>{{ waist_limit }} cm 未満</b>（身長の半分）に保つと、ウエスト身長比 0.5 未満になります。
+  </div>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">ウエスト身長比の目安</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>ウエスト身長比</th><th>目安</th></tr></thead>
+      <tbody>
+        <tr><td>0.4 未満</td><td>低め（やせ気味の可能性）</td></tr>
+        <tr><td>0.4 以上 0.5 未満</td><td>良好</td></tr>
+        <tr><td>0.5 以上 0.6 未満</td><td>注意（内臓脂肪が多めの可能性）</td></tr>
+        <tr><td>0.6 以上</td><td>リスクが高い</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted">「腹囲を身長の半分未満に保つ」というシンプルな目安で、身長の違いも考慮できるのが特徴です。</p>
+
+  <h2 class="h6 mt-4">メタボ健診の腹囲基準との違い</h2>
+  <p class="text-muted">
+    日本の特定健診（メタボ健診）では、<b>腹囲が男性85cm以上、女性90cm以上</b>を内臓脂肪の蓄積の目安としています。
+    これに加えて、血圧・血糖・脂質のうち2つ以上が基準を超えると、メタボリックシンドロームと判定されます。
+    健診の基準は身長を考慮しない一律の値なので、身長が低い人や高い人は、ウエスト身長比もあわせて見るとわかりやすくなります。
+  </p>
+</div>
+
+<div class="tool-card">
+  <h2 class="h6">腹囲の正しい測り方</h2>
+  <ul class="text-muted">
+    <li>立った姿勢で、おなかの力を抜き、軽く息を吐き終えたときに測ります。</li>
+    <li>特定健診では<b>おへその高さ</b>で測ります。WHO の方法では、いちばん下の肋骨と腰骨（腸骨）の上端の中間で測ります。</li>
+    <li>メジャーは床と平行にし、皮膚に食い込まない程度に巻きます。毎回同じ位置・同じ時間帯（朝の空腹時など）に測ると比べやすくなります。</li>
+  </ul>
+  {{ ui.figure("body-measurement") }}
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

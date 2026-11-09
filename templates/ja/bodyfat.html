@@ -1,0 +1,85 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">体脂肪率計算（メジャーで測る米海軍式）</h1>
+  <p class="text-muted mb-3">身長・首囲・腹囲（女性はヒップも）を入れると、米海軍の周径囲法で体脂肪率を推定します。体組成計がなくても、メジャー1本で測れます。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12">
+      <label class="form-label">性別</label>
+      <select name="sex" class="form-select">
+        <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男性</option>
+        <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女性</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">身長（cm）</label>
+      <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例：170">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">首囲（cm）</label>
+      <input name="neck_cm" class="form-control" inputmode="decimal" required value="{{ neck_cm_in }}" placeholder="例：37">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">腹囲（cm）</label>
+      <input name="waist_cm" class="form-control" inputmode="decimal" required value="{{ waist_cm_in }}" placeholder="例：82">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">ヒップ（cm・女性のみ）</label>
+      <input name="hip_cm" class="form-control" inputmode="decimal" value="{{ hip_cm_in }}" placeholder="例：94">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">体脂肪率を計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if bf is not none %}
+<div class="tool-card">
+  <div class="text-muted small">推定体脂肪率</div>
+  <div class="display-6 fw-semibold">{{ bf }}%</div>
+  {{ ui.gauge(gauge, "ACEの区分でのあなたの位置") }}
+  <div class="alert alert-info mt-3 mb-0">
+    推定体脂肪率は約 <b>{{ bf }}%</b> で、米国運動協議会（ACE）の区分では「<b>{{ bf_category | ja_msg }}</b>」にあたります。
+    1回の数値より、同じ条件で測った数値の変化を見るのがおすすめです。
+  </div>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">体脂肪率の目安（男女別）</h2>
+  <p class="text-muted">体脂肪率には BMI のような国の統一基準はありません。ここでは、フィットネス分野で広く使われている米国運動協議会（ACE）の区分を紹介します。</p>
+  {{ ui.figure("bodyfat-ranges", lazy=false) }}
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>区分</th><th>男性</th><th>女性</th></tr></thead>
+      <tbody>
+        <tr><td>必須脂肪</td><td>2〜5%</td><td>10〜13%</td></tr>
+        <tr><td>アスリート</td><td>6〜13%</td><td>14〜20%</td></tr>
+        <tr><td>引き締まっている</td><td>14〜17%</td><td>21〜24%</td></tr>
+        <tr><td>標準</td><td>18〜24%</td><td>25〜31%</td></tr>
+        <tr><td>高め</td><td>25%以上</td><td>32%以上</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted">体組成計（体脂肪計）のメーカーごとの判定とは数値が異なることがあります。比べるときは、いつも同じ方法で測りましょう。</p>
+</div>
+
+<div class="tool-card">
+  <h2 class="h6">正しい測り方</h2>
+  <ul class="text-muted">
+    <li><b>首囲：</b>のどぼとけのすぐ下で、メジャーをやや前下がりに一周させます。</li>
+    <li><b>腹囲：</b>米海軍式では、男性はおへその高さ、女性はウエストのいちばん細いところで測ります。息を吐き終えたところで、おなかをへこませずに読みます。</li>
+    <li><b>ヒップ（女性）：</b>お尻のいちばん出ているところで、メジャーを床と平行にします。</li>
+  </ul>
+  {{ ui.figure("body-measurement") }}
+  <h2 class="h6 mt-4">計算式（米海軍式・単位はcm）</h2>
+  <ul class="text-muted small">
+    <li>男性：495 ÷（1.0324 − 0.19077 × log10(腹囲 − 首囲) ＋ 0.15456 × log10(身長)）− 450</li>
+    <li>女性：495 ÷（1.29579 − 0.35004 × log10(腹囲 ＋ ヒップ − 首囲) ＋ 0.22100 × log10(身長)）− 450</li>
+  </ul>
+  <p class="text-muted">周径囲法は推定値で、個人では数％の誤差が出ることがあります。減量中の変化を追うには十分役立ちます。</p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

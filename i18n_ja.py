@@ -1,0 +1,151 @@
+"""日语版：/ja/...
+
+和繁体版不同，日语无法自动转换，所以日语版是“单独翻译的页面集合”：
+- JaPrefixMiddleware 把 /ja 前缀挂到 SCRIPT_NAME 上，路由和计算逻辑与中文版共用。
+- 模板放在 templates/ja/ 下，同名覆盖（app.render_template 会优先找 ja/<模板名>）。
+- 只有 JA_PAGES 里的页面和 articles_ja.py 里的文章有日语版，其余路径在 /ja 下返回 404，
+  也不会出现在日语导航、hreflang 和 sitemap 里。
+- 计算函数返回的中文提示（错误信息、分级名称）用 JA_MSG 翻成日语，找不到时显示通用提示。
+
+新增一个日语页面：在 JA_TOOLS（或 JA_STATIC_PAGES）登记路径、在 JA_META 写标题和描述，
+再新建 templates/ja/<模板名>.html。
+"""
+
+import re
+
+JA_PREFIX = "/ja"
+ENV_KEY = "calmy.lang"
+
+
+class JaPrefixMiddleware:
+    """把 /ja/... 的请求交给原应用处理，并标记语言。"""
+
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        path = environ.get("PATH_INFO", "")
+        if path == JA_PREFIX or path.startswith(JA_PREFIX + "/"):
+            environ["SCRIPT_NAME"] = environ.get("SCRIPT_NAME", "") + JA_PREFIX
+            environ["PATH_INFO"] = path[len(JA_PREFIX):] or "/"
+            environ[ENV_KEY] = "ja"
+        return self.wsgi_app(environ, start_response)
+
+
+# 日语页面里的站内链接统一写成 "/bmi" 这种形式，输出前改成 /ja/bmi。
+# 语言切换等需要跳出日语版的链接请写完整网址（https://...），不会被改写。
+_LINK_RE = re.compile(r'(\b(?:href|action)=")/(?!/|static/|ja(?:/|"))')
+
+
+def ja_links(html: str) -> str:
+    out = _LINK_RE.sub(r"\1" + JA_PREFIX + "/", html)
+    out = out.replace('"inLanguage": "zh-CN"', '"inLanguage": "ja"')
+    # url_for('static') 会带上 /ja 前缀；静态文件各语言共用 /static/
+    out = out.replace(JA_PREFIX + "/static/", "/static/")
+    return out
+
+
+# ---------------------------------------------------------------------------
+# 日语版的工具与分类（导航、首页、sitemap 都从这里读取）
+# ---------------------------------------------------------------------------
+JA_CATEGORIES = [
+    {"slug": "weight", "name": "体重・体型", "desc": "BMI、体脂肪率、腹囲など体型のチェック"},
+    {"slug": "metabolism", "name": "代謝・カロリー", "desc": "基礎代謝と1日の消費カロリー"},
+    {"slug": "nutrition", "name": "栄養", "desc": "たんぱく質など栄養素の目安"},
+    {"slug": "activity", "name": "運動・睡眠", "desc": "歩数の消費カロリーと睡眠サイクル"},
+]
+
+JA_TOOLS = [
+    {"path": "/bmi", "cat": "weight", "name": "BMI計算・肥満度判定",
+     "desc": "身長と体重からBMIと肥満度を判定（日本肥満学会の基準）"},
+    {"path": "/bodyfat", "cat": "weight", "name": "体脂肪率計算",
+     "desc": "メジャーで首・腹囲を測って体脂肪率を推定（米海軍式）"},
+    {"path": "/waist", "cat": "weight", "name": "腹囲・ウエスト身長比",
+     "desc": "ウエスト÷身長の比率（WHtR）で内臓脂肪リスクの目安"},
+    {"path": "/whr", "cat": "weight", "name": "ウエストヒップ比",
+     "desc": "ウエスト÷ヒップの比率（WHR）を WHO 基準で判定"},
+    {"path": "/bmr", "cat": "metabolism", "name": "基礎代謝計算",
+     "desc": "国立健康・栄養研究所の式と Mifflin-St Jeor 式で計算"},
+    {"path": "/calorie", "cat": "metabolism", "name": "1日の消費カロリー計算",
+     "desc": "基礎代謝×身体活動レベルで1日に必要なカロリーを計算"},
+    {"path": "/protein", "cat": "nutrition", "name": "たんぱく質の必要量",
+     "desc": "体重と目的から1日のたんぱく質量の目安を計算"},
+    {"path": "/steps", "cat": "activity", "name": "歩数の消費カロリー",
+     "desc": "1万歩で何キロカロリー？体重別に歩数の消費カロリーを計算"},
+    {"path": "/sleep", "cat": "activity", "name": "睡眠サイクル計算",
+     "desc": "90分周期から、すっきり起きられる就寝・起床時刻を計算"},
+]
+
+JA_STATIC_PAGES = ["/", "/guide", "/about", "/privacy", "/contact"]
+JA_PAGES = set(JA_STATIC_PAGES) | {t["path"] for t in JA_TOOLS}
+
+JA_META = {
+    "/": ("無料の健康計算ツール｜BMI・基礎代謝・消費カロリー - CalmyHealth",
+          "BMI・肥満度、体脂肪率、基礎代謝、1日の消費カロリー、歩数カロリー、睡眠サイクルを無料で計算。日本の基準に合わせ、計算式と根拠もわかりやすく解説します。"),
+    "/bmi": ("BMI計算・肥満度判定｜標準体重もわかる（日本肥満学会基準） - CalmyHealth",
+             "身長と体重を入れるだけでBMIを計算し、日本肥満学会の基準で「普通体重」「肥満（1度）」などを判定。標準体重（BMI22）と普通体重の範囲も表示します。"),
+    "/bodyfat": ("体脂肪率計算｜メジャーで測れる米海軍式 - CalmyHealth",
+                 "身長・首囲・腹囲（女性はヒップも）から体脂肪率を推定。体脂肪率の男女別の目安と、正しい測り方を図で解説します。"),
+    "/waist": ("腹囲・ウエスト身長比（WHtR）計算｜メタボ基準との違い - CalmyHealth",
+               "ウエスト÷身長が0.5未満かをチェック。メタボ健診の腹囲基準（男性85cm・女性90cm）との違いと、正しい腹囲の測り方も解説します。"),
+    "/whr": ("ウエストヒップ比（WHR）計算｜WHO基準で判定 - CalmyHealth",
+             "ウエストとヒップの比率を計算し、WHOの基準（男性0.90・女性0.85以上で注意）で判定します。測り方の図つき。"),
+    "/bmr": ("基礎代謝計算｜国立健康・栄養研究所の式で計算 - CalmyHealth",
+             "性別・年齢・身長・体重から基礎代謝量を計算。日本人向けの国立健康・栄養研究所の式と、海外で広く使われる Mifflin-St Jeor 式の両方で表示します。"),
+    "/calorie": ("1日の消費カロリー計算（TDEE）｜身体活動レベル別 - CalmyHealth",
+                 "基礎代謝×身体活動レベルで1日の消費カロリーを計算。減量・維持・増量の目安カロリーもわかります。"),
+    "/protein": ("たんぱく質の1日必要量計算｜体重×目的別 - CalmyHealth",
+                 "体重と目的（健康維持・減量・筋肉増量）から1日のたんぱく質量の目安を計算。食事摂取基準の推奨量と食品の含有量も紹介します。"),
+    "/steps": ("歩数の消費カロリー計算｜1万歩で何キロカロリー？ - CalmyHealth",
+               "1万歩の消費カロリーは体重50〜80kgで約290〜470kcal。歩数と体重から消費カロリーを計算し、体重別の早見表も掲載します。"),
+    "/sleep": ("睡眠サイクル計算｜90分周期で起きる時間・寝る時間 - CalmyHealth",
+               "今すぐ寝た場合の起床時刻、または起きたい時刻から逆算した就寝時刻を90分の睡眠サイクルで計算します。"),
+    "/guide": ("健康ガイド｜BMI・歩数・睡眠をデータでわかりやすく - CalmyHealth",
+               "BMIの基準、1万歩の距離と消費カロリー、睡眠サイクルなど、よくある疑問を研究と公的な基準をもとに解説します。"),
+    "/about": ("CalmyHealth について - CalmyHealth", "CalmyHealth の運営者、編集方針、計算式と参考文献について。"),
+    "/privacy": ("プライバシーポリシー - CalmyHealth", "CalmyHealth における情報の取り扱い、アクセス解析、広告と Cookie について。"),
+    "/contact": ("お問い合わせ - CalmyHealth", "CalmyHealth へのご意見、不具合の報告、お問い合わせ先。"),
+}
+
+# 計算函数返回的中文 → 日语。没有登记的错误信息统一显示 JA_FALLBACK_ERROR。
+JA_MSG = {
+    # 错误信息
+    "请输入正确的身高与体重。": "身長と体重を正しく入力してください。",
+    "性别选择不正确。": "性別を選択してください。",
+    "请输入正确年龄。": "年齢を正しく入力してください。",
+    "请输入正确身高（cm）。": "身長（cm）を正しく入力してください。",
+    "请输入正确体重（kg）。": "体重（kg）を正しく入力してください。",
+    "活动水平不正确。": "身体活動レベルを選択してください。",
+    "请输入正确身高。": "身長を正しく入力してください。",
+    "请输入正确颈围。": "首囲を正しく入力してください。",
+    "请输入正确腰围。": "腹囲を正しく入力してください。",
+    "请输入正确腰围（cm）。": "腹囲（cm）を正しく入力してください。",
+    "女性请输入正确臀围。": "女性はヒップ（cm）も入力してください。",
+    "腰围需大于颈围（用于公式计算）。": "腹囲は首囲より大きい値を入力してください。",
+    "请输入合理的腰围（cm）。": "ウエスト（cm）を正しく入力してください。",
+    "请输入合理的臀围（cm）。": "ヒップ（cm）を正しく入力してください。",
+    "请输入正确步数。": "歩数を正しく入力してください。",
+    "请输入正确时间（例如 23:30）。": "時刻を正しく入力してください（例：23:30）。",
+    "目标选择不正确。": "目的を選択してください。",
+    # 分级名称（色带、判定结果）
+    "偏低": "低め",
+    "较好": "良好",
+    "需要注意": "注意",
+    "风险较高": "高リスク",
+    "较低风险": "低リスク",
+    "必需脂肪": "必須脂肪",
+    "运动员": "アスリート",
+    "健身良好": "引き締まっている",
+    "一般水平": "標準",
+    "偏高": "高め",
+    "偏低（体重可能偏轻）": "低め（やせ気味の可能性）",
+}
+JA_FALLBACK_ERROR = "入力内容を確認してください。"
+
+
+def ja_msg(text, error: bool = False) -> str:
+    if text is None:
+        return ""
+    if text in JA_MSG:
+        return JA_MSG[text]
+    return JA_FALLBACK_ERROR if error else text

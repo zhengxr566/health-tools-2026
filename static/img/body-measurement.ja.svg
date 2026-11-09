@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" width="720" height="560" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>周囲径の測り方：首囲・ウエスト・ヒップ</title>
+<desc>体の正面図に、首囲、ウエスト（肋骨の下端と腸骨の上端の中間）、おへその高さ、ヒップの測る位置を示した図。</desc>
+<rect width="720" height="560" fill="#ffffff"/>
+<path d="M 148 170 Q 112 270 108 400" stroke="#c9a98a" stroke-width="32" stroke-linecap="round" fill="none"/>
+<path d="M 148 170 Q 112 270 108 400" stroke="#f3e3d3" stroke-width="28" stroke-linecap="round" fill="none"/>
+<path d="M 312 170 Q 348 270 352 400" stroke="#c9a98a" stroke-width="32" stroke-linecap="round" fill="none"/>
+<path d="M 312 170 Q 348 270 352 400" stroke="#f3e3d3" stroke-width="28" stroke-linecap="round" fill="none"/>
+<path d="M 212 132 Q 212 150 150 158 Q 128 164 140 205 Q 166 252 183 300 Q 158 342 160 385 Q 162 440 175 525 L 222 525 L 230 452 L 238 525 L 285 525 Q 298 440 300 385 Q 302 342 277 300 Q 294 252 320 205 Q 332 164 310 158 Q 248 150 248 132 Z" fill="#f3e3d3" stroke="#c9a98a" stroke-width="2"/>
+<rect x="212" y="100" width="36" height="40" fill="#f3e3d3"/>
+<line x1="212" y1="104" x2="212" y2="134" stroke="#c9a98a" stroke-width="2"/>
+<line x1="248" y1="104" x2="248" y2="134" stroke="#c9a98a" stroke-width="2"/>
+<ellipse cx="230" cy="64" rx="38" ry="46" fill="#f3e3d3" stroke="#c9a98a" stroke-width="2"/>
+<circle cx="230" cy="318" r="3" fill="#c9a98a"/>
+<line x1="150" y1="268" x2="200" y2="268" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="146" y="273" font-size="13" fill="#6b7280" text-anchor="end" font-weight="normal">肋骨の下端</text>
+<line x1="150" y1="330" x2="200" y2="330" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="146" y="335" font-size="13" fill="#6b7280" text-anchor="end" font-weight="normal">腸骨の上端（腰骨）</text>
+<path d="M 156 272 L 156 326" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+<text x="146" y="304" font-size="13" fill="#6b7280" text-anchor="end" font-weight="normal">中間</text>
+<ellipse cx="230" cy="121" rx="26" ry="7" fill="none" stroke="#2563eb" stroke-width="3"/>
+<path d="M 258 121 L 380 121 L 400 99" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+<circle cx="258" cy="121" r="3.5" fill="#2563eb"/>
+<text x="410" y="104" font-size="17" fill="#2563eb" text-anchor="start" font-weight="bold">首囲</text>
+<text x="410" y="126" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">のどぼとけの下、やや前下がりに</text>
+<ellipse cx="230" cy="299" rx="56" ry="7" fill="none" stroke="#dc2626" stroke-width="3"/>
+<path d="M 288 299 L 380 299 L 400 233" stroke="#dc2626" stroke-width="1.5" fill="none"/>
+<circle cx="288" cy="299" r="3.5" fill="#dc2626"/>
+<text x="410" y="238" font-size="17" fill="#dc2626" text-anchor="start" font-weight="bold">ウエスト（WHO の位置）</text>
+<text x="410" y="260" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">肋骨の下端と腸骨の上端の中間</text>
+<text x="410" y="280" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">立って力を抜き、息を吐き終えて測る</text>
+<ellipse cx="230" cy="318" rx="54" ry="7" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 4"/>
+<path d="M 286 318 L 380 318 L 400 325" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+<circle cx="286" cy="318" r="3.5" fill="#f59e0b"/>
+<text x="410" y="330" font-size="17" fill="#f59e0b" text-anchor="start" font-weight="bold">おへその高さ</text>
+<text x="410" y="352" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">メタボ健診の腹囲・米海軍式（男性）</text>
+<ellipse cx="230" cy="385" rx="78" ry="7" fill="none" stroke="#7c3aed" stroke-width="3"/>
+<path d="M 310 385 L 380 385 L 400 417" stroke="#7c3aed" stroke-width="1.5" fill="none"/>
+<circle cx="310" cy="385" r="3.5" fill="#7c3aed"/>
+<text x="410" y="422" font-size="17" fill="#7c3aed" text-anchor="start" font-weight="bold">ヒップ</text>
+<text x="410" y="444" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">お尻のいちばん出ているところを水平に</text>
+<text x="410" y="44" font-size="24" fill="#1f2937" text-anchor="start" font-weight="bold">周囲径の測り方</text>
+<text x="410" y="70" font-size="15" fill="#6b7280" text-anchor="start" font-weight="normal">首囲・ウエスト・ヒップの位置</text>
+<text x="410" y="496" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">メジャーは肌に沿わせ、締めつけない。</text>
+<text x="410" y="516" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">毎回同じ位置・同じ時間帯に測る。</text>
+<text x="704" y="546" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

@@ -1,0 +1,42 @@
+{# 日语版共用组件。用法：{% import "ja/_macros.html" as ui with context %} #}
+
+{% macro gauge(g, title) %}
+<div class="gauge" role="img" aria-label="{{ title }}：{{ g.value_text }}">
+  <div class="gauge-track">
+    <div class="gauge-marker" style="left: {{ g.marker }}%">
+      <span class="gauge-value">{{ g.value_text }}</span>
+      <span class="gauge-arrow"></span>
+    </div>
+    <div class="gauge-bar">
+      {% for s in g.segments %}<span class="gauge-seg" style="left: {{ s.x }}%; width: {{ s.w }}%; background: {{ s.color }}"></span>{% endfor %}
+    </div>
+    <div class="gauge-ticks">
+      {% for t in g.ticks %}<span style="left: {{ t.x }}%">{{ t.text }}</span>{% endfor %}
+    </div>
+  </div>
+  <ul class="gauge-legend">
+    {% for s in g.segments %}
+    <li class="{% if s.current %}is-current{% endif %}"><i style="background: {{ s.color }}"></i>{{ s.label | ja_msg }}{% if s.current %}<b>（あなたの位置）</b>{% endif %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endmacro %}
+
+{% macro figure(key, lazy=true) %}
+{% set f = figures[key] %}
+<figure class="ch-figure">
+  <img src="{{ fig_src(key) }}" alt="{{ f.alt }}" width="{{ f.w }}" height="{{ f.h }}"{% if lazy %} loading="lazy"{% endif %} decoding="async">
+  <figcaption>{{ f.caption }}</figcaption>
+</figure>
+{% endmacro %}
+
+{# 计算器页面的错误提示 #}
+{% macro error_box(error) %}
+{% if error %}<div class="alert alert-warning mt-3 mb-0">{{ error | ja_msg(true) }}</div>{% endif %}
+{% endmacro %}
+
+{% macro disclaimer() %}
+<p class="small text-muted mb-0">
+  ※計算結果は一般的な推定式による目安で、医学的な診断ではありません。持病のある方、妊娠中の方、健診で異常を指摘された方は、医師などの専門家にご相談ください。
+</p>
+{% endmacro %}

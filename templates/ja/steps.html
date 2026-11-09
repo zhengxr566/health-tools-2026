@@ -1,0 +1,64 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">歩数の消費カロリー計算</h1>
+  <p class="text-muted mb-3">歩数と体重から、歩いて消費したカロリーをメッツ法で計算します。1万歩で何キロカロリーかもすぐにわかります。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">歩数</label>
+      <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}" placeholder="例：8000">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">体重（kg）</label>
+      <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例：60">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">消費カロリーを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if kcal is not none %}
+<div class="tool-card">
+  <div class="text-muted small">{{ steps_in }} 歩の消費カロリー（目安）</div>
+  <div class="display-6 fw-semibold">約 {{ kcal }} <span class="fs-5">kcal</span></div>
+  <p class="small text-muted mb-0">
+    普通の速さ（1分間に約100歩・3.5メッツ）で歩いた場合の総消費量です。安静にしていても消費する分を除いた「歩いたことで増えた分」は、その約7割（約 {{ (kcal * 0.71) | round | int }} kcal）です。
+  </p>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">体重別・歩数の消費カロリー早見表</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light">
+        <tr><th>歩数</th>{% for kg in table_weights %}<th>{{ kg }}kg</th>{% endfor %}</tr>
+      </thead>
+      <tbody>
+        {% for n, row in kcal_table %}
+        <tr><td>{{ '{:,}'.format(n) }} 歩</td>{% for v in row %}<td>{{ v }} kcal</td>{% endfor %}</tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted">普通歩行（3.5メッツ）、1分間100歩として計算した総消費量です。速歩きではもう少し多くなります。</p>
+
+  <h2 class="h6 mt-4">計算方法</h2>
+  <p class="text-muted">
+    <b>消費カロリー（kcal）＝ メッツ × 体重（kg）× 時間（時間）</b><br>
+    メッツは、安静時を1としたときに何倍のエネルギーを使うかを表す運動強度の単位です。
+    普通の速さの歩行は約3.5メッツ、速歩きは約4.3〜5メッツです。1万歩を1分100歩で歩くと約100分（1.67時間）なので、体重60kgなら 3.5 × 60 × 1.67 ≒ 350 kcal になります。
+  </p>
+
+  <h2 class="h6 mt-4">1日何歩歩けばいい？</h2>
+  <p class="text-muted">
+    厚生労働省「健康づくりのための身体活動・運動ガイド2023」では、<b>成人は1日約8,000歩以上</b>（歩行やそれと同程度の活動を1日60分以上）、
+    <b>高齢者は1日約6,000歩以上</b>（1日40分以上）を目安としています。今の歩数より少しずつ増やすことが大切で、まずは1日1,000歩（約10分）多く歩くことから始めましょう。
+  </p>
+  <p class="text-muted">1万歩の距離や時間については<a href="/guide/10000-steps-km">1万歩は何キロ？</a>で詳しく解説しています。</p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "ja/base.html" %}
+
+{% block head_extra %}
+<script type="application/ld+json">{{ article_jsonld|safe }}</script>
+{% endblock %}
+
+{% block content %}
+<nav class="small mb-3 article-crumbs" aria-label="breadcrumb">
+  <a href="/">ホーム</a> <span class="text-muted">/</span>
+  <a href="/guide">健康ガイド</a> <span class="text-muted">/</span>
+  <span class="text-muted">{{ article.category }}</span>
+</nav>
+
+<div class="article-layout">
+  <article class="article-main">
+    <header class="tool-card article-head">
+      <div class="small text-success fw-semibold mb-2">{{ article.category }}</div>
+      <h1 class="article-title">{{ article.h1 }}</h1>
+      <p class="text-muted mb-3">{{ article.description }}</p>
+      <div class="article-byline small text-muted">
+        <span>著者：<a href="{{ author.url }}">{{ author.name }}</a></span>
+        <span>公開：<time datetime="{{ article.published }}">{{ article.published }}</time></span>
+        {% if article.updated != article.published %}
+        <span>更新：<time datetime="{{ article.updated }}">{{ article.updated }}</time></span>
+        {% endif %}
+        <span>約 {{ article.read_minutes }} 分で読めます</span>
+      </div>
+    </header>
+
+    {% if article.toc %}
+    <nav class="tool-card article-toc" aria-label="目次">
+      <div class="fw-semibold mb-2">目次</div>
+      <ol class="mb-0">
+        {% for id, label in article.toc %}
+        <li><a href="#{{ id }}">{{ label }}</a></li>
+        {% endfor %}
+      </ol>
+    </nav>
+    {% endif %}
+
+    <div class="tool-card article-body">
+      {% block article_body %}{% endblock %}
+    </div>
+
+    {% if article.faq %}
+    <section class="tool-card article-body" id="faq">
+      <h2>よくある質問</h2>
+      {% for q, a in article.faq %}
+      <h3>{{ q }}</h3>
+      <p>{{ a }}</p>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if article.sources %}
+    <section class="tool-card article-sources">
+      <h2 class="h6">参考文献</h2>
+      <ol class="small text-muted mb-0">
+        {% for s in article.sources %}<li>{{ s }}</li>{% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+
+    <div class="tool-card article-author">
+      <div class="fw-semibold mb-1">著者について</div>
+      <p class="small text-muted mb-2">
+        <a href="{{ author.url }}">{{ author.name }}</a>：{{ author.bio }}
+        この記事は公開された研究と一般的な計算式をもとにまとめたもので、医学的な助言ではありません。誤りにお気づきの場合は<a href="/contact">お問い合わせ</a>からお知らせください。
+      </p>
+      <p class="small text-muted mb-0">
+        免責事項：記事中の数値は推定値や研究での集団の平均値で、個人差があります。持病のある方、妊娠中の方、けがや体調不良のある方は、医師などの専門家にご相談ください。
+      </p>
+    </div>
+  </article>
+
+  <aside class="article-side">
+    {% if related_tools %}
+    <div class="tool-card">
+      <div class="fw-semibold mb-2">ツールで計算する</div>
+      <ul class="list-unstyled mb-0 article-tool-list">
+        {% for t in related_tools %}
+        <li><a href="{{ t.path }}">{{ t.name }}</a>{% if t.desc %}<div class="small text-muted">{{ t.desc }}</div>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if related_articles %}
+    <div class="tool-card">
+      <div class="fw-semibold mb-2">関連記事</div>
+      <ul class="list-unstyled mb-0 article-tool-list">
+        {% for a in related_articles %}
+        <li><a href="/guide/{{ a.slug }}">{{ a.h1 }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+
+<style>
+  .article-crumbs a { text-decoration: none; }
+  .article-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  @media (min-width: 1200px) {
+    .article-layout { grid-template-columns: minmax(0, 760px) 280px; }
+    .article-side { position: sticky; top: 84px; }
+  }
+  .article-title { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem); line-height: 1.3; margin-bottom: .75rem; }
+  .article-byline { display: flex; flex-wrap: wrap; gap: .35rem 1rem; }
+  .article-toc ol { padding-left: 1.2rem; }
+  .article-toc a, .article-tool-list a { text-decoration: none; }
+  .article-tool-list li + li { margin-top: .6rem; }
+  .article-body { font-size: 1.02rem; line-height: 1.85; color: #273244; }
+  .article-body h2 { font-size: 1.25rem; margin: 2rem 0 .8rem; scroll-margin-top: 84px; }
+  .article-body h2:first-child { margin-top: 0; }
+  .article-body h3 { font-size: 1.05rem; margin: 1.4rem 0 .5rem; }
+  .article-body p { margin-bottom: 1rem; }
+  .article-body table { font-size: .95rem; }
+  .article-body .callout {
+    background: #edf8f2; border: 1px solid #cfe8d8; border-radius: .75rem;
+    padding: .9rem 1rem; margin: 1rem 0 1.25rem;
+  }
+  .article-body .callout p:last-child, .article-body .callout ul:last-child { margin-bottom: 0; }
+  .article-body .tool-cta {
+    display: block; border: 1px dashed #9fd3b4; border-radius: .75rem; padding: .8rem 1rem;
+    margin: 1.25rem 0; text-decoration: none; color: #198754; background: #fafcff;
+  }
+  .article-body .tool-cta:hover { background: #f3f8f5; }
+</style>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "ja/article.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block article_body %}
+
+<h2 id="answer">まず結論</h2>
+<div class="callout">
+  <ul>
+    <li><b>普通体重：</b>日本肥満学会の基準では、<b>BMI 18.5 以上 25 未満</b>が「普通体重」です。18.5 未満は「低体重（やせ）」、25 以上は「肥満」です。</li>
+    <li><b>標準体重：</b>BMI 22 にあたる体重で、<b>身長（m）× 身長（m）× 22</b> で計算します。身長160cmなら約56.3kg、170cmなら約63.6kgです。</li>
+    <li><b>WHO との違い：</b>WHO の国際基準では BMI 25〜30 未満は「過体重」、肥満は 30 以上。日本人は低めの BMI で病気のリスクが上がるため、日本では 25 以上を肥満としています。</li>
+    <li><b>年齢で目標が変わる：</b>厚生労働省の食事摂取基準では、65歳以上の目標 BMI は 21.5〜24.9 と、若い世代より下限が高くなっています。</li>
+  </ul>
+</div>
+<p>
+  BMI（Body Mass Index）は、体重と身長から計算する体格の指標です。計算が簡単で、健診でも必ず出てくる数字ですが、
+  「いくつなら普通なのか」「標準体重とはどう違うのか」は意外と知られていません。日本の基準と身長別の早見表で整理します。
+</p>
+
+<h2 id="standard">日本肥満学会の判定基準</h2>
+<p>日本肥満学会『肥満症診療ガイドライン2022』では、BMI を次のように判定します。</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>BMI</th><th>日本肥満学会の判定</th><th>WHO の判定</th></tr></thead>
+    <tbody>
+      <tr><td>18.5 未満</td><td>低体重（やせ）</td><td>低体重</td></tr>
+      <tr><td>18.5 以上 25 未満</td><td>普通体重</td><td>普通体重</td></tr>
+      <tr><td>25 以上 30 未満</td><td>肥満（1度）</td><td>過体重（pre-obese）</td></tr>
+      <tr><td>30 以上 35 未満</td><td>肥満（2度）</td><td>肥満クラスⅠ</td></tr>
+      <tr><td>35 以上 40 未満</td><td>肥満（3度）</td><td>肥満クラスⅡ</td></tr>
+      <tr><td>40 以上</td><td>肥満（4度）</td><td>肥満クラスⅢ</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  BMI 35 以上は「高度肥満」とされます。また、「肥満」と「肥満症」は別のものです。肥満症は、肥満に加えて、糖尿病・高血圧・脂質異常症など
+  肥満に関係する健康障害がある（または内臓脂肪が多く、そのおそれが高い）状態で、医学的に減量が必要と判断されるものを指します。
+</p>
+<p>
+  WHO も 2004 年の専門家会議で、アジア人は欧米人より低い BMI で 2 型糖尿病や心血管疾患のリスクが高まることを指摘しています。
+  日本の基準が WHO より厳しめなのはこのためです。
+</p>
+
+<h2 id="calc">BMIと標準体重の計算方法</h2>
+<ul>
+  <li><b>BMI ＝ 体重（kg）÷ 身長（m）÷ 身長（m）</b></li>
+  <li><b>標準体重（kg）＝ 身長（m）× 身長（m）× 22</b></li>
+</ul>
+<p>
+  例えば身長 165cm・体重 62kg の人なら、BMI は 62 ÷ 1.65 ÷ 1.65 ≒ 22.8 で「普通体重」、標準体重は 1.65 × 1.65 × 22 ≒ 59.9kg です。
+  身長は「cm」ではなく「m」に直してから2回割るのがポイントです。
+</p>
+<p>
+  標準体重に BMI 22 が使われるのは、日本人を対象にした研究で、BMI 22 前後の人がもっとも病気が少なかったためです。
+  ただし BMI 22 ちょうどを目指す必要はなく、普通体重の範囲で腹囲や健診結果に問題がなければ十分です。
+</p>
+<a class="tool-cta" href="/bmi">→ 身長と体重を入れて、BMI・判定・標準体重をすぐに計算：BMI計算ツール</a>
+
+<h2 id="table">身長別の普通体重・標準体重早見表</h2>
+{{ ui.figure("bmi-chart") }}
+<p>上の図は身長と体重の組み合わせごとの BMI です。身長ごとの体重の目安は次のとおりです（小数点第1位まで）。</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light">
+      <tr><th>身長</th><th>普通体重の範囲（BMI 18.5〜25未満）</th><th>標準体重（BMI 22）</th><th>肥満（BMI 25）になる体重</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>145 cm</td><td>38.9〜52.4 kg</td><td>46.3 kg</td><td>52.6 kg 以上</td></tr>
+      <tr><td>150 cm</td><td>41.6〜56.0 kg</td><td>49.5 kg</td><td>56.2 kg 以上</td></tr>
+      <tr><td>155 cm</td><td>44.4〜59.8 kg</td><td>52.9 kg</td><td>60.1 kg 以上</td></tr>
+      <tr><td>160 cm</td><td>47.4〜63.7 kg</td><td>56.3 kg</td><td>64.0 kg 以上</td></tr>
+      <tr><td>165 cm</td><td>50.4〜67.8 kg</td><td>59.9 kg</td><td>68.1 kg 以上</td></tr>
+      <tr><td>170 cm</td><td>53.5〜72.0 kg</td><td>63.6 kg</td><td>72.2 kg 以上</td></tr>
+      <tr><td>175 cm</td><td>56.7〜76.3 kg</td><td>67.4 kg</td><td>76.6 kg 以上</td></tr>
+      <tr><td>180 cm</td><td>59.9〜80.7 kg</td><td>71.3 kg</td><td>81.0 kg 以上</td></tr>
+      <tr><td>185 cm</td><td>63.3〜85.2 kg</td><td>75.3 kg</td><td>85.6 kg 以上</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">普通体重の上限は BMI 24.9 で計算しています。</p>
+
+<h2 id="age">年齢別の目標BMI（食事摂取基準）</h2>
+<p>
+  厚生労働省「日本人の食事摂取基準（2025年版）」では、生活習慣病の予防とあわせて、高齢者のやせ（低栄養・フレイル）の予防も考え、
+  年齢ごとに目標とする BMI の範囲を示しています。
+</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>年齢</th><th>目標とするBMI</th><th>身長160cmの場合の体重</th></tr></thead>
+    <tbody>
+      <tr><td>18〜49歳</td><td>18.5〜24.9</td><td>47.4〜63.7 kg</td></tr>
+      <tr><td>50〜64歳</td><td>20.0〜24.9</td><td>51.2〜63.7 kg</td></tr>
+      <tr><td>65歳以上</td><td>21.5〜24.9</td><td>55.0〜63.7 kg</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  高齢になると、太りすぎよりも、やせて筋肉や体力が落ちることのほうが問題になりやすくなります。65歳以上で BMI が 21.5 を下回る場合は、
+  食事の量やたんぱく質が足りているか見直しましょう。
+</p>
+
+<h2 id="limits">BMIだけではわからないこと</h2>
+<ul>
+  <li><b>筋肉と脂肪の区別がつかない：</b>筋肉の多いスポーツ選手は BMI が 25 を超えても体脂肪は少ないことがあります。</li>
+  <li><b>隠れ肥満を見逃す：</b>BMI が普通でも、筋肉が少なく体脂肪が多い人や、内臓脂肪が多い人がいます。日本人は特にこのタイプが多いと言われます。</li>
+  <li><b>脂肪のつき方がわからない：</b>同じ BMI でも、おなかまわりに脂肪がつくタイプのほうが生活習慣病のリスクが高くなります。</li>
+</ul>
+<p>
+  そのため、BMI とあわせて腹囲（メタボ健診の基準は男性 85cm・女性 90cm）や、ウエスト身長比（腹囲が身長の半分未満か）も確認するのがおすすめです。
+</p>
+<a class="tool-cta" href="/waist">→ 腹囲と身長からウエスト身長比を計算：腹囲・ウエスト身長比ツール</a>
+
+{% endblock %}
