@@ -5,9 +5,9 @@
   <!-- 左侧：计算器 + 结果 -->
   <div class="tool-col tool-col-form">
     <div class="tool-card">
-      <h1 class="h4 mb-1">每日热量需求（TDEE）</h1>
+      <h1 class="h4 mb-1">TDEE 计算器：一天消耗多少热量？</h1>
       <p class="text-muted mb-3">
-        基于 BMR 与活动水平估算每日总能量消耗（kcal/天，仅供参考）。
+        输入性别、年龄、身高、体重和活动量，算出每日总消耗（TDEE）、基础代谢（BMR），以及减脂、维持、增肌每天该吃多少热量。
       </p>
 
       <form method="post" class="row g-3">
@@ -18,33 +18,29 @@
             <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女</option>
           </select>
         </div>
-
         <div class="col-12 col-md-4">
           <label class="form-label">年龄</label>
-          <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}">
+          <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}" placeholder="例如 30">
         </div>
-
         <div class="col-12 col-md-4">
           <label class="form-label">身高（cm）</label>
-          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}">
+          <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例如 165">
         </div>
-
         <div class="col-12 col-md-4">
           <label class="form-label">体重（kg）</label>
-          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}">
+          <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例如 60">
         </div>
-
         <div class="col-12">
           <label class="form-label">活动水平</label>
           <select name="activity" class="form-select">
-            <option value="1.2" {% if activity_in == '1.2' %}selected{% endif %}>久坐（几乎不运动）</option>
-            <option value="1.375" {% if activity_in == '1.375' %}selected{% endif %}>轻度活动（每周 1–3 次）</option>
-            <option value="1.55" {% if activity_in == '1.55' %}selected{% endif %}>中度活动（每周 3–5 次）</option>
-            <option value="1.725" {% if activity_in == '1.725' %}selected{% endif %}>较高活动（每周 6–7 次）</option>
-            <option value="1.9" {% if activity_in == '1.9' %}selected{% endif %}>非常高（体力劳动 / 高强度训练）</option>
+            <option value="1.2" {% if activity_in == '1.2' %}selected{% endif %}>久坐（日常不到 5,000 步，几乎不运动）</option>
+            <option value="1.375" {% if activity_in == '1.375' %}selected{% endif %}>轻度活动（约 5,000–7,500 步，或每周运动 1–3 次）</option>
+            <option value="1.55" {% if activity_in == '1.55' %}selected{% endif %}>中度活动（约 7,500–10,000 步，或每周运动 3–5 次）</option>
+            <option value="1.725" {% if activity_in == '1.725' %}selected{% endif %}>较高活动（超过 10,000 步，或每周运动 6–7 次）</option>
+            <option value="1.9" {% if activity_in == '1.9' %}selected{% endif %}>非常高（体力劳动 / 每天高强度训练）</option>
           </select>
+          <div class="form-text">拿不准时选低一档，执行 2–4 周后再根据体重变化调整。</div>
         </div>
-
         <div class="col-12">
           <button class="btn btn-success w-100">计算 TDEE</button>
         </div>
@@ -55,128 +51,153 @@
       {% endif %}
     </div>
 
-    {% if tdee is not none %}
+    {% if tdee is not none and plan %}
     <div class="tool-card">
       <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
         <div>
-          <div class="text-muted small">你的每日总能量消耗</div>
-          <div class="display-5 fw-semibold mb-0">{{ tdee }} kcal / 天</div>
+          <div class="text-muted small">你的每日总消耗（TDEE）</div>
+          <div class="display-6 fw-semibold mb-0">{{ tdee }} kcal / 天</div>
         </div>
-        <div class="text-muted small">TDEE</div>
+        <div class="text-muted small text-end">基础代谢 {{ plan.bmr }} kcal<br>活动消耗约 {{ plan.activity_kcal }} kcal</div>
       </div>
 
-      <div class="alert alert-info mt-3 mb-3">
-        你的 TDEE 约为：<b>{{ tdee }} kcal/天</b>
+      {% set pct_bmr = (plan.bmr / tdee * 100) | round | int %}
+      <div class="progress mt-3" style="height: 14px" role="img" aria-label="基础代谢与活动消耗的比例">
+        <div class="progress-bar bg-success" style="width: {{ pct_bmr }}%"></div>
+        <div class="progress-bar bg-warning" style="width: {{ 100 - pct_bmr }}%"></div>
+      </div>
+      <div class="d-flex justify-content-between small text-muted mt-1">
+        <span>基础代谢 {{ pct_bmr }}%</span><span>日常活动与运动 {{ 100 - pct_bmr }}%</span>
       </div>
 
-      <div class="small text-muted">
-        这表示在当前体重、身高、年龄和活动水平下，你每天大约会消耗
-        <b>{{ tdee }} kcal</b>。它通常比 BMR 更接近你的“真实每日消耗”。
+      <h2 class="h6 mt-4 mb-2">按目标每天吃多少？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>目标</th><th>每日热量</th><th>预计变化</th></tr></thead>
+          <tbody>
+            {% for t in plan.targets %}
+            <tr class="{% if t.key == 'keep' %}table-success{% endif %}">
+              <td>{{ t.label }}{% if t.delta %}（{{ '%+d'|format(t.delta) }}）{% endif %}</td>
+              <td class="text-nowrap"><b>{{ t.kcal }}</b> kcal{% if t.below_bmr %}<div class="small text-danger">低于基础代谢</div>{% endif %}</td>
+              <td class="small">{% if t.kg_week %}每周约 −{{ t.kg_week }} kg{% elif t.key == 'keep' %}体重基本不变{% else %}配合力量训练，每月约 +0.5–1 kg{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
+      <p class="small text-muted mb-0">
+        减脂时每天蛋白质建议吃到约 <b>{{ plan.protein_lo }}–{{ plan.protein_hi }} g</b>（每公斤体重 1.2–1.6 g），有助于保住肌肉。
+        预计变化按 1 kg 脂肪约 7,700 kcal 估算，实际初期掉得较快（含水分），之后会变慢。
+      </p>
+    </div>
 
-      <hr class="my-3">
+    <div class="tool-card">
+      <h2 class="h6 mb-2">换一个活动水平，TDEE 会差多少？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead><tr><th>活动水平</th><th>系数</th><th class="text-end">TDEE</th></tr></thead>
+          <tbody>
+            {% for lv in plan.levels %}
+            <tr class="{% if lv.current %}table-success{% endif %}">
+              <td>{{ lv.label }}{% if lv.current %} <span class="badge text-bg-success">当前</span>{% endif %}<div class="small text-muted">{{ lv.desc }}</div></td>
+              <td>{{ lv.factor }}</td>
+              <td class="text-end fw-semibold text-nowrap">{{ lv.kcal }} kcal</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-2 mb-0">同一个人从“久坐”到“中度活动”，每天可以多消耗几百 kcal。多走路是提高 TDEE 最简单的方法，参见 <a href="/steps">步数热量计算</a>。</p>
+    </div>
 
-      <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">常见目标热量参考</div>
-        <ul class="small text-muted mb-0 ps-3">
-          <li class="mb-2">维持体重：约 {{ tdee }} kcal / 天</li>
-          <li class="mb-2">温和减脂：约 {{ tdee - 300 if tdee else '' }} ～ {{ tdee - 500 if tdee else '' }} kcal / 天</li>
-          <li class="mb-2">温和增肌：约 {{ tdee + 200 if tdee else '' }} ～ {{ tdee + 300 if tdee else '' }} kcal / 天</li>
-          <li class="mb-0">更适合根据 2–4 周体重趋势持续微调。</li>
-        </ul>
+    <div class="tool-card">
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-primary btn-sm" href="/deficit">设定减脂目标热量</a>
+        <a class="btn btn-outline-primary btn-sm" href="/macro">把热量分配成蛋白质 / 碳水 / 脂肪</a>
+        <a class="btn btn-outline-primary btn-sm" href="/goal-time">到目标体重要多久</a>
       </div>
     </div>
     {% else %}
     <div class="tool-card">
-      <div class="text-muted">
-        输入基本信息和活动水平后，即可查看估算的每日热量需求。
-      </div>
+      <div class="text-muted">输入基本信息和活动水平后，即可查看 TDEE、基础代谢、减脂与增肌的目标热量，以及不同活动水平的对照。</div>
     </div>
     {% endif %}
   </div>
 
-  <!-- 右侧：解释 / SEO 内容 -->
+  <!-- 右侧：解释内容 -->
   <div class="tool-col tool-col-result">
     <div class="tool-card">
       <h2 class="h6">什么是 TDEE？</h2>
       <p class="text-muted">
-        TDEE（Total Daily Energy Expenditure，每日总能量消耗）是指你一天内大约消耗的总热量。
-        它通常由基础代谢（BMR）、日常活动、运动消耗和食物热效应共同构成。
-        如果你正在减脂、维持体重或增肌，TDEE 往往是设定每日摄入热量目标的起点。
+        TDEE（Total Daily Energy Expenditure，每日总能量消耗）是你一天消耗的总热量，由三部分组成：
       </p>
-
-      <h2 class="h6 mt-4">TDEE 和 BMR 有什么区别？</h2>
-      <p class="text-muted">
-        BMR 只表示静息状态下维持生命活动的最低能量消耗，而 TDEE 则进一步把走路、工作、训练、家务和日常活动都考虑进去。
-        所以在多数场景下，TDEE 会比 BMR 更适合用于制定饮食计划。
+      <ul class="text-muted">
+        <li><b>基础代谢（BMR）：</b>约占 60%–70%，维持呼吸、体温、心跳和器官运作。</li>
+        <li><b>食物热效应：</b>约占 10%，消化吸收食物所消耗的能量。</li>
+        <li><b>活动消耗：</b>约占 20%–30%，包括运动，以及走路、通勤、家务这类日常活动。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        想减脂就吃得比 TDEE 少，想增重就吃得比 TDEE 多。所以 TDEE 是制定饮食计划的起点，更详细的区别见 <a href="/guide/bmr-vs-tdee">BMR 和 TDEE 的区别</a>。
       </p>
     </div>
 
     <div class="tool-card">
-      <h2 class="h6">如何用 TDEE 制定目标热量？</h2>
-      <p class="text-muted">
-        一般建议：减脂可在 TDEE 基础上减少约 300–500 kcal/天；增肌 / 增重可温和增加约 200–300 kcal/天。
-        具体需要结合体重趋势、饥饿感、训练表现与恢复情况微调。
+      <h2 class="h6">计算公式</h2>
+      <div class="bg-light rounded-3 p-3 small mb-2">TDEE = 基础代谢（BMR）× 活动系数</div>
+      <p class="text-muted mb-1">基础代谢使用 Mifflin-St Jeor 公式：</p>
+      <ul class="text-muted small">
+        <li>男性：BMR = 10 × 体重(kg) + 6.25 × 身高(cm) − 5 × 年龄 + 5</li>
+        <li>女性：BMR = 10 × 体重(kg) + 6.25 × 身高(cm) − 5 × 年龄 − 161</li>
+      </ul>
+      <p class="text-muted mb-0">
+        例如 30 岁、165 cm、60 kg 的女性：BMR = 600 + 1031.25 − 150 − 161 ≈ 1,320 kcal；轻度活动（× 1.375）时 TDEE ≈ 1,815 kcal。
       </p>
+    </div>
 
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">实用建议</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">减脂时，不必追求过大热量缺口，稳定更重要。</li>
-          <li class="mb-2">增肌时，热量过高不一定更快，可能只是增加脂肪。</li>
-          <li class="mb-2">活动水平选项不需要绝对精确，关键是后续根据趋势修正。</li>
-          <li class="mb-0">如果体重 2–4 周几乎不变，可以在当前基础上再做小幅调整。</li>
+    <div class="tool-card">
+      <h2 class="h6">TDEE 计算器准吗？</h2>
+      <p class="text-muted">
+        系统综述发现，Mifflin-St Jeor 是常用公式中最可靠的一个，但对大多数人来说，预测值与实测的静息代谢仍可能相差 10% 左右；
+        肌肉量特别多或特别少、体重很重的人，误差会更大。再加上活动系数是粗略分档，算出来的 TDEE 最好看作“上下浮动 10%–15% 的起点”。
+      </p>
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">用 2–4 周的体重变化来校准</div>
+        <ul class="text-muted small mb-0 ps-3">
+          <li class="mb-1">按“维持体重”的热量吃 2 周，每天同一时间称体重，看每周平均值。</li>
+          <li class="mb-1">平均体重几乎不变：这个数字就接近你的真实 TDEE。</li>
+          <li class="mb-1">每周稳定上升：真实 TDEE 比算出来的低，可以减 100–200 kcal。</li>
+          <li class="mb-0">每周稳定下降：真实 TDEE 比算出来的高，可以加 100–200 kcal。</li>
         </ul>
       </div>
+      <p class="small text-muted mt-2 mb-0">体重每天上下 0.5–2 kg 都正常，判断时请看周平均值，参见 <a href="/guide/weight-fluctuation-plateau">体重波动与平台期</a>。</p>
     </div>
 
     <div class="tool-card">
-      <h2 class="h6">活动水平怎么选更合理？</h2>
-      <p class="text-muted">
-        很多人会高估自己的活动水平。一个更稳妥的做法是：
-        如果你平时久坐、日常步数不高，即使每周训练几次，也未必属于“很高活动量”。
-        先选择相对保守的档位，再结合体重变化、主观疲劳和饮食执行情况调整，会比一次选得很“理想”更实用。
-      </p>
-
-      <h2 class="h6 mt-4">为什么 TDEE 不是固定值？</h2>
-      <p class="text-muted">
-        TDEE 会受睡眠、压力、运动量、步数、体重变化、月经周期、肌肉量和饮食状态影响。
-        所以它更适合作为“起始估算值”，而不是永远不变的标准答案。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">相关工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/deficit">热量缺口与目标热量</a>：把 TDEE 变成可执行的日摄入</li>
-        <li><a href="/maintenance-calories">维持体重热量计算器</a>：用更直接的搜索意图理解 TDEE</li>
-        <li><a href="/protein">蛋白质需求</a>：减脂 / 增肌都需要稳定蛋白质</li>
-        <li><a href="/steps">步数转热量</a>：提高活动量的简单方法</li>
-        <li><a href="/bmr">BMR</a>：从基础代谢理解总消耗来源</li>
+      <h2 class="h6">减脂时热量怎么定？</h2>
+      <ul class="text-muted">
+        <li>每天比 TDEE 少 300–500 kcal，大约每周减 0.3–0.45 kg 脂肪，是多数人能长期坚持的速度。</li>
+        <li>长期吃得比基础代谢还少，容易流失肌肉、饥饿感强、更容易反弹。</li>
+        <li>体重下降后 TDEE 也会变小，每减 4–5 kg 建议用新体重重新计算一次。</li>
       </ul>
+      <p class="text-muted mb-0 small">更详细的做法见 <a href="/guide/calorie-deficit-fat-loss">热量缺口怎么算</a>。</p>
     </div>
 
     <div class="tool-card">
       <h2 class="h6">常见问题</h2>
-
-      <h3 class="h6 mt-3 mb-1">TDEE 计算器准吗？</h3>
-      <p class="text-muted">
-        TDEE 计算器本质上是估算工具，适合做起点。真正更重要的是你在接下来 2–4 周的体重、围度、训练表现和饥饿感变化。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">减脂一定要吃到低于 TDEE 吗？</h3>
-      <p class="text-muted">
-        通常是的。若长期摄入低于 TDEE，体重更可能下降；但缺口过大不一定更好，可能影响坚持、训练和恢复。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">增肌时只看 TDEE 就够了吗？</h3>
-      <p class="text-muted">
-        不够。增肌还要考虑蛋白质摄入、训练刺激、恢复质量和体重增长速度。TDEE 只是热量规划的起点。
-      </p>
-
+      <h3 class="h6 mt-3 mb-1">TDEE 和 BMR 有什么区别？</h3>
+      <p class="text-muted">BMR 是安静躺着一整天也会消耗的热量，TDEE 是加上日常活动和运动后的总消耗。制定饮食计划时应以 TDEE 为准，而不是 BMR。</p>
+      <h3 class="h6 mt-3 mb-1">每周去健身房 3 次，算什么活动水平？</h3>
+      <p class="text-muted">如果平时久坐、日常步数不多，通常选“轻度活动”就够了。很多人会高估活动水平，导致算出来的 TDEE 偏高。</p>
+      <h3 class="h6 mt-3 mb-1">为什么我按 TDEE 减了热量，体重还是没动？</h3>
+      <p class="text-muted">常见原因是活动水平选高了、饮食记录有遗漏，或者体重波动掩盖了脂肪下降。先认真记录 1–2 周，再按周平均体重判断。</p>
+      <h3 class="h6 mt-3 mb-1">孕期和哺乳期可以用这个计算器吗？</h3>
+      <p class="text-muted mb-0">不建议。孕期和哺乳期的能量需求不同，请咨询医生或营养师。</p>
       <hr class="my-4">
       <p class="small text-muted mb-0">
-        免责声明：本页面与计算结果仅供参考，不构成医疗建议。
+        参考：Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr, 1990；
+        Frankenfield D, et al. Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review. J Am Diet Assoc, 2005；
+        Tudor-Locke C, Bassett DR. How many steps/day are enough? Sports Med, 2004（步数与活动等级）。
+        本页面与计算结果仅供参考，不构成医疗建议。
       </p>
     </div>
   </div>

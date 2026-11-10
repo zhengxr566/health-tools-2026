@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -7,24 +8,27 @@
     <div class="tool-card">
       <h1 class="h4 mb-1">碳水计算器：一天要吃多少碳水化合物？</h1>
       <p class="text-muted mb-3">
-        输入体重并选择目标，快速估算每天建议摄入多少碳水化合物，适合作为减脂、维持或增肌饮食安排的参考起点。
+        输入体重并选择目标，算出每天建议吃多少克碳水；填写每日总热量后，还能看到碳水占比是否在膳食推荐范围内。
       </p>
 
       <form method="post" class="row g-3">
-        <div class="col-12">
+        <div class="col-12 col-md-6">
           <label class="form-label">体重（kg）</label>
           <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例如 60">
         </div>
-
-        <div class="col-12">
+        <div class="col-12 col-md-6">
           <label class="form-label">目标</label>
           <select name="goal" class="form-select">
-            <option value="fat_loss" {% if goal_in == 'fat_loss' %}selected{% endif %}>减脂期</option>
-            <option value="maintain" {% if goal_in == 'maintain' %}selected{% endif %}>维持期</option>
-            <option value="muscle_gain" {% if goal_in == 'muscle_gain' %}selected{% endif %}>增肌期</option>
+            <option value="fat_loss" {% if goal_in == 'fat_loss' %}selected{% endif %}>减脂期（3 g/kg）</option>
+            <option value="maintain" {% if goal_in == 'maintain' %}selected{% endif %}>维持期（4 g/kg）</option>
+            <option value="muscle_gain" {% if goal_in == 'muscle_gain' %}selected{% endif %}>增肌期（5 g/kg）</option>
           </select>
         </div>
-
+        <div class="col-12">
+          <label class="form-label">每日总热量（kcal，选填）</label>
+          <input name="kcal" class="form-control" inputmode="numeric" value="{{ kcal_in }}" placeholder="例如 1800，不知道可以先用 TDEE 工具算">
+          <div class="form-text">填写后会显示碳水占总热量的比例。不知道每天吃多少热量，可以先算 <a href="/calorie">TDEE</a>。</div>
+        </div>
         <div class="col-12">
           <button class="btn btn-success w-100">计算碳水需求</button>
         </div>
@@ -37,134 +41,128 @@
 
     {% if result %}
     <div class="tool-card">
-      <div class="text-muted small mb-1">当前模式</div>
-      <div class="h4 mb-3">{{ result.label }}</div>
-
-      <div class="alert alert-info mb-3">
-        建议每日碳水化合物：<b>{{ result.grams }} g/天</b><br>
-        折合热量约：<b>{{ result.kcal }} kcal/天</b>
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+        <div>
+          <div class="text-muted small">{{ result.label }} · 每日碳水化合物</div>
+          <div class="display-6 fw-semibold mb-0">{{ result.grams }} g / 天</div>
+        </div>
+        <div class="text-muted small text-end">约 {{ result.kcal }} kcal<br>{{ result.gpk }} g/kg 体重</div>
       </div>
 
-      <div class="small text-muted mb-2">当前目标下的参考强度</div>
-      <div class="progress mb-3" role="progressbar" aria-valuenow="{{ result.progress }}" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: {{ result.progress }}%"></div>
+      {% if energy %}
+      {{ ui.gauge(energy.gauge, "碳水占每日总热量的比例") }}
+      <div class="bg-light rounded-3 p-3 mt-3 small">
+        按每日 {{ energy.kcal }} kcal 计算，{{ result.grams }} g 碳水约占总热量的 <b>{{ energy.pct }}%</b>。
+        膳食参考的推荐范围是 {{ energy.range_lo }}%–{{ energy.range_hi }}%，对应 <b>{{ energy.g_lo }}–{{ energy.g_hi }} g</b>。
+        {% if energy.pct < energy.range_lo %}
+          低于推荐范围在减脂、高蛋白饮食中很常见；如果训练后容易乏力、饥饿感强，可以把碳水往上调一些。
+        {% elif energy.pct > energy.range_hi %}
+          高于推荐范围，通常意味着总热量偏低或碳水偏多；可以检查一下总热量，或把部分主食换成蛋白质类食物。
+        {% else %}
+          处于推荐范围内。
+        {% endif %}
       </div>
+      {% endif %}
 
-      <div class="bg-light rounded-3 p-3 mb-3">
-        <div class="fw-semibold mb-1">简化参考系数</div>
-        <div class="small text-muted">{{ result.gpk }} g/kg 体重</div>
+      <h2 class="h6 mt-4 mb-2">换成日常食物大概是多少？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>食物（每份）</th><th>每份碳水</th><th>{{ result.grams }} g 约等于</th></tr></thead>
+          <tbody>
+            {% for name, g in [('白米饭（熟，150 g，约一小碗）', 39), ('燕麦片（干，40 g）', 26), ('全麦面包（2 片，约 60 g）', 25), ('红薯（200 g）', 40), ('苹果（中等 1 个，约 200 g）', 28)] %}
+            <tr><td>{{ name }}</td><td>约 {{ g }} g</td><td>约 {{ '%.1f'|format(result.grams / g) }} 份</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-
-      <div class="bg-light rounded-3 p-3">
-        <div class="fw-semibold mb-2">怎么看这个结果？</div>
-        <ul class="small text-muted mb-0 ps-3">
-          <li class="mb-2">这是按体重和目标给出的简化估算，更适合作为起点，而不是绝对标准。</li>
-          <li class="mb-2">减脂、维持和增肌阶段，对碳水的需求通常并不完全一样。</li>
-          <li class="mb-2">真正适合你的碳水摄入，还会受到训练量、活动水平、饥饿感和饮食习惯影响。</li>
-          <li class="mb-0">建议结合 <a href="/macro">宏量营养素计算器</a>、<a href="/protein">蛋白质需求</a> 和 <a href="/calorie">TDEE</a> 一起看。</li>
-        </ul>
+      <p class="small text-muted mb-2">
+        实际一天的碳水来自多种食物，例如蔬菜、水果、奶类和豆类也含碳水。按三餐平均分配，每餐约 <b>{{ (result.grams / 3) | round | int }} g</b>，
+        训练前后的一餐可以多一些。
+      </p>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-primary btn-sm" href="/macro">一起算蛋白质和脂肪</a>
+        <a class="btn btn-outline-primary btn-sm" href="/glycemic-load">看这份碳水的血糖负荷</a>
+        <a class="btn btn-outline-primary btn-sm" href="/fiber">算膳食纤维</a>
       </div>
     </div>
     {% else %}
     <div class="tool-card">
-      <div class="text-muted">
-        输入体重并选择目标后，即可查看建议的每日碳水化合物摄入量。
-      </div>
+      <div class="text-muted">输入体重并选择目标后，即可查看建议的每日碳水化合物摄入量，以及换算成米饭、燕麦等食物的份数。</div>
     </div>
     {% endif %}
   </div>
 
-  <!-- 右侧：解释 / SEO 内容 -->
+  <!-- 右侧：解释内容 -->
   <div class="tool-col tool-col-result">
     <div class="tool-card">
-      <h2 class="h6">碳水化合物为什么重要？</h2>
+      <h2 class="h6">一天吃多少碳水才合适？</h2>
       <p class="text-muted">
-        碳水化合物是很多人日常饮食中的主要供能来源之一。很多人在做饮食计划时，会先问“每天吃多少热量”，
-        但真正落到执行层面时，还会继续问：这些热量里，到底该留多少给碳水。
+        常用的估算方法有两种，可以互相对照：
       </p>
-
-      <p class="text-muted mb-0">
-        所以，碳水化合物需求计算器的价值，在于把“要不要吃碳水”这个模糊问题，变成“每天大概吃多少克更合适”。
-      </p>
-    </div>
-
-    <div class="tool-card">
-      <h2 class="h6">这个工具的计算公式</h2>
-
-      <div class="bg-light rounded-3 p-3 small mb-3">
-        每日碳水需求（g） = 体重（kg） × 简化系数（g/kg）
-      </div>
-
-      <div class="bg-light rounded-3 p-3 small">
-        碳水热量（kcal） = 碳水克数 × 4
-      </div>
-
-      <p class="text-muted mt-3 mb-2">本工具使用的站内简化系数：</p>
-      <ul class="text-muted mb-0 ps-3">
-        <li class="mb-2">减脂期：3.0 g/kg</li>
-        <li class="mb-2">维持期：4.0 g/kg</li>
-        <li class="mb-0">增肌期：5.0 g/kg</li>
+      <ul class="text-muted">
+        <li><b>按供能比：</b>{% if is_hant %}台湾《国人膳食营养素参考摄取量》建议碳水占总热量的 50%–60%{% else %}《中国居民膳食营养素参考摄入量》建议成年人碳水占总热量的 50%–65%{% endif %}。每日 1,800 kcal 时，约 {% if is_hant %}225–270{% else %}225–292{% endif %} g。</li>
+        <li><b>按体重：</b>本工具按目标使用 3 / 4 / 5 g/kg（减脂 / 维持 / 增肌），60 kg 维持期约 240 g。</li>
       </ul>
+      <p class="text-muted mb-0">
+        两种方法结果接近时，就可以放心当作起点；差距大时，多半是总热量设得偏低或偏高，可以先用 <a href="/calorie">TDEE 计算器</a> 确认总热量。
+      </p>
     </div>
 
     <div class="tool-card">
-      <h2 class="h6">减脂是不是碳水越低越好？</h2>
-      <p class="text-muted">
-        不一定。很多人一提到减脂就先想“少吃碳水”，但真正更重要的通常是总热量是否合理、蛋白质是否足够，以及这个饮食方案能不能长期执行。
-        对一部分人来说，碳水太低反而更难坚持，训练状态和饱腹感也可能变差。
-      </p>
-
-      <div class="bg-light rounded-3 p-3 mt-3">
-        <div class="fw-semibold mb-2">更实用的理解方式</div>
-        <ul class="text-muted mb-0 ps-3">
-          <li class="mb-2">先把总热量方向定下来</li>
-          <li class="mb-2">再看碳水是不是和目标匹配</li>
-          <li class="mb-2">如果运动量更大，通常更需要给碳水留空间</li>
-          <li class="mb-0">对多数人来说，“可执行”比“极端低碳”更重要</li>
-        </ul>
+      <h2 class="h6">运动量大的人需要更多碳水</h2>
+      <p class="text-muted">美国运动医学会（ACSM）等机构对运动人群的建议是按训练量调整：</p>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center">
+          <thead class="table-light"><tr><th>每天的训练量</th><th>碳水（每公斤体重）</th></tr></thead>
+          <tbody>
+            <tr><td>轻度：低强度或以技术训练为主</td><td>3–5 g</td></tr>
+            <tr><td>中度：约 1 小时的中等强度训练</td><td>5–7 g</td></tr>
+            <tr><td>高：每天 1–3 小时中高强度耐力训练</td><td>6–10 g</td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="text-muted mb-0 small">如果你每天跑步、骑车超过 1 小时，按体重算的结果可以往上调；日常久坐、只做少量力量训练的人，3–5 g/kg 通常就够了。</p>
     </div>
 
     <div class="tool-card">
-      <h2 class="h6">增肌和维持为什么通常会给更多碳水？</h2>
-      <p class="text-muted">
-        因为在维持期和增肌期，很多人希望整体能量更稳定，尤其在有训练安排时，碳水通常更容易承担“为日常活动和训练供能”的角色。
-        这个工具用的是站内简化参考，目的是让你先有一个容易上手的范围。
+      <h2 class="h6">碳水最少要吃多少？低碳饮食怎么界定？</h2>
+      <ul class="text-muted">
+        <li><b>最低需求：</b>美国医学研究院为成年人设定的碳水推荐量是每天 <b>130 g</b>，这是维持大脑正常利用葡萄糖所需的量。</li>
+        <li><b>低碳水饮食：</b>通常指碳水少于总热量的 26%，或每天少于 130 g。</li>
+        <li><b>极低碳水（生酮）饮食：</b>每天约 20–50 g，或少于总热量的 10%。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        低碳饮食短期内掉秤较快，部分是因为糖原和水分减少；长期减脂效果和普通减少热量的饮食相差不大。
+        糖尿病患者、正在服用降血糖药物的人、孕期和哺乳期女性，调整碳水前请先咨询医生或营养师。
       </p>
+    </div>
 
-      <h2 class="h6 mt-4">相关营养工具推荐</h2>
-      <ul class="text-muted mb-0">
-        <li><a href="/sugar-intake">糖摄入计算器</a>：区分总碳水和糖摄入的概念</li>
-        <li><a href="/glycemic-load">GI/GL 估算器</a>：从总碳水进一步理解碳水质量和份量影响</li>
-        <li><a href="/macro">宏量营养素计算器</a>：整体看蛋白质、碳水、脂肪分配</li>
-        <li><a href="/protein">蛋白质需求</a>：单独看蛋白质建议摄入</li>
-        <li><a href="/water">每日饮水量</a>：补充看基础摄入</li>
-        <li><a href="/calorie">每日热量需求 TDEE</a>：先确定总热量</li>
-        <li><a href="/deficit">热量缺口 / 目标热量</a>：先确定减脂或增肌目标热量</li>
+    <div class="tool-card">
+      <h2 class="h6">选对碳水比算准克数更重要</h2>
+      <ul class="text-muted">
+        <li>主食里至少一半换成全谷物、杂豆和薯类，例如糙米饭、燕麦、红薯、玉米。</li>
+        <li>含糖饮料、甜点里的“添加糖”是最需要控制的碳水，参见 <a href="/sugar-intake">糖摄入计算器</a>。</li>
+        <li>蔬菜和水果的碳水伴随大量膳食纤维，不必刻意少吃。</li>
+        <li>同样的米饭，搭配蔬菜和蛋白质、最后吃主食，血糖上升会更平稳，参见 <a href="/guide/glycemic-index-food-list">GI 值对照表</a>。</li>
       </ul>
     </div>
 
     <div class="tool-card">
       <h2 class="h6">常见问题</h2>
-
-      <h3 class="h6 mt-3 mb-1">我一定要严格按这个数字吃吗？</h3>
-      <p class="text-muted">
-        不一定。这个结果更适合作为起点，帮助你先建立一个大致的饮食结构。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">碳水吃多了就一定会胖吗？</h3>
-      <p class="text-muted">
-        不能简单这么理解。多数情况下，更关键的还是整体热量平衡和长期饮食习惯。
-      </p>
-
-      <h3 class="h6 mt-3 mb-1">这个工具适合健身和减脂人群吗？</h3>
-      <p class="text-muted">
-        适合。它特别适合想把“总热量目标”进一步拆成更具体可执行摄入量的人。
-      </p>
-
+      <h3 class="h6 mt-3 mb-1">减脂期一天吃多少碳水？</h3>
+      <p class="text-muted">按每公斤体重约 3 g 作为起点，60 kg 约 180 g。关键是总热量有缺口、蛋白质吃够，碳水不必压得太低，否则训练和饱腹感都会变差。</p>
+      <h3 class="h6 mt-3 mb-1">晚上吃碳水会更容易胖吗？</h3>
+      <p class="text-muted">体重变化主要取决于全天的总热量。晚餐吃主食本身不会让人更胖，但如果晚上容易吃宵夜、吃过量，就值得控制。</p>
+      <h3 class="h6 mt-3 mb-1">水果、牛奶里的糖算碳水吗？</h3>
+      <p class="text-muted">算。它们都属于碳水化合物，但完整水果和奶类里的天然糖不属于需要特别限制的“添加糖”。</p>
+      <h3 class="h6 mt-3 mb-1">这个结果需要严格执行吗？</h3>
+      <p class="text-muted mb-0">不用。把它当作起点，执行 2–4 周后，再根据体重趋势、训练表现和饥饿感调整。</p>
       <hr class="my-4">
       <p class="small text-muted mb-0">
-        本页面仅用于一般科普参考，不构成医疗建议。
+        参考：中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》；Thomas DT, et al. ACSM/AND/DC Joint Position Statement: Nutrition and Athletic Performance. Med Sci Sports Exerc, 2016；
+        Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids, 2005；
+        Feinman RD, et al. Dietary carbohydrate restriction as the first approach in diabetes management. Nutrition, 2015。
+        本页面仅供一般参考，不构成医疗建议。
       </p>
     </div>
   </div>

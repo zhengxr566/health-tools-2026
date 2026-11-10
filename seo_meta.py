@@ -32,6 +32,10 @@ SEO_OVERRIDES = {
         "title": "10000步消耗多少热量？约250–400 kcal｜按体重算｜CalmyHealth",
         "description": "按正常步速，10000 步约消耗 250–400 kcal（体重 50–80 kg），60 kg 约 300 kcal，其中额外消耗约 200 kcal。输入步数和体重，用 MET 法算出你的步行消耗。",
     },
+    "/calorie": {
+        "title": "TDEE 计算器：一天消耗多少热量？附减脂、增肌目标热量｜CalmyHealth",
+        "description": "输入性别、年龄、身高、体重和活动量，算出每日总消耗（TDEE）和基础代谢。例如 30 岁、165 cm、60 kg 女性轻度活动约 1,800 kcal；同时给出减脂 −300/−500 kcal 的目标热量和每周预计减重。",
+    },
     "/deficit": {
         "title": "热量缺口怎么算？减脂每天少吃300–500 kcal｜CalmyHealth",
         "description": "热量缺口 = 每日总消耗（TDEE）− 摄入。减脂一般每天少 300–500 kcal，约每周减 0.3–0.45 kg 脂肪。输入你的 TDEE，算出减脂、维持或增肌每天该吃多少热量。",

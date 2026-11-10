@@ -1739,6 +1739,33 @@ def protein_grams(weight_kg: float, goal: str) -> tuple[float, str]:
     return weight_kg * gpk, label
 
 # 3.1.3. 碳水
+def carbs_energy_check(grams: float, kcal: float) -> dict:
+    """碳水克数占每日总热量的比例，并与膳食参考范围对照。
+
+    推荐范围：中国居民膳食营养素参考摄入量 50%–65%；繁体版按台湾国人膳食营养素参考摄取量 50%–60%。
+    低碳水饮食通常指 < 26% 或每天 < 130 g（Feinman 2015）。
+    """
+    if kcal < 800 or kcal > 6000:
+        raise ValueError("请输入合理的每日总热量（800–6000 kcal）。")
+    lo, hi = (50, 60) if is_hant() else (50, 65)
+    pct = grams * 4 / kcal * 100
+    bands = [
+        {"label": "低碳水饮食", "lo": None, "hi": 26, "color": "#93c5fd"},
+        {"label": "低于推荐范围", "lo": 26, "hi": lo, "color": "#fde68a"},
+        {"label": "推荐范围", "lo": lo, "hi": hi, "color": "#86efac"},
+        {"label": "高于推荐范围", "lo": hi, "hi": None, "color": "#fca5a5"},
+    ]
+    return {
+        "kcal": round0(kcal),
+        "pct": round0(pct),
+        "range_lo": lo,
+        "range_hi": hi,
+        "g_lo": round0(kcal * lo / 100 / 4),
+        "g_hi": round0(kcal * hi / 100 / 4),
+        "gauge": make_gauge(bands, pct, 10, 80, decimals=0, unit="%"),
+    }
+
+
 def carbs_need(weight_kg: float, goal: str) -> dict:
     """
     Simple carb recommendation by body weight and goal.
@@ -4720,6 +4747,7 @@ def goal_time():
 def calorie():
     error = None
     tdee_val = None
+    plan = None
     sex_in = "male"
     age_in = ""
     height_cm_in = ""
@@ -4752,6 +4780,7 @@ def calorie():
             # 日语版用日本人向けの国立健康・栄養研究所の式，中文版用 Mifflin-St Jeor
             b = bmr_nibiohn(sex_in, age, h, w) if is_ja() else mifflin_st_jeor(sex_in, age, h, w)
             tdee_val = round0(b * act)
+            plan = tdee_plan(b, act, w)
 
     meta = meta_for(
         "每日热量需求计算器｜TDEE 计算器 - CalmyHealth",
@@ -4763,12 +4792,46 @@ def calorie():
         meta=meta,
         error=error,
         tdee=tdee_val,
+        plan=plan,
         sex_in=sex_in,
         age_in=age_in,
         height_cm_in=height_cm_in,
         weight_kg_in=weight_kg_in,
         activity_in=str(activity_in),
     )
+# TDEE 结果页的补充数据：各活动等级对照、目标热量与每周体重变化
+TDEE_LEVELS = [
+    (1.2, "久坐", "日常不到 5,000 步，几乎不运动"),
+    (1.375, "轻度活动", "约 5,000–7,500 步，或每周运动 1–3 次"),
+    (1.55, "中度活动", "约 7,500–10,000 步，或每周中等强度运动 3–5 次"),
+    (1.725, "较高活动", "超过 10,000 步，或每周运动 6–7 次"),
+    (1.9, "非常高", "体力劳动，或每天高强度训练"),
+]
+
+
+def tdee_plan(bmr: float, act: float, weight_kg: float) -> dict:
+    tdee = bmr * act
+    targets = []
+    for key, delta, label in (("cut_fast", -500, "较快减脂"), ("cut", -300, "温和减脂"),
+                              ("keep", 0, "维持体重"), ("gain", 250, "温和增肌")):
+        kcal = round0(tdee + delta)
+        targets.append({
+            "key": key, "label": label, "delta": delta, "kcal": kcal,
+            # 按 1 kg 脂肪 ≈ 7,700 kcal 估算；增肌期体重变化主要取决于训练，不给数字
+            "kg_week": round(abs(delta) * 7 / 7700, 2) if delta < 0 else None,
+            "below_bmr": kcal < bmr,
+        })
+    return {
+        "bmr": round0(bmr),
+        "activity_kcal": round0(tdee - bmr),
+        "levels": [{"factor": f, "label": l, "desc": d, "kcal": round0(bmr * f), "current": abs(f - act) < 1e-6}
+                   for f, l, d in TDEE_LEVELS],
+        "targets": targets,
+        "protein_lo": round0(weight_kg * 1.2),
+        "protein_hi": round0(weight_kg * 1.6),
+    }
+
+
 # 2.2.3 维持体重
 @app.route("/maintenance-calories", methods=["GET", "POST"])
 def maintenance_calories():
@@ -5843,11 +5906,14 @@ def carbs():
     error = None
     weight_kg_in = ""
     goal_in = "maintain"
+    kcal_in = ""
     result = None
+    energy = None
 
     if request.method == "POST":
         weight_kg_in = request.form.get("weight_kg", "").strip()
         goal_in = request.form.get("goal", "maintain").strip()
+        kcal_in = request.form.get("kcal", "").strip()
 
         try:
             weight_kg = float(weight_kg_in)
@@ -5855,6 +5921,8 @@ def carbs():
                 raise ValueError("目标选择不正确。")
 
             result = carbs_need(weight_kg, goal_in)
+            if kcal_in:
+                energy = carbs_energy_check(result["grams"], float(kcal_in))
 
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
@@ -5871,7 +5939,9 @@ def carbs():
         error=error,
         weight_kg_in=weight_kg_in,
         goal_in=goal_in,
+        kcal_in=kcal_in,
         result=result,
+        energy=energy,
         page_kind="tool",
     )
 
