@@ -1,0 +1,74 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+{% set zone_ja = {
+  'Zone 1': ('回復・ウォームアップ', 'ごく楽。ウォーキング、準備運動、疲労回復'),
+  'Zone 2': ('楽な有酸素（脂肪燃焼）', '会話しながら続けられる。持久力の土台づくり'),
+  'Zone 3': ('ややきつい有酸素', '少し息がはずむ。心肺機能の向上'),
+  'Zone 4': ('きつい（乳酸性作業閾値）', '短い言葉しか話せない。スピード持久力'),
+  'Zone 5': ('非常にきつい', 'ほぼ全力。短時間のインターバル'),
+} %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">心拍数ゾーン計算</h1>
+  <p class="text-muted mb-3">年齢から最大心拍数と5つの心拍数ゾーンを計算します。安静時心拍数を入れると、個人差を考慮したカルボーネン法で計算します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">年齢</label>
+      <input name="age" class="form-control" inputmode="numeric" required value="{{ age_in }}" placeholder="例：40">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">安静時心拍数（拍/分・任意）</label>
+      <input name="resting_hr" class="form-control" inputmode="numeric" value="{{ resting_hr_in }}" placeholder="例：65">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">心拍数ゾーンを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if result %}
+<div class="tool-card">
+  <div class="d-flex flex-wrap gap-4 mb-3">
+    <div><div class="small text-muted">推定最大心拍数（220 − 年齢）</div><div class="display-6 fw-semibold">{{ result.max_hr }} <span class="fs-5">拍/分</span></div></div>
+    <div class="align-self-end small text-muted">計算方法：{% if result.resting_hr %}カルボーネン法（安静時 {{ result.resting_hr }} 拍/分）{% else %}最大心拍数に対する割合{% endif %}</div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle mb-0">
+      <thead class="table-light"><tr><th>ゾーン</th><th>強さ</th><th class="text-nowrap">心拍数</th><th>目安</th></tr></thead>
+      <tbody>
+        {% for z in result.zones %}
+        {% set j = zone_ja[z.code] %}
+        <tr class="{% if z.code == 'Zone 2' %}table-success{% endif %}"><td class="text-nowrap">{{ z.code | replace('Zone', 'ゾーン') }}</td><td>{{ j[0] }}</td><td class="text-nowrap"><b>{{ z.low_bpm }}〜{{ z.high_bpm }}</b></td><td class="small text-muted">{{ j[1] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">計算方法</h2>
+  <ul class="text-muted">
+    <li><b>最大心拍数 ＝ 220 − 年齢</b>（もっとも広く使われている簡易式）</li>
+    <li><b>最大心拍数に対する割合：</b>目標心拍数 ＝ 最大心拍数 × 強さ（%）</li>
+    <li><b>カルボーネン法：</b>目標心拍数 ＝（最大心拍数 − 安静時心拍数）× 強さ（%）＋ 安静時心拍数</li>
+  </ul>
+  <p class="text-muted">
+    「220 − 年齢」は集団の平均から作られた式で、実際の最大心拍数は人によって±10拍/分ほど違うことがあります。
+    安静時心拍数は、朝起きてすぐ、横になったまま1分間脈を数えると測れます。
+  </p>
+  <h2 class="h6 mt-4">「脂肪燃焼ゾーン」は本当？</h2>
+  <p class="text-muted">
+    楽な強さ（ゾーン2前後）では、使われるエネルギーのうち脂肪の割合が高くなります。ただし、体脂肪を減らすうえで大切なのは
+    <b>1日・1週間の消費カロリーの合計</b>です。強めの運動は脂肪の「割合」は下がっても消費カロリーそのものは多くなるため、
+    「低い心拍数でないと脂肪は燃えない」というわけではありません。運動に慣れていない人は、長く続けやすいゾーン2を中心にするのがおすすめです。
+  </p>
+  <h2 class="h6 mt-4">注意したいこと</h2>
+  <p class="text-muted">
+    高血圧の薬（β遮断薬など）を飲んでいる方は、心拍数が上がりにくく、この計算はあてはまりません。
+    心臓病などの持病がある方、運動を始めたばかりの中高年の方は、運動の強さについて医師に相談してください。
+  </p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

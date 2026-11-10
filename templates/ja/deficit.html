@@ -1,0 +1,69 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+{% set modes = [
+  ('loss_easy', 'ゆるやかに減量（−300kcal/日）'),
+  ('loss_fast', 'しっかり減量（−500kcal/日）'),
+  ('maintain', '体重を維持'),
+  ('gain', '筋肉をつけて増量（＋250kcal/日）'),
+] %}
+{% set delta = {'loss_easy': -300, 'loss_fast': -500, 'maintain': 0, 'gain': 250} %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">ダイエットの目標カロリー計算</h1>
+  <p class="text-muted mb-3">1日の消費カロリー（TDEE）と目標から、1日にとるカロリーの目安を計算します。消費カロリーがわからない場合は、先に<a href="/calorie">1日の消費カロリー計算</a>をご利用ください。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">1日の消費カロリー（kcal）</label>
+      <input name="tdee" class="form-control" inputmode="numeric" required value="{{ tdee_in }}" placeholder="例：2200">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">目標</label>
+      <select name="mode" class="form-select">
+        {% for v, label in modes %}<option value="{{ v }}" {% if mode_in == v %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">目標カロリーを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if target_kcal %}
+{% set d = delta[mode_in] %}
+<div class="tool-card">
+  <div class="text-muted small">1日の目標カロリー</div>
+  <div class="display-6 fw-semibold">{{ target_kcal }} <span class="fs-5">kcal/日</span></div>
+  {% if d < 0 %}
+  <p class="small text-muted mb-0">
+    1日 {{ -d }} kcal 少なくすると、1か月（30日）で約 {{ '%.1f' | format(-d * 30 / 7200) }} kg の体脂肪の減少が目安です（体脂肪1kg＝約7,200kcalとして計算）。
+    {% if target_kcal == 1200 %}計算上は1,200kcalを下回るため、下限の1,200kcalにしています。{% endif %}
+  </p>
+  {% elif d > 0 %}
+  <p class="small text-muted mb-0">増量中は、たんぱく質を十分にとり、筋トレとあわせて体脂肪が増えすぎないよう月1〜2kg以内のペースを目安にしましょう。</p>
+  {% else %}
+  <p class="small text-muted mb-0">1〜2週間ごとに体重を確認し、増減が続くようなら100〜200kcal単位で調整しましょう。</p>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">どれくらい減らせばいい？</h2>
+  <p class="text-muted">
+    無理なく続けられる減量ペースは、<b>1か月に1〜2kg程度</b>（1週間に0.25〜0.5kg）が目安です。
+    1日300〜500kcal減らすと、1か月に約1.3〜2kgの体脂肪の減少にあたります。
+    日本肥満学会のガイドラインでも、まずは3〜6か月で今の体重の3％以上を減らすことを目標としています。
+  </p>
+  <ul class="text-muted">
+    <li>ごはん茶碗1杯（150g）は約230kcal、菓子パン1個は約300〜400kcal、ジュース500mlは約200kcalです。</li>
+    <li>食べる量を減らすだけでなく、1日3,000歩（約30分）多く歩くと、体重60kgで約70〜100kcal消費が増えます。</li>
+  </ul>
+  <h2 class="h6 mt-4">注意したいこと</h2>
+  <ul class="text-muted">
+    <li>1日のカロリーが基礎代謝を大きく下回る食事は、筋肉が減りやすく、リバウンドの原因になります。</li>
+    <li>たんぱく質（体重1kgあたり約1.2〜1.6g）を確保すると、筋肉を保ちながら減量しやすくなります。</li>
+    <li>体重が減ると消費カロリーも少しずつ減るため、2〜4週間ごとに計算し直しましょう。</li>
+  </ul>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

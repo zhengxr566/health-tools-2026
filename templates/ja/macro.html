@@ -1,0 +1,74 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+{% set goals = [
+  ('dri', 'バランス型（食事摂取基準：P15%・F25%・C60%）'),
+  ('maintain', '体重維持・運動習慣あり（P25%・F30%・C45%）'),
+  ('fat_loss', '減量中・高たんぱく（P30%・F35%・C35%）'),
+  ('muscle_gain', '筋肉をつけたい（P25%・F25%・C50%）'),
+] %}
+{% set cur = goal_in if request.method == 'POST' else 'dri' %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">PFCバランス計算</h1>
+  <p class="text-muted mb-3">1日のカロリーと目的から、たんぱく質（P）・脂質（F）・炭水化物（C）をそれぞれ何グラムとればよいかを計算します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-5">
+      <label class="form-label">1日のカロリー（kcal）</label>
+      <input name="tdee" class="form-control" inputmode="numeric" required value="{{ tdee_in }}" placeholder="例：1800">
+    </div>
+    <div class="col-12 col-md-7">
+      <label class="form-label">配分のタイプ</label>
+      <select name="goal" class="form-select">
+        {% for v, label in goals %}<option value="{{ v }}" {% if cur == v %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">PFCを計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if result %}
+<div class="tool-card">
+  <h2 class="h6 mb-3">{{ tdee_in }} kcal の PFC の目安</h2>
+  <div class="row g-2 text-center">
+    <div class="col-4"><div class="p-3 rounded-3 bg-light h-100"><div class="small text-muted">たんぱく質（P）</div><div class="fs-3 fw-semibold">{{ result.protein_g }} g</div><div class="small text-muted">{{ result.protein_ratio }}%</div></div></div>
+    <div class="col-4"><div class="p-3 rounded-3 bg-light h-100"><div class="small text-muted">脂質（F）</div><div class="fs-3 fw-semibold">{{ result.fat_g }} g</div><div class="small text-muted">{{ result.fat_ratio }}%</div></div></div>
+    <div class="col-4"><div class="p-3 rounded-3 bg-light h-100"><div class="small text-muted">炭水化物（C）</div><div class="fs-3 fw-semibold">{{ result.carbs_g }} g</div><div class="small text-muted">{{ result.carbs_ratio }}%</div></div></div>
+  </div>
+  <p class="small text-muted mt-3 mb-0">1日3食なら、1食あたりたんぱく質 約{{ (result.protein_g / 3) | round | int }}g・脂質 約{{ (result.fat_g / 3) | round | int }}g・炭水化物 約{{ (result.carbs_g / 3) | round | int }}g が目安です。</p>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">PFCバランスとは</h2>
+  <p class="text-muted">
+    PFCバランスは、1日にとるエネルギーのうち、たんぱく質（Protein）・脂質（Fat）・炭水化物（Carbohydrate）がそれぞれ何％を占めるかを表したものです。
+    グラム数は、<b>たんぱく質と炭水化物は1gあたり4kcal、脂質は1gあたり9kcal</b>として計算します。
+  </p>
+  <h2 class="h6 mt-4">食事摂取基準の目標量</h2>
+  <p class="text-muted">厚生労働省「日本人の食事摂取基準（2025年版）」では、生活習慣病の予防のために次の範囲を目標量としています（成人）。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>栄養素</th><th>エネルギーに占める割合</th></tr></thead>
+      <tbody>
+        <tr><td>たんぱく質（P）</td><td>13〜20%（50〜64歳は14〜20%、65歳以上は15〜20%）</td></tr>
+        <tr><td>脂質（F）</td><td>20〜30%</td></tr>
+        <tr><td>炭水化物（C）</td><td>50〜65%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted">
+    本ツールの「バランス型」はこの範囲のほぼ中央（P15%・F25%・C60%）です。減量や筋トレをしている人は、たんぱく質を多めにする配分もよく使われますが、
+    その場合は炭水化物や脂質が目標量の範囲から外れることがあるので、長期間続けるときは食事全体の質にも気をつけましょう。
+  </p>
+  <h2 class="h6 mt-4">PFCを整えるコツ</h2>
+  <ul class="text-muted">
+    <li>主食（ごはん・パン・めん）、主菜（肉・魚・卵・大豆製品）、副菜（野菜・きのこ・海藻）をそろえると、自然とバランスが近づきます。</li>
+    <li>たんぱく質が足りないときは、まず毎食に主菜を1品入れることから始めましょう。量の目安は<a href="/protein">たんぱく質の必要量</a>で計算できます。</li>
+    <li>脂質は揚げ物・菓子・加工肉に多く含まれます。脂質を減らすと、同じカロリーでも食べられる量が増えます。</li>
+  </ul>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

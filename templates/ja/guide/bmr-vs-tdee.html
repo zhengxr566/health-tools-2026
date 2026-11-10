@@ -1,0 +1,100 @@
+{% extends "ja/article.html" %}
+{% block article_body %}
+
+<h2 id="answer">まず結論</h2>
+<div class="callout">
+  <ul>
+    <li><b>基礎代謝：</b>何もせず安静にしていても使われる、生きるための最低限のエネルギー。1日の消費カロリーの約60〜70％を占めます。</li>
+    <li><b>1日の消費カロリー（TDEE）：</b>基礎代謝 × 身体活動レベル。日本の食事摂取基準では、身体活動レベルを 1.50（低い）・1.75（ふつう）・2.00（高い）の3段階で示しています。</li>
+    <li><b>目安：</b>30〜49歳で身体活動レベルが「ふつう」の場合、推定エネルギー必要量は男性 約2,700kcal、女性 約2,050kcal/日です。</li>
+    <li><b>減量の基準は TDEE：</b>基礎代謝ではなく、1日の消費カロリーから300〜500kcal 少なくするのが目安です。</li>
+  </ul>
+</div>
+<p>
+  「基礎代謝」と「消費カロリー」はよく混同されますが、ダイエットの計画を立てるときには、この2つの違いを知っておくことが大切です。
+  計算方法と、日本人向けの基準値を紹介します。
+</p>
+
+<h2 id="difference">基礎代謝と消費カロリーの違い</h2>
+<p>1日に使うエネルギーは、大きく3つに分けられます。</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light"><tr><th>内訳</th><th>割合の目安</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td>基礎代謝</td><td>約60〜70％</td><td>呼吸、体温の維持、心臓・脳・内臓の活動など</td></tr>
+      <tr><td>食事誘発性熱産生</td><td>約10％</td><td>食べたものを消化・吸収するときに使われるエネルギー</td></tr>
+      <tr><td>身体活動</td><td>約20〜30％</td><td>運動のほか、通勤・家事・立ち仕事など日常の動き</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>この3つを合わせたものが「1日の消費カロリー（TDEE：Total Daily Energy Expenditure）」です。</p>
+
+<h2 id="formula">基礎代謝の計算方法</h2>
+<p>日本でよく使われる計算方法は次の3つです。</p>
+<ul>
+  <li><b>基礎代謝基準値 × 体重：</b>厚生労働省「日本人の食事摂取基準」の方法。もっとも簡単です。</li>
+  <li><b>国立健康・栄養研究所の式：</b>日本人のデータから作られた式で、性別・年齢・身長・体重を使います。</li>
+  <li><b>ハリス・ベネディクト式、Mifflin-St Jeor 式：</b>海外で作られた式。日本人では高めに出やすいとされます。</li>
+</ul>
+<p>食事摂取基準（2020年版）の基礎代謝基準値は次のとおりです（体重1kgあたり・1日）。</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>年齢</th><th>男性</th><th>女性</th></tr></thead>
+    <tbody>
+      <tr><td>18〜29歳</td><td>23.7 kcal</td><td>22.1 kcal</td></tr>
+      <tr><td>30〜49歳</td><td>22.5 kcal</td><td>21.9 kcal</td></tr>
+      <tr><td>50〜64歳</td><td>21.8 kcal</td><td>20.7 kcal</td></tr>
+      <tr><td>65〜74歳</td><td>21.6 kcal</td><td>20.7 kcal</td></tr>
+      <tr><td>75歳以上</td><td>21.5 kcal</td><td>20.7 kcal</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  例えば、40歳・体重55kgの女性なら 21.9 × 55 ≒ 1,200kcal/日 です。
+  この基準値は「参照体重」（標準的な体格）の人を想定しているため、肥満の人では実際より高く、やせている人では低く出やすい点に注意しましょう。
+</p>
+<a class="tool-cta" href="/bmr">→ 国立健康・栄養研究所の式と Mifflin-St Jeor 式で計算：基礎代謝計算ツール</a>
+
+<h2 id="tdee">1日の消費カロリーの目安</h2>
+<p>1日の消費カロリー ＝ 基礎代謝 × 身体活動レベル です。身体活動レベルは次の3段階です。</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light"><tr><th style="min-width:7em">レベル</th><th>日常生活の内容</th></tr></thead>
+    <tbody>
+      <tr><td>低い（1.50）</td><td>生活の大部分が座った状態で、静的な活動が中心</td></tr>
+      <tr><td>ふつう（1.75）</td><td>座り仕事が中心だが、職場内の移動や立ち作業、通勤・買い物での歩行、家事、軽いスポーツのいずれかを含む</td></tr>
+      <tr><td>高い（2.00）</td><td>移動や立ち作業の多い仕事、または余暇に活発な運動習慣がある</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>食事摂取基準（2020年版）に示された推定エネルギー必要量（kcal/日）は次のとおりです。</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th rowspan="2">年齢</th><th colspan="3">男性</th><th colspan="3">女性</th></tr>
+      <tr><th>低い</th><th>ふつう</th><th>高い</th><th>低い</th><th>ふつう</th><th>高い</th></tr></thead>
+    <tbody>
+      <tr><td>18〜29歳</td><td>2,300</td><td>2,650</td><td>3,050</td><td>1,700</td><td>2,000</td><td>2,300</td></tr>
+      <tr><td>30〜49歳</td><td>2,300</td><td>2,700</td><td>3,050</td><td>1,750</td><td>2,050</td><td>2,350</td></tr>
+      <tr><td>50〜64歳</td><td>2,200</td><td>2,600</td><td>2,950</td><td>1,650</td><td>1,950</td><td>2,250</td></tr>
+      <tr><td>65〜74歳</td><td>2,050</td><td>2,400</td><td>2,750</td><td>1,550</td><td>1,850</td><td>2,100</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>
+  これは参照体重の人の値です。自分の身長・体重で計算したい場合は、下のツールを使ってください。
+  迷ったら「ふつう」で計算し、2〜4週間の体重の変化を見て調整するのが現実的です。
+</p>
+<a class="tool-cta" href="/calorie">→ 身体活動レベル別に計算：1日の消費カロリー計算ツール</a>
+
+<h2 id="diet">ダイエットでの使い方</h2>
+<ul>
+  <li><b>減量：</b>1日の消費カロリーから300〜500kcal 少なくします。1か月で約1.3〜2kgの体脂肪の減少が目安です。</li>
+  <li><b>維持：</b>1日の消費カロリーと同じくらいを目安にします。</li>
+  <li><b>筋肉をつけて増量：</b>1日の消費カロリーより約250kcal 多くし、たんぱく質と筋トレを組み合わせます。</li>
+</ul>
+<p>
+  「基礎代謝分だけ食べればやせる」と考えて、基礎代謝ぐらいまで食事を減らす人がいますが、これでは活動に使う分のエネルギーが大きく不足します。
+  筋肉が落ちやすく、空腹で続かず、リバウンドの原因になります。目標カロリーは<a href="/deficit">ダイエットの目標カロリー計算</a>で確認できます。
+</p>
+
+{% endblock %}

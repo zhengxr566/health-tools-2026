@@ -1582,7 +1582,11 @@ def macro_split(tdee: float, goal: str) -> dict:
     if tdee <= 0 or tdee > 10000:
         raise ValueError("请输入合理的热量（kcal/天）。")
 
-    if goal == "fat_loss":
+    if goal == "dri":
+        # 日本人の食事摂取基準的目标量中间值附近：P15% / F25% / C60%（日语版使用）
+        p_ratio, c_ratio, f_ratio = 0.15, 0.60, 0.25
+        label = "膳食参考均衡型"
+    elif goal == "fat_loss":
         p_ratio, c_ratio, f_ratio = 0.30, 0.35, 0.35
         label = "减脂期"
     elif goal == "muscle_gain":
@@ -5716,7 +5720,7 @@ def macro():
 
         try:
             tdee_val = float(tdee_in)
-            if goal_in not in ("fat_loss", "maintain", "muscle_gain"):
+            if goal_in not in ("fat_loss", "maintain", "muscle_gain", "dri"):
                 raise ValueError("目标选择不正确。")
 
             result = macro_split(tdee_val, goal_in)

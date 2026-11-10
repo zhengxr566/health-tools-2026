@@ -1,0 +1,87 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">標準体重・美容体重計算</h1>
+  <p class="text-muted mb-3">身長を入れると、標準体重（BMI22）・美容体重（BMI20）と、普通体重（BMI18.5〜25未満）の範囲がわかります。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">性別</label>
+      <select name="sex" class="form-select">
+        <option value="male" {% if sex_in == 'male' %}selected{% endif %}>男性</option>
+        <option value="female" {% if sex_in == 'female' %}selected{% endif %}>女性</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">身長（cm）</label>
+      <input name="height_cm" class="form-control" inputmode="decimal" required value="{{ height_cm_in }}" placeholder="例：160">
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if results %}
+{% set hm = (height_cm_in | float) / 100 %}
+<div class="tool-card">
+  <h2 class="h6 mb-3">身長 {{ height_cm_in }} cm の体重の目安</h2>
+  <div class="table-responsive">
+    <table class="table align-middle mb-2">
+      <thead><tr><th>目安</th><th>BMI</th><th>体重</th></tr></thead>
+      <tbody>
+        <tr class="table-success"><td><b>標準体重</b>（もっとも病気が少ないとされる体重）</td><td>22</td><td><b>{{ '%.1f' | format(22 * hm * hm) }} kg</b></td></tr>
+        <tr><td>美容体重（見た目がすっきりするとされる体重）</td><td>20</td><td>{{ '%.1f' | format(20 * hm * hm) }} kg</td></tr>
+        <tr><td>普通体重の範囲</td><td>18.5〜25未満</td><td>{{ '%.1f' | format(18.5 * hm * hm) }}〜{{ '%.1f' | format(24.9 * hm * hm) }} kg</td></tr>
+        <tr class="text-muted"><td>いわゆる「シンデレラ体重」</td><td>18</td><td>{{ '%.1f' | format(18 * hm * hm) }} kg <span class="small">（低体重・非推奨）</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted mb-0">今の体重のBMIと判定は<a href="/bmi">BMI計算</a>で確認できます。</p>
+</div>
+
+<div class="tool-card">
+  <h2 class="h6">参考：海外でよく使われる「理想体重」の式</h2>
+  <p class="small text-muted">欧米の医療現場で薬の量の計算などに使われてきた式です。身長と性別だけで計算するため、日本人の体格には BMI22 の標準体重のほうがなじみます。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle mb-0">
+      <thead class="table-light"><tr><th>式</th><th>結果</th></tr></thead>
+      <tbody>
+        <tr><td>Devine（1974）</td><td>{{ results.Devine }} kg</td></tr>
+        <tr><td>Robinson（1983）</td><td>{{ results.Robinson }} kg</td></tr>
+        <tr><td>Miller（1983）</td><td>{{ results.Miller }} kg</td></tr>
+        <tr><td>Hamwi（1964）</td><td>{{ results.Hamwi }} kg</td></tr>
+        <tr><td>4つの平均</td><td>{{ results.Average }} kg</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">標準体重・美容体重・シンデレラ体重の違い</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+      <thead class="table-light"><tr><th>呼び方</th><th>計算式</th><th>位置づけ</th></tr></thead>
+      <tbody>
+        <tr><td>標準体重</td><td>身長(m)² × 22</td><td>日本人の研究で、もっとも病気になりにくかった BMI22 の体重。日本肥満学会も用いる基準です。</td></tr>
+        <tr><td>美容体重</td><td>身長(m)² × 20</td><td>医学的な基準ではなく、美容の分野で使われる目安。普通体重の範囲内です。</td></tr>
+        <tr><td>シンデレラ体重</td><td>身長(m)² × 18</td><td>SNS などで広まった呼び方で、医学的な根拠はありません。BMI18 は<b>低体重（やせ）</b>にあたります。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h2 class="h6 mt-4">シンデレラ体重をすすめない理由</h2>
+  <p class="text-muted">
+    BMI18.5 未満のやせは、貧血、月経不順、骨密度の低下（将来の骨粗しょう症）、免疫力の低下などのリスクがあります。
+    日本では20代女性の約5人に1人がやせとされ、厚生労働省も若い女性のやせを健康課題として挙げています。
+    見た目の目標にするなら、普通体重の範囲内（美容体重 BMI20 前後まで）にとどめ、体脂肪率や体力もあわせて見るのがおすすめです。
+  </p>
+  <h2 class="h6 mt-4">年齢によって目標は変わる</h2>
+  <p class="text-muted">
+    厚生労働省「日本人の食事摂取基準」では、目標とする BMI を 18〜49歳 18.5〜24.9、50〜64歳 20.0〜24.9、65歳以上 21.5〜24.9 としています。
+    年齢が上がるほど、やせすぎによる筋力低下（フレイル）を防ぐことが大切になります。
+  </p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}

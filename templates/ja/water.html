@@ -1,0 +1,55 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">1日の水分量計算</h1>
+  <p class="text-muted mb-3">体重から、1日に必要な水分量の目安（体重×約33ml）を計算します。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">体重（kg）</label>
+      <input name="weight_kg" class="form-control" inputmode="decimal" required value="{{ weight_kg_in }}" placeholder="例：60">
+    </div>
+    <div class="col-12 col-md-6 d-flex align-items-end"><button class="btn btn-success w-100">水分量を計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if water_ml %}
+<div class="tool-card">
+  <div class="text-muted small">1日に必要な水分量の目安</div>
+  <div class="display-6 fw-semibold">約 {{ water_l }} <span class="fs-5">L</span>（{{ '{:,}'.format(water_ml) }} ml）</div>
+  <p class="small text-muted mb-0">
+    この量には、食事に含まれる水分も含まれます。食事から1日約1L前後の水分をとっている場合、飲み物でとる量は約 {{ '%.1f' | format([water_l - 1.0, 1.2] | max) }} L が目安です。
+    コップ1杯（200ml）なら約 {{ ((([water_ml - 1000, 1200] | max) / 200) | round(0, 'ceil')) | int }} 杯です。
+  </p>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">1日の水分の出入り</h2>
+  <p class="text-muted">厚生労働省の「健康のため水を飲もう」推進運動では、成人の1日の水分の出入りを次のように示しています。</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>入る水分</th><th>量</th><th>出る水分</th><th>量</th></tr></thead>
+      <tbody>
+        <tr><td>飲み水</td><td>1.2 L</td><td>尿・便</td><td>1.6 L</td></tr>
+        <tr><td>食事</td><td>1.0 L</td><td>呼吸・汗</td><td>0.9 L</td></tr>
+        <tr><td>体内でつくられる水</td><td>0.3 L</td><td></td><td></td></tr>
+        <tr><td><b>合計</b></td><td><b>2.5 L</b></td><td><b>合計</b></td><td><b>2.5 L</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted">つまり、食事以外に<b>飲み物から1日約1.2L</b>をとるのが一つの目安です。汗をかく季節や運動をする日、体重が重い人は、さらに多く必要になります。</p>
+  <h2 class="h6 mt-4">上手な水分のとり方</h2>
+  <ul class="text-muted">
+    <li>のどが渇く前に、コップ1杯（150〜200ml）をこまめに飲みましょう。一度に大量に飲むより吸収されやすくなります。</li>
+    <li>起床後、入浴の前後、運動の前後、寝る前は水分が失われやすいタイミングです。</li>
+    <li>水やお茶（麦茶など）が基本です。ジュースや清涼飲料水は糖分が多く、アルコールは尿の量を増やすため水分補給にはなりません。</li>
+    <li>夏場や大量に汗をかいたときは、塩分も一緒に補給しましょう（経口補水液やスポーツドリンクなど）。</li>
+  </ul>
+  <p class="small text-muted">心臓や腎臓の病気で水分を制限されている方は、医師の指示に従ってください。</p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}
