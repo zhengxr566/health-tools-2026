@@ -98,6 +98,10 @@
               <tr><td>8000</td><td>约 {{ '%.2f'|format((8000 * result.stride_cm / 100000)) }} km</td></tr>
               <tr><td>9000</td><td>约 {{ '%.2f'|format((9000 * result.stride_cm / 100000)) }} km</td></tr>
               <tr><td>10000</td><td>约 {{ '%.2f'|format((10000 * result.stride_cm / 100000)) }} km</td></tr>
+              {% for n in [15000, 20000, 30000, 40000] %}
+              <tr><td>{{ n }}</td><td>约 {{ '%.1f'|format((n * result.stride_cm / 100000)) }} km</td></tr>
+              {% endfor %}
+              <tr class="table-light"><td>1 公里约需</td><td>约 {{ (100000 / result.stride_cm) | round(-1) | int }} 步</td></tr>
             </tbody>
           </table>
         </div>
@@ -120,9 +124,9 @@
           输入步数、身高和性别后，即可查看估算公里数，并对照步幅参考位置。
         </div>
 
-        <h2 class="h6 mb-2">1000 到 10000 步大概是多少公里</h2>
+        <h2 class="h6 mb-2">1000–40000 步是多少公里：按身高对照表</h2>
         <p class="text-muted mb-3">
-          以下为常见估算：10000步大约等于 6–8 公里，具体取决于身高和步幅。
+          10000步大约等于 6–8 公里，主要取决于身高和步幅。下表按男女平均步幅（身高 × 0.414）计算：
         </p>
 
         <div class="table-responsive">
@@ -130,20 +134,14 @@
             <thead>
               <tr>
                 <th>步数</th>
-                <th>估算公里数区间</th>
+                {% for h in [155, 165, 175] %}<th>身高 {{ h }} cm</th>{% endfor %}
               </tr>
             </thead>
             <tbody>
-              <tr><td>1000</td><td>约 0.60 – 0.80 km</td></tr>
-              <tr><td>2000</td><td>约 1.20 – 1.60 km</td></tr>
-              <tr><td>3000</td><td>约 1.80 – 2.40 km</td></tr>
-              <tr><td>4000</td><td>约 2.40 – 3.20 km</td></tr>
-              <tr><td>5000</td><td>约 3.00 – 4.00 km</td></tr>
-              <tr><td>6000</td><td>约 3.60 – 4.80 km</td></tr>
-              <tr><td>7000</td><td>约 4.20 – 5.60 km</td></tr>
-              <tr><td>8000</td><td>约 4.80 – 6.40 km</td></tr>
-              <tr><td>9000</td><td>约 5.40 – 7.20 km</td></tr>
-              <tr><td>10000</td><td>约 6.00 – 8.00 km</td></tr>
+              {% for n in [1000, 2000, 3000, 5000, 8000, 10000, 15000, 20000, 30000, 40000] %}
+              <tr><td>{{ n }} 步</td>{% for h in [155, 165, 175] %}<td>约 {{ '%.1f'|format(n * h * 0.414 / 100000) }} km</td>{% endfor %}</tr>
+              {% endfor %}
+              <tr class="table-light"><td>1 公里约需</td>{% for h in [155, 165, 175] %}<td>约 {{ (100000 / (h * 0.414)) | round(-1) | int }} 步</td>{% endfor %}</tr>
             </tbody>
           </table>
         </div>

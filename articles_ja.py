@@ -65,7 +65,7 @@ JA_ARTICLES = [
                     "Ainsworth BE, et al. 2011 Compendium of Physical Activities. Med Sci Sports Exerc, 2011.",
                     "Tudor-Locke C, et al. How fast is fast enough? Walking cadence (steps/min) as a practical estimate of intensity in adults: a narrative review. Br J Sports Med, 2018.",
                     "歩幅は「身長×0.415（男性）／0.413（女性）」、消費カロリーは「3メッツ×体重×時間（100歩/分）」で計算。本サイトの歩数ツールと同じ方法です。"],
-        "related_tools": ["/steps", "/calorie", "/bmi"],
+        "related_tools": ["/steps-distance", "/steps-time", "/steps"],
         "related_articles": ["bmi-normal-range", "sleep-cycle-90-minutes"],
     },
     {

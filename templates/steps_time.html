@@ -22,6 +22,7 @@
             <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="8000">8000</button>
             <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="10000">10000</button>
             <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="12000">12000</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary step-chip" data-steps="20000">20000</button>
           </div>
         </div>
 
@@ -58,7 +59,7 @@
     </div>
 
     <div class="tool-card">
-      <h2 class="h6 mb-2">常见步数对应时间表</h2>
+      <h2 class="h6 mb-2">1000–40000 步要走多久：时间对照表</h2>
       <p class="text-muted small mb-3">
         计算速度：散步 80 步/分钟，正常步行 100 步/分钟，快走 130 步/分钟。
       </p>
@@ -74,36 +75,15 @@
             </tr>
           </thead>
           <tbody>
+            {% for n in [1000, 2000, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 15000, 20000, 30000, 40000] %}
             <tr>
-              <td>3000步</td>
-              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约38分钟</td>
-              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约30分钟</td>
-              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约23分钟</td>
+              <td>{{ n }}步</td>
+              {% for key, spm in [('slow', 80), ('normal', 100), ('fast', 130)] %}
+              {% set m = (n / spm) | round | int %}
+              <td class="{% if current_pace == key %}table-success{% endif %}">约{% if m >= 60 %}{{ m // 60 }}小时{% if m % 60 %}{{ m % 60 }}分{% endif %}{% else %}{{ m }}分钟{% endif %}</td>
+              {% endfor %}
             </tr>
-            <tr>
-              <td>5000步</td>
-              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约63分钟</td>
-              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约50分钟</td>
-              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约38分钟</td>
-            </tr>
-            <tr>
-              <td>8000步</td>
-              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约100分钟</td>
-              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约80分钟</td>
-              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约62分钟</td>
-            </tr>
-            <tr>
-              <td>10000步</td>
-              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约125分钟</td>
-              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约100分钟</td>
-              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约77分钟</td>
-            </tr>
-            <tr>
-              <td>12000步</td>
-              <td class="{% if current_pace == 'slow' %}table-success{% endif %}">约150分钟</td>
-              <td class="{% if current_pace == 'normal' %}table-success{% endif %}">约120分钟</td>
-              <td class="{% if current_pace == 'fast' %}table-success{% endif %}">约92分钟</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

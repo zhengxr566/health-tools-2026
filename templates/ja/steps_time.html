@@ -1,0 +1,56 @@
+{% extends "ja/base.html" %}
+{% import "ja/_macros.html" as ui with context %}
+{% block content %}
+{% set paces = [('slow', 'ゆっくり（1分間に約80歩）', 80), ('normal', '普通（1分間に約100歩）', 100), ('fast', '速歩き（1分間に約130歩）', 130)] %}
+{% macro dur(m) %}約{% if m >= 60 %}{{ m // 60 }}時間{% if m % 60 %}{{ m % 60 }}分{% endif %}{% else %}{{ m }}分{% endif %}{% endmacro %}
+
+<div class="tool-card tool-card-form">
+  <h1 class="h4 mb-1">歩数・時間換算｜1万歩は何分かかる？</h1>
+  <p class="text-muted mb-3">歩数と歩く速さから、歩くのにかかる時間を計算します。1万歩は普通の速さで約100分です。</p>
+  <form method="post" class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">歩数</label>
+      <input name="steps" class="form-control" inputmode="numeric" required value="{{ steps_in }}">
+    </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">歩く速さ</label>
+      <select name="pace" class="form-select">
+        {% for key, label, spm in paces %}<option value="{{ key }}" {% if pace_in == key %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-success w-100">時間を計算する</button></div>
+  </form>
+  {{ ui.error_box(error) }}
+</div>
+
+{% if result %}
+<div class="tool-card">
+  <div class="text-muted small">{{ steps_in }} 歩にかかる時間（目安）</div>
+  <div class="display-6 fw-semibold">{% if result.hours > 0 %}{{ result.hours }}時間{{ result.minutes }}分{% else %}{{ result.minutes }}分{% endif %}</div>
+</div>
+{% endif %}
+
+<div class="tool-card">
+  <h2 class="h6">歩数と時間の早見表</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>歩数</th>{% for key, label, spm in paces %}<th class="{% if pace_in == key %}table-success{% endif %}">{{ label.split('（')[0] }}<br><span class="small text-muted">{{ spm }}歩/分</span></th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for n in [1000, 2000, 3000, 5000, 8000, 10000, 12000, 15000, 20000, 30000, 40000] %}
+        <tr><td>{{ '{:,}'.format(n) }} 歩</td>{% for key, label, spm in paces %}<td class="{% if pace_in == key %}table-success{% endif %}">{{ dur((n / spm) | round | int) }}</td>{% endfor %}</tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <h2 class="h6 mt-4">歩く速さの目安</h2>
+  <p class="text-muted">
+    成人を対象にした研究では、<b>1分間に約100歩</b>が「中強度」の運動の目安とされています。少し息がはずむけれど会話はできる程度の速さです。
+    厚生労働省は成人に1日約8,000歩以上（歩行などを1日60分以上）をすすめていますが、まとめて歩く必要はなく、通勤や家事で少しずつためれば大丈夫です。
+  </p>
+  <p class="text-muted">
+    歩いた距離は<a href="/steps-distance">歩数・距離換算</a>、消費カロリーは<a href="/steps">歩数の消費カロリー</a>で計算できます。
+  </p>
+  {{ ui.disclaimer() }}
+</div>
+
+{% endblock %}
