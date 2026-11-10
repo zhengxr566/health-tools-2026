@@ -968,10 +968,10 @@ FIGURES = {
     "bodyfat-ranges": {
         "w": 760, "h": 330,
         "alt": "男女体脂率参考范围条形图：必需脂肪、运动员、健身良好、一般水平、偏高（ACE 分级）",
-        "caption": "男女体脂率参考范围（美国运动委员会 ACE 分级）。女性的必需脂肪比男性多，参考值整体高 7–10 个百分点。",
+        "caption": "男女体脂率参考范围（美国运动委员会 ACE 分级）。女性的必需脂肪比男性多，参考值整体高约 7–8 个百分点。",
         "ja": {
             "alt": "男女別の体脂肪率の目安を示した帯グラフ：必須脂肪、アスリート、引き締まっている、標準、高め（ACEの区分）",
-            "caption": "男女別の体脂肪率の目安（米国運動協議会 ACE の区分）。女性は必須脂肪が多いため、全体に男性より7〜10ポイント高めです。",
+            "caption": "男女別の体脂肪率の目安（米国運動協議会 ACE の区分）。女性は必須脂肪が多いため、全体に男性より約7〜8ポイント高めです。",
         },
     },
 }
@@ -2022,14 +2022,14 @@ def caffeine_intake_estimate(
     }
 # ========== 4.1. 运动消耗 ==========
 # 4.1.1 步数转热量
-STEP_WALK_MET = 3.5   # 正常步速（约 4.8 km/h）步行，Compendium of Physical Activities
+STEP_WALK_MET = 3.0   # 每分钟约 100 步（约 4 km/h）的步行，Compendium of Physical Activities；Tudor-Locke 2018: 100 步/分 ≈ 3 MET
 STEP_CADENCE = 100    # 正常步频，步/分钟
 
 
 def steps_to_kcal(steps: int, weight_kg: float) -> float:
     """
     MET 法估算步行总消耗：kcal = MET × 体重(kg) × 时间(h)
-    时间按正常步频 100 步/分钟换算；60 kg 走 10000 步 ≈ 350 kcal。
+    时间按正常步频 100 步/分钟换算；60 kg 走 10000 步 ≈ 300 kcal。
     """
     hours = steps / STEP_CADENCE / 60.0
     return STEP_WALK_MET * weight_kg * hours
@@ -2486,7 +2486,8 @@ def pregnancy_week_info(lmp_date: date) -> dict:
     due_date = lmp_date + timedelta(days=280)
     days_left = (due_date - today).days
 
-    if week < 13:
+    # 孕早期：孕 13 周 6 天及以前；孕中期：14–27 周 6 天；孕晚期：28 周及以后
+    if week < 14:
         trimester = "孕早期"
     elif week < 28:
         trimester = "孕中期"
@@ -2635,23 +2636,22 @@ def period_cycle_info(lmp_date: date, cycle_length: int, period_length: int) -> 
     fertile_start = estimated_ovulation - timedelta(days=5)
     fertile_end = estimated_ovulation + timedelta(days=1)
 
-    current_period_end = lmp_date + timedelta(days=period_length - 1)
+    # 当前周期的开始日（末次月经之后可能已经过了好几个周期）
+    current_cycle_start = next_period_start - timedelta(days=cycle_length)
+    current_period_end = current_cycle_start + timedelta(days=period_length - 1)
 
     if today <= current_period_end:
         phase = "经期中"
         progress = 18
-    elif current_cycle_day < cycle_length * 0.4:
-        phase = "卵泡期"
+    elif today < fertile_start:
+        phase = "经期后（排卵前）"
         progress = 40
-    elif abs((estimated_ovulation - today).days) <= 1:
-        phase = "排卵期附近"
+    elif today <= fertile_end:
+        phase = "排卵期附近（易孕期）"
         progress = 68
-    elif today < next_period_start:
-        phase = "黄体期"
-        progress = 82
     else:
-        phase = "新周期临近"
-        progress = 92
+        phase = "排卵后至下次月经前"
+        progress = 85
 
     return {
         "today": today.strftime("%Y-%m-%d"),
@@ -2851,7 +2851,7 @@ def implantation_info(lmp_date: date | None = None, ovulation_date: date | None 
 
     implantation_start = base_date + timedelta(days=6)
     implantation_peak = base_date + timedelta(days=8)
-    implantation_end = base_date + timedelta(days=10)
+    implantation_end = base_date + timedelta(days=12)
 
     days_from_base_to_today = (today - base_date).days
 
@@ -2912,7 +2912,7 @@ def fetal_development_data(week: int) -> dict:
 
     if week <= 4:
         stage = "孕早期"
-        summary = "胚胎刚开始形成，受精卵着床，身体基础结构开始建立。"
+        summary = "孕周从末次月经第一天算起：第 2 周前后排卵受精，第 3–4 周受精卵着床，胚胎开始形成。"
         size = "非常微小，约种子大小"
     elif week <= 8:
         stage = "孕早期"
@@ -2950,6 +2950,9 @@ def fetal_development_data(week: int) -> dict:
         stage = "孕晚期"
         summary = "已接近足月，胎儿器官基本成熟，继续为分娩做准备。"
         size = "接近新生儿体型"
+
+    # 分期按孕周统一判断：<14 周孕早期，14–27 周孕中期，≥28 周孕晚期
+    stage = "孕早期" if week < 14 else "孕中期" if week < 28 else "孕晚期"
 
     progress = round(week / 40 * 100)
 
@@ -3508,11 +3511,16 @@ def sleep_need_by_age(age: int) -> dict:
     if age < 0 or age > 120:
         raise ValueError("请输入合理年龄。")
 
-    if age <= 2:
-        low, high = 11, 14
-        label = "婴幼儿"
-        note = "这一阶段通常需要更长睡眠，白天小睡也常见。"
+    if age < 1:
+        low, high = 12, 16
+        label = "婴儿（4–12 个月）"
+        note = "含白天小睡。新生儿（0–3 个月）通常需要 14–17 小时。"
         progress = 95
+    elif age <= 2:
+        low, high = 11, 14
+        label = "幼儿（1–2 岁）"
+        note = "含白天小睡，这一阶段通常需要较长睡眠。"
+        progress = 92
     elif age <= 5:
         low, high = 10, 13
         label = "学龄前儿童"
@@ -4411,7 +4419,7 @@ def implantation_calculator():
 
     meta = {
         "title": "着床时间计算器 - CalmyHealth",
-        "description": "输入排卵日或末次月经开始日期，估算常见的着床时间范围（排卵后约 6–10 天），仅供参考。",
+        "description": "输入排卵日或末次月经开始日期，估算常见的着床时间范围（排卵后约 6–12 天，多数在 8–10 天），仅供参考。",
         "canonical": canonical_url("/implantation-calculator"),
     }
 
@@ -4741,7 +4749,8 @@ def calorie():
         elif not act or act < 1.1 or act > 2.5:
             error = "活动水平不正确。"
         else:
-            b = mifflin_st_jeor(sex_in, age, h, w)
+            # 日语版用日本人向けの国立健康・栄養研究所の式，中文版用 Mifflin-St Jeor
+            b = bmr_nibiohn(sex_in, age, h, w) if is_ja() else mifflin_st_jeor(sex_in, age, h, w)
             tdee_val = round0(b * act)
 
     meta = meta_for(
@@ -6114,7 +6123,7 @@ def steps():
 
     meta = meta_for(
         "步数转热量计算器｜10000步消耗多少卡路里 - CalmyHealth",
-        "10000步大约消耗 290–470 卡路里（体重 50–80 kg、正常步速），例如 60 kg 约 350 kcal。输入步数和体重，用 MET 法估算步行热量消耗，适合日常活动与减脂参考。",
+        "10000步大约消耗 250–400 卡路里（体重 50–80 kg、正常步速），例如 60 kg 约 300 kcal。输入步数和体重，用 MET 法估算步行热量消耗，适合日常活动与减脂参考。",
         "/steps",
     )
     return render_template(

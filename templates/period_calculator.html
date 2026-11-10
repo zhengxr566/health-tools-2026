@@ -5,9 +5,9 @@
   <div class="tool-page-main">
     <div class="tool-main-col">
       <div class="tool-card tool-card-form">
-        <h1 class="h4 mb-1">月经周期计算器（双月历预测月经期、排卵期与安全期）</h1>
+        <h1 class="h4 mb-1">月经周期计算器（双月历预测月经期、排卵期与低受孕期）</h1>
         <p class="text-muted mb-3">
-          选择末次月经开始日期，输入平均周期长度和经期时长，即可查看双月历预测，并点击任意一天查看当天属于月经期、排卵期还是安全期。
+          选择末次月经开始日期，输入平均周期长度和经期时长，即可查看双月历预测，并点击任意一天查看当天属于月经期、排卵期还是低受孕期。
         </p>
 
         <form id="tool-form" method="post" class="row g-3">
@@ -73,20 +73,20 @@
 
         <div class="bg-light rounded-3 p-3 mt-3" id="selectedDayCard">
           <div class="fw-semibold mb-2">日期解读</div>
-          <div id="selectedDayContent" class="text-muted small">点击任意日期后，这里会显示该日期属于月经期、排卵期还是安全期。</div>
+          <div id="selectedDayContent" class="text-muted small">点击任意日期后，这里会显示该日期属于月经期、排卵期还是低受孕期。</div>
         </div>
 
         <div class="mt-3 d-flex flex-wrap gap-2">
           <span class="badge rounded-pill text-bg-danger-subtle border border-danger-subtle text-danger-emphasis">月经期</span>
           <span class="badge rounded-pill text-bg-warning-subtle border border-warning-subtle text-warning-emphasis">排卵期</span>
-          <span class="badge rounded-pill text-bg-secondary-subtle border border-secondary-subtle text-secondary-emphasis">安全期</span>
+          <span class="badge rounded-pill text-bg-secondary-subtle border border-secondary-subtle text-secondary-emphasis">低受孕期</span>
           <span class="badge rounded-pill text-bg-primary-subtle border border-primary-subtle text-primary-emphasis">今天</span>
           <span class="badge rounded-pill text-bg-dark">已选日期</span>
         </div>
       </div>
 
       <div class="tool-card">
-        <h2 class="h6 mb-3">月经期、安全期和排卵期怎么理解？</h2>
+        <h2 class="h6 mb-3">月经期、低受孕期和排卵期怎么理解？</h2>
 
         <h3 class="h6 mb-1">月经期</h3>
         <p class="text-muted">
@@ -98,9 +98,9 @@
           这里统一把“预计排卵日前后、受孕概率相对较高的一段时间”标注为排卵期。页面中的排卵期是基于平均周期推算的时间窗口，更适合作为记录和预期参考。
         </p>
 
-        <h3 class="h6 mt-4 mb-1">安全期</h3>
+        <h3 class="h6 mt-4 mb-1">低受孕期</h3>
         <p class="text-muted mb-0">
-          页面会把不在月经期和排卵期范围内的日期统一显示为安全期，用来表示相对较低受孕概率的时间段。它不等于绝对安全，也不能替代医学判断或避孕建议。
+          页面会把不在月经期和排卵期范围内的日期统一显示为低受孕期，用来表示相对较低受孕概率的时间段。它只是按平均周期推算的结果，不等于安全：靠推算避开易孕期的方法，实际使用中每年约有 2%–23% 的人意外怀孕（美国 CDC）。周期越不规律，误差越大；需要避孕请使用可靠的避孕方法。
         </p>
       </div>
 
@@ -109,7 +109,7 @@
 
         <h3 class="h6 mt-3 mb-1">点击某一天后能看什么？</h3>
         <p class="text-muted">
-          点击日历任意日期后，页面会动态显示这一天属于月经期、排卵期还是安全期，并同步展示它与下次月经、预计排卵日之间的大致距离。
+          点击日历任意日期后，页面会动态显示这一天属于月经期、排卵期还是低受孕期，并同步展示它与下次月经、预计排卵日之间的大致距离。
         </p>
 
         <h3 class="h6 mt-3 mb-1">周期不规律还能参考吗？</h3>
@@ -117,7 +117,7 @@
           可以参考，但误差通常会更大。这个工具更适合规律周期人群做时间预期和记录使用。
         </p>
 
-        <h3 class="h6 mt-3 mb-1">为什么这里只显示月经期、排卵期和安全期？</h3>
+        <h3 class="h6 mt-3 mb-1">为什么这里只显示月经期、排卵期和低受孕期？</h3>
         <p class="text-muted">
           这是为了让页面表达更统一、更容易理解。站内统一使用这三种说法，不再单独显示“黄体期”。
         </p>
@@ -155,7 +155,7 @@
 
           <h2 class="h6">这个页面在算什么？</h2>
           <p class="text-muted">
-            它会根据你输入的末次月经开始日期、平均周期长度和经期时长，连续推算多个周期，并用双月历直观展示月经期、排卵期和安全期。
+            它会根据你输入的末次月经开始日期、平均周期长度和经期时长，连续推算多个周期，并用双月历直观展示月经期、排卵期和低受孕期。
           </p>
 
           <h2 class="h6 mt-4">怎么看双月历？</h2>
@@ -343,11 +343,12 @@
     const cycleDay = mod + 1;
     const currentCycleStart = addDays(date, -mod);
     const nextPeriodStart = addDays(currentCycleStart, config.cycleLength);
-    const ovulationDay = Math.max(1, config.cycleLength - 14);
+    // 与其他工具一致：预计排卵日 = 下次月经前 14 天（28 天周期为第 15 天）
+    const ovulationDay = Math.max(1, config.cycleLength - 13);
     const fertileStartDay = Math.max(1, ovulationDay - 5);
     const fertileEndDay = Math.min(config.cycleLength, ovulationDay + 1);
 
-    let phase = '安全期';
+    let phase = '低受孕期';
     if (cycleDay <= config.periodLength) {
       phase = '月经期';
     } else if (cycleDay >= fertileStartDay && cycleDay <= fertileEndDay) {
@@ -373,7 +374,7 @@
     const info = getCycleInfo(date);
     if (info.cycleDay <= config.periodLength) return '月经期';
     if (info.cycleDay >= info.fertileStartDay && info.cycleDay <= info.fertileEndDay) return '排卵期';
-    return '安全期';
+    return '低受孕期';
   }
 
   function getDayBadge(type) {
@@ -411,7 +412,7 @@
         'cycle-calendar-day',
         type === '月经期' ? 'is-period' : '',
         type === '排卵期' ? 'is-ovulation' : '',
-        type === '安全期' ? 'is-safe' : '',
+        type === '低受孕期' ? 'is-safe' : '',
         isToday ? 'is-today' : '',
         isSelected ? 'is-selected' : ''
       ].filter(Boolean).join(' ');

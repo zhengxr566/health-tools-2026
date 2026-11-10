@@ -19,8 +19,8 @@
         <div class="col-12">
           <label class="form-label">孕期阶段</label>
           <select name="trimester" class="form-select">
-            <option value="first" {% if trimester_in == 'first' %}selected{% endif %}>孕早期（1–12 周）</option>
-            <option value="second" {% if trimester_in == 'second' %}selected{% endif %}>孕中期（13–27 周）</option>
+            <option value="first" {% if trimester_in == 'first' %}selected{% endif %}>孕早期（0–13 周）</option>
+            <option value="second" {% if trimester_in == 'second' %}selected{% endif %}>孕中期（14–27 周）</option>
             <option value="third" {% if trimester_in == 'third' %}selected{% endif %}>孕晚期（28–40 周）</option>
           </select>
         </div>
@@ -125,7 +125,7 @@
       <h2 class="h6">这个工具的计算公式</h2>
 
       <div class="bg-light rounded-3 p-3 small">
-        孕期建议饮水量 = 当前体重（kg） × 站内简化系数（ml/kg）
+        孕期每日水分需要 = 当前体重（kg） × 站内简化系数（ml/kg）（这是全天总水分，包括食物和汤里的水，饮水约占其中的一半到三分之二）
       </div>
 
       <p class="text-muted mt-3 mb-2">本工具采用的站内简化系数：</p>

@@ -29,8 +29,8 @@ SEO_OVERRIDES = {
         "description": "一万步约 6.2–7.7 公里，取决于身高和步幅（身高 165 cm 约 6.8 公里）。输入步数、身高和性别，按步幅算出你走了多少公里，也可反推每公里多少步。",
     },
     "/steps": {
-        "title": "10000步消耗多少热量？约290–470 kcal｜按体重算｜CalmyHealth",
-        "description": "按正常步速，10000 步约消耗 290–470 kcal（体重 50–80 kg），60 kg 约 350 kcal，其中额外消耗约 250 kcal。输入步数和体重，用 MET 法算出你的步行消耗。",
+        "title": "10000步消耗多少热量？约250–400 kcal｜按体重算｜CalmyHealth",
+        "description": "按正常步速，10000 步约消耗 250–400 kcal（体重 50–80 kg），60 kg 约 300 kcal，其中额外消耗约 200 kcal。输入步数和体重，用 MET 法算出你的步行消耗。",
     },
     "/deficit": {
         "title": "热量缺口怎么算？减脂每天少吃300–500 kcal｜CalmyHealth",

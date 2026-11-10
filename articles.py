@@ -40,7 +40,7 @@ ARTICLES = [
             ("走一万步需要多长时间？",
              "以常见的每分钟约 100 步计算，大约 100 分钟；慢走（每分钟约 80 步）约 2 小时，快走（每分钟约 130 步）约 77 分钟。"),
             ("走一万步能消耗多少热量？",
-             "以中等步速、约 3.5 MET 估算，体重 60 kg 约 350 kcal、70 kg 约 410 kcal（含基础代谢的总消耗）。只算“额外”多消耗的部分约为这个数字的七成。"),
+             "以每分钟约 100 步、约 3 MET 估算，体重 60 kg 约 300 kcal、70 kg 约 350 kcal（含基础代谢的总消耗）。只算“额外”多消耗的部分约为这个数字的三分之二。"),
         ],
         "sources": [
             "步幅估算采用常用经验系数：男性 ≈ 身高 × 0.415，女性 ≈ 身高 × 0.413（与本站步数工具一致）。",
@@ -363,7 +363,7 @@ ARTICLES = [
          ('喝水太多会有危险吗？', '短时间内喝下大量的水可能稀释血钠，引起低钠血症，出现头痛、恶心、意识模糊等症状。有肾脏病、心力衰竭等需要控制液体的疾病时，饮水量请遵医嘱。'),
          ('怎么判断自己水喝够了？', '尿液呈淡黄色、接近透明，且不常感到口渴，通常说明水分基本充足；尿色深黄、尿量少时应该多喝一些。')],
         'sources': ['中国营养学会.《中国居民膳食指南（2022）》. 人民卫生出版社, 2022.（成年男性每天饮水 1700 ml、女性 1500 ml）',
-         '中国营养学会.《中国居民膳食营养素参考摄入量（2013 版）》.（水的适宜摄入量）',
+         '中国营养学会.《中国居民膳食营养素参考摄入量（2023 版）》.（水的适宜摄入量）',
          'EFSA Panel on Dietetic Products, Nutrition, and Allergies (NDA). Scientific Opinion on Dietary '
          'Reference Values for water. EFSA Journal, 2010.',
          'American College of Sports Medicine; Sawka MN, et al. American College of Sports Medicine '
@@ -399,7 +399,7 @@ ARTICLES = [
           '成年人每天约 25–30 g。例如燕麦片 40 g（约 4 g）、苹果 1 个（约 5 g）、红薯 200 g（约 6 g）再加上 400–500 g '
           '蔬菜和一些全谷物、豆类，就比较容易吃够。'),
          ('GI 和 GL 有什么区别？',
-          'GI 反映食物升高血糖的速度，与份量无关；GL = GI × 可利用碳水（g）÷ 100，把份量也考虑进去。例如西瓜 GI 约 76，但 200 g 的 GL 只有约 11。')],
+          'GI 反映食物升高血糖的幅度，与份量无关；GL = GI × 可利用碳水（g）÷ 100，把份量也考虑进去。例如西瓜 GI 约 76，但 200 g 的 GL 只有约 11。')],
         'sources': ['中国营养学会.《中国居民膳食指南（2022）》. 人民卫生出版社, 2022.（全谷物和杂豆 50–150 g、薯类 50–100 g、烹调油 25–30 g、反式脂肪酸不超过 2 g）',
          '中国营养学会.《中国居民膳食营养素参考摄入量》.（成年人碳水化合物 50%–65%、脂肪 20%–30% 的宏量营养素可接受范围；膳食纤维 25–30 g）',
          'World Health Organization. Healthy diet. Fact sheet.（饱和脂肪低于总能量 10%）',
@@ -627,9 +627,9 @@ ARTICLES = [
         'related_articles': ['sleep-debt-nap', 'sleep-cycle-90-minutes', 'caffeine-limit'],
     },
     {'slug': 'glycemic-index-food-list',
-     'title': 'GI 值对照表：55 种常见食物升糖指数（附 GL 血糖负荷）',
+     'title': 'GI 值对照表：60 种常见食物升糖指数（附 GL 血糖负荷）',
      'h1': 'GI 值对照表：常见食物升糖指数与血糖负荷',
-     'description': 'GI ≤ 55 为低、56–69 为中、≥ 70 为高。白米饭约 73、白粥约 78、白面包约 75，豆类、牛奶、苹果、意大利面属于低 GI。本文整理约 55 种常见食物的 GI '
+     'description': 'GI ≤ 55 为低、56–69 为中、≥ 70 为高。白米饭约 73、白粥约 78、白面包约 75，豆类、牛奶、苹果、意大利面属于低 GI。本文整理约 60 种常见食物的 GI '
                     '值，并说明怎么用 GL 把份量考虑进去、哪些吃法能让血糖更平稳。',
      'category': '营养摄入',
      'published': '2026-11-09',
@@ -728,8 +728,8 @@ ARTICLES = [
                  'Sutton EF, Beyl R, Early KS, et al. Early time-restricted feeding improves insulin '
                  'sensitivity, blood pressure, and oxidative stress even without weight loss in men with '
                  'prediabetes. Cell Metab, 2018.',
-                 'American Heart Association. 8-hour time-restricted eating linked to a 91% higher risk of '
-                 'cardiovascular death（EPI|Lifestyle Scientific Sessions 会议摘要新闻稿）, 2024.'],
+                 'Chen M, et al. Association of eating duration less than 8 h with all-cause, cardiovascular, and cancer mortality. '
+                 'Diabetes Metab Syndr, 2025.'],
      'related_tools': ['/meal-split', '/deficit', '/protein', '/caffeine-cutoff'],
      'related_articles': ['calorie-deficit-fat-loss', 'protein-intake-per-day', 'boost-metabolism']},
     {'slug': 'boost-metabolism',
@@ -753,7 +753,7 @@ ARTICLES = [
      'faq': [('怎么提高基础代谢？', '最可靠的方法是做力量训练增加或保住肌肉，同时吃够蛋白质、避免过度节食。但效果有限：1 kg 肌肉每天约多消耗 13 kcal，增加日常步数对总消耗的影响往往更大。'),
              ('过了 30 岁代谢会变慢吗？', '2021 年《科学》的研究发现，按体型校正后，20–60 岁之间的代谢基本稳定，60 岁以后才每年下降约 0.7%。中年发福更多与活动减少和肌肉流失有关。'),
              ('节食会让基础代谢下降吗？', '会。体重减轻本身会降低消耗，热量缺口过大或蛋白质不足时还会流失肌肉，并出现额外的适应性下降。温和的热量缺口、足够蛋白质和力量训练可以减少下降幅度。'),
-             ('喝冰水能提高代谢吗？', '效果很小。较严谨的研究发现喝 500 ml 水后代谢只上升约 4.5%，一天下来只多消耗几 kcal 到十几 kcal。'),
+             ('喝冰水能提高代谢吗？', '效果很小。较严谨的研究发现喝 500 ml 约 3 °C 的冰水后代谢只上升约 4.5%，常温水几乎没有变化，一天下来只多消耗几 kcal 到十几 kcal。'),
              ('少吃多餐能提高代谢吗？', '基本不能。消化食物的消耗取决于总共吃了多少，同样的热量分成 3 餐或 6 餐，总消耗相近。')],
      'sources': ['Johnstone AM, Murison SD, Duncan JS, et al. Factors influencing variation in basal metabolic '
                  'rate include fat-free mass, fat mass, age, and circulating thyroxine but not sex, circulating '
@@ -767,7 +767,8 @@ ARTICLES = [
                  'Fothergill E, Guo J, Howard L, et al. Persistent metabolic adaptation 6 years after "The '
                  'Biggest Loser" competition. Obesity, 2016.',
                  'Westerterp KR. Diet induced thermogenesis. Nutr Metab, 2004.',
-                 'Brown CM, Dulloo AG, Montani JP. Water-induced thermogenesis reconsidered: the effects of '
+                 'Boschmann M, et al. Water-induced thermogenesis. J Clin Endocrinol Metab, 2003.',
+                    'Brown CM, Dulloo AG, Montani JP. Water-induced thermogenesis reconsidered: the effects of '
                  'osmolality and water temperature on energy expenditure after drinking. J Clin Endocrinol '
                  'Metab, 2006.'],
      'related_tools': ['/bmr', '/calorie', '/activity-level', '/protein'],
