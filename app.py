@@ -11,7 +11,10 @@ from flask import (
     has_request_context,
 )
 import calendar
+import gzip
+import hashlib
 import json
+from collections import OrderedDict
 from pathlib import Path
 
 from flask import abort
@@ -29,6 +32,46 @@ app = Flask(__name__)
 # 日语版：/ja/... 共用路由和计算逻辑，模板单独翻译（见 i18n_ja.py）
 app.wsgi_app = JaPrefixMiddleware(HantPrefixMiddleware(app.wsgi_app))
 app.jinja_env.filters["ja_msg"] = ja_msg
+
+# 静态文件让浏览器缓存 7 天；style.css 等用 ?v=<内容哈希> 在内容变化时自动换网址（见 static_url）
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 7 * 24 * 3600
+_STATIC_VERSIONS: dict[str, str] = {}
+
+
+def static_url(filename: str) -> str:
+    v = _STATIC_VERSIONS.get(filename)
+    if v is None:
+        try:
+            v = hashlib.md5((Path(app.static_folder) / filename).read_bytes()).hexdigest()[:8]
+        except OSError:
+            v = ""
+        _STATIC_VERSIONS[filename] = v
+    return url_for("static", filename=filename) + (f"?v={v}" if v else "")
+
+
+app.jinja_env.globals["static_url"] = static_url
+
+_COMPRESSIBLE = {"text/html", "text/css", "text/plain", "text/xml", "application/xml",
+                 "application/javascript", "text/javascript", "application/json", "image/svg+xml"}
+
+
+@app.after_request
+def gzip_response(resp):
+    # 注册得最早，所以在所有 after_request（繁体转换、日语链接改写）之后最后执行
+    if (resp.status_code != 200 or resp.mimetype not in _COMPRESSIBLE
+            or "gzip" not in request.headers.get("Accept-Encoding", "").lower()
+            or resp.headers.get("Content-Encoding")):
+        return resp
+    resp.direct_passthrough = False
+    data = resp.get_data()
+    if len(data) < 1024:
+        return resp
+    resp.set_data(gzip.compress(data, compresslevel=6))
+    resp.headers["Content-Encoding"] = "gzip"
+    resp.headers["Vary"] = "Accept-Encoding"
+    # 压缩后内容不同，去掉 ETag，避免与未压缩版本混用；Last-Modified 仍可用于 304
+    resp.headers.pop("ETag", None)
+    return resp
 
 # -----------------------
 # Brand / SEO / Domain
@@ -53,6 +96,15 @@ def redirect_old_domain():
     if host in OLD_HOSTS or host.endswith(".run.app") or host == "www.calmyhealth.com":
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
         return redirect(f"{BASE_URL_ENV}{request.script_root}{request.path}{qs}", code=301)
+    # /bmi/ 这类末尾带斜杠的网址统一 301 到 /bmi
+    if request.path != "/" and request.path.endswith("/") and request.method in ("GET", "HEAD"):
+        qs = f"?{request.query_string.decode()}" if request.query_string else ""
+        return redirect(f"{request.script_root}{request.path.rstrip('/')}{qs}", code=301)
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(app.static_folder, "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 
 @app.route("/google984348f5d29aa2c5.html")
@@ -817,11 +869,37 @@ def add_noindex_header(resp):
     return resp
 
 
+# 繁体转换（OpenCC）每页约 0.3 秒；相同的简体 HTML 转换结果相同，缓存最近 300 个页面
+_HANT_CACHE: "OrderedDict[bytes, str]" = OrderedDict()
+_HANT_CACHE_MAX = 300
+
+
+def convert_html_cached(html: str) -> str:
+    key = hashlib.sha1(html.encode("utf-8")).digest()
+    hit = _HANT_CACHE.get(key)
+    if hit is not None:
+        _HANT_CACHE.move_to_end(key)
+        return hit
+    out = convert_html(html)
+    _HANT_CACHE[key] = out
+    if len(_HANT_CACHE) > _HANT_CACHE_MAX:
+        _HANT_CACHE.popitem(last=False)
+    return out
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    meta = {"title": f"找不到这个页面 - {SITE_NAME}", "description": "页面不存在或已移动。",
+            "canonical": canonical_url("/")}
+    popular = [t for t in TOOLS if t["path"] in ("/bmi", "/calorie", "/bodyfat", "/steps-distance", "/carbs", "/sleep")]
+    return render_template("404.html", meta=meta, page_noindex=True, popular=popular), 404
+
+
 @app.after_request
 def convert_to_hant(resp):
     # 繁体版：把渲染好的 HTML 转成台湾正体，并把站内链接改成 /zh-hant/ 开头
     if is_hant() and resp.mimetype == "text/html" and not resp.direct_passthrough:
-        resp.set_data(convert_html(resp.get_data(as_text=True)))
+        resp.set_data(convert_html_cached(resp.get_data(as_text=True)))
         resp.headers["Content-Language"] = "zh-Hant"
     elif is_ja() and resp.mimetype == "text/html" and not resp.direct_passthrough:
         resp.set_data(ja_links(resp.get_data(as_text=True)))
@@ -3822,6 +3900,14 @@ def top_tools(limit=10):
     )
     return ranked[:limit]
 
+CATEGORY_SEO_DESC = {
+    'weight': '体重与体型工具：BMI（中国 / 台湾标准）、理想体重、目标体重时间、体脂率（美国海军围度法）、FFMI、腰围身高比和腰臀比，输入身高体重和围度即可计算，附正常范围和测量方法。',
+    'metabolism': '代谢与热量工具：基础代谢（BMR）、每日总消耗（TDEE）、维持体重热量和减脂热量缺口，按性别、年龄、身高、体重和活动量估算，并给出减脂、维持、增肌的目标热量。',
+    'nutrition': '营养摄入工具：每天该吃多少蛋白质、碳水、脂肪、膳食纤维，以及饮水、盐、糖和咖啡因的参考量，按体重和目标计算克数，附三餐分配和 GI/GL 血糖负荷估算。',
+    'activity': '运动与习惯工具：步数换算距离、时间和热量，每日步数目标，跑步配速与消耗，心率区间，以及睡眠周期、入睡 / 起床时间、睡眠需求和睡眠债计算。',
+}
+
+
 @app.get("/category/<slug>")
 def category_page(slug: str):
     nav_groups = grouped_tools()
@@ -3832,7 +3918,7 @@ def category_page(slug: str):
 
     meta = meta_for(
         f"{current_cat['name']}工具 - {SITE_NAME}",
-        f"浏览 {current_cat['name']} 相关健康工具：{current_cat['description']}",
+        CATEGORY_SEO_DESC.get(slug) or f"浏览 {current_cat['name']} 相关健康工具：{current_cat['description']}",
         f"/category/{slug}",
     )
 
@@ -3868,7 +3954,7 @@ def privacy():
 def contact():
     meta = meta_for(
         f"联系 - {SITE_NAME}",
-        "联系页面：反馈建议、Bug 报告与合作咨询。",
+        "联系 CalmyHealth：反馈计算错误或说明不准确的地方、建议新增工具，或咨询合作事宜。邮箱 calmyhealth@hotmail.com，支持中文、日语和英语。",
         "/contact",
     )
 
@@ -5190,7 +5276,7 @@ def sleep_wake_time():
 
     meta = {
         "title": "起床时间计算器（按睡眠周期推荐几点醒）- CalmyHealth",
-        "description": "选择准备入睡的时间，按90分钟睡眠周期和入睡缓冲，计算更适合醒来的起床时间。",
+        "description": "几点起床最清醒？输入准备入睡的时间，按约 90 分钟一个睡眠周期、加上约 15 分钟入睡时间，算出睡满 4–6 个周期时适合醒来的时间，例如 23:00 入睡可在 6:45 或 8:15 起床。",
         "canonical": canonical_url("/sleep-wake-time"),
     }
 
@@ -5247,7 +5333,7 @@ def sleep_bedtime():
 
     meta = {
         "title": "入睡时间计算器（按起床时间反推几点睡）- CalmyHealth",
-        "description": "选择目标起床时间，按90分钟睡眠周期和入睡缓冲，反推更适合准备睡觉的时间。",
+        "description": "几点睡最合适？输入目标起床时间，按约 90 分钟睡眠周期和约 15 分钟入睡时间反推上床时间，例如 7:00 起床可在 23:15 或 0:45 上床，附睡眠时长建议。",
         "canonical": canonical_url("/sleep-bedtime"),
     }
 
@@ -5427,7 +5513,7 @@ def sleep_need():
 
     meta = {
         "title": "睡眠需求计算器（按年龄需要睡多久）- CalmyHealth",
-        "description": "输入年龄，查看常见建议睡眠时长范围，并了解不同年龄阶段为什么需要不同睡眠时间。",
+        "description": "每天要睡几个小时？输入年龄，查看对应的建议睡眠时长：成年人 7–9 小时、青少年 8–10 小时、学龄儿童 9–12 小时（AASM / NSF），并了解睡不够的常见信号。",
         "canonical": canonical_url("/sleep-need"),
     }
 
@@ -5844,7 +5930,7 @@ def meal_split():
 
     meta = {
         "title": "餐次分配计算器（一天三餐怎么分配热量和蛋白质）- CalmyHealth",
-        "description": "根据总热量需求，合理分配三餐摄入，帮助控制体重和饮食结构。",
+        "description": "一天三餐怎么分配热量和蛋白质？输入每日总热量和蛋白质，按均衡三餐、晚餐较轻或晚餐较重三种方式，算出早餐、午餐、晚餐各吃多少 kcal 和多少克蛋白质。",
         "canonical": canonical_url("/meal-split"),
     }
 
@@ -6340,7 +6426,7 @@ def activity_level():
     # /activity-level
     meta = {
         "title": "活动水平计算器（久坐还是活跃）- CalmyHealth",
-        "description": "根据日常行为判断你的活动水平分类，用于计算热量消耗和健康评估。",
+        "description": "久坐、轻度还是中度活动？按每天步数、运动次数和工作类型判断你的活动水平，得到计算 TDEE 时该用的活动系数（1.2–1.9），避免高估每日热量消耗。",
         "canonical": canonical_url("/activity-level"),
     }
 

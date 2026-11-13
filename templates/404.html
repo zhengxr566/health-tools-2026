@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <div class="text-muted small mb-1">404</div>
+  <h1 class="h4 mb-2">找不到这个页面</h1>
+  <p class="text-muted mb-3">
+    这个网址不存在，或者页面已经移动。可以回到首页，或者直接使用下面的常用工具。
+  </p>
+  <div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-success" href="/">回到首页</a>
+    <a class="btn btn-outline-secondary" href="/tools">查看全部工具</a>
+    <a class="btn btn-outline-secondary" href="/guide">健康指南</a>
+  </div>
+</div>
+
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <h2 class="h6 mb-3">常用工具</h2>
+  <div class="row g-2">
+    {% for t in popular %}
+    <div class="col-12 col-md-6">
+      <a class="d-block p-3 rounded-3 border text-decoration-none" href="{{ t.path }}">
+        <div class="fw-semibold">{{ t.name }}</div>
+        {% if t.desc %}<div class="small text-muted">{{ t.desc }}</div>{% endif %}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
