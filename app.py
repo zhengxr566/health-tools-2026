@@ -438,6 +438,15 @@ TOOLS = [
         "subgroup": "daily_intake",
         "featured": False,
     },
+    {
+        "endpoint": "nutrition_check",
+        "name": "一日饮食营养分析",
+        "path": "/nutrition-check",
+        "desc": "输入一天吃的食物，看看缺了哪些营养素",
+        "category": "nutrition",
+        "subgroup": "daily_intake",
+        "featured": True,
+    },
     # 3.1.6. 盐摄入
     {
         "endpoint": "salt",
@@ -6561,6 +6570,70 @@ def heart_rate_zone():
         resting_hr_in=resting_hr_in,
         page_kind="tool",
     )
+
+# -----------------------
+# 一日饮食营养分析
+# -----------------------
+# 食物营养数据由 scripts/build_nutrition_foods.py 生成：台湾食药署「食品营养成分资料库」+ USDA SR Legacy
+NUTRITION_FOODS_JSON = (Path(app.root_path) / "data" / "nutrition_foods.json").read_text(encoding="utf-8")
+
+# 成人每日参考摄入量。键：营养素 -> {性别: [各年龄段的数值]}；年龄段见 groups。
+# 简体：中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》
+# 繁体：卫生福利部国民健康署《国人膳食营养素参考摄取量》第八版
+NUTRITION_TARGETS = {
+    "cn": {
+        "source": "中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》",
+        "groups": ["18–49 岁", "50–64 岁", "65 岁及以上"],
+        "protein": {"m": [65, 65, 72], "f": [55, 55, 62]},
+        "fiber": {"m": [25, 25, 25], "f": [25, 25, 25]},
+        "calcium": {"m": [800, 800, 800], "f": [800, 800, 800]},
+        "iron": {"m": [12, 12, 12], "f": [18, 10, 10]},
+        "zinc": {"m": [12, 12, 12], "f": [8.5, 8.5, 8.5]},
+        "magnesium": {"m": [330, 330, 320], "f": [330, 330, 320]},
+        "potassium": {"m": [2000, 2000, 2000], "f": [2000, 2000, 2000]},
+        "vit_a": {"m": [770, 770, 730], "f": [660, 660, 640]},
+        "vit_c": {"m": [100, 100, 100], "f": [100, 100, 100]},
+        "sodium_max": 2000,
+        "carbs_pct": [50, 65],
+        "fat_pct": [20, 30],
+    },
+    "tw": {
+        "source": "卫生福利部国民健康署《国人膳食营养素参考摄取量》第八版",
+        "groups": ["19–50 岁", "51–70 岁", "71 岁及以上"],
+        "protein": {"m": [70, 70, 70], "f": [60, 60, 60]},
+        "fiber": None,  # 每 1000 大卡 14 克，按热量计算
+        "calcium": {"m": [1000, 1000, 1000], "f": [1000, 1000, 1000]},
+        "iron": {"m": [10, 10, 10], "f": [15, 10, 10]},
+        "zinc": {"m": [15, 15, 15], "f": [12, 12, 12]},
+        "magnesium": {"m": [380, 360, 350], "f": [320, 310, 300]},
+        "potassium": {"m": [2800, 2800, 2800], "f": [2500, 2500, 2500]},
+        "vit_a": {"m": [600, 600, 600], "f": [500, 500, 500]},
+        "vit_c": {"m": [100, 100, 100], "f": [100, 100, 100]},
+        "sodium_max": 2300,
+        "carbs_pct": [50, 65],
+        "fat_pct": [20, 30],
+    },
+}
+
+
+@app.get("/nutrition-check")
+def nutrition_check():
+    meta = meta_for(
+        "一日饮食营养分析：输入吃了什么，看看缺哪些营养 - CalmyHealth",
+        "把今天吃的饭、菜、肉、蛋、奶、水果和饮料加进清单，自动算出热量、蛋白质、膳食纤维、钙、铁、锌、维生素 A、维生素 C 等 13 种营养素，"
+        "对照膳食营养素参考摄入量标出缺少和超标的项目，并推荐补充的食物。",
+        "/nutrition-check",
+    )
+    targets = NUTRITION_TARGETS["tw" if is_hant() else "cn"]
+    return render_template(
+        "nutrition_check.html",
+        meta=meta,
+        foods_json=NUTRITION_FOODS_JSON,
+        targets_json=json.dumps(targets, ensure_ascii=False),
+        targets=targets,
+        page_kind="tool",
+    )
+
 
 @app.get("/healthz")
 def healthz():

@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tool-layout">
+  <div class="tool-col tool-col-form">
+    <div class="tool-card">
+      <h1 class="h4 mb-1">一日饮食营养分析：今天吃够了吗？</h1>
+      <p class="text-muted mb-3">
+        把今天吃的食物加进清单，自动算出 13 种营养素的摄入量，对照每日参考摄入量，标出缺少和超标的项目，并推荐可以补充的食物。
+        所有计算都在你的浏览器里完成，不会上传或保存你吃了什么。
+      </p>
+
+      <div class="row g-2 mb-3">
+        <div class="col-6 col-md-4">
+          <label class="form-label small mb-1">性别</label>
+          <select id="ncSex" class="form-select form-select-sm">
+            <option value="f">女</option>
+            <option value="m">男</option>
+          </select>
+        </div>
+        <div class="col-6 col-md-4">
+          <label class="form-label small mb-1">年龄</label>
+          <select id="ncAge" class="form-select form-select-sm">
+            {% for g in targets.groups %}<option value="{{ loop.index0 }}">{{ g }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label small mb-1">每日热量目标（选填）</label>
+          <input id="ncKcal" class="form-control form-control-sm" inputmode="numeric" placeholder="例如 1800">
+        </div>
+      </div>
+
+      <label class="form-label mb-1">添加食物</label>
+      <div class="position-relative">
+        <input id="ncSearch" class="form-control" placeholder="输入食物名称，例如 米饭、鸡蛋、豆浆、香蕉" autocomplete="off">
+        <div id="ncResults" class="nc-results list-group shadow-sm"></div>
+      </div>
+      <div class="d-flex flex-wrap gap-2 mt-2 small" id="ncGroups"></div>
+
+      <div id="ncList" class="mt-3"></div>
+      <div class="d-flex flex-wrap gap-2 mt-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="ncExample">载入示例（典型的一天）</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" id="ncClear">清空</button>
+      </div>
+      <div class="form-text mt-2">蔬菜按生重计算；炒菜用的油和盐请另外加上（例如“食用油 1 汤匙”“食盐 3 克”），否则热量和钠会被低估。</div>
+    </div>
+
+    <div class="tool-card" id="ncResultCard">
+      <div class="text-muted" id="ncEmpty">加入食物后，这里会显示营养素摄入量和缺少的项目。</div>
+      <div id="ncResult" class="d-none">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+          <div>
+            <div class="text-muted small">今天的总热量</div>
+            <div class="display-6 fw-semibold" id="ncKcalTotal">0</div>
+          </div>
+          <div class="small text-muted text-end" id="ncMacro"></div>
+        </div>
+        <div id="ncSummary" class="mb-3"></div>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead><tr><th>营养素</th><th class="text-end">摄入</th><th class="text-end">参考</th><th style="width:38%">达成度</th></tr></thead>
+            <tbody id="ncTable"></tbody>
+          </table>
+        </div>
+        <div id="ncSuggest" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      <h2 class="h6">这个工具怎么算？</h2>
+      <ul class="text-muted">
+        <li><b>食物数据：</b>常见中式食物、饮料和点心来自台湾卫生福利部食品药物管理署“食品营养成分资料库”；熟肉、鱼、面条、多数水果来自美国农业部 FoodData Central（SR Legacy）。共约 110 种常用食物，均按每 100 克可食部分计算。</li>
+        <li><b>参考摄入量：</b>{{ targets.source }}，按性别和年龄选用成人的推荐摄入量（RNI）或适宜摄入量（AI）。</li>
+        <li><b>判断方式：</b>达到参考值的 100% 为“够了”，70%–99% 为“接近”，低于 70% 为“不足”；钠以每日上限 {{ targets.sodium_max }} mg 判断是否超标。</li>
+      </ul>
+      <p class="text-muted small mb-0">
+        一天吃得不够不代表就会缺乏：营养素的参考值是长期平均的目标，看 3–7 天的平均更有意义。可以连续记录几天，对照哪些营养素经常不足。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">最容易吃不够的几种营养素</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle">
+          <thead class="table-light"><tr><th>营养素</th><th>为什么容易不足</th><th>好的来源</th></tr></thead>
+          <tbody>
+            <tr><td>钙</td><td>不喝奶、少吃豆制品时很难吃够</td><td>牛奶、酸奶、老豆腐、豆腐干、深绿色蔬菜</td></tr>
+            <tr><td>膳食纤维</td><td>主食以精白米面为主、蔬菜水果吃得少</td><td>全谷物、豆类、蔬菜、水果、菌菇</td></tr>
+            <tr><td>铁（女性）</td><td>月经流失，需要量比男性高</td><td>红肉、动物血和肝、深绿色蔬菜，搭配维生素 C 吸收更好</td></tr>
+            <tr><td>钾</td><td>蔬菜水果、薯类吃得少</td><td>蔬菜、水果、土豆、红薯、豆类</td></tr>
+            <tr><td>维生素 A</td><td>不吃深色蔬菜和蛋奶</td><td>胡萝卜、南瓜、红薯、菠菜、蛋黄</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted small mb-0">
+        相反，钠（盐）常常超标：一碗方便面就可能接近一天的上限。维生素 D 主要靠晒太阳在皮肤合成，食物中含量少、数据也不完整，所以本工具不计算维生素 D。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">参考摄入量一览（成人）</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center small">
+          <thead class="table-light"><tr><th>营养素</th><th>男性</th><th>女性</th></tr></thead>
+          <tbody>
+            <tr><td>蛋白质</td><td>{{ targets.protein.m[0] }} g</td><td>{{ targets.protein.f[0] }} g</td></tr>
+            <tr><td>膳食纤维</td><td colspan="2">{% if targets.fiber %}{{ targets.fiber.m[0] }} g 以上{% else %}每 1000 kcal 约 14 g{% endif %}</td></tr>
+            <tr><td>钙</td><td colspan="2">{{ targets.calcium.m[0] }} mg</td></tr>
+            <tr><td>铁</td><td>{{ targets.iron.m[0] }} mg</td><td>{{ targets.iron.f[0] }} mg（{{ targets.groups[1] }}起 {{ targets.iron.f[1] }} mg）</td></tr>
+            <tr><td>锌</td><td>{{ targets.zinc.m[0] }} mg</td><td>{{ targets.zinc.f[0] }} mg</td></tr>
+            <tr><td>镁</td><td>{{ targets.magnesium.m[0] }} mg</td><td>{{ targets.magnesium.f[0] }} mg</td></tr>
+            <tr><td>钾</td><td>{{ targets.potassium.m[0] }} mg</td><td>{{ targets.potassium.f[0] }} mg</td></tr>
+            <tr><td>维生素 A</td><td>{{ targets.vit_a.m[0] }} μg</td><td>{{ targets.vit_a.f[0] }} μg</td></tr>
+            <tr><td>维生素 C</td><td colspan="2">{{ targets.vit_c.m[0] }} mg</td></tr>
+            <tr><td>钠（上限）</td><td colspan="2">不超过 {{ targets.sodium_max }} mg（约 {{ '%.1f'|format(targets.sodium_max * 2.54 / 1000) }} g 盐）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted small mb-0">
+        {{ targets.groups[0] }}的数值；其他年龄段在工具里按你选择的年龄自动调整。{% if is_hant %}台湾的维生素 A 参考值以视网醇当量（RE）表示，本工具的食物数据按视网醇活性当量（RAE）计算，植物性食物的维生素 A 会显得稍低。{% endif %}
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+      <h3 class="h6 mt-3 mb-1">外卖和餐厅的菜怎么记录？</h3>
+      <p class="text-muted">按主要食材分开记录，例如“宫保鸡丁”可以记成鸡腿肉 1 份、花生 1 把、食用油 1 汤匙，再加食盐 3 克左右。餐厅的菜通常油盐偏多，可以多估一些。</p>
+      <h3 class="h6 mt-3 mb-1">结果显示缺钙，需要吃钙片吗？</h3>
+      <p class="text-muted">先从饮食补，每天 1–2 杯牛奶或酸奶、一块老豆腐，很容易就能接近目标。是否需要补充剂，请咨询医生或营养师，特别是孕期、更年期后或有骨质疏松风险的人。</p>
+      <h3 class="h6 mt-3 mb-1">为什么热量和我手机 App 算的不一样？</h3>
+      <p class="text-muted">不同数据库的数值和份量设定不同，米饭、面条这类主食的含水量差异也很大。看趋势和大致范围就好，不必追求精确到个位数。</p>
+      <hr class="my-3">
+      <p class="small text-muted mb-0">
+        数据来源：卫生福利部食品药物管理署“食品营养成分资料库”（政府资料开放授权条款第 1 版）；U.S. Department of Agriculture, FoodData Central, SR Legacy (2018)；{{ targets.source }}。
+        本工具仅供日常饮食参考，不能用于诊断营养缺乏；有疾病、怀孕或特殊饮食需求的人请咨询医生或注册营养师。
+      </p>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="ncFoods">{{ foods_json|safe }}</script>
+<script type="application/json" id="ncTargets">{{ targets_json|safe }}</script>
+
+<style>
+  .nc-results { position: absolute; left: 0; right: 0; top: 100%; z-index: 20; max-height: 300px; overflow-y: auto; display: none; }
+  .nc-results.show { display: block; }
+  .nc-row { display: grid; grid-template-columns: 1fr 74px 118px 30px; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 1px solid #eef2f6; }
+  .nc-row .nc-name { font-size: .92rem; }
+  .nc-row .nc-name small { color: #6b7280; display: block; font-size: .75rem; }
+  .nc-bar { height: 10px; border-radius: 5px; background: #eef2f6; overflow: hidden; }
+  .nc-bar > span { display: block; height: 100%; border-radius: 5px; }
+  .nc-chip { display: inline-block; padding: .15rem .55rem; border-radius: 999px; font-size: .8rem; margin: 0 .3rem .3rem 0; }
+  @media (max-width: 420px) { .nc-row { grid-template-columns: 1fr 62px 100px 26px; } }
+</style>
+
+<script>
+(function () {
+  var data = JSON.parse(document.getElementById('ncFoods').textContent);
+  var T = JSON.parse(document.getElementById('ncTargets').textContent);
+  var KEYS = data.keys, FOODS = data.foods, byId = {};
+  FOODS.forEach(function (f) { byId[f.id] = f; });
+  var IDX = {}; KEYS.forEach(function (k, i) { IDX[k] = i; });
+
+  var LABEL = { protein: '蛋白质', fiber: '膳食纤维', calcium: '钙', iron: '铁', zinc: '锌', magnesium: '镁',
+                potassium: '钾', vit_a: '维生素 A', vit_c: '维生素 C', sodium: '钠', fat: '脂肪', carbs: '碳水化合物' };
+  var UNIT = { protein: 'g', fiber: 'g', calcium: 'mg', iron: 'mg', zinc: 'mg', magnesium: 'mg', potassium: 'mg',
+               vit_a: 'μg', vit_c: 'mg', sodium: 'mg' };
+  var ORDER = ['protein', 'fiber', 'calcium', 'iron', 'zinc', 'magnesium', 'potassium', 'vit_a', 'vit_c'];
+  var STORE = 'calmy_nutrition_check_v1';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var items = [];
+
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify({ items: items, sex: $('ncSex').value, age: $('ncAge').value, kcal: $('ncKcal').value })); } catch (e) {}
+  }
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORE) || 'null');
+      if (!s) return;
+      items = (s.items || []).filter(function (it) { return byId[it.id]; });
+      if (s.sex) $('ncSex').value = s.sex;
+      if (s.age) $('ncAge').value = s.age;
+      if (s.kcal) $('ncKcal').value = s.kcal;
+    } catch (e) {}
+  }
+
+  function grams(it) {
+    var f = byId[it.id];
+    var unitG = it.unit === 'g' ? 1 : (f.u[it.unit] ? f.u[it.unit][1] : 1);
+    var q = parseFloat(it.qty);
+    return isFinite(q) && q > 0 ? q * unitG : 0;
+  }
+
+  function addFood(id) {
+    items.push({ id: id, qty: 1, unit: 0 });
+    $('ncSearch').value = ''; hideResults(); renderList(); calc(); save();
+  }
+
+  function renderList() {
+    var box = $('ncList');
+    box.innerHTML = '';
+    items.forEach(function (it, i) {
+      var f = byId[it.id];
+      var row = document.createElement('div');
+      row.className = 'nc-row';
+      var opts = f.u.map(function (u, j) { return '<option value="' + j + '"' + (String(it.unit) === String(j) ? ' selected' : '') + '>' + u[0] + '</option>'; }).join('')
+        + '<option value="g"' + (it.unit === 'g' ? ' selected' : '') + '>克</option>';
+      row.innerHTML = '<div class="nc-name">' + f.n + '<small>约 ' + Math.round(grams(it)) + ' g</small></div>'
+        + '<input class="form-control form-control-sm" inputmode="decimal" value="' + it.qty + '" aria-label="数量">'
+        + '<select class="form-select form-select-sm" aria-label="单位">' + opts + '</select>'
+        + '<button type="button" class="btn btn-sm btn-link text-danger p-0" aria-label="删除">✕</button>';
+      var inp = row.querySelector('input'), sel = row.querySelector('select'), del = row.querySelector('button');
+      inp.addEventListener('input', function () { it.qty = inp.value; row.querySelector('small').textContent = '约 ' + Math.round(grams(it)) + ' g'; calc(); save(); });
+      sel.addEventListener('change', function () { it.unit = sel.value === 'g' ? 'g' : parseInt(sel.value, 10); if (it.unit === 'g' && parseFloat(it.qty) < 10) { it.qty = 100; inp.value = 100; } row.querySelector('small').textContent = '约 ' + Math.round(grams(it)) + ' g'; calc(); save(); });
+      del.addEventListener('click', function () { items.splice(i, 1); renderList(); calc(); save(); });
+      box.appendChild(row);
+    });
+  }
+
+  function target(key, total) {
+    var sex = $('ncSex').value, age = parseInt($('ncAge').value, 10) || 0;
+    if (key === 'fiber' && !T.fiber) {
+      var kcalT = parseFloat($('ncKcal').value) || total.kcal || 2000;
+      return Math.max(20, Math.min(38, Math.round(14 * kcalT / 1000)));
+    }
+    var t = T[key];
+    return t ? t[sex][age] : null;
+  }
+
+  function fmt(v, key) {
+    if (key === 'iron' || key === 'zinc') return v.toFixed(1);
+    return Math.round(v).toLocaleString();
+  }
+
+  function calc() {
+    var total = {}; KEYS.forEach(function (k) { total[k] = 0; });
+    items.forEach(function (it) {
+      var f = byId[it.id], g = grams(it) / 100;
+      KEYS.forEach(function (k, i) { total[k] += f.v[i] * g; });
+    });
+    if (!items.length) { $('ncEmpty').classList.remove('d-none'); $('ncResult').classList.add('d-none'); return; }
+    $('ncEmpty').classList.add('d-none'); $('ncResult').classList.remove('d-none');
+
+    var kcalT = parseFloat($('ncKcal').value);
+    $('ncKcalTotal').innerHTML = Math.round(total.kcal).toLocaleString() + ' <span class="fs-5">kcal</span>'
+      + (kcalT > 0 ? ' <span class="fs-6 text-muted">/ 目标 ' + Math.round(kcalT) + '</span>' : '');
+    var e = total.kcal || 1;
+    var pP = Math.round(total.protein * 4 / e * 100), pF = Math.round(total.fat * 9 / e * 100), pC = Math.round(total.carbs * 4 / e * 100);
+    $('ncMacro').innerHTML = '蛋白质 ' + Math.round(total.protein) + ' g（' + pP + '%）<br>脂肪 ' + Math.round(total.fat) + ' g（' + pF + '%）<br>碳水 ' + Math.round(total.carbs) + ' g（' + pC + '%）';
+
+    var low = [], near = [], rows = '';
+    ORDER.forEach(function (k) {
+      var t = target(k, total); if (!t) return;
+      var pct = total[k] / t * 100, color, status;
+      if (pct >= 100) { color = '#22c55e'; status = '够了'; }
+      else if (pct >= 70) { color = '#f59e0b'; status = '接近'; near.push(k); }
+      else { color = '#ef4444'; status = '不足'; low.push(k); }
+      rows += '<tr><td>' + LABEL[k] + '</td><td class="text-end text-nowrap">' + fmt(total[k], k) + ' ' + UNIT[k] + '</td><td class="text-end text-nowrap text-muted">' + fmt(t, k) + '</td>'
+        + '<td><div class="d-flex align-items-center gap-2"><div class="nc-bar flex-grow-1"><span style="width:' + Math.min(100, pct).toFixed(0) + '%;background:' + color + '"></span></div><span class="small text-nowrap" style="color:' + color + '">' + Math.round(pct) + '% ' + status + '</span></div></td></tr>';
+    });
+    var na = total.sodium, naMax = T.sodium_max, naPct = na / naMax * 100;
+    var naColor = naPct > 100 ? '#ef4444' : '#22c55e';
+    rows += '<tr><td>钠（上限）</td><td class="text-end text-nowrap">' + fmt(na, 'sodium') + ' mg</td><td class="text-end text-nowrap text-muted">≤ ' + naMax + '</td>'
+      + '<td><div class="d-flex align-items-center gap-2"><div class="nc-bar flex-grow-1"><span style="width:' + Math.min(100, naPct).toFixed(0) + '%;background:' + naColor + '"></span></div><span class="small text-nowrap" style="color:' + naColor + '">' + Math.round(naPct) + '% ' + (naPct > 100 ? '超标' : '未超标') + '</span></div></td></tr>';
+    $('ncTable').innerHTML = rows;
+
+    var msg = [];
+    if (low.length) msg.push('<span class="nc-chip" style="background:#fee2e2;color:#991b1b">不足：' + low.map(function (k) { return LABEL[k]; }).join('、') + '</span>');
+    if (near.length) msg.push('<span class="nc-chip" style="background:#fef3c7;color:#92400e">接近：' + near.map(function (k) { return LABEL[k]; }).join('、') + '</span>');
+    if (naPct > 100) msg.push('<span class="nc-chip" style="background:#fee2e2;color:#991b1b">钠超标 ' + Math.round(naPct - 100) + '%</span>');
+    if (pF > T.fat_pct[1]) msg.push('<span class="nc-chip" style="background:#fef3c7;color:#92400e">脂肪供能 ' + pF + '%，高于 ' + T.fat_pct[1] + '%</span>');
+    if (!msg.length) msg.push('<span class="nc-chip" style="background:#dcfce7;color:#166534">各项营养素都达到参考值</span>');
+    $('ncSummary').innerHTML = msg.join('');
+
+    var sug = '';
+    low.concat(near).slice(0, 4).forEach(function (k) {
+      var i = IDX[k];
+      var best = FOODS.filter(function (f) { return f.r && (f.g !== '坚果油脂' || k === 'magnesium' || k === 'zinc' || k === 'iron'); })
+        .map(function (f) { return { f: f, amt: f.v[i] * f.u[0][1] / 100 }; })
+        .sort(function (a, b) { return b.amt - a.amt; }).slice(0, 4);
+      sug += '<div class="mb-2"><b>' + LABEL[k] + '</b> <span class="text-muted small">可以多吃：</span>'
+        + best.map(function (b) { return '<button type="button" class="btn btn-sm btn-outline-success py-0 px-2 me-1 mb-1 nc-add" data-id="' + b.f.id + '">' + b.f.n + ' 1' + b.f.u[0][0] + '（' + fmt(b.amt, k) + ' ' + UNIT[k] + '）</button>'; }).join('') + '</div>';
+    });
+    $('ncSuggest').innerHTML = sug ? '<h2 class="h6 mb-2">怎么补？（点一下就加入清单）</h2>' + sug : '';
+    Array.prototype.forEach.call(document.querySelectorAll('.nc-add'), function (b) {
+      b.addEventListener('click', function () { addFood(parseInt(b.getAttribute('data-id'), 10)); });
+    });
+  }
+
+  // 搜索
+  function hideResults() { $('ncResults').classList.remove('show'); }
+  function showResults(list) {
+    var box = $('ncResults');
+    if (!list.length) { box.innerHTML = '<div class="list-group-item small text-muted">没有找到，试试更常见的叫法</div>'; box.classList.add('show'); return; }
+    box.innerHTML = list.slice(0, 12).map(function (f) {
+      return '<button type="button" class="list-group-item list-group-item-action py-2" data-id="' + f.id + '">' + f.n + ' <span class="small text-muted">· ' + f.g + ' · 1' + f.u[0][0] + ' ≈ ' + f.u[0][1] + ' g</span></button>';
+    }).join('');
+    box.classList.add('show');
+    Array.prototype.forEach.call(box.querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () { addFood(parseInt(b.getAttribute('data-id'), 10)); });
+    });
+  }
+  $('ncSearch').addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    if (!q) { hideResults(); return; }
+    // 排序：名称开头匹配 > 名称包含 > 别名包含
+    var rank = function (f) { var n = f.n.toLowerCase(); return n.indexOf(q) === 0 ? 0 : n.indexOf(q) > 0 ? 1 : 2; };
+    showResults(FOODS.filter(function (f) { return (f.n + ' ' + f.a).toLowerCase().indexOf(q) >= 0; })
+      .sort(function (a, b) { return rank(a) - rank(b); }));
+  });
+  $('ncSearch').addEventListener('focus', function () { if (this.value.trim()) this.dispatchEvent(new Event('input')); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('#ncResults') && e.target.id !== 'ncSearch') hideResults(); });
+
+  // 分类快捷浏览
+  var groups = []; FOODS.forEach(function (f) { if (groups.indexOf(f.g) < 0) groups.push(f.g); });
+  $('ncGroups').innerHTML = '<span class="text-muted">按类别浏览：</span>' + groups.map(function (g) { return '<a href="#" data-g="' + g + '">' + g + '</a>'; }).join(' · ');
+  Array.prototype.forEach.call($('ncGroups').querySelectorAll('a'), function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); var g = a.getAttribute('data-g'); showResults(FOODS.filter(function (f) { return f.g === g; })); $('ncResults').scrollTop = 0; });
+  });
+
+  ['ncSex', 'ncAge', 'ncKcal'].forEach(function (id) { $(id).addEventListener(id === 'ncKcal' ? 'input' : 'change', function () { calc(); save(); }); });
+  $('ncClear').addEventListener('click', function () { items = []; renderList(); calc(); save(); });
+  $('ncExample').addEventListener('click', function () {
+    var pick = function (name) { for (var i = 0; i < FOODS.length; i++) if (FOODS[i].n === name) return FOODS[i].id; };
+    items = [['馒头', 1], ['豆浆（含糖）', 1], ['茶叶蛋', 1], ['白米饭', 2], ['猪肉末（熟）', 0.5], ['大白菜', 1.5], ['食用油（大豆油）', 2], ['食盐', 5], ['火腿炒饭', 1], ['珍珠奶茶（半糖）', 1], ['苹果', 1]]
+      .map(function (p) { return { id: pick(p[0]), qty: p[1], unit: 0 }; }).filter(function (it) { return it.id; });
+    renderList(); calc(); save();
+  });
+
+  load(); renderList(); calc();
+})();
+</script>
+
+{% endblock %}
