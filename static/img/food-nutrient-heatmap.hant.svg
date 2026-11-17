@@ -1,0 +1,1677 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 866 1875" width="866" height="1875" font-family="'PingFang TC','Microsoft JhengHei','Noto Sans TC','Noto Sans CJK TC',sans-serif" role="img">
+<title>109 種食物營養素熱圖（層次聚類）</title>
+<desc>按營養組成相似度排序的食物營養素熱圖，左側為聚類樹狀圖。</desc>
+<rect width="866" height="1875" fill="#ffffff"/>
+<text x="20.0" y="40.0" font-size="24" fill="#1f2937" text-anchor="start" font-weight="bold">食物營養素熱圖與聚類樹</text>
+<text x="20.0" y="66.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">顏色越深 = 每 100 kcal 提供的該營養素越多（鈉為紅色，越深越高）；左側樹狀圖把營養組成相似的食物連在一起</text>
+<text x="330.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 330.0 130)">蛋白質</text>
+<text x="374.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 374.0 130)">膳食纖維</text>
+<text x="418.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 418.0 130)">鉀</text>
+<text x="462.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 462.0 130)">鈣</text>
+<text x="506.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 506.0 130)">鐵</text>
+<text x="550.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 550.0 130)">鎂</text>
+<text x="594.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 594.0 130)">鋅</text>
+<text x="638.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 638.0 130)">維生素A</text>
+<text x="682.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 682.0 130)">維生素C</text>
+<text x="726.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 726.0 130)">鈉</text>
+<text x="770.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 770.0 130)">脂肪供能比</text>
+<text x="814.0" y="130.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-50 814.0 130)">碳水供能比</text>
+<polyline points="170.0,162.5 160.0,162.5 160.0,177.5 170.0,177.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,207.5 161.9,207.5 161.9,222.5 170.0,222.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,192.5 157.8,192.5 157.8,215.0 161.9,215.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,252.5 163.7,252.5 163.7,267.5 170.0,267.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,237.5 156.0,237.5 156.0,260.0 163.7,260.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="157.8,203.8 154.8,203.8 154.8,248.8 156.0,248.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="160.0,170.0 153.3,170.0 153.3,226.2 154.8,226.2" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,147.5 149.9,147.5 149.9,198.1 153.3,198.1" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,297.5 161.2,297.5 161.2,312.5 170.0,312.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,327.5 157.4,327.5 157.4,342.5 170.0,342.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="161.2,305.0 153.8,305.0 153.8,335.0 157.4,335.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,282.5 141.3,282.5 141.3,320.0 153.8,320.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="149.9,172.8 127.6,172.8 127.6,301.2 141.3,301.2" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,372.5 158.6,372.5 158.6,387.5 170.0,387.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,357.5 154.8,357.5 154.8,380.0 158.6,380.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,402.5 143.5,402.5 143.5,417.5 170.0,417.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="154.8,368.8 126.9,368.8 126.9,410.0 143.5,410.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="127.6,237.0 111.0,237.0 111.0,389.4 126.9,389.4" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,432.5 158.9,432.5 158.9,447.5 170.0,447.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,492.5 162.3,492.5 162.3,507.5 170.0,507.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,477.5 161.7,477.5 161.7,500.0 162.3,500.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,462.5 157.7,462.5 157.7,488.8 161.7,488.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="158.9,440.0 146.8,440.0 146.8,475.6 157.7,475.6" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,537.5 165.6,537.5 165.6,552.5 170.0,552.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,522.5 163.8,522.5 163.8,545.0 165.6,545.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,567.5 163.3,567.5 163.3,582.5 170.0,582.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="163.8,533.8 159.4,533.8 159.4,575.0 163.3,575.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,612.5 162.1,612.5 162.1,627.5 170.0,627.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,657.5 157.7,657.5 157.7,672.5 170.0,672.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,642.5 154.1,642.5 154.1,665.0 157.7,665.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="162.1,620.0 153.4,620.0 153.4,653.8 154.1,653.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,597.5 147.2,597.5 147.2,636.9 153.4,636.9" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="159.4,554.4 139.2,554.4 139.2,617.2 147.2,617.2" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="146.8,457.8 135.1,457.8 135.1,585.8 139.2,585.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,687.5 165.2,687.5 165.2,702.5 170.0,702.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,732.5 167.0,732.5 167.0,747.5 170.0,747.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,717.5 163.7,717.5 163.7,740.0 167.0,740.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="165.2,695.0 158.7,695.0 158.7,728.8 163.7,728.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,762.5 163.6,762.5 163.6,777.5 170.0,777.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,822.5 165.7,822.5 165.7,837.5 170.0,837.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,807.5 164.4,807.5 164.4,830.0 165.7,830.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,792.5 156.3,792.5 156.3,818.8 164.4,818.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="163.6,770.0 151.8,770.0 151.8,805.6 156.3,805.6" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="158.7,711.9 149.1,711.9 149.1,787.8 151.8,787.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,852.5 163.7,852.5 163.7,867.5 170.0,867.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,897.5 165.8,897.5 165.8,912.5 170.0,912.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,882.5 162.7,882.5 162.7,905.0 165.8,905.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="163.7,860.0 159.0,860.0 159.0,893.8 162.7,893.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,942.5 165.9,942.5 165.9,957.5 170.0,957.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,927.5 160.3,927.5 160.3,950.0 165.9,950.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,987.5 162.6,987.5 162.6,1002.5 170.0,1002.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,972.5 153.5,972.5 153.5,995.0 162.6,995.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="160.3,938.8 152.2,938.8 152.2,983.8 153.5,983.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="159.0,876.9 137.7,876.9 137.7,961.2 152.2,961.2" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="149.1,749.8 132.2,749.8 132.2,919.1 137.7,919.1" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="135.1,521.8 115.4,521.8 115.4,834.5 132.2,834.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1017.5 161.6,1017.5 161.6,1032.5 170.0,1032.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1062.5 165.8,1062.5 165.8,1077.5 170.0,1077.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1047.5 165.4,1047.5 165.4,1070.0 165.8,1070.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1107.5 164.6,1107.5 164.6,1122.5 170.0,1122.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1092.5 161.0,1092.5 161.0,1115.0 164.6,1115.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="165.4,1058.8 159.8,1058.8 159.8,1103.8 161.0,1103.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="161.6,1025.0 153.4,1025.0 153.4,1081.2 159.8,1081.2" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1137.5 163.7,1137.5 163.7,1152.5 170.0,1152.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1182.5 167.5,1182.5 167.5,1197.5 170.0,1197.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1167.5 164.8,1167.5 164.8,1190.0 167.5,1190.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1227.5 166.4,1227.5 166.4,1242.5 170.0,1242.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1212.5 162.8,1212.5 162.8,1235.0 166.4,1235.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="164.8,1178.8 159.5,1178.8 159.5,1223.8 162.8,1223.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="163.7,1145.0 157.7,1145.0 157.7,1201.2 159.5,1201.2" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1272.5 162.0,1272.5 162.0,1287.5 170.0,1287.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1257.5 157.7,1257.5 157.7,1280.0 162.0,1280.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="157.7,1173.1 151.3,1173.1 151.3,1268.8 157.7,1268.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="153.4,1053.1 137.5,1053.1 137.5,1220.9 151.3,1220.9" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1332.5 164.8,1332.5 164.8,1347.5 170.0,1347.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1317.5 161.3,1317.5 161.3,1340.0 164.8,1340.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1302.5 159.0,1302.5 159.0,1328.8 161.3,1328.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1392.5 167.3,1392.5 167.3,1407.5 170.0,1407.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1377.5 166.2,1377.5 166.2,1400.0 167.3,1400.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1362.5 164.7,1362.5 164.7,1388.8 166.2,1388.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1452.5 167.4,1452.5 167.4,1467.5 170.0,1467.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1437.5 165.5,1437.5 165.5,1460.0 167.4,1460.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1422.5 164.5,1422.5 164.5,1448.8 165.5,1448.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="164.7,1375.6 161.8,1375.6 161.8,1435.6 164.5,1435.6" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1542.5 166.4,1542.5 166.4,1557.5 170.0,1557.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1527.5 166.3,1527.5 166.3,1550.0 166.4,1550.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1512.5 163.7,1512.5 163.7,1538.8 166.3,1538.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1497.5 162.3,1497.5 162.3,1525.6 163.7,1525.6" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1482.5 161.1,1482.5 161.1,1511.6 162.3,1511.6" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="161.8,1405.6 158.3,1405.6 158.3,1497.0 161.1,1497.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="159.0,1315.6 155.0,1315.6 155.0,1451.3 158.3,1451.3" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1572.5 169.8,1572.5 169.8,1587.5 170.0,1587.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1602.5 164.2,1602.5 164.2,1617.5 170.0,1617.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1632.5 163.4,1632.5 163.4,1647.5 170.0,1647.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="164.2,1610.0 160.6,1610.0 160.6,1640.0 163.4,1640.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="169.8,1580.0 149.6,1580.0 149.6,1625.0 160.6,1625.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1692.5 164.0,1692.5 164.0,1707.5 170.0,1707.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1677.5 161.9,1677.5 161.9,1700.0 164.0,1700.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1722.5 166.3,1722.5 166.3,1737.5 170.0,1737.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1752.5 163.5,1752.5 163.5,1767.5 170.0,1767.5" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="166.3,1730.0 160.0,1730.0 160.0,1760.0 163.5,1760.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="161.9,1688.8 153.6,1688.8 153.6,1745.0 160.0,1745.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="170.0,1662.5 146.0,1662.5 146.0,1716.9 153.6,1716.9" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="149.6,1602.5 138.5,1602.5 138.5,1689.7 146.0,1689.7" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="155.0,1383.5 134.9,1383.5 134.9,1646.1 138.5,1646.1" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="137.5,1137.0 87.1,1137.0 87.1,1514.8 134.9,1514.8" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="115.4,678.1 73.1,678.1 73.1,1325.9 87.1,1325.9" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<polyline points="111.0,313.2 20.0,313.2 20.0,1002.0 73.1,1002.0" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<rect x="172" y="142" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="151.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">秋葵</text>
+<rect x="308" y="140" width="43" height="14" fill="#5caa86"/>
+<rect x="352" y="140" width="43" height="14" fill="#198754"/>
+<rect x="396" y="140" width="43" height="14" fill="#469e75"/>
+<rect x="440" y="140" width="43" height="14" fill="#198754"/>
+<rect x="484" y="140" width="43" height="14" fill="#5aa984"/>
+<rect x="528" y="140" width="43" height="14" fill="#198754"/>
+<rect x="572" y="140" width="43" height="14" fill="#198754"/>
+<rect x="616" y="140" width="43" height="14" fill="#409b71"/>
+<rect x="660" y="140" width="43" height="14" fill="#6db292"/>
+<rect x="704" y="140" width="43" height="14" fill="#f7dbda"/>
+<rect x="748" y="140" width="43" height="14" fill="#f8fafd"/>
+<rect x="792" y="140" width="43" height="14" fill="#5f88d2"/>
+<rect x="172" y="157" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="166.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">大白菜</text>
+<rect x="308" y="155" width="43" height="14" fill="#419c72"/>
+<rect x="352" y="155" width="43" height="14" fill="#3c996e"/>
+<rect x="396" y="155" width="43" height="14" fill="#198754"/>
+<rect x="440" y="155" width="43" height="14" fill="#198754"/>
+<rect x="484" y="155" width="43" height="14" fill="#2c9162"/>
+<rect x="528" y="155" width="43" height="14" fill="#3a986c"/>
+<rect x="572" y="155" width="43" height="14" fill="#198754"/>
+<rect x="616" y="155" width="43" height="14" fill="#f1f8f5"/>
+<rect x="660" y="155" width="43" height="14" fill="#1e8957"/>
+<rect x="704" y="155" width="43" height="14" fill="#eaa19f"/>
+<rect x="748" y="155" width="43" height="14" fill="#eff3fa"/>
+<rect x="792" y="155" width="43" height="14" fill="#779ad9"/>
+<rect x="172" y="172" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="181.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">綠豆芽</text>
+<rect x="308" y="170" width="43" height="14" fill="#38976b"/>
+<rect x="352" y="170" width="43" height="14" fill="#54a680"/>
+<rect x="396" y="170" width="43" height="14" fill="#53a57f"/>
+<rect x="440" y="170" width="43" height="14" fill="#2d9163"/>
+<rect x="484" y="170" width="43" height="14" fill="#349568"/>
+<rect x="528" y="170" width="43" height="14" fill="#55a681"/>
+<rect x="572" y="170" width="43" height="14" fill="#4ba179"/>
+<rect x="616" y="170" width="43" height="14" fill="#fbfdfc"/>
+<rect x="660" y="170" width="43" height="14" fill="#77b89a"/>
+<rect x="704" y="170" width="43" height="14" fill="#efb8b7"/>
+<rect x="748" y="170" width="43" height="14" fill="#ecf1f9"/>
+<rect x="792" y="170" width="43" height="14" fill="#81a2db"/>
+<rect x="172" y="187" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="196.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">生菜</text>
+<rect x="308" y="185" width="43" height="14" fill="#6ab190"/>
+<rect x="352" y="185" width="43" height="14" fill="#3a986c"/>
+<rect x="396" y="185" width="43" height="14" fill="#2c9162"/>
+<rect x="440" y="185" width="43" height="14" fill="#6bb191"/>
+<rect x="484" y="185" width="43" height="14" fill="#4ca27a"/>
+<rect x="528" y="185" width="43" height="14" fill="#6db292"/>
+<rect x="572" y="185" width="43" height="14" fill="#65ae8c"/>
+<rect x="616" y="185" width="43" height="14" fill="#76b799"/>
+<rect x="660" y="185" width="43" height="14" fill="#94c7af"/>
+<rect x="704" y="185" width="43" height="14" fill="#f0bcba"/>
+<rect x="748" y="185" width="43" height="14" fill="#eff3fa"/>
+<rect x="792" y="185" width="43" height="14" fill="#668ed4"/>
+<rect x="172" y="202" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="211.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">捲心菜</text>
+<rect x="308" y="200" width="43" height="14" fill="#7cba9d"/>
+<rect x="352" y="200" width="43" height="14" fill="#2d9163"/>
+<rect x="396" y="200" width="43" height="14" fill="#4ba179"/>
+<rect x="440" y="200" width="43" height="14" fill="#59a883"/>
+<rect x="484" y="200" width="43" height="14" fill="#72b596"/>
+<rect x="528" y="200" width="43" height="14" fill="#70b495"/>
+<rect x="572" y="200" width="43" height="14" fill="#85bfa4"/>
+<rect x="616" y="200" width="43" height="14" fill="#dcede5"/>
+<rect x="660" y="200" width="43" height="14" fill="#1d8957"/>
+<rect x="704" y="200" width="43" height="14" fill="#f0bbba"/>
+<rect x="748" y="200" width="43" height="14" fill="#f6f8fc"/>
+<rect x="792" y="200" width="43" height="14" fill="#5984d0"/>
+<rect x="172" y="217" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="226.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">青花菜</text>
+<rect x="308" y="215" width="43" height="14" fill="#54a57f"/>
+<rect x="352" y="215" width="43" height="14" fill="#439d73"/>
+<rect x="396" y="215" width="43" height="14" fill="#339467"/>
+<rect x="440" y="215" width="43" height="14" fill="#65ae8c"/>
+<rect x="484" y="215" width="43" height="14" fill="#67b08e"/>
+<rect x="528" y="215" width="43" height="14" fill="#5caa86"/>
+<rect x="572" y="215" width="43" height="14" fill="#5aa985"/>
+<rect x="616" y="215" width="43" height="14" fill="#9eccb7"/>
+<rect x="660" y="215" width="43" height="14" fill="#198754"/>
+<rect x="704" y="215" width="43" height="14" fill="#ecacaa"/>
+<rect x="748" y="215" width="43" height="14" fill="#e6edf8"/>
+<rect x="792" y="215" width="43" height="14" fill="#789bd9"/>
+<rect x="172" y="232" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="241.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">黃瓜</text>
+<rect x="308" y="230" width="43" height="14" fill="#79b99b"/>
+<rect x="352" y="230" width="43" height="14" fill="#78b99b"/>
+<rect x="396" y="230" width="43" height="14" fill="#369669"/>
+<rect x="440" y="230" width="43" height="14" fill="#73b697"/>
+<rect x="484" y="230" width="43" height="14" fill="#198754"/>
+<rect x="528" y="230" width="43" height="14" fill="#5caa86"/>
+<rect x="572" y="230" width="43" height="14" fill="#449d74"/>
+<rect x="616" y="230" width="43" height="14" fill="#c2dfd2"/>
+<rect x="660" y="230" width="43" height="14" fill="#59a883"/>
+<rect x="704" y="230" width="43" height="14" fill="#f9e4e3"/>
+<rect x="748" y="230" width="43" height="14" fill="#eef2fa"/>
+<rect x="792" y="230" width="43" height="14" fill="#6089d2"/>
+<rect x="172" y="247" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="256.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">茄子</text>
+<rect x="308" y="245" width="43" height="14" fill="#70b494"/>
+<rect x="352" y="245" width="43" height="14" fill="#198754"/>
+<rect x="396" y="245" width="43" height="14" fill="#258d5d"/>
+<rect x="440" y="245" width="43" height="14" fill="#8ec4ab"/>
+<rect x="484" y="245" width="43" height="14" fill="#6db392"/>
+<rect x="528" y="245" width="43" height="14" fill="#4ba179"/>
+<rect x="572" y="245" width="43" height="14" fill="#479f76"/>
+<rect x="616" y="245" width="43" height="14" fill="#f9fcfb"/>
+<rect x="660" y="245" width="43" height="14" fill="#86c0a5"/>
+<rect x="704" y="245" width="43" height="14" fill="#fcf2f2"/>
+<rect x="748" y="245" width="43" height="14" fill="#ecf1f9"/>
+<rect x="792" y="245" width="43" height="14" fill="#5f88d2"/>
+<rect x="172" y="262" width="4" height="12" fill="#5fa83b"/>
+<text x="180.0" y="271.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">四季豆</text>
+<rect x="308" y="260" width="43" height="14" fill="#68b08f"/>
+<rect x="352" y="260" width="43" height="14" fill="#439d73"/>
+<rect x="396" y="260" width="43" height="14" fill="#449d74"/>
+<rect x="440" y="260" width="43" height="14" fill="#5caa86"/>
+<rect x="484" y="260" width="43" height="14" fill="#61ac89"/>
+<rect x="528" y="260" width="43" height="14" fill="#419c72"/>
+<rect x="572" y="260" width="43" height="14" fill="#449d74"/>
+<rect x="616" y="260" width="43" height="14" fill="#dfeee7"/>
+<rect x="660" y="260" width="43" height="14" fill="#66af8d"/>
+<rect x="704" y="260" width="43" height="14" fill="#faeceb"/>
+<rect x="748" y="260" width="43" height="14" fill="#eef2fa"/>
+<rect x="792" y="260" width="43" height="14" fill="#6990d5"/>
+<rect x="172" y="277" width="4" height="12" fill="#f08c2e"/>
+<text x="180.0" y="286.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">空心菜</text>
+<rect x="308" y="275" width="43" height="14" fill="#228b5a"/>
+<rect x="352" y="275" width="43" height="14" fill="#198754"/>
+<rect x="396" y="275" width="43" height="14" fill="#198754"/>
+<rect x="440" y="275" width="43" height="14" fill="#329466"/>
+<rect x="484" y="275" width="43" height="14" fill="#198754"/>
+<rect x="528" y="275" width="43" height="14" fill="#329467"/>
+<rect x="572" y="275" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="275" width="43" height="14" fill="#198754"/>
+<rect x="660" y="275" width="43" height="14" fill="#359568"/>
+<rect x="704" y="275" width="43" height="14" fill="#e17774"/>
+<rect x="748" y="275" width="43" height="14" fill="#d2def2"/>
+<rect x="792" y="275" width="43" height="14" fill="#9cb6e3"/>
+<rect x="172" y="292" width="4" height="12" fill="#f08c2e"/>
+<text x="180.0" y="301.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">番茄</text>
+<rect x="308" y="290" width="43" height="14" fill="#83bea3"/>
+<rect x="352" y="290" width="43" height="14" fill="#58a883"/>
+<rect x="396" y="290" width="43" height="14" fill="#198754"/>
+<rect x="440" y="290" width="43" height="14" fill="#a2ceb9"/>
+<rect x="484" y="290" width="43" height="14" fill="#77b89a"/>
+<rect x="528" y="290" width="43" height="14" fill="#68b08f"/>
+<rect x="572" y="290" width="43" height="14" fill="#37976a"/>
+<rect x="616" y="290" width="43" height="14" fill="#319366"/>
+<rect x="660" y="290" width="43" height="14" fill="#419c72"/>
+<rect x="704" y="290" width="43" height="14" fill="#fbf0f0"/>
+<rect x="748" y="290" width="43" height="14" fill="#f2f5fb"/>
+<rect x="792" y="290" width="43" height="14" fill="#5782cf"/>
+<rect x="172" y="307" width="4" height="12" fill="#f08c2e"/>
+<text x="180.0" y="316.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">南瓜</text>
+<rect x="308" y="305" width="43" height="14" fill="#99cab3"/>
+<rect x="352" y="305" width="43" height="14" fill="#5eab87"/>
+<rect x="396" y="305" width="43" height="14" fill="#228b5a"/>
+<rect x="440" y="305" width="43" height="14" fill="#92c6ae"/>
+<rect x="484" y="305" width="43" height="14" fill="#4fa37c"/>
+<rect x="528" y="305" width="43" height="14" fill="#75b798"/>
+<rect x="572" y="305" width="43" height="14" fill="#5fab88"/>
+<rect x="616" y="305" width="43" height="14" fill="#198754"/>
+<rect x="660" y="305" width="43" height="14" fill="#8bc2a9"/>
+<rect x="704" y="305" width="43" height="14" fill="#fdf8f8"/>
+<rect x="748" y="305" width="43" height="14" fill="#f4f7fb"/>
+<rect x="792" y="305" width="43" height="14" fill="#4e7ccd"/>
+<rect x="172" y="322" width="4" height="12" fill="#f08c2e"/>
+<text x="180.0" y="331.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">地瓜</text>
+<rect x="308" y="320" width="43" height="14" fill="#b5d8c8"/>
+<rect x="352" y="320" width="43" height="14" fill="#7cba9d"/>
+<rect x="396" y="320" width="43" height="14" fill="#5eab87"/>
+<rect x="440" y="320" width="43" height="14" fill="#b4d8c7"/>
+<rect x="484" y="320" width="43" height="14" fill="#b0d5c4"/>
+<rect x="528" y="320" width="43" height="14" fill="#92c6ae"/>
+<rect x="572" y="320" width="43" height="14" fill="#b3d7c7"/>
+<rect x="616" y="320" width="43" height="14" fill="#198754"/>
+<rect x="660" y="320" width="43" height="14" fill="#8fc5ac"/>
+<rect x="704" y="320" width="43" height="14" fill="#f5d4d3"/>
+<rect x="748" y="320" width="43" height="14" fill="#fcfcfe"/>
+<rect x="792" y="320" width="43" height="14" fill="#4173c9"/>
+<rect x="172" y="337" width="4" height="12" fill="#f08c2e"/>
+<text x="180.0" y="346.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">胡蘿蔔</text>
+<rect x="308" y="335" width="43" height="14" fill="#a1ceb9"/>
+<rect x="352" y="335" width="43" height="14" fill="#3b996d"/>
+<rect x="396" y="335" width="43" height="14" fill="#3b996d"/>
+<rect x="440" y="335" width="43" height="14" fill="#82bea2"/>
+<rect x="484" y="335" width="43" height="14" fill="#80bda1"/>
+<rect x="528" y="335" width="43" height="14" fill="#7dbb9e"/>
+<rect x="572" y="335" width="43" height="14" fill="#70b495"/>
+<rect x="616" y="335" width="43" height="14" fill="#198754"/>
+<rect x="660" y="335" width="43" height="14" fill="#9fcdb7"/>
+<rect x="704" y="335" width="43" height="14" fill="#e17976"/>
+<rect x="748" y="335" width="43" height="14" fill="#f2f5fb"/>
+<rect x="792" y="335" width="43" height="14" fill="#4c7acc"/>
+<rect x="172" y="352" width="4" height="12" fill="#1d7a3e"/>
+<text x="180.0" y="361.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">菠菜</text>
+<rect x="308" y="350" width="43" height="14" fill="#198754"/>
+<rect x="352" y="350" width="43" height="14" fill="#198754"/>
+<rect x="396" y="350" width="43" height="14" fill="#198754"/>
+<rect x="440" y="350" width="43" height="14" fill="#198754"/>
+<rect x="484" y="350" width="43" height="14" fill="#198754"/>
+<rect x="528" y="350" width="43" height="14" fill="#198754"/>
+<rect x="572" y="350" width="43" height="14" fill="#198754"/>
+<rect x="616" y="350" width="43" height="14" fill="#198754"/>
+<rect x="660" y="350" width="43" height="14" fill="#3e9a70"/>
+<rect x="704" y="350" width="43" height="14" fill="#db5c58"/>
+<rect x="748" y="350" width="43" height="14" fill="#dbe4f5"/>
+<rect x="792" y="350" width="43" height="14" fill="#9fb8e4"/>
+<rect x="172" y="367" width="4" height="12" fill="#1d7a3e"/>
+<text x="180.0" y="376.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">地瓜葉</text>
+<rect x="308" y="365" width="43" height="14" fill="#1c8856"/>
+<rect x="352" y="365" width="43" height="14" fill="#198754"/>
+<rect x="396" y="365" width="43" height="14" fill="#198754"/>
+<rect x="440" y="365" width="43" height="14" fill="#198754"/>
+<rect x="484" y="365" width="43" height="14" fill="#198754"/>
+<rect x="528" y="365" width="43" height="14" fill="#198754"/>
+<rect x="572" y="365" width="43" height="14" fill="#1e8a58"/>
+<rect x="616" y="365" width="43" height="14" fill="#198754"/>
+<rect x="660" y="365" width="43" height="14" fill="#298f5f"/>
+<rect x="704" y="365" width="43" height="14" fill="#e48583"/>
+<rect x="748" y="365" width="43" height="14" fill="#e8eef8"/>
+<rect x="792" y="365" width="43" height="14" fill="#8facdf"/>
+<rect x="172" y="382" width="4" height="12" fill="#1d7a3e"/>
+<text x="180.0" y="391.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">小白菜</text>
+<rect x="308" y="380" width="43" height="14" fill="#39976b"/>
+<rect x="352" y="380" width="43" height="14" fill="#198754"/>
+<rect x="396" y="380" width="43" height="14" fill="#198754"/>
+<rect x="440" y="380" width="43" height="14" fill="#198754"/>
+<rect x="484" y="380" width="43" height="14" fill="#198754"/>
+<rect x="528" y="380" width="43" height="14" fill="#198754"/>
+<rect x="572" y="380" width="43" height="14" fill="#198754"/>
+<rect x="616" y="380" width="43" height="14" fill="#37966a"/>
+<rect x="660" y="380" width="43" height="14" fill="#198754"/>
+<rect x="704" y="380" width="43" height="14" fill="#d64541"/>
+<rect x="748" y="380" width="43" height="14" fill="#eef2fa"/>
+<rect x="792" y="380" width="43" height="14" fill="#7b9dda"/>
+<rect x="172" y="397" width="4" height="12" fill="#23978f"/>
+<text x="180.0" y="406.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">裙帶菜</text>
+<rect x="308" y="395" width="43" height="14" fill="#67af8e"/>
+<rect x="352" y="395" width="43" height="14" fill="#c2dfd1"/>
+<rect x="396" y="395" width="43" height="14" fill="#bddcce"/>
+<rect x="440" y="395" width="43" height="14" fill="#198754"/>
+<rect x="484" y="395" width="43" height="14" fill="#1d8957"/>
+<rect x="528" y="395" width="43" height="14" fill="#198754"/>
+<rect x="572" y="395" width="43" height="14" fill="#79b99b"/>
+<rect x="616" y="395" width="43" height="14" fill="#c5e1d4"/>
+<rect x="660" y="395" width="43" height="14" fill="#c6e1d5"/>
+<rect x="704" y="395" width="43" height="14" fill="#d64541"/>
+<rect x="748" y="395" width="43" height="14" fill="#e3eaf7"/>
+<rect x="792" y="395" width="43" height="14" fill="#7196d7"/>
+<rect x="172" y="412" width="4" height="12" fill="#23978f"/>
+<text x="180.0" y="421.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">紫菜</text>
+<rect x="308" y="410" width="43" height="14" fill="#258d5d"/>
+<rect x="352" y="410" width="43" height="14" fill="#198754"/>
+<rect x="396" y="410" width="43" height="14" fill="#198754"/>
+<rect x="440" y="410" width="43" height="14" fill="#58a883"/>
+<rect x="484" y="410" width="43" height="14" fill="#198754"/>
+<rect x="528" y="410" width="43" height="14" fill="#198754"/>
+<rect x="572" y="410" width="43" height="14" fill="#38976b"/>
+<rect x="616" y="410" width="43" height="14" fill="#f1f7f4"/>
+<rect x="660" y="410" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="410" width="43" height="14" fill="#d64541"/>
+<rect x="748" y="410" width="43" height="14" fill="#f7f9fc"/>
+<rect x="792" y="410" width="43" height="14" fill="#7e9fda"/>
+<rect x="172" y="427" width="4" height="12" fill="#9a6b3f"/>
+<text x="180.0" y="436.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">毛豆</text>
+<rect x="308" y="425" width="43" height="14" fill="#2a9061"/>
+<rect x="352" y="425" width="43" height="14" fill="#5daa87"/>
+<rect x="396" y="425" width="43" height="14" fill="#59a884"/>
+<rect x="440" y="425" width="43" height="14" fill="#badbcc"/>
+<rect x="484" y="425" width="43" height="14" fill="#459e74"/>
+<rect x="528" y="425" width="43" height="14" fill="#64ae8b"/>
+<rect x="572" y="425" width="43" height="14" fill="#359568"/>
+<rect x="616" y="425" width="43" height="14" fill="#f6faf8"/>
+<rect x="660" y="425" width="43" height="14" fill="#95c8b0"/>
+<rect x="704" y="425" width="43" height="14" fill="#fefdfd"/>
+<rect x="748" y="425" width="43" height="14" fill="#c3d2ee"/>
+<rect x="792" y="425" width="43" height="14" fill="#b3c6e9"/>
+<rect x="172" y="442" width="4" height="12" fill="#9a6b3f"/>
+<text x="180.0" y="451.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">金針菇</text>
+<rect x="308" y="440" width="43" height="14" fill="#58a782"/>
+<rect x="352" y="440" width="43" height="14" fill="#4ba179"/>
+<rect x="396" y="440" width="43" height="14" fill="#218b5a"/>
+<rect x="440" y="440" width="43" height="14" fill="#f7fbf9"/>
+<rect x="484" y="440" width="43" height="14" fill="#53a57f"/>
+<rect x="528" y="440" width="43" height="14" fill="#7fbca0"/>
+<rect x="572" y="440" width="43" height="14" fill="#349568"/>
+<rect x="616" y="440" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="440" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="440" width="43" height="14" fill="#fdf7f7"/>
+<rect x="748" y="440" width="43" height="14" fill="#edf1f9"/>
+<rect x="792" y="440" width="43" height="14" fill="#6e94d6"/>
+<rect x="172" y="457" width="4" height="12" fill="#9a6b3f"/>
+<text x="180.0" y="466.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">香菇</text>
+<rect x="308" y="455" width="43" height="14" fill="#a7d1bd"/>
+<rect x="352" y="455" width="43" height="14" fill="#7aba9c"/>
+<rect x="396" y="455" width="43" height="14" fill="#9ccbb5"/>
+<rect x="440" y="455" width="43" height="14" fill="#f2f8f5"/>
+<rect x="484" y="455" width="43" height="14" fill="#aed5c3"/>
+<rect x="528" y="455" width="43" height="14" fill="#9eccb7"/>
+<rect x="572" y="455" width="43" height="14" fill="#1a8755"/>
+<rect x="616" y="455" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="455" width="43" height="14" fill="#f8fbf9"/>
+<rect x="704" y="455" width="43" height="14" fill="#fcf5f5"/>
+<rect x="748" y="455" width="43" height="14" fill="#f7f9fc"/>
+<rect x="792" y="455" width="43" height="14" fill="#4777cb"/>
+<rect x="172" y="472" width="4" height="12" fill="#9a6b3f"/>
+<text x="180.0" y="481.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豆漿（含糖）</text>
+<rect x="308" y="470" width="43" height="14" fill="#74b697"/>
+<rect x="352" y="470" width="43" height="14" fill="#7aba9c"/>
+<rect x="396" y="470" width="43" height="14" fill="#abd3c1"/>
+<rect x="440" y="470" width="43" height="14" fill="#d2e7de"/>
+<rect x="484" y="470" width="43" height="14" fill="#b4d7c7"/>
+<rect x="528" y="470" width="43" height="14" fill="#9eccb7"/>
+<rect x="572" y="470" width="43" height="14" fill="#9acab4"/>
+<rect x="616" y="470" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="470" width="43" height="14" fill="#eaf4ef"/>
+<rect x="704" y="470" width="43" height="14" fill="#f1c1bf"/>
+<rect x="748" y="470" width="43" height="14" fill="#c9d7ef"/>
+<rect x="792" y="470" width="43" height="14" fill="#82a2dc"/>
+<rect x="172" y="487" width="4" height="12" fill="#9a6b3f"/>
+<text x="180.0" y="496.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">燕麥片</text>
+<rect x="308" y="485" width="43" height="14" fill="#9acab3"/>
+<rect x="352" y="485" width="43" height="14" fill="#92c6ae"/>
+<rect x="396" y="485" width="43" height="14" fill="#c4e0d3"/>
+<rect x="440" y="485" width="43" height="14" fill="#e0efe8"/>
+<rect x="484" y="485" width="43" height="14" fill="#98c9b2"/>
+<rect x="528" y="485" width="43" height="14" fill="#85bfa4"/>
+<rect x="572" y="485" width="43" height="14" fill="#6eb393"/>
+<rect x="616" y="485" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="485" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="485" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="485" width="43" height="14" fill="#d4dff3"/>
+<rect x="792" y="485" width="43" height="14" fill="#6a91d5"/>
+<rect x="172" y="502" width="4" height="12" fill="#9a6b3f"/>
+<text x="180.0" y="511.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">甜玉米</text>
+<rect x="308" y="500" width="43" height="14" fill="#9bcbb5"/>
+<rect x="352" y="500" width="43" height="14" fill="#67b08e"/>
+<rect x="396" y="500" width="43" height="14" fill="#8ac2a8"/>
+<rect x="440" y="500" width="43" height="14" fill="#f7fbf9"/>
+<rect x="484" y="500" width="43" height="14" fill="#c4e0d3"/>
+<rect x="528" y="500" width="43" height="14" fill="#87c0a6"/>
+<rect x="572" y="500" width="43" height="14" fill="#90c5ac"/>
+<rect x="616" y="500" width="43" height="14" fill="#edf5f1"/>
+<rect x="660" y="500" width="43" height="14" fill="#cde5da"/>
+<rect x="704" y="500" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="500" width="43" height="14" fill="#c4d3ee"/>
+<rect x="792" y="500" width="43" height="14" fill="#7397d7"/>
+<rect x="172" y="517" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="526.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">杏仁</text>
+<rect x="308" y="515" width="43" height="14" fill="#99cab3"/>
+<rect x="352" y="515" width="43" height="14" fill="#a9d2bf"/>
+<rect x="396" y="515" width="43" height="14" fill="#badbcb"/>
+<rect x="440" y="515" width="43" height="14" fill="#b1d6c5"/>
+<rect x="484" y="515" width="43" height="14" fill="#bbdbcc"/>
+<rect x="528" y="515" width="43" height="14" fill="#72b596"/>
+<rect x="572" y="515" width="43" height="14" fill="#98c9b2"/>
+<rect x="616" y="515" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="515" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="515" width="43" height="14" fill="#fefefe"/>
+<rect x="748" y="515" width="43" height="14" fill="#3b6ec8"/>
+<rect x="792" y="515" width="43" height="14" fill="#e3eaf7"/>
+<rect x="172" y="532" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="541.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">花生</text>
+<rect x="308" y="530" width="43" height="14" fill="#8dc3aa"/>
+<rect x="352" y="530" width="43" height="14" fill="#b6d9c8"/>
+<rect x="396" y="530" width="43" height="14" fill="#beddcf"/>
+<rect x="440" y="530" width="43" height="14" fill="#e8f3ee"/>
+<rect x="484" y="530" width="43" height="14" fill="#dcede5"/>
+<rect x="528" y="530" width="43" height="14" fill="#91c6ad"/>
+<rect x="572" y="530" width="43" height="14" fill="#a3cfba"/>
+<rect x="616" y="530" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="530" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="530" width="43" height="14" fill="#fefdfd"/>
+<rect x="748" y="530" width="43" height="14" fill="#3b6ec8"/>
+<rect x="792" y="530" width="43" height="14" fill="#e2eaf7"/>
+<rect x="172" y="547" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="556.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">核桃</text>
+<rect x="308" y="545" width="43" height="14" fill="#b2d7c6"/>
+<rect x="352" y="545" width="43" height="14" fill="#c9e2d7"/>
+<rect x="396" y="545" width="43" height="14" fill="#d1e7dc"/>
+<rect x="440" y="545" width="43" height="14" fill="#deede6"/>
+<rect x="484" y="545" width="43" height="14" fill="#cde5da"/>
+<rect x="528" y="545" width="43" height="14" fill="#9bcab4"/>
+<rect x="572" y="545" width="43" height="14" fill="#a4d0bc"/>
+<rect x="616" y="545" width="43" height="14" fill="#fefefe"/>
+<rect x="660" y="545" width="43" height="14" fill="#fafcfb"/>
+<rect x="704" y="545" width="43" height="14" fill="#fefdfd"/>
+<rect x="748" y="545" width="43" height="14" fill="#3b6ec8"/>
+<rect x="792" y="545" width="43" height="14" fill="#f1f5fb"/>
+<rect x="172" y="562" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="571.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">腰果</text>
+<rect x="308" y="560" width="43" height="14" fill="#9eccb7"/>
+<rect x="352" y="560" width="43" height="14" fill="#d7eae1"/>
+<rect x="396" y="560" width="43" height="14" fill="#bbdccd"/>
+<rect x="440" y="560" width="43" height="14" fill="#ecf5f1"/>
+<rect x="484" y="560" width="43" height="14" fill="#95c7b0"/>
+<rect x="528" y="560" width="43" height="14" fill="#75b798"/>
+<rect x="572" y="560" width="43" height="14" fill="#66af8d"/>
+<rect x="616" y="560" width="43" height="14" fill="#fefefe"/>
+<rect x="660" y="560" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="560" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="560" width="43" height="14" fill="#4273ca"/>
+<rect x="792" y="560" width="43" height="14" fill="#d4dff3"/>
+<rect x="172" y="577" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="586.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">黑巧克力</text>
+<rect x="308" y="575" width="43" height="14" fill="#bfddcf"/>
+<rect x="352" y="575" width="43" height="14" fill="#98c9b2"/>
+<rect x="396" y="575" width="43" height="14" fill="#a6d0bd"/>
+<rect x="440" y="575" width="43" height="14" fill="#deeee7"/>
+<rect x="484" y="575" width="43" height="14" fill="#75b798"/>
+<rect x="528" y="575" width="43" height="14" fill="#6fb394"/>
+<rect x="572" y="575" width="43" height="14" fill="#89c1a7"/>
+<rect x="616" y="575" width="43" height="14" fill="#fefefe"/>
+<rect x="660" y="575" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="575" width="43" height="14" fill="#fefdfd"/>
+<rect x="748" y="575" width="43" height="14" fill="#4273ca"/>
+<rect x="792" y="575" width="43" height="14" fill="#cad7f0"/>
+<rect x="172" y="592" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="601.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豆花</text>
+<rect x="308" y="590" width="43" height="14" fill="#4fa37c"/>
+<rect x="352" y="590" width="43" height="14" fill="#afd5c4"/>
+<rect x="396" y="590" width="43" height="14" fill="#7fbc9f"/>
+<rect x="440" y="590" width="43" height="14" fill="#198754"/>
+<rect x="484" y="590" width="43" height="14" fill="#71b596"/>
+<rect x="528" y="590" width="43" height="14" fill="#58a783"/>
+<rect x="572" y="590" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="590" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="590" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="590" width="43" height="14" fill="#f2c4c3"/>
+<rect x="748" y="590" width="43" height="14" fill="#82a3dc"/>
+<rect x="792" y="590" width="43" height="14" fill="#d1ddf2"/>
+<rect x="172" y="607" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="616.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豆漿（無糖）</text>
+<rect x="308" y="605" width="43" height="14" fill="#369669"/>
+<rect x="352" y="605" width="43" height="14" fill="#75b798"/>
+<rect x="396" y="605" width="43" height="14" fill="#6bb291"/>
+<rect x="440" y="605" width="43" height="14" fill="#b3d7c6"/>
+<rect x="484" y="605" width="43" height="14" fill="#91c5ad"/>
+<rect x="528" y="605" width="43" height="14" fill="#4fa37c"/>
+<rect x="572" y="605" width="43" height="14" fill="#70b495"/>
+<rect x="616" y="605" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="605" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="605" width="43" height="14" fill="#fdf7f6"/>
+<rect x="748" y="605" width="43" height="14" fill="#7498d8"/>
+<rect x="792" y="605" width="43" height="14" fill="#edf2fa"/>
+<rect x="172" y="622" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="631.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">嫩豆腐</text>
+<rect x="308" y="620" width="43" height="14" fill="#459e75"/>
+<rect x="352" y="620" width="43" height="14" fill="#b1d6c5"/>
+<rect x="396" y="620" width="43" height="14" fill="#80bda1"/>
+<rect x="440" y="620" width="43" height="14" fill="#cce4d9"/>
+<rect x="484" y="620" width="43" height="14" fill="#59a883"/>
+<rect x="528" y="620" width="43" height="14" fill="#51a47d"/>
+<rect x="572" y="620" width="43" height="14" fill="#6cb292"/>
+<rect x="616" y="620" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="620" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="620" width="43" height="14" fill="#f1c2c0"/>
+<rect x="748" y="620" width="43" height="14" fill="#7196d7"/>
+<rect x="792" y="620" width="43" height="14" fill="#e5ecf7"/>
+<rect x="172" y="637" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="646.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豆腐乾</text>
+<rect x="308" y="635" width="43" height="14" fill="#419b71"/>
+<rect x="352" y="635" width="43" height="14" fill="#c0ded0"/>
+<rect x="396" y="635" width="43" height="14" fill="#b5d8c8"/>
+<rect x="440" y="635" width="43" height="14" fill="#63ad8b"/>
+<rect x="484" y="635" width="43" height="14" fill="#4ea37b"/>
+<rect x="528" y="635" width="43" height="14" fill="#88c1a6"/>
+<rect x="572" y="635" width="43" height="14" fill="#5fab88"/>
+<rect x="616" y="635" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="635" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="635" width="43" height="14" fill="#df726f"/>
+<rect x="748" y="635" width="43" height="14" fill="#789bd9"/>
+<rect x="792" y="635" width="43" height="14" fill="#e4ebf7"/>
+<rect x="172" y="652" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="661.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">老豆腐</text>
+<rect x="308" y="650" width="43" height="14" fill="#439d73"/>
+<rect x="352" y="650" width="43" height="14" fill="#d5e9df"/>
+<rect x="396" y="650" width="43" height="14" fill="#9dcbb6"/>
+<rect x="440" y="650" width="43" height="14" fill="#59a883"/>
+<rect x="484" y="650" width="43" height="14" fill="#61ad8a"/>
+<rect x="528" y="650" width="43" height="14" fill="#82bda2"/>
+<rect x="572" y="650" width="43" height="14" fill="#72b596"/>
+<rect x="616" y="650" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="650" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="650" width="43" height="14" fill="#fefbfb"/>
+<rect x="748" y="650" width="43" height="14" fill="#9eb7e4"/>
+<rect x="792" y="650" width="43" height="14" fill="#c6d5ef"/>
+<rect x="172" y="667" width="4" height="12" fill="#c9a227"/>
+<text x="180.0" y="676.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">黑芝麻粉</text>
+<rect x="308" y="665" width="43" height="14" fill="#aad2bf"/>
+<rect x="352" y="665" width="43" height="14" fill="#9fcdb8"/>
+<rect x="396" y="665" width="43" height="14" fill="#cae3d8"/>
+<rect x="440" y="665" width="43" height="14" fill="#329467"/>
+<rect x="484" y="665" width="43" height="14" fill="#84bea3"/>
+<rect x="528" y="665" width="43" height="14" fill="#5ca985"/>
+<rect x="572" y="665" width="43" height="14" fill="#6cb291"/>
+<rect x="616" y="665" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="665" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="665" width="43" height="14" fill="#fefefe"/>
+<rect x="748" y="665" width="43" height="14" fill="#3b6ec8"/>
+<rect x="792" y="665" width="43" height="14" fill="#e3eaf7"/>
+<rect x="172" y="682" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="691.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">瘦牛肉</text>
+<rect x="308" y="680" width="43" height="14" fill="#198754"/>
+<rect x="352" y="680" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="680" width="43" height="14" fill="#99c9b3"/>
+<rect x="440" y="680" width="43" height="14" fill="#f8fbfa"/>
+<rect x="484" y="680" width="43" height="14" fill="#88c1a6"/>
+<rect x="528" y="680" width="43" height="14" fill="#bcdccd"/>
+<rect x="572" y="680" width="43" height="14" fill="#198754"/>
+<rect x="616" y="680" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="680" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="680" width="43" height="14" fill="#f6dad9"/>
+<rect x="748" y="680" width="43" height="14" fill="#9ab4e2"/>
+<rect x="792" y="680" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="697" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="706.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">牛肉餅</text>
+<rect x="308" y="695" width="43" height="14" fill="#3c996e"/>
+<rect x="352" y="695" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="695" width="43" height="14" fill="#aed5c3"/>
+<rect x="440" y="695" width="43" height="14" fill="#eaf4f0"/>
+<rect x="484" y="695" width="43" height="14" fill="#96c8b1"/>
+<rect x="528" y="695" width="43" height="14" fill="#cfe6db"/>
+<rect x="572" y="695" width="43" height="14" fill="#198754"/>
+<rect x="616" y="695" width="43" height="14" fill="#fcfdfc"/>
+<rect x="660" y="695" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="695" width="43" height="14" fill="#f6d9d8"/>
+<rect x="748" y="695" width="43" height="14" fill="#628bd3"/>
+<rect x="792" y="695" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="712" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="721.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豬肉末</text>
+<rect x="308" y="710" width="43" height="14" fill="#4fa37c"/>
+<rect x="352" y="710" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="710" width="43" height="14" fill="#b9dacb"/>
+<rect x="440" y="710" width="43" height="14" fill="#edf5f2"/>
+<rect x="484" y="710" width="43" height="14" fill="#cbe4d8"/>
+<rect x="528" y="710" width="43" height="14" fill="#d5e9e0"/>
+<rect x="572" y="710" width="43" height="14" fill="#64ae8c"/>
+<rect x="616" y="710" width="43" height="14" fill="#fdfefd"/>
+<rect x="660" y="710" width="43" height="14" fill="#fbfdfc"/>
+<rect x="704" y="710" width="43" height="14" fill="#f8e2e2"/>
+<rect x="748" y="710" width="43" height="14" fill="#4b7acc"/>
+<rect x="792" y="710" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="727" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="736.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">雞腿肉</text>
+<rect x="308" y="725" width="43" height="14" fill="#218b5a"/>
+<rect x="352" y="725" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="725" width="43" height="14" fill="#aed5c3"/>
+<rect x="440" y="725" width="43" height="14" fill="#f2f8f5"/>
+<rect x="484" y="725" width="43" height="14" fill="#badbcc"/>
+<rect x="528" y="725" width="43" height="14" fill="#c0ded0"/>
+<rect x="572" y="725" width="43" height="14" fill="#65ae8c"/>
+<rect x="616" y="725" width="43" height="14" fill="#f5faf8"/>
+<rect x="660" y="725" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="725" width="43" height="14" fill="#f2c4c3"/>
+<rect x="748" y="725" width="43" height="14" fill="#88a7dd"/>
+<rect x="792" y="725" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="742" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="751.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豬裡脊</text>
+<rect x="308" y="740" width="43" height="14" fill="#228b5a"/>
+<rect x="352" y="740" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="740" width="43" height="14" fill="#9eccb6"/>
+<rect x="440" y="740" width="43" height="14" fill="#eaf4f0"/>
+<rect x="484" y="740" width="43" height="14" fill="#c3e0d3"/>
+<rect x="528" y="740" width="43" height="14" fill="#c0ded0"/>
+<rect x="572" y="740" width="43" height="14" fill="#5aa984"/>
+<rect x="616" y="740" width="43" height="14" fill="#fcfdfd"/>
+<rect x="660" y="740" width="43" height="14" fill="#fbfdfc"/>
+<rect x="704" y="740" width="43" height="14" fill="#f8dfde"/>
+<rect x="748" y="740" width="43" height="14" fill="#87a6dd"/>
+<rect x="792" y="740" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="757" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="766.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">三文魚</text>
+<rect x="308" y="755" width="43" height="14" fill="#3a986d"/>
+<rect x="352" y="755" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="755" width="43" height="14" fill="#a3cfba"/>
+<rect x="440" y="755" width="43" height="14" fill="#edf6f2"/>
+<rect x="484" y="755" width="43" height="14" fill="#e8f3ee"/>
+<rect x="528" y="755" width="43" height="14" fill="#bcdccd"/>
+<rect x="572" y="755" width="43" height="14" fill="#cde5da"/>
+<rect x="616" y="755" width="43" height="14" fill="#cce4d9"/>
+<rect x="660" y="755" width="43" height="14" fill="#eaf4ef"/>
+<rect x="704" y="755" width="43" height="14" fill="#f7dddd"/>
+<rect x="748" y="755" width="43" height="14" fill="#648cd3"/>
+<rect x="792" y="755" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="772" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="781.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">鯖魚</text>
+<rect x="308" y="770" width="43" height="14" fill="#4aa078"/>
+<rect x="352" y="770" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="770" width="43" height="14" fill="#add4c2"/>
+<rect x="440" y="770" width="43" height="14" fill="#f1f7f4"/>
+<rect x="484" y="770" width="43" height="14" fill="#bddcce"/>
+<rect x="528" y="770" width="43" height="14" fill="#84bea3"/>
+<rect x="572" y="770" width="43" height="14" fill="#b3d7c6"/>
+<rect x="616" y="770" width="43" height="14" fill="#dcece5"/>
+<rect x="660" y="770" width="43" height="14" fill="#fdfdfd"/>
+<rect x="704" y="770" width="43" height="14" fill="#f7dbdb"/>
+<rect x="748" y="770" width="43" height="14" fill="#507ece"/>
+<rect x="792" y="770" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="787" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="796.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">蝦</text>
+<rect x="308" y="785" width="43" height="14" fill="#198754"/>
+<rect x="352" y="785" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="785" width="43" height="14" fill="#8ec4ab"/>
+<rect x="440" y="785" width="43" height="14" fill="#96c8b1"/>
+<rect x="484" y="785" width="43" height="14" fill="#c4e0d3"/>
+<rect x="528" y="785" width="43" height="14" fill="#7fbca0"/>
+<rect x="572" y="785" width="43" height="14" fill="#3d9a6f"/>
+<rect x="616" y="785" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="785" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="785" width="43" height="14" fill="#eaa3a1"/>
+<rect x="748" y="785" width="43" height="14" fill="#f7f9fc"/>
+<rect x="792" y="785" width="43" height="14" fill="#fdfdfe"/>
+<rect x="172" y="802" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="811.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">羅非魚</text>
+<rect x="308" y="800" width="43" height="14" fill="#198754"/>
+<rect x="352" y="800" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="800" width="43" height="14" fill="#86c0a5"/>
+<rect x="440" y="800" width="43" height="14" fill="#e6f2ec"/>
+<rect x="484" y="800" width="43" height="14" fill="#c2dfd1"/>
+<rect x="528" y="800" width="43" height="14" fill="#9acab4"/>
+<rect x="572" y="800" width="43" height="14" fill="#b9dacb"/>
+<rect x="616" y="800" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="800" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="800" width="43" height="14" fill="#f4d1d0"/>
+<rect x="748" y="800" width="43" height="14" fill="#ccd9f0"/>
+<rect x="792" y="800" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="817" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="826.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">雞胸肉</text>
+<rect x="308" y="815" width="43" height="14" fill="#198754"/>
+<rect x="352" y="815" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="815" width="43" height="14" fill="#add4c2"/>
+<rect x="440" y="815" width="43" height="14" fill="#e9f4ef"/>
+<rect x="484" y="815" width="43" height="14" fill="#badbcc"/>
+<rect x="528" y="815" width="43" height="14" fill="#b3d7c6"/>
+<rect x="572" y="815" width="43" height="14" fill="#92c6ae"/>
+<rect x="616" y="815" width="43" height="14" fill="#f7fbf9"/>
+<rect x="660" y="815" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="815" width="43" height="14" fill="#f4d0cf"/>
+<rect x="748" y="815" width="43" height="14" fill="#c5d4ee"/>
+<rect x="792" y="815" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="832" width="4" height="12" fill="#d1495b"/>
+<text x="180.0" y="841.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">金槍魚罐頭</text>
+<rect x="308" y="830" width="43" height="14" fill="#198754"/>
+<rect x="352" y="830" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="830" width="43" height="14" fill="#9dccb6"/>
+<rect x="440" y="830" width="43" height="14" fill="#e9f3ee"/>
+<rect x="484" y="830" width="43" height="14" fill="#8dc3aa"/>
+<rect x="528" y="830" width="43" height="14" fill="#a3cfba"/>
+<rect x="572" y="830" width="43" height="14" fill="#8bc2a9"/>
+<rect x="616" y="830" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="830" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="830" width="43" height="14" fill="#f4d1d0"/>
+<rect x="748" y="830" width="43" height="14" fill="#ecf1f9"/>
+<rect x="792" y="830" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="847" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="856.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">低脂牛奶</text>
+<rect x="308" y="845" width="43" height="14" fill="#5aa984"/>
+<rect x="352" y="845" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="845" width="43" height="14" fill="#7dbb9e"/>
+<rect x="440" y="845" width="43" height="14" fill="#3d996e"/>
+<rect x="484" y="845" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="845" width="43" height="14" fill="#b0d5c4"/>
+<rect x="572" y="845" width="43" height="14" fill="#3f9b70"/>
+<rect x="616" y="845" width="43" height="14" fill="#c3e0d2"/>
+<rect x="660" y="845" width="43" height="14" fill="#eef6f2"/>
+<rect x="704" y="845" width="43" height="14" fill="#f1c0bf"/>
+<rect x="748" y="845" width="43" height="14" fill="#bfcfed"/>
+<rect x="792" y="845" width="43" height="14" fill="#9db7e3"/>
+<rect x="172" y="862" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="871.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">拿鐵</text>
+<rect x="308" y="860" width="43" height="14" fill="#63ad8b"/>
+<rect x="352" y="860" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="860" width="43" height="14" fill="#70b495"/>
+<rect x="440" y="860" width="43" height="14" fill="#38976b"/>
+<rect x="484" y="860" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="860" width="43" height="14" fill="#92c6ae"/>
+<rect x="572" y="860" width="43" height="14" fill="#71b495"/>
+<rect x="616" y="860" width="43" height="14" fill="#a3cfba"/>
+<rect x="660" y="860" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="860" width="43" height="14" fill="#f1c0bf"/>
+<rect x="748" y="860" width="43" height="14" fill="#8caade"/>
+<rect x="792" y="860" width="43" height="14" fill="#bdceec"/>
+<rect x="172" y="877" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="886.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">優格</text>
+<rect x="308" y="875" width="43" height="14" fill="#86c0a5"/>
+<rect x="352" y="875" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="875" width="43" height="14" fill="#a1ceb9"/>
+<rect x="440" y="875" width="43" height="14" fill="#7ebb9f"/>
+<rect x="484" y="875" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="875" width="43" height="14" fill="#c5e0d3"/>
+<rect x="572" y="875" width="43" height="14" fill="#98c9b2"/>
+<rect x="616" y="875" width="43" height="14" fill="#d9ebe3"/>
+<rect x="660" y="875" width="43" height="14" fill="#fcfdfc"/>
+<rect x="704" y="875" width="43" height="14" fill="#f2c5c4"/>
+<rect x="748" y="875" width="43" height="14" fill="#a6bde6"/>
+<rect x="792" y="875" width="43" height="14" fill="#96b1e1"/>
+<rect x="172" y="892" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="901.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">全脂牛奶</text>
+<rect x="308" y="890" width="43" height="14" fill="#80bca0"/>
+<rect x="352" y="890" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="890" width="43" height="14" fill="#95c8b0"/>
+<rect x="440" y="890" width="43" height="14" fill="#56a782"/>
+<rect x="484" y="890" width="43" height="14" fill="#e9f3ef"/>
+<rect x="528" y="890" width="43" height="14" fill="#b8daca"/>
+<rect x="572" y="890" width="43" height="14" fill="#8ec4ab"/>
+<rect x="616" y="890" width="43" height="14" fill="#afd5c3"/>
+<rect x="660" y="890" width="43" height="14" fill="#f7faf9"/>
+<rect x="704" y="890" width="43" height="14" fill="#f2c5c3"/>
+<rect x="748" y="890" width="43" height="14" fill="#7296d7"/>
+<rect x="792" y="890" width="43" height="14" fill="#c0d0ed"/>
+<rect x="172" y="907" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="916.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">鮮奶茶</text>
+<rect x="308" y="905" width="43" height="14" fill="#5daa87"/>
+<rect x="352" y="905" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="905" width="43" height="14" fill="#96c8b1"/>
+<rect x="440" y="905" width="43" height="14" fill="#6fb393"/>
+<rect x="484" y="905" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="905" width="43" height="14" fill="#bcdccd"/>
+<rect x="572" y="905" width="43" height="14" fill="#83bea3"/>
+<rect x="616" y="905" width="43" height="14" fill="#a0cdb8"/>
+<rect x="660" y="905" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="905" width="43" height="14" fill="#f4d0cf"/>
+<rect x="748" y="905" width="43" height="14" fill="#799cd9"/>
+<rect x="792" y="905" width="43" height="14" fill="#d2ddf2"/>
+<rect x="172" y="922" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="931.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">茶葉蛋</text>
+<rect x="308" y="920" width="43" height="14" fill="#49a078"/>
+<rect x="352" y="920" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="920" width="43" height="14" fill="#cde5da"/>
+<rect x="440" y="920" width="43" height="14" fill="#bfddcf"/>
+<rect x="484" y="920" width="43" height="14" fill="#a3cfba"/>
+<rect x="528" y="920" width="43" height="14" fill="#cfe6db"/>
+<rect x="572" y="920" width="43" height="14" fill="#7bba9d"/>
+<rect x="616" y="920" width="43" height="14" fill="#9ccbb5"/>
+<rect x="660" y="920" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="920" width="43" height="14" fill="#db605c"/>
+<rect x="748" y="920" width="43" height="14" fill="#6a90d5"/>
+<rect x="792" y="920" width="43" height="14" fill="#eaf0f9"/>
+<rect x="172" y="937" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="946.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">雞蛋</text>
+<rect x="308" y="935" width="43" height="14" fill="#449d74"/>
+<rect x="352" y="935" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="935" width="43" height="14" fill="#c7e1d5"/>
+<rect x="440" y="935" width="43" height="14" fill="#bbdccd"/>
+<rect x="484" y="935" width="43" height="14" fill="#7fbc9f"/>
+<rect x="528" y="935" width="43" height="14" fill="#d1e7dd"/>
+<rect x="572" y="935" width="43" height="14" fill="#62ad8a"/>
+<rect x="616" y="935" width="43" height="14" fill="#b5d8c8"/>
+<rect x="660" y="935" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="935" width="43" height="14" fill="#eeb2b0"/>
+<rect x="748" y="935" width="43" height="14" fill="#6089d2"/>
+<rect x="792" y="935" width="43" height="14" fill="#f5f7fc"/>
+<rect x="172" y="952" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="961.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">荷包蛋</text>
+<rect x="308" y="950" width="43" height="14" fill="#65af8d"/>
+<rect x="352" y="950" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="950" width="43" height="14" fill="#cee5db"/>
+<rect x="440" y="950" width="43" height="14" fill="#c7e2d5"/>
+<rect x="484" y="950" width="43" height="14" fill="#94c7af"/>
+<rect x="528" y="950" width="43" height="14" fill="#dbece4"/>
+<rect x="572" y="950" width="43" height="14" fill="#75b798"/>
+<rect x="616" y="950" width="43" height="14" fill="#b9dacb"/>
+<rect x="660" y="950" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="950" width="43" height="14" fill="#f0bbb9"/>
+<rect x="748" y="950" width="43" height="14" fill="#3d6fc8"/>
+<rect x="792" y="950" width="43" height="14" fill="#f8f9fd"/>
+<rect x="172" y="967" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="976.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">乳酪片</text>
+<rect x="308" y="965" width="43" height="14" fill="#71b595"/>
+<rect x="352" y="965" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="965" width="43" height="14" fill="#edf5f1"/>
+<rect x="440" y="965" width="43" height="14" fill="#489f77"/>
+<rect x="484" y="965" width="43" height="14" fill="#d6eae1"/>
+<rect x="528" y="965" width="43" height="14" fill="#d5e9df"/>
+<rect x="572" y="965" width="43" height="14" fill="#73b697"/>
+<rect x="616" y="965" width="43" height="14" fill="#a5d0bc"/>
+<rect x="660" y="965" width="43" height="14" fill="#fdfefe"/>
+<rect x="704" y="965" width="43" height="14" fill="#d64541"/>
+<rect x="748" y="965" width="43" height="14" fill="#3f71c9"/>
+<rect x="792" y="965" width="43" height="14" fill="#eff3fa"/>
+<rect x="172" y="982" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="991.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">培根</text>
+<rect x="308" y="980" width="43" height="14" fill="#5fab88"/>
+<rect x="352" y="980" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="980" width="43" height="14" fill="#bfddcf"/>
+<rect x="440" y="980" width="43" height="14" fill="#f9fbfa"/>
+<rect x="484" y="980" width="43" height="14" fill="#e4f0eb"/>
+<rect x="528" y="980" width="43" height="14" fill="#dbece4"/>
+<rect x="572" y="980" width="43" height="14" fill="#8cc3a9"/>
+<rect x="616" y="980" width="43" height="14" fill="#fafcfb"/>
+<rect x="660" y="980" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="980" width="43" height="14" fill="#d84f4b"/>
+<rect x="748" y="980" width="43" height="14" fill="#3f71c9"/>
+<rect x="792" y="980" width="43" height="14" fill="#fbfcfe"/>
+<rect x="172" y="997" width="4" height="12" fill="#4f7fe0"/>
+<text x="180.0" y="1006.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">火腿片</text>
+<rect x="308" y="995" width="43" height="14" fill="#409b71"/>
+<rect x="352" y="995" width="43" height="14" fill="#d0e6dc"/>
+<rect x="396" y="995" width="43" height="14" fill="#a6d0bd"/>
+<rect x="440" y="995" width="43" height="14" fill="#deeee7"/>
+<rect x="484" y="995" width="43" height="14" fill="#bbdbcc"/>
+<rect x="528" y="995" width="43" height="14" fill="#c0ded0"/>
+<rect x="572" y="995" width="43" height="14" fill="#7bba9c"/>
+<rect x="616" y="995" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="995" width="43" height="14" fill="#e4f1eb"/>
+<rect x="704" y="995" width="43" height="14" fill="#d64541"/>
+<rect x="748" y="995" width="43" height="14" fill="#7599d8"/>
+<rect x="792" y="995" width="43" height="14" fill="#ecf1f9"/>
+<rect x="172" y="1012" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1021.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">青椒</text>
+<rect x="308" y="1010" width="43" height="14" fill="#87c0a6"/>
+<rect x="352" y="1010" width="43" height="14" fill="#3b986d"/>
+<rect x="396" y="1010" width="43" height="14" fill="#37976b"/>
+<rect x="440" y="1010" width="43" height="14" fill="#abd3c1"/>
+<rect x="484" y="1010" width="43" height="14" fill="#7ab99c"/>
+<rect x="528" y="1010" width="43" height="14" fill="#6db292"/>
+<rect x="572" y="1010" width="43" height="14" fill="#8dc3aa"/>
+<rect x="616" y="1010" width="43" height="14" fill="#9fccb7"/>
+<rect x="660" y="1010" width="43" height="14" fill="#198754"/>
+<rect x="704" y="1010" width="43" height="14" fill="#faecec"/>
+<rect x="748" y="1010" width="43" height="14" fill="#e9eff9"/>
+<rect x="792" y="1010" width="43" height="14" fill="#5d87d1"/>
+<rect x="172" y="1027" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1036.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">番石榴</text>
+<rect x="308" y="1025" width="43" height="14" fill="#96c8b1"/>
+<rect x="352" y="1025" width="43" height="14" fill="#409b71"/>
+<rect x="396" y="1025" width="43" height="14" fill="#53a57f"/>
+<rect x="440" y="1025" width="43" height="14" fill="#cae3d8"/>
+<rect x="484" y="1025" width="43" height="14" fill="#d0e6dc"/>
+<rect x="528" y="1025" width="43" height="14" fill="#8dc3aa"/>
+<rect x="572" y="1025" width="43" height="14" fill="#b6d9c9"/>
+<rect x="616" y="1025" width="43" height="14" fill="#c0ded0"/>
+<rect x="660" y="1025" width="43" height="14" fill="#198754"/>
+<rect x="704" y="1025" width="43" height="14" fill="#fefbfb"/>
+<rect x="748" y="1025" width="43" height="14" fill="#e1e8f6"/>
+<rect x="792" y="1025" width="43" height="14" fill="#5f89d2"/>
+<rect x="172" y="1042" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1051.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">草莓</text>
+<rect x="308" y="1040" width="43" height="14" fill="#a8d2be"/>
+<rect x="352" y="1040" width="43" height="14" fill="#65ae8c"/>
+<rect x="396" y="1040" width="43" height="14" fill="#5ba985"/>
+<rect x="440" y="1040" width="43" height="14" fill="#b2d6c5"/>
+<rect x="484" y="1040" width="43" height="14" fill="#abd3c0"/>
+<rect x="528" y="1040" width="43" height="14" fill="#80bca0"/>
+<rect x="572" y="1040" width="43" height="14" fill="#c0ded0"/>
+<rect x="616" y="1040" width="43" height="14" fill="#f8fbf9"/>
+<rect x="660" y="1040" width="43" height="14" fill="#198754"/>
+<rect x="704" y="1040" width="43" height="14" fill="#f9e7e7"/>
+<rect x="748" y="1040" width="43" height="14" fill="#f3f6fb"/>
+<rect x="792" y="1040" width="43" height="14" fill="#4978cc"/>
+<rect x="172" y="1057" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1066.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">柳橙</text>
+<rect x="308" y="1055" width="43" height="14" fill="#bbdbcc"/>
+<rect x="352" y="1055" width="43" height="14" fill="#61ac8a"/>
+<rect x="396" y="1055" width="43" height="14" fill="#79b99b"/>
+<rect x="440" y="1055" width="43" height="14" fill="#97c8b1"/>
+<rect x="484" y="1055" width="43" height="14" fill="#b1d6c5"/>
+<rect x="528" y="1055" width="43" height="14" fill="#92c6ae"/>
+<rect x="572" y="1055" width="43" height="14" fill="#c5e1d4"/>
+<rect x="616" y="1055" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1055" width="43" height="14" fill="#339467"/>
+<rect x="704" y="1055" width="43" height="14" fill="#fbefef"/>
+<rect x="748" y="1055" width="43" height="14" fill="#f9fbfd"/>
+<rect x="792" y="1055" width="43" height="14" fill="#3f71c9"/>
+<rect x="172" y="1072" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1081.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">獼猴桃</text>
+<rect x="308" y="1070" width="43" height="14" fill="#b8daca"/>
+<rect x="352" y="1070" width="43" height="14" fill="#62ad8a"/>
+<rect x="396" y="1070" width="43" height="14" fill="#5aa884"/>
+<rect x="440" y="1070" width="43" height="14" fill="#a7d1bd"/>
+<rect x="484" y="1070" width="43" height="14" fill="#bfddcf"/>
+<rect x="528" y="1070" width="43" height="14" fill="#a3cfbb"/>
+<rect x="572" y="1070" width="43" height="14" fill="#afd5c3"/>
+<rect x="616" y="1070" width="43" height="14" fill="#ebf4f0"/>
+<rect x="660" y="1070" width="43" height="14" fill="#208a59"/>
+<rect x="704" y="1070" width="43" height="14" fill="#fdf7f7"/>
+<rect x="748" y="1070" width="43" height="14" fill="#f3f6fb"/>
+<rect x="792" y="1070" width="43" height="14" fill="#4575ca"/>
+<rect x="172" y="1087" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1096.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">木瓜</text>
+<rect x="308" y="1085" width="43" height="14" fill="#d3e8de"/>
+<rect x="352" y="1085" width="43" height="14" fill="#76b899"/>
+<rect x="396" y="1085" width="43" height="14" fill="#6eb393"/>
+<rect x="440" y="1085" width="43" height="14" fill="#afd5c4"/>
+<rect x="484" y="1085" width="43" height="14" fill="#beddcf"/>
+<rect x="528" y="1085" width="43" height="14" fill="#6fb394"/>
+<rect x="572" y="1085" width="43" height="14" fill="#d1e7dd"/>
+<rect x="616" y="1085" width="43" height="14" fill="#94c7af"/>
+<rect x="660" y="1085" width="43" height="14" fill="#1f8a58"/>
+<rect x="704" y="1085" width="43" height="14" fill="#fae8e8"/>
+<rect x="748" y="1085" width="43" height="14" fill="#eff3fa"/>
+<rect x="792" y="1085" width="43" height="14" fill="#4273c9"/>
+<rect x="172" y="1102" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1111.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">鳳梨</text>
+<rect x="308" y="1100" width="43" height="14" fill="#d8ebe2"/>
+<rect x="352" y="1100" width="43" height="14" fill="#8ec4ab"/>
+<rect x="396" y="1100" width="43" height="14" fill="#99cab3"/>
+<rect x="440" y="1100" width="43" height="14" fill="#cbe4d8"/>
+<rect x="484" y="1100" width="43" height="14" fill="#beddcf"/>
+<rect x="528" y="1100" width="43" height="14" fill="#a1ceb9"/>
+<rect x="572" y="1100" width="43" height="14" fill="#c7e2d5"/>
+<rect x="616" y="1100" width="43" height="14" fill="#f3f8f6"/>
+<rect x="660" y="1100" width="43" height="14" fill="#38976b"/>
+<rect x="704" y="1100" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="1100" width="43" height="14" fill="#fafbfd"/>
+<rect x="792" y="1100" width="43" height="14" fill="#3b6ec8"/>
+<rect x="172" y="1117" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1126.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">葡萄柚</text>
+<rect x="308" y="1115" width="43" height="14" fill="#bbdbcc"/>
+<rect x="352" y="1115" width="43" height="14" fill="#87c0a5"/>
+<rect x="396" y="1115" width="43" height="14" fill="#8fc4ac"/>
+<rect x="440" y="1115" width="43" height="14" fill="#a3cfbb"/>
+<rect x="484" y="1115" width="43" height="14" fill="#daece4"/>
+<rect x="528" y="1115" width="43" height="14" fill="#95c8b0"/>
+<rect x="572" y="1115" width="43" height="14" fill="#bfddcf"/>
+<rect x="616" y="1115" width="43" height="14" fill="#cae3d8"/>
+<rect x="660" y="1115" width="43" height="14" fill="#329467"/>
+<rect x="704" y="1115" width="43" height="14" fill="#fbf0f0"/>
+<rect x="748" y="1115" width="43" height="14" fill="#f2f6fb"/>
+<rect x="792" y="1115" width="43" height="14" fill="#4475ca"/>
+<rect x="172" y="1132" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1141.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">洋蔥</text>
+<rect x="308" y="1130" width="43" height="14" fill="#a9d2bf"/>
+<rect x="352" y="1130" width="43" height="14" fill="#71b595"/>
+<rect x="396" y="1130" width="43" height="14" fill="#78b89b"/>
+<rect x="440" y="1130" width="43" height="14" fill="#a3cfba"/>
+<rect x="484" y="1130" width="43" height="14" fill="#c3dfd2"/>
+<rect x="528" y="1130" width="43" height="14" fill="#9eccb7"/>
+<rect x="572" y="1130" width="43" height="14" fill="#a9d2bf"/>
+<rect x="616" y="1130" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1130" width="43" height="14" fill="#98c9b2"/>
+<rect x="704" y="1130" width="43" height="14" fill="#fcf2f2"/>
+<rect x="748" y="1130" width="43" height="14" fill="#f9fafd"/>
+<rect x="792" y="1130" width="43" height="14" fill="#4777cb"/>
+<rect x="172" y="1147" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1156.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">桃子</text>
+<rect x="308" y="1145" width="43" height="14" fill="#b3d7c7"/>
+<rect x="352" y="1145" width="43" height="14" fill="#78b99b"/>
+<rect x="396" y="1145" width="43" height="14" fill="#64ae8b"/>
+<rect x="440" y="1145" width="43" height="14" fill="#ddede6"/>
+<rect x="484" y="1145" width="43" height="14" fill="#b9dacb"/>
+<rect x="528" y="1145" width="43" height="14" fill="#a3cfbb"/>
+<rect x="572" y="1145" width="43" height="14" fill="#a8d1be"/>
+<rect x="616" y="1145" width="43" height="14" fill="#c4e0d3"/>
+<rect x="660" y="1145" width="43" height="14" fill="#9dcbb6"/>
+<rect x="704" y="1145" width="43" height="14" fill="#ffffff"/>
+<rect x="748" y="1145" width="43" height="14" fill="#f3f6fb"/>
+<rect x="792" y="1145" width="43" height="14" fill="#4777cb"/>
+<rect x="172" y="1162" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1171.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">藍莓</text>
+<rect x="308" y="1160" width="43" height="14" fill="#d1e7dd"/>
+<rect x="352" y="1160" width="43" height="14" fill="#72b596"/>
+<rect x="396" y="1160" width="43" height="14" fill="#b4d8c7"/>
+<rect x="440" y="1160" width="43" height="14" fill="#e6f2ed"/>
+<rect x="484" y="1160" width="43" height="14" fill="#c6e1d5"/>
+<rect x="528" y="1160" width="43" height="14" fill="#cbe4d8"/>
+<rect x="572" y="1160" width="43" height="14" fill="#c0ded0"/>
+<rect x="616" y="1160" width="43" height="14" fill="#f4f9f7"/>
+<rect x="660" y="1160" width="43" height="14" fill="#9ccbb6"/>
+<rect x="704" y="1160" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="1160" width="43" height="14" fill="#f3f6fb"/>
+<rect x="792" y="1160" width="43" height="14" fill="#3f71c9"/>
+<rect x="172" y="1177" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1186.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">蘋果</text>
+<rect x="308" y="1175" width="43" height="14" fill="#e7f2ed"/>
+<rect x="352" y="1175" width="43" height="14" fill="#6bb291"/>
+<rect x="396" y="1175" width="43" height="14" fill="#9dccb6"/>
+<rect x="440" y="1175" width="43" height="14" fill="#e4f1eb"/>
+<rect x="484" y="1175" width="43" height="14" fill="#e0efe8"/>
+<rect x="528" y="1175" width="43" height="14" fill="#cfe5db"/>
+<rect x="572" y="1175" width="43" height="14" fill="#eaf4ef"/>
+<rect x="616" y="1175" width="43" height="14" fill="#f3f8f6"/>
+<rect x="660" y="1175" width="43" height="14" fill="#bbdbcc"/>
+<rect x="704" y="1175" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="1175" width="43" height="14" fill="#f6f8fc"/>
+<rect x="792" y="1175" width="43" height="14" fill="#3b6ec8"/>
+<rect x="172" y="1192" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1201.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">梨</text>
+<rect x="308" y="1190" width="43" height="14" fill="#e2f0ea"/>
+<rect x="352" y="1190" width="43" height="14" fill="#5fab88"/>
+<rect x="396" y="1190" width="43" height="14" fill="#9dccb6"/>
+<rect x="440" y="1190" width="43" height="14" fill="#dcede5"/>
+<rect x="484" y="1190" width="43" height="14" fill="#d7eae1"/>
+<rect x="528" y="1190" width="43" height="14" fill="#c4e0d3"/>
+<rect x="572" y="1190" width="43" height="14" fill="#d4e8df"/>
+<rect x="616" y="1190" width="43" height="14" fill="#fbfdfc"/>
+<rect x="660" y="1190" width="43" height="14" fill="#c2dfd1"/>
+<rect x="704" y="1190" width="43" height="14" fill="#fefcfc"/>
+<rect x="748" y="1190" width="43" height="14" fill="#fbfcfd"/>
+<rect x="792" y="1190" width="43" height="14" fill="#3b6ec8"/>
+<rect x="172" y="1207" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1216.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">葡萄</text>
+<rect x="308" y="1205" width="43" height="14" fill="#d8eae2"/>
+<rect x="352" y="1205" width="43" height="14" fill="#badbcc"/>
+<rect x="396" y="1205" width="43" height="14" fill="#8bc2a8"/>
+<rect x="440" y="1205" width="43" height="14" fill="#dfeee7"/>
+<rect x="484" y="1205" width="43" height="14" fill="#c3e0d3"/>
+<rect x="528" y="1205" width="43" height="14" fill="#cce4d9"/>
+<rect x="572" y="1205" width="43" height="14" fill="#e4f1eb"/>
+<rect x="616" y="1205" width="43" height="14" fill="#f6faf8"/>
+<rect x="660" y="1205" width="43" height="14" fill="#d3e8de"/>
+<rect x="704" y="1205" width="43" height="14" fill="#fefbfb"/>
+<rect x="748" y="1205" width="43" height="14" fill="#f8fafd"/>
+<rect x="792" y="1205" width="43" height="14" fill="#3b6ec8"/>
+<rect x="172" y="1222" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1231.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">馬鈴薯</text>
+<rect x="308" y="1220" width="43" height="14" fill="#bcdccd"/>
+<rect x="352" y="1220" width="43" height="14" fill="#a1ceb9"/>
+<rect x="396" y="1220" width="43" height="14" fill="#75b798"/>
+<rect x="440" y="1220" width="43" height="14" fill="#e9f3ef"/>
+<rect x="484" y="1220" width="43" height="14" fill="#d3e8de"/>
+<rect x="528" y="1220" width="43" height="14" fill="#a3cfba"/>
+<rect x="572" y="1220" width="43" height="14" fill="#badbcc"/>
+<rect x="616" y="1220" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1220" width="43" height="14" fill="#bcdccd"/>
+<rect x="704" y="1220" width="43" height="14" fill="#fdf7f7"/>
+<rect x="748" y="1220" width="43" height="14" fill="#fcfcfe"/>
+<rect x="792" y="1220" width="43" height="14" fill="#3f71c9"/>
+<rect x="172" y="1237" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1246.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">香蕉</text>
+<rect x="308" y="1235" width="43" height="14" fill="#d1e7dc"/>
+<rect x="352" y="1235" width="43" height="14" fill="#8cc3a9"/>
+<rect x="396" y="1235" width="43" height="14" fill="#71b596"/>
+<rect x="440" y="1235" width="43" height="14" fill="#f1f7f4"/>
+<rect x="484" y="1235" width="43" height="14" fill="#daebe3"/>
+<rect x="528" y="1235" width="43" height="14" fill="#91c6ad"/>
+<rect x="572" y="1235" width="43" height="14" fill="#d5e9e0"/>
+<rect x="616" y="1235" width="43" height="14" fill="#f8fbf9"/>
+<rect x="660" y="1235" width="43" height="14" fill="#b7d9c9"/>
+<rect x="704" y="1235" width="43" height="14" fill="#fefdfd"/>
+<rect x="748" y="1235" width="43" height="14" fill="#f7f9fc"/>
+<rect x="792" y="1235" width="43" height="14" fill="#3c6fc8"/>
+<rect x="172" y="1252" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1261.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">柳橙汁</text>
+<rect x="308" y="1250" width="43" height="14" fill="#cfe6dc"/>
+<rect x="352" y="1250" width="43" height="14" fill="#d7eae1"/>
+<rect x="396" y="1250" width="43" height="14" fill="#75b798"/>
+<rect x="440" y="1250" width="43" height="14" fill="#cfe6db"/>
+<rect x="484" y="1250" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="1250" width="43" height="14" fill="#a8d1be"/>
+<rect x="572" y="1250" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="1250" width="43" height="14" fill="#e6f2ec"/>
+<rect x="660" y="1250" width="43" height="14" fill="#53a57f"/>
+<rect x="704" y="1250" width="43" height="14" fill="#faeaea"/>
+<rect x="748" y="1250" width="43" height="14" fill="#eff3fa"/>
+<rect x="792" y="1250" width="43" height="14" fill="#4374ca"/>
+<rect x="172" y="1267" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1276.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">西瓜</text>
+<rect x="308" y="1265" width="43" height="14" fill="#bbdbcc"/>
+<rect x="352" y="1265" width="43" height="14" fill="#b9dacb"/>
+<rect x="396" y="1265" width="43" height="14" fill="#77b899"/>
+<rect x="440" y="1265" width="43" height="14" fill="#cfe6db"/>
+<rect x="484" y="1265" width="43" height="14" fill="#add4c2"/>
+<rect x="528" y="1265" width="43" height="14" fill="#8bc2a9"/>
+<rect x="572" y="1265" width="43" height="14" fill="#b7d9c9"/>
+<rect x="616" y="1265" width="43" height="14" fill="#9dcbb6"/>
+<rect x="660" y="1265" width="43" height="14" fill="#84bea3"/>
+<rect x="704" y="1265" width="43" height="14" fill="#fefafa"/>
+<rect x="748" y="1265" width="43" height="14" fill="#f7f9fc"/>
+<rect x="792" y="1265" width="43" height="14" fill="#4273ca"/>
+<rect x="172" y="1282" width="4" height="12" fill="#e0609f"/>
+<text x="180.0" y="1291.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">芒果</text>
+<rect x="308" y="1280" width="43" height="14" fill="#d9ebe3"/>
+<rect x="352" y="1280" width="43" height="14" fill="#9eccb7"/>
+<rect x="396" y="1280" width="43" height="14" fill="#8fc4ac"/>
+<rect x="440" y="1280" width="43" height="14" fill="#deeee7"/>
+<rect x="484" y="1280" width="43" height="14" fill="#dfeee7"/>
+<rect x="528" y="1280" width="43" height="14" fill="#b4d8c7"/>
+<rect x="572" y="1280" width="43" height="14" fill="#c6e1d5"/>
+<rect x="616" y="1280" width="43" height="14" fill="#65ae8c"/>
+<rect x="660" y="1280" width="43" height="14" fill="#58a782"/>
+<rect x="704" y="1280" width="43" height="14" fill="#fefbfb"/>
+<rect x="748" y="1280" width="43" height="14" fill="#f4f7fc"/>
+<rect x="792" y="1280" width="43" height="14" fill="#3c6fc8"/>
+<rect x="172" y="1297" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1306.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">烏冬麵</text>
+<rect x="308" y="1295" width="43" height="14" fill="#aad2c0"/>
+<rect x="352" y="1295" width="43" height="14" fill="#bfddcf"/>
+<rect x="396" y="1295" width="43" height="14" fill="#f7faf9"/>
+<rect x="440" y="1295" width="43" height="14" fill="#f1f8f5"/>
+<rect x="484" y="1295" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="1295" width="43" height="14" fill="#e8f3ee"/>
+<rect x="572" y="1295" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="1295" width="43" height="14" fill="#fefefe"/>
+<rect x="660" y="1295" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1295" width="43" height="14" fill="#e6908d"/>
+<rect x="748" y="1295" width="43" height="14" fill="#f9fafd"/>
+<rect x="792" y="1295" width="43" height="14" fill="#4777cb"/>
+<rect x="172" y="1312" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1321.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">泡麵</text>
+<rect x="308" y="1310" width="43" height="14" fill="#badbcc"/>
+<rect x="352" y="1310" width="43" height="14" fill="#e5f1ec"/>
+<rect x="396" y="1310" width="43" height="14" fill="#e1efe9"/>
+<rect x="440" y="1310" width="43" height="14" fill="#f8fbf9"/>
+<rect x="484" y="1310" width="43" height="14" fill="#d5e9df"/>
+<rect x="528" y="1310" width="43" height="14" fill="#dcede5"/>
+<rect x="572" y="1310" width="43" height="14" fill="#d5e9df"/>
+<rect x="616" y="1310" width="43" height="14" fill="#f8fbfa"/>
+<rect x="660" y="1310" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1310" width="43" height="14" fill="#d64541"/>
+<rect x="748" y="1310" width="43" height="14" fill="#7d9fda"/>
+<rect x="792" y="1310" width="43" height="14" fill="#a0b8e4"/>
+<rect x="172" y="1327" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1336.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">蘿蔔糕</text>
+<rect x="308" y="1325" width="43" height="14" fill="#bbdbcc"/>
+<rect x="352" y="1325" width="43" height="14" fill="#cee5db"/>
+<rect x="396" y="1325" width="43" height="14" fill="#e9f3ee"/>
+<rect x="440" y="1325" width="43" height="14" fill="#f1f8f5"/>
+<rect x="484" y="1325" width="43" height="14" fill="#d2e7dd"/>
+<rect x="528" y="1325" width="43" height="14" fill="#dcede5"/>
+<rect x="572" y="1325" width="43" height="14" fill="#c1ded1"/>
+<rect x="616" y="1325" width="43" height="14" fill="#fbfcfc"/>
+<rect x="660" y="1325" width="43" height="14" fill="#f1f8f5"/>
+<rect x="704" y="1325" width="43" height="14" fill="#e0726f"/>
+<rect x="748" y="1325" width="43" height="14" fill="#cbd8f0"/>
+<rect x="792" y="1325" width="43" height="14" fill="#658dd3"/>
+<rect x="172" y="1342" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1351.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">蘇打餅乾</text>
+<rect x="308" y="1340" width="43" height="14" fill="#b4d8c7"/>
+<rect x="352" y="1340" width="43" height="14" fill="#d6e9e0"/>
+<rect x="396" y="1340" width="43" height="14" fill="#e3f0ea"/>
+<rect x="440" y="1340" width="43" height="14" fill="#f3f9f6"/>
+<rect x="484" y="1340" width="43" height="14" fill="#8cc3a9"/>
+<rect x="528" y="1340" width="43" height="14" fill="#e0efe8"/>
+<rect x="572" y="1340" width="43" height="14" fill="#d6e9e0"/>
+<rect x="616" y="1340" width="43" height="14" fill="#fefefe"/>
+<rect x="660" y="1340" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1340" width="43" height="14" fill="#e07471"/>
+<rect x="748" y="1340" width="43" height="14" fill="#cad8f0"/>
+<rect x="792" y="1340" width="43" height="14" fill="#688fd4"/>
+<rect x="172" y="1357" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1366.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">火腿炒飯</text>
+<rect x="308" y="1355" width="43" height="14" fill="#aad2c0"/>
+<rect x="352" y="1355" width="43" height="14" fill="#c3dfd2"/>
+<rect x="396" y="1355" width="43" height="14" fill="#e7f2ed"/>
+<rect x="440" y="1355" width="43" height="14" fill="#e3f0ea"/>
+<rect x="484" y="1355" width="43" height="14" fill="#e2f0e9"/>
+<rect x="528" y="1355" width="43" height="14" fill="#e3f0ea"/>
+<rect x="572" y="1355" width="43" height="14" fill="#c2dfd1"/>
+<rect x="616" y="1355" width="43" height="14" fill="#c8e2d6"/>
+<rect x="660" y="1355" width="43" height="14" fill="#e4f1eb"/>
+<rect x="704" y="1355" width="43" height="14" fill="#eaa09e"/>
+<rect x="748" y="1355" width="43" height="14" fill="#b4c8ea"/>
+<rect x="792" y="1355" width="43" height="14" fill="#7b9dda"/>
+<rect x="172" y="1372" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1381.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">燒餅</text>
+<rect x="308" y="1370" width="43" height="14" fill="#a7d1bd"/>
+<rect x="352" y="1370" width="43" height="14" fill="#e5f1ec"/>
+<rect x="396" y="1370" width="43" height="14" fill="#ebf4f0"/>
+<rect x="440" y="1370" width="43" height="14" fill="#f8fbfa"/>
+<rect x="484" y="1370" width="43" height="14" fill="#d7eae1"/>
+<rect x="528" y="1370" width="43" height="14" fill="#e9f3ef"/>
+<rect x="572" y="1370" width="43" height="14" fill="#d8eae2"/>
+<rect x="616" y="1370" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1370" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1370" width="43" height="14" fill="#e79492"/>
+<rect x="748" y="1370" width="43" height="14" fill="#b8caeb"/>
+<rect x="792" y="1370" width="43" height="14" fill="#7a9cd9"/>
+<rect x="172" y="1387" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1396.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豬肉包子</text>
+<rect x="308" y="1385" width="43" height="14" fill="#a6d0bd"/>
+<rect x="352" y="1385" width="43" height="14" fill="#dbece4"/>
+<rect x="396" y="1385" width="43" height="14" fill="#dfeee7"/>
+<rect x="440" y="1385" width="43" height="14" fill="#edf6f2"/>
+<rect x="484" y="1385" width="43" height="14" fill="#dcede5"/>
+<rect x="528" y="1385" width="43" height="14" fill="#dcece5"/>
+<rect x="572" y="1385" width="43" height="14" fill="#c9e3d7"/>
+<rect x="616" y="1385" width="43" height="14" fill="#eff6f3"/>
+<rect x="660" y="1385" width="43" height="14" fill="#fafcfb"/>
+<rect x="704" y="1385" width="43" height="14" fill="#edb1b0"/>
+<rect x="748" y="1385" width="43" height="14" fill="#a8bee6"/>
+<rect x="792" y="1385" width="43" height="14" fill="#86a5dd"/>
+<rect x="172" y="1402" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1411.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">三角飯糰</text>
+<rect x="308" y="1400" width="43" height="14" fill="#aad2c0"/>
+<rect x="352" y="1400" width="43" height="14" fill="#cce4d9"/>
+<rect x="396" y="1400" width="43" height="14" fill="#e5f1eb"/>
+<rect x="440" y="1400" width="43" height="14" fill="#f1f7f5"/>
+<rect x="484" y="1400" width="43" height="14" fill="#ebf5f0"/>
+<rect x="528" y="1400" width="43" height="14" fill="#e7f2ed"/>
+<rect x="572" y="1400" width="43" height="14" fill="#c8e2d6"/>
+<rect x="616" y="1400" width="43" height="14" fill="#f6faf9"/>
+<rect x="660" y="1400" width="43" height="14" fill="#f6faf8"/>
+<rect x="704" y="1400" width="43" height="14" fill="#eba7a6"/>
+<rect x="748" y="1400" width="43" height="14" fill="#c0d0ed"/>
+<rect x="792" y="1400" width="43" height="14" fill="#7397d7"/>
+<rect x="172" y="1417" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1426.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">小籠包</text>
+<rect x="308" y="1415" width="43" height="14" fill="#8fc5ac"/>
+<rect x="352" y="1415" width="43" height="14" fill="#deeee7"/>
+<rect x="396" y="1415" width="43" height="14" fill="#d9ebe2"/>
+<rect x="440" y="1415" width="43" height="14" fill="#f3f9f6"/>
+<rect x="484" y="1415" width="43" height="14" fill="#e3f0ea"/>
+<rect x="528" y="1415" width="43" height="14" fill="#e3f0ea"/>
+<rect x="572" y="1415" width="43" height="14" fill="#b7d9c9"/>
+<rect x="616" y="1415" width="43" height="14" fill="#f2f8f5"/>
+<rect x="660" y="1415" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1415" width="43" height="14" fill="#eba8a6"/>
+<rect x="748" y="1415" width="43" height="14" fill="#5e88d1"/>
+<rect x="792" y="1415" width="43" height="14" fill="#c7d6ef"/>
+<rect x="172" y="1432" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1441.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">糯米飯糰</text>
+<rect x="308" y="1430" width="43" height="14" fill="#c1ded1"/>
+<rect x="352" y="1430" width="43" height="14" fill="#e8f3ee"/>
+<rect x="396" y="1430" width="43" height="14" fill="#eaf4f0"/>
+<rect x="440" y="1430" width="43" height="14" fill="#f4f9f6"/>
+<rect x="484" y="1430" width="43" height="14" fill="#e6f2ed"/>
+<rect x="528" y="1430" width="43" height="14" fill="#dbece4"/>
+<rect x="572" y="1430" width="43" height="14" fill="#cde4d9"/>
+<rect x="616" y="1430" width="43" height="14" fill="#f6faf8"/>
+<rect x="660" y="1430" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1430" width="43" height="14" fill="#eaa09e"/>
+<rect x="748" y="1430" width="43" height="14" fill="#7b9dda"/>
+<rect x="792" y="1430" width="43" height="14" fill="#9fb8e4"/>
+<rect x="172" y="1447" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1456.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豬肉水餃</text>
+<rect x="308" y="1445" width="43" height="14" fill="#a1ceb9"/>
+<rect x="352" y="1445" width="43" height="14" fill="#cae3d8"/>
+<rect x="396" y="1445" width="43" height="14" fill="#dbece4"/>
+<rect x="440" y="1445" width="43" height="14" fill="#f6faf8"/>
+<rect x="484" y="1445" width="43" height="14" fill="#d4e8df"/>
+<rect x="528" y="1445" width="43" height="14" fill="#d4e8df"/>
+<rect x="572" y="1445" width="43" height="14" fill="#cbe4d9"/>
+<rect x="616" y="1445" width="43" height="14" fill="#e4f1eb"/>
+<rect x="660" y="1445" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1445" width="43" height="14" fill="#e79391"/>
+<rect x="748" y="1445" width="43" height="14" fill="#93afe0"/>
+<rect x="792" y="1445" width="43" height="14" fill="#98b2e2"/>
+<rect x="172" y="1462" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1471.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豬肉鍋貼</text>
+<rect x="308" y="1460" width="43" height="14" fill="#9dccb6"/>
+<rect x="352" y="1460" width="43" height="14" fill="#d7eae1"/>
+<rect x="396" y="1460" width="43" height="14" fill="#dbece4"/>
+<rect x="440" y="1460" width="43" height="14" fill="#f5faf8"/>
+<rect x="484" y="1460" width="43" height="14" fill="#d9ebe3"/>
+<rect x="528" y="1460" width="43" height="14" fill="#dcede5"/>
+<rect x="572" y="1460" width="43" height="14" fill="#bddcce"/>
+<rect x="616" y="1460" width="43" height="14" fill="#fcfdfc"/>
+<rect x="660" y="1460" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1460" width="43" height="14" fill="#e89896"/>
+<rect x="748" y="1460" width="43" height="14" fill="#87a6dd"/>
+<rect x="792" y="1460" width="43" height="14" fill="#a2bae5"/>
+<rect x="172" y="1477" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1486.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">披薩</text>
+<rect x="308" y="1475" width="43" height="14" fill="#87c0a5"/>
+<rect x="352" y="1475" width="43" height="14" fill="#d2e7dd"/>
+<rect x="396" y="1475" width="43" height="14" fill="#ddede5"/>
+<rect x="440" y="1475" width="43" height="14" fill="#a1ceb9"/>
+<rect x="484" y="1475" width="43" height="14" fill="#e1efe9"/>
+<rect x="528" y="1475" width="43" height="14" fill="#dbece4"/>
+<rect x="572" y="1475" width="43" height="14" fill="#abd3c0"/>
+<rect x="616" y="1475" width="43" height="14" fill="#e0efe8"/>
+<rect x="660" y="1475" width="43" height="14" fill="#e9f3ef"/>
+<rect x="704" y="1475" width="43" height="14" fill="#e58b88"/>
+<rect x="748" y="1475" width="43" height="14" fill="#aec3e8"/>
+<rect x="792" y="1475" width="43" height="14" fill="#8facdf"/>
+<rect x="172" y="1492" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1501.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">饅頭</text>
+<rect x="308" y="1490" width="43" height="14" fill="#9dccb6"/>
+<rect x="352" y="1490" width="43" height="14" fill="#e1efe9"/>
+<rect x="396" y="1490" width="43" height="14" fill="#eaf4ef"/>
+<rect x="440" y="1490" width="43" height="14" fill="#ebf4f0"/>
+<rect x="484" y="1490" width="43" height="14" fill="#e9f3ee"/>
+<rect x="528" y="1490" width="43" height="14" fill="#dcece5"/>
+<rect x="572" y="1490" width="43" height="14" fill="#8dc3aa"/>
+<rect x="616" y="1490" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1490" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1490" width="43" height="14" fill="#efbab8"/>
+<rect x="748" y="1490" width="43" height="14" fill="#f2f6fb"/>
+<rect x="792" y="1490" width="43" height="14" fill="#517ece"/>
+<rect x="172" y="1507" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1516.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">肉粽</text>
+<rect x="308" y="1505" width="43" height="14" fill="#99cab3"/>
+<rect x="352" y="1505" width="43" height="14" fill="#edf5f1"/>
+<rect x="396" y="1505" width="43" height="14" fill="#deede6"/>
+<rect x="440" y="1505" width="43" height="14" fill="#f6faf8"/>
+<rect x="484" y="1505" width="43" height="14" fill="#c0ded0"/>
+<rect x="528" y="1505" width="43" height="14" fill="#d1e7dd"/>
+<rect x="572" y="1505" width="43" height="14" fill="#98c9b2"/>
+<rect x="616" y="1505" width="43" height="14" fill="#ecf5f1"/>
+<rect x="660" y="1505" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1505" width="43" height="14" fill="#e79290"/>
+<rect x="748" y="1505" width="43" height="14" fill="#a1b9e4"/>
+<rect x="792" y="1505" width="43" height="14" fill="#91ade0"/>
+<rect x="172" y="1522" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1531.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">白吐司</text>
+<rect x="308" y="1520" width="43" height="14" fill="#9ccbb5"/>
+<rect x="352" y="1520" width="43" height="14" fill="#c4e0d3"/>
+<rect x="396" y="1520" width="43" height="14" fill="#e4f1eb"/>
+<rect x="440" y="1520" width="43" height="14" fill="#ebf5f0"/>
+<rect x="484" y="1520" width="43" height="14" fill="#c6e1d4"/>
+<rect x="528" y="1520" width="43" height="14" fill="#cde5da"/>
+<rect x="572" y="1520" width="43" height="14" fill="#bfded0"/>
+<rect x="616" y="1520" width="43" height="14" fill="#fafcfb"/>
+<rect x="660" y="1520" width="43" height="14" fill="#fefefe"/>
+<rect x="704" y="1520" width="43" height="14" fill="#e68e8b"/>
+<rect x="748" y="1520" width="43" height="14" fill="#c8d6ef"/>
+<rect x="792" y="1520" width="43" height="14" fill="#7296d7"/>
+<rect x="172" y="1537" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1546.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">全麥吐司</text>
+<rect x="308" y="1535" width="43" height="14" fill="#99c9b3"/>
+<rect x="352" y="1535" width="43" height="14" fill="#b4d8c7"/>
+<rect x="396" y="1535" width="43" height="14" fill="#dcece5"/>
+<rect x="440" y="1535" width="43" height="14" fill="#eff7f3"/>
+<rect x="484" y="1535" width="43" height="14" fill="#c9e3d7"/>
+<rect x="528" y="1535" width="43" height="14" fill="#b7d9c9"/>
+<rect x="572" y="1535" width="43" height="14" fill="#9fcdb8"/>
+<rect x="616" y="1535" width="43" height="14" fill="#fefefe"/>
+<rect x="660" y="1535" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1535" width="43" height="14" fill="#e99c9a"/>
+<rect x="748" y="1535" width="43" height="14" fill="#cad8f0"/>
+<rect x="792" y="1535" width="43" height="14" fill="#7196d7"/>
+<rect x="172" y="1552" width="4" height="12" fill="#8d99ae"/>
+<text x="180.0" y="1561.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">漢堡麵包</text>
+<rect x="308" y="1550" width="43" height="14" fill="#a6d0bd"/>
+<rect x="352" y="1550" width="43" height="14" fill="#c9e2d6"/>
+<rect x="396" y="1550" width="43" height="14" fill="#e0efe8"/>
+<rect x="440" y="1550" width="43" height="14" fill="#e5f1ec"/>
+<rect x="484" y="1550" width="43" height="14" fill="#d1e7dc"/>
+<rect x="528" y="1550" width="43" height="14" fill="#c1ded1"/>
+<rect x="572" y="1550" width="43" height="14" fill="#b5d8c8"/>
+<rect x="616" y="1550" width="43" height="14" fill="#ecf5f1"/>
+<rect x="660" y="1550" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1550" width="43" height="14" fill="#edafae"/>
+<rect x="748" y="1550" width="43" height="14" fill="#c5d4ee"/>
+<rect x="792" y="1550" width="43" height="14" fill="#7095d6"/>
+<rect x="172" y="1567" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1576.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">食用油</text>
+<rect x="308" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="352" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="440" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="484" y="1565" width="43" height="14" fill="#fefefe"/>
+<rect x="528" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="572" y="1565" width="43" height="14" fill="#fefefe"/>
+<rect x="616" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="748" y="1565" width="43" height="14" fill="#3b6ec8"/>
+<rect x="792" y="1565" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="1582" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1591.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">橄欖油</text>
+<rect x="308" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="352" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="440" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="484" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="572" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="1580" width="43" height="14" fill="#fcfdfc"/>
+<rect x="660" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="748" y="1580" width="43" height="14" fill="#3b6ec8"/>
+<rect x="792" y="1580" width="43" height="14" fill="#ffffff"/>
+<rect x="172" y="1597" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1606.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">牛奶巧克力</text>
+<rect x="308" y="1595" width="43" height="14" fill="#c3dfd2"/>
+<rect x="352" y="1595" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1595" width="43" height="14" fill="#b2d7c6"/>
+<rect x="440" y="1595" width="43" height="14" fill="#b0d6c4"/>
+<rect x="484" y="1595" width="43" height="14" fill="#bcdccd"/>
+<rect x="528" y="1595" width="43" height="14" fill="#bddcce"/>
+<rect x="572" y="1595" width="43" height="14" fill="#c1ded1"/>
+<rect x="616" y="1595" width="43" height="14" fill="#fbfdfc"/>
+<rect x="660" y="1595" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1595" width="43" height="14" fill="#fae8e8"/>
+<rect x="748" y="1595" width="43" height="14" fill="#6990d5"/>
+<rect x="792" y="1595" width="43" height="14" fill="#acc1e7"/>
+<rect x="172" y="1612" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1621.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">香草冰淇淋</text>
+<rect x="308" y="1610" width="43" height="14" fill="#cde4d9"/>
+<rect x="352" y="1610" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1610" width="43" height="14" fill="#b6d9c9"/>
+<rect x="440" y="1610" width="43" height="14" fill="#bcdccd"/>
+<rect x="484" y="1610" width="43" height="14" fill="#f7faf9"/>
+<rect x="528" y="1610" width="43" height="14" fill="#d7eae1"/>
+<rect x="572" y="1610" width="43" height="14" fill="#cbe4d8"/>
+<rect x="616" y="1610" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1610" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1610" width="43" height="14" fill="#f2c7c6"/>
+<rect x="748" y="1610" width="43" height="14" fill="#82a2db"/>
+<rect x="792" y="1610" width="43" height="14" fill="#97b2e1"/>
+<rect x="172" y="1627" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1636.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">油條</text>
+<rect x="308" y="1625" width="43" height="14" fill="#bfddcf"/>
+<rect x="352" y="1625" width="43" height="14" fill="#eaf4f0"/>
+<rect x="396" y="1625" width="43" height="14" fill="#f0f7f4"/>
+<rect x="440" y="1625" width="43" height="14" fill="#fafcfb"/>
+<rect x="484" y="1625" width="43" height="14" fill="#e8f3ee"/>
+<rect x="528" y="1625" width="43" height="14" fill="#ecf5f0"/>
+<rect x="572" y="1625" width="43" height="14" fill="#deede6"/>
+<rect x="616" y="1625" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1625" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1625" width="43" height="14" fill="#f1c2c1"/>
+<rect x="748" y="1625" width="43" height="14" fill="#4877cb"/>
+<rect x="792" y="1625" width="43" height="14" fill="#c6d5ef"/>
+<rect x="172" y="1642" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1651.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">洋芋片</text>
+<rect x="308" y="1640" width="43" height="14" fill="#daebe3"/>
+<rect x="352" y="1640" width="43" height="14" fill="#e4f1eb"/>
+<rect x="396" y="1640" width="43" height="14" fill="#afd5c3"/>
+<rect x="440" y="1640" width="43" height="14" fill="#f7fbf9"/>
+<rect x="484" y="1640" width="43" height="14" fill="#d8eae2"/>
+<rect x="528" y="1640" width="43" height="14" fill="#cbe4d9"/>
+<rect x="572" y="1640" width="43" height="14" fill="#e6f2ec"/>
+<rect x="616" y="1640" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1640" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1640" width="43" height="14" fill="#f0bdbb"/>
+<rect x="748" y="1640" width="43" height="14" fill="#638cd3"/>
+<rect x="792" y="1640" width="43" height="14" fill="#aac0e7"/>
+<rect x="172" y="1657" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1666.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">運動飲料</text>
+<rect x="308" y="1655" width="43" height="14" fill="#eff7f3"/>
+<rect x="352" y="1655" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1655" width="43" height="14" fill="#d3e8de"/>
+<rect x="440" y="1655" width="43" height="14" fill="#eef6f2"/>
+<rect x="484" y="1655" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="1655" width="43" height="14" fill="#eaf4ef"/>
+<rect x="572" y="1655" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="1655" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1655" width="43" height="14" fill="#198754"/>
+<rect x="704" y="1655" width="43" height="14" fill="#e79290"/>
+<rect x="748" y="1655" width="43" height="14" fill="#ffffff"/>
+<rect x="792" y="1655" width="43" height="14" fill="#3b6ec8"/>
+<rect x="172" y="1672" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1681.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">啤酒</text>
+<rect x="308" y="1670" width="43" height="14" fill="#d3e8de"/>
+<rect x="352" y="1670" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1670" width="43" height="14" fill="#d4e8df"/>
+<rect x="440" y="1670" width="43" height="14" fill="#e9f3ef"/>
+<rect x="484" y="1670" width="43" height="14" fill="#f8fbf9"/>
+<rect x="528" y="1670" width="43" height="14" fill="#beddcf"/>
+<rect x="572" y="1670" width="43" height="14" fill="#f8fbfa"/>
+<rect x="616" y="1670" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1670" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1670" width="43" height="14" fill="#fcf3f3"/>
+<rect x="748" y="1670" width="43" height="14" fill="#ffffff"/>
+<rect x="792" y="1670" width="43" height="14" fill="#4777cb"/>
+<rect x="172" y="1687" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1696.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">珍珠奶茶</text>
+<rect x="308" y="1685" width="43" height="14" fill="#f4f9f7"/>
+<rect x="352" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="440" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="484" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="528" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="572" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1685" width="43" height="14" fill="#ffffff"/>
+<rect x="748" y="1685" width="43" height="14" fill="#adc2e8"/>
+<rect x="792" y="1685" width="43" height="14" fill="#6c92d5"/>
+<rect x="172" y="1702" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1711.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">可樂</text>
+<rect x="308" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="352" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="396" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="440" y="1700" width="43" height="14" fill="#fafcfb"/>
+<rect x="484" y="1700" width="43" height="14" fill="#e4f1eb"/>
+<rect x="528" y="1700" width="43" height="14" fill="#f3f8f6"/>
+<rect x="572" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="616" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1700" width="43" height="14" fill="#fbeeed"/>
+<rect x="748" y="1700" width="43" height="14" fill="#ffffff"/>
+<rect x="792" y="1700" width="43" height="14" fill="#3b6ec8"/>
+<rect x="172" y="1717" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1726.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">白米飯</text>
+<rect x="308" y="1715" width="43" height="14" fill="#c3dfd2"/>
+<rect x="352" y="1715" width="43" height="14" fill="#e8f3ee"/>
+<rect x="396" y="1715" width="43" height="14" fill="#edf5f2"/>
+<rect x="440" y="1715" width="43" height="14" fill="#fdfefd"/>
+<rect x="484" y="1715" width="43" height="14" fill="#eff7f3"/>
+<rect x="528" y="1715" width="43" height="14" fill="#e9f3ee"/>
+<rect x="572" y="1715" width="43" height="14" fill="#afd5c3"/>
+<rect x="616" y="1715" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1715" width="43" height="14" fill="#f8fbfa"/>
+<rect x="704" y="1715" width="43" height="14" fill="#fefdfd"/>
+<rect x="748" y="1715" width="43" height="14" fill="#fafbfd"/>
+<rect x="792" y="1715" width="43" height="14" fill="#3f71c9"/>
+<rect x="172" y="1732" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1741.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">米粉</text>
+<rect x="308" y="1730" width="43" height="14" fill="#c4e0d3"/>
+<rect x="352" y="1730" width="43" height="14" fill="#cae3d7"/>
+<rect x="396" y="1730" width="43" height="14" fill="#fbfdfc"/>
+<rect x="440" y="1730" width="43" height="14" fill="#f5faf8"/>
+<rect x="484" y="1730" width="43" height="14" fill="#edf5f1"/>
+<rect x="528" y="1730" width="43" height="14" fill="#eef6f2"/>
+<rect x="572" y="1730" width="43" height="14" fill="#c9e2d6"/>
+<rect x="616" y="1730" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1730" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1730" width="43" height="14" fill="#fae9e9"/>
+<rect x="748" y="1730" width="43" height="14" fill="#fafbfd"/>
+<rect x="792" y="1730" width="43" height="14" fill="#3f71c9"/>
+<rect x="172" y="1747" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1756.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">糙米飯</text>
+<rect x="308" y="1745" width="43" height="14" fill="#b6d9c9"/>
+<rect x="352" y="1745" width="43" height="14" fill="#badbcc"/>
+<rect x="396" y="1745" width="43" height="14" fill="#d0e6dc"/>
+<rect x="440" y="1745" width="43" height="14" fill="#f8fbfa"/>
+<rect x="484" y="1745" width="43" height="14" fill="#c9e3d7"/>
+<rect x="528" y="1745" width="43" height="14" fill="#8ec4ab"/>
+<rect x="572" y="1745" width="43" height="14" fill="#95c7b0"/>
+<rect x="616" y="1745" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1745" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1745" width="43" height="14" fill="#fefafa"/>
+<rect x="748" y="1745" width="43" height="14" fill="#eaeff9"/>
+<rect x="792" y="1745" width="43" height="14" fill="#4f7dcd"/>
+<rect x="172" y="1762" width="4" height="12" fill="#6c757d"/>
+<text x="180.0" y="1771.5" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">麵條</text>
+<rect x="308" y="1760" width="43" height="14" fill="#96c8b1"/>
+<rect x="352" y="1760" width="43" height="14" fill="#c1ded1"/>
+<rect x="396" y="1760" width="43" height="14" fill="#e9f3ef"/>
+<rect x="440" y="1760" width="43" height="14" fill="#f4f9f6"/>
+<rect x="484" y="1760" width="43" height="14" fill="#d7eae1"/>
+<rect x="528" y="1760" width="43" height="14" fill="#c8e2d6"/>
+<rect x="572" y="1760" width="43" height="14" fill="#b9dacb"/>
+<rect x="616" y="1760" width="43" height="14" fill="#ffffff"/>
+<rect x="660" y="1760" width="43" height="14" fill="#ffffff"/>
+<rect x="704" y="1760" width="43" height="14" fill="#fefefe"/>
+<rect x="748" y="1760" width="43" height="14" fill="#f0f4fa"/>
+<rect x="792" y="1760" width="43" height="14" fill="#5783d0"/>
+<circle cx="26" cy="1801" r="5.5" fill="#5fa83b"/>
+<text x="36.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">淺色蔬菜</text>
+<circle cx="106.0" cy="1801" r="5.5" fill="#f08c2e"/>
+<text x="116.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">橙黃色蔬菜與薯類</text>
+<circle cx="230.0" cy="1801" r="5.5" fill="#1d7a3e"/>
+<text x="240.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">深綠葉菜</text>
+<circle cx="310.0" cy="1801" r="5.5" fill="#23978f"/>
+<text x="320.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">海藻</text>
+<circle cx="368.0" cy="1801" r="5.5" fill="#9a6b3f"/>
+<text x="378.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">全谷、毛豆與菇類</text>
+<circle cx="492.0" cy="1801" r="5.5" fill="#c9a227"/>
+<text x="502.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">豆製品與堅果</text>
+<circle cx="594.0" cy="1801" r="5.5" fill="#d1495b"/>
+<text x="604.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">肉、魚、蝦</text>
+<circle cx="685.0" cy="1801" r="5.5" fill="#4f7fe0"/>
+<text x="695.0" y="1805.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">蛋、奶與加工肉</text>
+<circle cx="26" cy="1821" r="5.5" fill="#e0609f"/>
+<text x="36.0" y="1825.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">水果與淺色根莖</text>
+<circle cx="139.0" cy="1821" r="5.5" fill="#8d99ae"/>
+<text x="149.0" y="1825.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">麵點與加工主食</text>
+<circle cx="252.0" cy="1821" r="5.5" fill="#6c757d"/>
+<text x="262.0" y="1825.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal">精製主食與高熱量零食飲料</text>
+<text x="20.0" y="1849.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">方法：營養素密度取對數後標準化，Ward 法層次聚類。資料：台灣食品營養成分資料庫、USDA FoodData Central。</text>
+<text x="850" y="1863" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

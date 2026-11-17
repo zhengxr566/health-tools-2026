@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" width="760" height="540" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>ビタミンAが多い食品ランキング（1回量あたり）</title>
+<desc>身近な食品の1回量あたりのビタミンA量・上位12の棒グラフ。</desc>
+<rect width="760" height="540" fill="#ffffff"/>
+<text x="24.0" y="42.0" font-size="22" fill="#1f2937" text-anchor="start" font-weight="bold">ビタミンAが多い身近な食品（1回量あたり）</text>
+<text x="24.0" y="68.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">よく食べる1回量で計算。色は栄養グループ。参考：成人1日約700 µg（計算用の目安）</text>
+<text x="24.0" y="129.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">さつまいも（150 g）</text>
+<rect x="250" y="115" width="400.0" height="20" rx="3" fill="#f08c2e"/>
+<text x="658.0" y="129.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">1442 µg</text>
+<text x="24.0" y="159.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">にんじん（100 g）</text>
+<rect x="250" y="145" width="155.4" height="20" rx="3" fill="#f08c2e"/>
+<text x="413.4" y="159.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">560 µg</text>
+<text x="24.0" y="189.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">かぼちゃ（150 g）</text>
+<rect x="250" y="175" width="119.9" height="20" rx="3" fill="#f08c2e"/>
+<text x="377.9" y="189.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">432 µg</text>
+<text x="24.0" y="219.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">ほうれん草（100 g）</text>
+<rect x="250" y="205" width="85.5" height="20" rx="3" fill="#1d7a3e"/>
+<text x="343.5" y="219.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">308 µg</text>
+<text x="24.0" y="249.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">さつまいもの葉（100 g）</text>
+<rect x="250" y="235" width="82.7" height="20" rx="3" fill="#1d7a3e"/>
+<text x="340.7" y="249.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">298 µg</text>
+<text x="24.0" y="279.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">マンゴー（200 g）</text>
+<rect x="250" y="265" width="53.3" height="20" rx="3" fill="#e0609f"/>
+<text x="311.3" y="279.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">192 µg</text>
+<text x="24.0" y="309.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">空心菜（100 g）</text>
+<rect x="250" y="295" width="46.7" height="20" rx="3" fill="#f08c2e"/>
+<text x="304.7" y="309.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">168 µg</text>
+<text x="24.0" y="339.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">トマト（150 g）</text>
+<rect x="250" y="325" width="35.2" height="20" rx="3" fill="#f08c2e"/>
+<text x="293.2" y="339.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">127 µg</text>
+<text x="24.0" y="369.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">牛乳（240 g）</text>
+<rect x="250" y="355" width="27.5" height="20" rx="3" fill="#4f7fe0"/>
+<text x="285.5" y="369.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">99 µg</text>
+<text x="24.0" y="399.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">オクラ（80 g）</text>
+<rect x="250" y="385" width="25.1" height="20" rx="3" fill="#5fa83b"/>
+<text x="283.1" y="399.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">90 µg</text>
+<text x="24.0" y="429.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">パパイヤ（150 g）</text>
+<rect x="250" y="415" width="19.6" height="20" rx="3" fill="#e0609f"/>
+<text x="277.6" y="429.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">70 µg</text>
+<text x="24.0" y="459.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">茶葉卵（50 g）</text>
+<rect x="250" y="445" width="19.3" height="20" rx="3" fill="#4f7fe0"/>
+<text x="277.3" y="459.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">70 µg</text>
+<text x="24.0" y="504.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">データ：台湾食品栄養成分データベース、USDA FoodData Central。ビタミンAはレチノール活性当量（RAE）。</text>
+<text x="744" y="528" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" width="760" height="540" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>カルシウムが多い食品ランキング（1回量あたり）</title>
+<desc>身近な食品の1回量あたりのカルシウム量・上位12の棒グラフ。</desc>
+<rect width="760" height="540" fill="#ffffff"/>
+<text x="24.0" y="42.0" font-size="22" fill="#1f2937" text-anchor="start" font-weight="bold">カルシウムが多い身近な食品（1回量あたり）</text>
+<text x="24.0" y="68.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">よく食べる1回量で計算。色は栄養グループ。参考：成人1日約800 mg（計算用の目安）</text>
+<text x="24.0" y="129.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">豆花（無糖）（200 g）</text>
+<rect x="250" y="115" width="400.0" height="20" rx="3" fill="#c9a227"/>
+<text x="658.0" y="129.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">600 mg</text>
+<text x="24.0" y="159.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">牛乳（240 g）</text>
+<rect x="250" y="145" width="166.4" height="20" rx="3" fill="#4f7fe0"/>
+<text x="424.4" y="159.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">250 mg</text>
+<text x="24.0" y="189.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">低脂肪牛乳（240 g）</text>
+<rect x="250" y="175" width="153.6" height="20" rx="3" fill="#4f7fe0"/>
+<text x="411.6" y="189.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">230 mg</text>
+<text x="24.0" y="219.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">ヨーグルト（加糖）（200 g）</text>
+<rect x="250" y="205" width="120.0" height="20" rx="3" fill="#4f7fe0"/>
+<text x="378.0" y="219.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">180 mg</text>
+<text x="24.0" y="249.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">黒すりごま（10 g）</text>
+<rect x="250" y="235" width="96.6" height="20" rx="3" fill="#c9a227"/>
+<text x="354.6" y="249.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">145 mg</text>
+<text x="24.0" y="279.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">木綿豆腐（100 g）</text>
+<rect x="250" y="265" width="93.3" height="20" rx="3" fill="#c9a227"/>
+<text x="351.3" y="279.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">140 mg</text>
+<text x="24.0" y="309.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">チンゲン菜（100 g）</text>
+<rect x="250" y="295" width="81.3" height="20" rx="3" fill="#1d7a3e"/>
+<text x="339.3" y="309.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">122 mg</text>
+<text x="24.0" y="339.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">スライスチーズ（20 g）</text>
+<rect x="250" y="325" width="80.8" height="20" rx="3" fill="#4f7fe0"/>
+<text x="338.8" y="339.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">121 mg</text>
+<text x="24.0" y="369.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">さつまいもの葉（100 g）</text>
+<rect x="250" y="355" width="70.0" height="20" rx="3" fill="#1d7a3e"/>
+<text x="328.0" y="369.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">105 mg</text>
+<text x="24.0" y="399.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">押し豆腐（35 g）</text>
+<rect x="250" y="385" width="63.7" height="20" rx="3" fill="#c9a227"/>
+<text x="321.7" y="399.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">96 mg</text>
+<text x="24.0" y="429.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">ほうれん草（100 g）</text>
+<rect x="250" y="415" width="54.0" height="20" rx="3" fill="#1d7a3e"/>
+<text x="312.0" y="429.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">81 mg</text>
+<text x="24.0" y="459.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">オクラ（80 g）</text>
+<rect x="250" y="445" width="50.1" height="20" rx="3" fill="#5fa83b"/>
+<text x="308.1" y="459.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">75 mg</text>
+<text x="24.0" y="504.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">データ：台湾食品栄養成分データベース、USDA FoodData Central。ビタミンAはレチノール活性当量（RAE）。</text>
+<text x="744" y="528" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

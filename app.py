@@ -1074,6 +1074,11 @@ PAGE_FIGURES = {
     "/guide/body-fat-percentage-chart": ["bodyfat-ranges", "body-measurement"],
 }
 
+# 食物营养图谱的图（由 scripts/build_food_map.py 生成，尺寸和说明文字存在 data/food_map_figures.json）
+FOOD_MAP_FIGURES = json.loads((Path(app.root_path) / "data" / "food_map_figures.json").read_text(encoding="utf-8"))
+FIGURES.update(FOOD_MAP_FIGURES)
+PAGE_FIGURES["/guide/food-nutrient-map"] = list(FOOD_MAP_FIGURES)
+
 # 已生成的分享卡片文件名（例如 bmi.png、bmi.hant.png、bmi.ja.png），按语言分别判断有没有专属卡片
 OG_FILES = {p.name for p in (STATIC_DIR / "og").glob("*.png")}
 

@@ -408,7 +408,7 @@ ARTICLES = [
          '杨月欣 主编.《中国食物成分表》；U.S. Department of Agriculture, FoodData Central.（食物成分常见值）',
          '按体重的碳水（3/4/5 g/kg）、脂肪（0.8/1.0/1.1 g/kg）系数及膳食纤维每 1000 kcal 约 14 g 的规则，与本站相应工具一致。'],
         'related_tools': ['/carbs', '/fat-intake', '/fiber', '/glycemic-load'],
-        'related_articles': ['protein-intake-per-day', 'sugar-salt-limit', 'calorie-deficit-fat-loss', 'glycemic-index-food-list', 'daily-nutrition-check'],
+        'related_articles': ['protein-intake-per-day', 'sugar-salt-limit', 'calorie-deficit-fat-loss', 'glycemic-index-food-list', 'daily-nutrition-check', 'food-nutrient-map'],
     },
     {
         'slug': 'sugar-salt-limit',
@@ -658,7 +658,7 @@ ARTICLES = [
                  'postprandial glucose and insulin levels. Diabetes Care, 2015.',
                  'GL 示例中的可利用碳水为按常见营养成分数据估算的数值；GL = GI × 可利用碳水 ÷ 100，与本站 GI/GL 估算器一致。'],
      'related_tools': ['/glycemic-load', '/carbs', '/fiber', '/sugar-intake'],
-     'related_articles': ['carbs-fat-fiber', 'sugar-salt-limit', 'protein-intake-per-day']},
+     'related_articles': ['carbs-fat-fiber', 'sugar-salt-limit', 'protein-intake-per-day', 'food-nutrient-map']},
     {'slug': 'weight-fluctuation-plateau',
      'title': '体重一天差多少正常？体重波动与减肥平台期怎么分辨',
      'h1': '体重一天差多少正常？体重波动与平台期怎么分辨',
@@ -800,7 +800,44 @@ ARTICLES = [
                  '卫生福利部食品药物管理署“食品营养成分资料库”；U.S. Department of Agriculture, FoodData Central, SR Legacy (2018)。',
                  '示例菜单的营养素数值由本站一日饮食营养分析工具的食物数据计算。'],
      'related_tools': ['/nutrition-check', '/fiber', '/protein', '/salt'],
-     'related_articles': ['protein-intake-per-day', 'carbs-fat-fiber', 'sugar-salt-limit']},
+     'related_articles': ['protein-intake-per-day', 'carbs-fat-fiber', 'sugar-salt-limit', 'food-nutrient-map']},
+    {'slug': 'food-nutrient-map',
+     'title': '食物营养图谱：109 种常见食物营养聚类，看哪些食物营养重合、哪些互补',
+     'h1': '食物营养图谱：哪些食物营养重合，哪些能互补？',
+     'description': '把 109 种常见食物按营养素密度做聚类分析，分成 11 '
+                    '个营养群：白米饭、面条、馒头几乎可以互换，肉鱼、奶豆、深绿叶菜、橙黄色蔬菜和水果则各有所长。附营养图谱、热图、营养素相关矩阵、9 种营养素每份含量排行和相似 / 互补食物查询。',
+     'category': '营养摄入',
+     'published': '2026-11-17',
+     'updated': '2026-11-17',
+     'read_minutes': 10,
+     'toc': [('answer', '先说结论'),
+             ('how', '这张图谱是怎么做的'),
+             ('map', '食物营养图谱'),
+             ('groups', '11 个食物营养群各擅长什么'),
+             ('overlap', '营养重合的食物'),
+             ('complement', '作用不同的食物：搭配才能互补'),
+             ('explorer', '查一查：相近和互补的食物'),
+             ('heatmap', '109 种食物营养素热图'),
+             ('rank', '各营养素含量排行'),
+             ('tips', '用这张图搭配一日三餐'),
+             ('limits', '局限与注意事项'),
+             ('faq', '常见问题')],
+     'faq': [('哪些食物营养是重合的？', '同一营养群的食物营养组成很接近，例如白米饭、面条、米粉、馒头；鸡胸肉、金枪鱼、罗非鱼、猪里脊；西兰花、卷心菜、青椒。在同一群里换来换去，营养不会多出什么。'),
+             ('哪些食物营养互补？', '来自不同营养群的食物。例如米饭缺钾、镁、钙，可以搭配豆花或牛奶、红薯和菠菜；肉类缺膳食纤维、维生素 C 和钙，可以搭配西兰花、番石榴和深绿叶菜。'),
+             ('糙米和白米营养差很多吗？', '每碗糙米比白米多约 50 mg 镁和 1.5 g 膳食纤维，确实更好；但和蔬菜、豆类比起来，两者都属于以提供能量为主的主食，仍需要搭配其他食物。'),
+             ('为什么按每 100 kcal 比较？', '这样可以排除份量的影响，只看食物本身的营养组成（营养素密度）。不过低热量的蔬菜在这个尺度下会显得特别突出，所以文中也附上按常见一份计算的排行。')],
+     'sources': ['卫生福利部食品药物管理署“食品营养成分资料库”。',
+                 'U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, SR Legacy '
+                 '(2018).',
+                 'Drewnowski A. Concept of a nutritious food: toward a nutrient density score. Am J Clin Nutr. '
+                 '2005;82(4):721-732.',
+                 'Ward JH. Hierarchical grouping to optimize an objective function. J Am Stat Assoc. '
+                 '1963;58(301):236-244.',
+                 'Hurrell R, Egli I. Iron bioavailability and dietary reference values. Am J Clin Nutr. '
+                 '2010;91(5):1461S-1467S.',
+                 '聚类分析、主成分分析和排行由本站根据上述数据计算（scripts/build_food_map.py）。'],
+     'related_tools': ['/nutrition-check', '/protein', '/fiber', '/macro'],
+     'related_articles': ['daily-nutrition-check', 'carbs-fat-fiber', 'protein-intake-per-day']},
 ]
 
 ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}

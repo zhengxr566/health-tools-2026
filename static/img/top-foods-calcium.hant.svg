@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" width="760" height="540" font-family="'PingFang TC','Microsoft JhengHei','Noto Sans TC','Noto Sans CJK TC',sans-serif" role="img">
+<title>鈣含量排行：常見食物每份含量</title>
+<desc>常見食物每份鈣含量前 12 名的條形圖。</desc>
+<rect width="760" height="540" fill="#ffffff"/>
+<text x="24.0" y="42.0" font-size="22" fill="#1f2937" text-anchor="start" font-weight="bold">鈣含量最高的常見食物（每份）</text>
+<text x="24.0" y="68.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">按常見一份的量計算；顏色表示所屬營養群。參考：成人每日約 800 mg（計算用參考值）</text>
+<text x="24.0" y="129.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">豆花（200 g）</text>
+<rect x="250" y="115" width="400.0" height="20" rx="3" fill="#c9a227"/>
+<text x="658.0" y="129.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">600 mg</text>
+<text x="24.0" y="159.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">全脂牛奶（240 g）</text>
+<rect x="250" y="145" width="166.4" height="20" rx="3" fill="#4f7fe0"/>
+<text x="424.4" y="159.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">250 mg</text>
+<text x="24.0" y="189.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">低脂牛奶（240 g）</text>
+<rect x="250" y="175" width="153.6" height="20" rx="3" fill="#4f7fe0"/>
+<text x="411.6" y="189.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">230 mg</text>
+<text x="24.0" y="219.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">優格（200 g）</text>
+<rect x="250" y="205" width="120.0" height="20" rx="3" fill="#4f7fe0"/>
+<text x="378.0" y="219.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">180 mg</text>
+<text x="24.0" y="249.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">黑芝麻粉（10 g）</text>
+<rect x="250" y="235" width="96.6" height="20" rx="3" fill="#c9a227"/>
+<text x="354.6" y="249.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">145 mg</text>
+<text x="24.0" y="279.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">老豆腐（100 g）</text>
+<rect x="250" y="265" width="93.3" height="20" rx="3" fill="#c9a227"/>
+<text x="351.3" y="279.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">140 mg</text>
+<text x="24.0" y="309.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">小白菜（100 g）</text>
+<rect x="250" y="295" width="81.3" height="20" rx="3" fill="#1d7a3e"/>
+<text x="339.3" y="309.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">122 mg</text>
+<text x="24.0" y="339.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">乳酪片（20 g）</text>
+<rect x="250" y="325" width="80.8" height="20" rx="3" fill="#4f7fe0"/>
+<text x="338.8" y="339.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">121 mg</text>
+<text x="24.0" y="369.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">地瓜葉（100 g）</text>
+<rect x="250" y="355" width="70.0" height="20" rx="3" fill="#1d7a3e"/>
+<text x="328.0" y="369.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">105 mg</text>
+<text x="24.0" y="399.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">豆腐乾（35 g）</text>
+<rect x="250" y="385" width="63.7" height="20" rx="3" fill="#c9a227"/>
+<text x="321.7" y="399.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">96 mg</text>
+<text x="24.0" y="429.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">菠菜（100 g）</text>
+<rect x="250" y="415" width="54.0" height="20" rx="3" fill="#1d7a3e"/>
+<text x="312.0" y="429.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">81 mg</text>
+<text x="24.0" y="459.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">秋葵（80 g）</text>
+<rect x="250" y="445" width="50.1" height="20" rx="3" fill="#5fa83b"/>
+<text x="308.1" y="459.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">75 mg</text>
+<text x="24.0" y="504.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">資料：台灣食品營養成分資料庫、USDA FoodData Central；維生素A為視黃醇活性當量（RAE）。</text>
+<text x="744" y="528" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

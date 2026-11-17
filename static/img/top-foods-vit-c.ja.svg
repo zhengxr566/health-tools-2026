@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" width="760" height="540" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>ビタミンCが多い食品ランキング（1回量あたり）</title>
+<desc>身近な食品の1回量あたりのビタミンC量・上位12の棒グラフ。</desc>
+<rect width="760" height="540" fill="#ffffff"/>
+<text x="24.0" y="42.0" font-size="22" fill="#1f2937" text-anchor="start" font-weight="bold">ビタミンCが多い身近な食品（1回量あたり）</text>
+<text x="24.0" y="68.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">よく食べる1回量で計算。色は栄養グループ。参考：成人1日約100 mg（計算用の目安）</text>
+<text x="24.0" y="129.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">グァバ（150 g）</text>
+<rect x="250" y="115" width="400.0" height="20" rx="3" fill="#e0609f"/>
+<text x="658.0" y="129.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">342 mg</text>
+<text x="24.0" y="159.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">ピーマン（120 g）</text>
+<rect x="250" y="145" width="112.7" height="20" rx="3" fill="#e0609f"/>
+<text x="370.7" y="159.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">96 mg</text>
+<text x="24.0" y="189.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">パパイヤ（150 g）</text>
+<rect x="250" y="175" width="106.7" height="20" rx="3" fill="#e0609f"/>
+<text x="364.7" y="189.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">91 mg</text>
+<text x="24.0" y="219.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">ブロッコリー（100 g）</text>
+<rect x="250" y="205" width="104.2" height="20" rx="3" fill="#5fa83b"/>
+<text x="362.2" y="219.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">89 mg</text>
+<text x="24.0" y="249.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">パイナップル（150 g）</text>
+<rect x="250" y="235" width="83.7" height="20" rx="3" fill="#e0609f"/>
+<text x="341.7" y="249.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">72 mg</text>
+<text x="24.0" y="279.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">いちご（100 g）</text>
+<rect x="250" y="265" width="80.8" height="20" rx="3" fill="#e0609f"/>
+<text x="338.8" y="279.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">69 mg</text>
+<text x="24.0" y="309.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">オレンジ（150 g）</text>
+<rect x="250" y="295" width="72.2" height="20" rx="3" fill="#e0609f"/>
+<text x="330.2" y="309.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">62 mg</text>
+<text x="24.0" y="339.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">キウイ（80 g）</text>
+<rect x="250" y="325" width="68.2" height="20" rx="3" fill="#e0609f"/>
+<text x="326.2" y="339.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">58 mg</text>
+<text x="24.0" y="369.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">グレープフルーツ（150 g）</text>
+<rect x="250" y="355" width="64.0" height="20" rx="3" fill="#e0609f"/>
+<text x="322.0" y="369.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">55 mg</text>
+<text x="24.0" y="399.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">マンゴー（200 g）</text>
+<rect x="250" y="385" width="54.9" height="20" rx="3" fill="#e0609f"/>
+<text x="312.9" y="399.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">47 mg</text>
+<text x="24.0" y="429.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">キャベツ（100 g）</text>
+<rect x="250" y="415" width="42.8" height="20" rx="3" fill="#5fa83b"/>
+<text x="300.8" y="429.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">37 mg</text>
+<text x="24.0" y="459.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">さつまいも（150 g）</text>
+<rect x="250" y="445" width="34.3" height="20" rx="3" fill="#f08c2e"/>
+<text x="292.3" y="459.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">29 mg</text>
+<text x="24.0" y="504.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">データ：台湾食品栄養成分データベース、USDA FoodData Central。ビタミンAはレチノール活性当量（RAE）。</text>
+<text x="744" y="528" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

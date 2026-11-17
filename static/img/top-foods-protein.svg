@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540" width="760" height="540" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC','Noto Sans CJK SC',sans-serif" role="img">
+<title>蛋白质含量排行：常见食物每份含量</title>
+<desc>常见食物每份蛋白质含量前 12 名的条形图。</desc>
+<rect width="760" height="540" fill="#ffffff"/>
+<text x="24.0" y="42.0" font-size="22" fill="#1f2937" text-anchor="start" font-weight="bold">蛋白质含量最高的常见食物（每份）</text>
+<text x="24.0" y="68.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">按常见一份的量计算；颜色表示所属营养群。参考：成人每日约 55 g（计算用参考值）</text>
+<text x="24.0" y="129.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">鸡胸肉（100 g）</text>
+<rect x="250" y="115" width="400.0" height="20" rx="3" fill="#d1495b"/>
+<text x="658.0" y="129.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">31 g</text>
+<text x="24.0" y="159.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">瘦牛肉（100 g）</text>
+<rect x="250" y="145" width="376.8" height="20" rx="3" fill="#d1495b"/>
+<text x="634.8" y="159.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">29 g</text>
+<text x="24.0" y="189.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">猪里脊（100 g）</text>
+<rect x="250" y="175" width="369.0" height="20" rx="3" fill="#d1495b"/>
+<text x="627.0" y="189.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">29 g</text>
+<text x="24.0" y="219.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">罗非鱼（100 g）</text>
+<rect x="250" y="205" width="336.8" height="20" rx="3" fill="#d1495b"/>
+<text x="594.8" y="219.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">26 g</text>
+<text x="24.0" y="249.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">猪肉末（100 g）</text>
+<rect x="250" y="235" width="331.6" height="20" rx="3" fill="#d1495b"/>
+<text x="589.6" y="249.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">26 g</text>
+<text x="24.0" y="279.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">鸡腿肉（100 g）</text>
+<rect x="250" y="265" width="320.0" height="20" rx="3" fill="#d1495b"/>
+<text x="578.0" y="279.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">25 g</text>
+<text x="24.0" y="309.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">鲭鱼（100 g）</text>
+<rect x="250" y="295" width="308.4" height="20" rx="3" fill="#d1495b"/>
+<text x="566.4" y="309.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">24 g</text>
+<text x="24.0" y="339.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">牛肉饼（90 g）</text>
+<rect x="250" y="325" width="285.7" height="20" rx="3" fill="#d1495b"/>
+<text x="543.7" y="339.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">22 g</text>
+<text x="24.0" y="369.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">三文鱼（100 g）</text>
+<rect x="250" y="355" width="285.2" height="20" rx="3" fill="#d1495b"/>
+<text x="543.2" y="369.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">22 g</text>
+<text x="24.0" y="399.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">虾（80 g）</text>
+<rect x="250" y="385" width="247.7" height="20" rx="3" fill="#d1495b"/>
+<text x="505.7" y="399.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">19 g</text>
+<text x="24.0" y="429.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">金枪鱼罐头（70 g）</text>
+<rect x="250" y="415" width="230.3" height="20" rx="3" fill="#d1495b"/>
+<text x="488.3" y="429.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">18 g</text>
+<text x="24.0" y="459.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">面条（200 g）</text>
+<rect x="250" y="445" width="149.7" height="20" rx="3" fill="#6c757d"/>
+<text x="407.7" y="459.0" font-size="12" fill="#374151" text-anchor="start" font-weight="normal">12 g</text>
+<text x="24.0" y="504.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">数据：台湾食品营养成分资料库、USDA FoodData Central；维生素A为视黄醇活性当量（RAE）。</text>
+<text x="744" y="528" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

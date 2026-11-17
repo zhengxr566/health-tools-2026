@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 760" width="700" height="760" font-family="'PingFang TC','Microsoft JhengHei','Noto Sans TC','Noto Sans CJK TC',sans-serif" role="img">
+<title>食物營養素相關矩陣</title>
+<desc>10 種營養素在常見食物中的相關係數矩陣。</desc>
+<rect width="700" height="760" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="22" fill="#1f2937" text-anchor="start" font-weight="bold">營養素“同伴”圖：哪些營養素常在同一類食物裡？</text>
+<text x="24.0" y="64.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">109 種食物每 100 kcal 營養素密度的相關係數；綠色 = 常一起高，紫色 = 此消彼長</text>
+<text x="166.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 166.0 142)">蛋白質</text>
+<text x="132.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">蛋白質</text>
+<text x="218.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 218.0 142)">膳食纖維</text>
+<text x="132.0" y="232.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">膳食纖維</text>
+<text x="270.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 270.0 142)">鉀</text>
+<text x="132.0" y="284.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">鉀</text>
+<text x="322.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 322.0 142)">鈣</text>
+<text x="132.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">鈣</text>
+<text x="374.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 374.0 142)">鐵</text>
+<text x="132.0" y="388.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">鐵</text>
+<text x="426.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 426.0 142)">鎂</text>
+<text x="132.0" y="440.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">鎂</text>
+<text x="478.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 478.0 142)">鋅</text>
+<text x="132.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">鋅</text>
+<text x="530.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 530.0 142)">維生素A</text>
+<text x="132.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">維生素A</text>
+<text x="582.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 582.0 142)">維生素C</text>
+<text x="132.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">維生素C</text>
+<text x="634.0" y="142.0" font-size="11" fill="#1f2937" text-anchor="start" font-weight="normal" transform="rotate(-45 634.0 142)">鈉</text>
+<text x="132.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="end" font-weight="normal">鈉</text>
+<rect x="140" y="150" width="50" height="50" fill="#198754"/>
+<text x="165.0" y="180.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="192" y="150" width="50" height="50" fill="#eaf4ef"/>
+<text x="217.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.09</text>
+<rect x="244" y="150" width="50" height="50" fill="#9dccb6"/>
+<text x="269.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.42</text>
+<rect x="296" y="150" width="50" height="50" fill="#9ccbb5"/>
+<text x="321.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.43</text>
+<rect x="348" y="150" width="50" height="50" fill="#84bea3"/>
+<text x="373.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.53</text>
+<rect x="400" y="150" width="50" height="50" fill="#91c5ad"/>
+<text x="425.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.48</text>
+<rect x="452" y="150" width="50" height="50" fill="#63ad8b"/>
+<text x="477.0" y="180.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.68</text>
+<rect x="504" y="150" width="50" height="50" fill="#d3e8de"/>
+<text x="529.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.19</text>
+<rect x="556" y="150" width="50" height="50" fill="#fbfbfd"/>
+<text x="581.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.03</text>
+<rect x="608" y="150" width="50" height="50" fill="#b4d8c7"/>
+<text x="633.0" y="180.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.32</text>
+<rect x="140" y="202" width="50" height="50" fill="#eaf4ef"/>
+<text x="165.0" y="232.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.09</text>
+<rect x="192" y="202" width="50" height="50" fill="#198754"/>
+<text x="217.0" y="232.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="244" y="202" width="50" height="50" fill="#49a078"/>
+<text x="269.0" y="232.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.79</text>
+<rect x="296" y="202" width="50" height="50" fill="#8dc3aa"/>
+<text x="321.0" y="232.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.49</text>
+<rect x="348" y="202" width="50" height="50" fill="#68b08e"/>
+<text x="373.0" y="232.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.66</text>
+<rect x="400" y="202" width="50" height="50" fill="#58a883"/>
+<text x="425.0" y="232.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.72</text>
+<rect x="452" y="202" width="50" height="50" fill="#aad3c0"/>
+<text x="477.0" y="232.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.37</text>
+<rect x="504" y="202" width="50" height="50" fill="#93c6ae"/>
+<text x="529.0" y="232.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.47</text>
+<rect x="556" y="202" width="50" height="50" fill="#5caa86"/>
+<text x="581.0" y="232.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.71</text>
+<rect x="608" y="202" width="50" height="50" fill="#f8f7fc"/>
+<text x="633.0" y="232.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.05</text>
+<rect x="140" y="254" width="50" height="50" fill="#9dccb6"/>
+<text x="165.0" y="284.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.42</text>
+<rect x="192" y="254" width="50" height="50" fill="#49a078"/>
+<text x="217.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.79</text>
+<rect x="244" y="254" width="50" height="50" fill="#198754"/>
+<text x="269.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="296" y="254" width="50" height="50" fill="#6ab190"/>
+<text x="321.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.64</text>
+<rect x="348" y="254" width="50" height="50" fill="#59a884"/>
+<text x="373.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.72</text>
+<rect x="400" y="254" width="50" height="50" fill="#469e75"/>
+<text x="425.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.80</text>
+<rect x="452" y="254" width="50" height="50" fill="#7ebc9f"/>
+<text x="477.0" y="284.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.56</text>
+<rect x="504" y="254" width="50" height="50" fill="#73b697"/>
+<text x="529.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.60</text>
+<rect x="556" y="254" width="50" height="50" fill="#5fab88"/>
+<text x="581.0" y="284.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.69</text>
+<rect x="608" y="254" width="50" height="50" fill="#fcfcfe"/>
+<text x="633.0" y="284.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.02</text>
+<rect x="140" y="306" width="50" height="50" fill="#9ccbb5"/>
+<text x="165.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.43</text>
+<rect x="192" y="306" width="50" height="50" fill="#8dc3aa"/>
+<text x="217.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.49</text>
+<rect x="244" y="306" width="50" height="50" fill="#6ab190"/>
+<text x="269.0" y="336.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.64</text>
+<rect x="296" y="306" width="50" height="50" fill="#198754"/>
+<text x="321.0" y="336.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="348" y="306" width="50" height="50" fill="#68b08f"/>
+<text x="373.0" y="336.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.65</text>
+<rect x="400" y="306" width="50" height="50" fill="#54a680"/>
+<text x="425.0" y="336.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.74</text>
+<rect x="452" y="306" width="50" height="50" fill="#8cc3aa"/>
+<text x="477.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.50</text>
+<rect x="504" y="306" width="50" height="50" fill="#87c0a6"/>
+<text x="529.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.52</text>
+<rect x="556" y="306" width="50" height="50" fill="#9bcbb5"/>
+<text x="581.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.43</text>
+<rect x="608" y="306" width="50" height="50" fill="#b4d8c7"/>
+<text x="633.0" y="336.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.32</text>
+<rect x="140" y="358" width="50" height="50" fill="#84bea3"/>
+<text x="165.0" y="388.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.53</text>
+<rect x="192" y="358" width="50" height="50" fill="#68b08e"/>
+<text x="217.0" y="388.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.66</text>
+<rect x="244" y="358" width="50" height="50" fill="#59a884"/>
+<text x="269.0" y="388.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.72</text>
+<rect x="296" y="358" width="50" height="50" fill="#68b08f"/>
+<text x="321.0" y="388.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.65</text>
+<rect x="348" y="358" width="50" height="50" fill="#198754"/>
+<text x="373.0" y="388.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="400" y="358" width="50" height="50" fill="#3f9b70"/>
+<text x="425.0" y="388.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.83</text>
+<rect x="452" y="358" width="50" height="50" fill="#67af8e"/>
+<text x="477.0" y="388.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.66</text>
+<rect x="504" y="358" width="50" height="50" fill="#95c8b0"/>
+<text x="529.0" y="388.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.46</text>
+<rect x="556" y="358" width="50" height="50" fill="#a7d1bd"/>
+<text x="581.0" y="388.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.38</text>
+<rect x="608" y="358" width="50" height="50" fill="#b7d9ca"/>
+<text x="633.0" y="388.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.31</text>
+<rect x="140" y="410" width="50" height="50" fill="#91c5ad"/>
+<text x="165.0" y="440.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.48</text>
+<rect x="192" y="410" width="50" height="50" fill="#58a883"/>
+<text x="217.0" y="440.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.72</text>
+<rect x="244" y="410" width="50" height="50" fill="#469e75"/>
+<text x="269.0" y="440.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.80</text>
+<rect x="296" y="410" width="50" height="50" fill="#54a680"/>
+<text x="321.0" y="440.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.74</text>
+<rect x="348" y="410" width="50" height="50" fill="#3f9b70"/>
+<text x="373.0" y="440.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.83</text>
+<rect x="400" y="410" width="50" height="50" fill="#198754"/>
+<text x="425.0" y="440.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="452" y="410" width="50" height="50" fill="#73b596"/>
+<text x="477.0" y="440.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.61</text>
+<rect x="504" y="410" width="50" height="50" fill="#8fc4ab"/>
+<text x="529.0" y="440.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.49</text>
+<rect x="556" y="410" width="50" height="50" fill="#8cc3aa"/>
+<text x="581.0" y="440.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.50</text>
+<rect x="608" y="410" width="50" height="50" fill="#dcede5"/>
+<text x="633.0" y="440.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.15</text>
+<rect x="140" y="462" width="50" height="50" fill="#63ad8b"/>
+<text x="165.0" y="492.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.68</text>
+<rect x="192" y="462" width="50" height="50" fill="#aad3c0"/>
+<text x="217.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.37</text>
+<rect x="244" y="462" width="50" height="50" fill="#7ebc9f"/>
+<text x="269.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.56</text>
+<rect x="296" y="462" width="50" height="50" fill="#8cc3aa"/>
+<text x="321.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.50</text>
+<rect x="348" y="462" width="50" height="50" fill="#67af8e"/>
+<text x="373.0" y="492.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.66</text>
+<rect x="400" y="462" width="50" height="50" fill="#73b596"/>
+<text x="425.0" y="492.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.61</text>
+<rect x="452" y="462" width="50" height="50" fill="#198754"/>
+<text x="477.0" y="492.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="504" y="462" width="50" height="50" fill="#b3d7c6"/>
+<text x="529.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.33</text>
+<rect x="556" y="462" width="50" height="50" fill="#deede6"/>
+<text x="581.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.14</text>
+<rect x="608" y="462" width="50" height="50" fill="#daebe3"/>
+<text x="633.0" y="492.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.16</text>
+<rect x="140" y="514" width="50" height="50" fill="#d3e8de"/>
+<text x="165.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.19</text>
+<rect x="192" y="514" width="50" height="50" fill="#93c6ae"/>
+<text x="217.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.47</text>
+<rect x="244" y="514" width="50" height="50" fill="#73b697"/>
+<text x="269.0" y="544.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.60</text>
+<rect x="296" y="514" width="50" height="50" fill="#87c0a6"/>
+<text x="321.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.52</text>
+<rect x="348" y="514" width="50" height="50" fill="#95c8b0"/>
+<text x="373.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.46</text>
+<rect x="400" y="514" width="50" height="50" fill="#8fc4ab"/>
+<text x="425.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.49</text>
+<rect x="452" y="514" width="50" height="50" fill="#b3d7c6"/>
+<text x="477.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.33</text>
+<rect x="504" y="514" width="50" height="50" fill="#198754"/>
+<text x="529.0" y="544.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="556" y="514" width="50" height="50" fill="#90c5ad"/>
+<text x="581.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.48</text>
+<rect x="608" y="514" width="50" height="50" fill="#cde5da"/>
+<text x="633.0" y="544.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.21</text>
+<rect x="140" y="566" width="50" height="50" fill="#fbfbfd"/>
+<text x="165.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.03</text>
+<rect x="192" y="566" width="50" height="50" fill="#5caa86"/>
+<text x="217.0" y="596.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.71</text>
+<rect x="244" y="566" width="50" height="50" fill="#5fab88"/>
+<text x="269.0" y="596.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">0.69</text>
+<rect x="296" y="566" width="50" height="50" fill="#9bcbb5"/>
+<text x="321.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.43</text>
+<rect x="348" y="566" width="50" height="50" fill="#a7d1bd"/>
+<text x="373.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.38</text>
+<rect x="400" y="566" width="50" height="50" fill="#8cc3aa"/>
+<text x="425.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.50</text>
+<rect x="452" y="566" width="50" height="50" fill="#deede6"/>
+<text x="477.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.14</text>
+<rect x="504" y="566" width="50" height="50" fill="#90c5ad"/>
+<text x="529.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.48</text>
+<rect x="556" y="566" width="50" height="50" fill="#198754"/>
+<text x="581.0" y="596.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<rect x="608" y="566" width="50" height="50" fill="#f7f5fc"/>
+<text x="633.0" y="596.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.07</text>
+<rect x="140" y="618" width="50" height="50" fill="#b4d8c7"/>
+<text x="165.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.32</text>
+<rect x="192" y="618" width="50" height="50" fill="#f8f7fc"/>
+<text x="217.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.05</text>
+<rect x="244" y="618" width="50" height="50" fill="#fcfcfe"/>
+<text x="269.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.02</text>
+<rect x="296" y="618" width="50" height="50" fill="#b4d8c7"/>
+<text x="321.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.32</text>
+<rect x="348" y="618" width="50" height="50" fill="#b7d9ca"/>
+<text x="373.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.31</text>
+<rect x="400" y="618" width="50" height="50" fill="#dcede5"/>
+<text x="425.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.15</text>
+<rect x="452" y="618" width="50" height="50" fill="#daebe3"/>
+<text x="477.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.16</text>
+<rect x="504" y="618" width="50" height="50" fill="#cde5da"/>
+<text x="529.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">0.21</text>
+<rect x="556" y="618" width="50" height="50" fill="#f7f5fc"/>
+<text x="581.0" y="648.0" font-size="11" fill="#1f2937" text-anchor="middle" font-weight="normal">-0.07</text>
+<rect x="608" y="618" width="50" height="50" fill="#198754"/>
+<text x="633.0" y="648.0" font-size="11" fill="#fff" text-anchor="middle" font-weight="normal">1.00</text>
+<text x="24.0" y="720.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">相關只說明這些營養素常出現在同一類食物裡，不代表一種營養素會影響另一種的吸收。</text>
+<text x="684" y="748" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

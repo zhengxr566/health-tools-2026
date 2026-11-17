@@ -1,0 +1,78 @@
+{# 食物营养图谱页的小工具：选一种食物，看营养相近（可替换）和营养互补（搭配吃）的食物。
+   数据：static/data/food-map.json（scripts/build_food_map.py 生成）。调用前先 set fm = {lang, 文案...} #}
+<div class="fm-box" id="food-map-explorer" data-lang="{{ fm.lang }}" data-src="{{ static_url('data/food-map.json') }}"
+     {%- for k, v in fm.js.items() %} data-t-{{ k | lower }}="{{ v }}"{% endfor %}>
+  <label class="form-label fw-semibold" for="fm-select">{{ fm.pick }}</label>
+  <select class="form-select" id="fm-select"><option value="">{{ fm.loading }}</option></select>
+  <div id="fm-out" class="mt-3" aria-live="polite"></div>
+</div>
+<style>
+  .fm-box{border:1px solid #e5e7eb;border-radius:14px;padding:16px;background:#fbfdfb;margin:1rem 0 1.5rem}
+  .fm-badge{display:inline-block;padding:2px 10px;border-radius:999px;color:#fff;font-size:.85rem;font-weight:600}
+  .fm-row{margin-top:.75rem}
+  .fm-row h3{font-size:.95rem;font-weight:700;margin:0 0 .35rem}
+  .fm-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #e5e7eb;background:#fff;border-radius:999px;
+           padding:3px 10px;margin:0 6px 6px 0;font-size:.9rem;cursor:pointer;white-space:nowrap;max-width:100%}
+  .fm-chip:hover{border-color:#198754}
+  .fm-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .fm-tag{font-size:.8rem;color:#6b7280}
+</style>
+<script>
+(function () {
+  var box = document.getElementById("food-map-explorer");
+  if (!box) return;
+  var lang = box.getAttribute("data-lang");
+  // 文案放在 data-t-* 属性里，繁体页输出时会和正文一起转换
+  var T = {};
+  {{ fm.js.keys() | list | tojson }}.forEach(function (k) { T[k] = box.getAttribute("data-t-" + k.toLowerCase()) || ""; });
+  var sel = document.getElementById("fm-select"), out = document.getElementById("fm-out");
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); }
+  fetch(box.getAttribute("data-src")).then(function (r) { return r.json(); }).then(function (D) {
+    var byIdx = D.foods, sep = lang === "ja" ? "・" : "、";
+    function nn(k) { return D.nutrients[k][lang]; }
+    sel.innerHTML = '<option value="">' + esc(T.choose) + "</option>";
+    D.clusters.forEach(function (c, ci) {
+      var g = document.createElement("optgroup");
+      g.label = c[lang];
+      byIdx.forEach(function (f, i) {
+        if (f.c !== ci) return;
+        var o = document.createElement("option");
+        o.value = i; o.textContent = f.n[lang]; g.appendChild(o);
+      });
+      sel.appendChild(g);
+    });
+    function chip(i, extra) {
+      var f = byIdx[i], c = D.clusters[f.c];
+      return '<button type="button" class="fm-chip" data-i="' + i + '"><span class="fm-dot" style="background:' + c.color + '"></span>' +
+        esc(f.n[lang]) + (extra ? ' <span class="fm-tag">' + esc(extra) + "</span>" : "") + "</button>";
+    }
+    function show(i) {
+      var f = byIdx[i], c = D.clusters[f.c];
+      var hi = f.hi.length ? f.hi.map(nn).join(sep) : T.none;
+      var lo = f.lo.map(nn).join(sep);
+      var lowSet = f.lo;
+      var comp = f.p.map(function (j) {
+        var g = byIdx[j], fills = g.hi.filter(function (k) { return lowSet.indexOf(k) >= 0; });
+        return chip(j, fills.length ? T.fills + fills.map(nn).join(sep) : "");
+      }).join("");
+      out.innerHTML =
+        '<div><span class="fm-badge" style="background:' + c.color + '">' + esc(c[lang]) + "</span> " +
+        '<span class="small text-muted">' + esc(c.note[lang]) + "</span></div>" +
+        '<div class="fm-row small"><b>' + esc(T.strong) + "</b>" + esc(hi) + "　<b>" + esc(T.weak) + "</b>" + esc(lo) + "</div>" +
+        '<div class="fm-row"><h3>' + esc(T.similar) + '</h3><div class="small text-muted mb-1">' + esc(T.similarNote) + "</div>" +
+        f.s.map(function (j) { return chip(j); }).join("") + "</div>" +
+        '<div class="fm-row"><h3>' + esc(T.complement) + '</h3><div class="small text-muted mb-1">' + esc(T.complementNote) + "</div>" +
+        comp + "</div>";
+    }
+    sel.addEventListener("change", function () { if (sel.value !== "") show(+sel.value); else out.innerHTML = ""; });
+    out.addEventListener("click", function (e) {
+      var b = e.target.closest(".fm-chip");
+      if (!b) return;
+      sel.value = b.getAttribute("data-i");
+      show(+sel.value);
+    });
+    var start = byIdx.findIndex(function (f) { return f.id === 1; });
+    if (start >= 0) { sel.value = start; show(start); }
+  }).catch(function () { sel.innerHTML = '<option value="">' + esc(T.error) + "</option>"; });
+})();
+</script>
