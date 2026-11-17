@@ -334,7 +334,7 @@ ARTICLES = [
          'Acids, Cholesterol, Protein, and Amino Acids. National Academies Press, 2005.',
          '杨月欣 主编. 中国食物成分表（标准版，第 6 版）. 北京大学医学出版社.（食物蛋白质含量为约数）'],
         'related_tools': ['/protein', '/macro', '/meal-split'],
-        'related_articles': ['calorie-deficit-fat-loss', 'bmr-vs-tdee', 'carbs-fat-fiber'],
+        'related_articles': ['calorie-deficit-fat-loss', 'bmr-vs-tdee', 'carbs-fat-fiber', 'daily-nutrition-check'],
     },
     {
         'slug': 'daily-water-intake',
@@ -408,7 +408,7 @@ ARTICLES = [
          '杨月欣 主编.《中国食物成分表》；U.S. Department of Agriculture, FoodData Central.（食物成分常见值）',
          '按体重的碳水（3/4/5 g/kg）、脂肪（0.8/1.0/1.1 g/kg）系数及膳食纤维每 1000 kcal 约 14 g 的规则，与本站相应工具一致。'],
         'related_tools': ['/carbs', '/fat-intake', '/fiber', '/glycemic-load'],
-        'related_articles': ['protein-intake-per-day', 'sugar-salt-limit', 'calorie-deficit-fat-loss', 'glycemic-index-food-list'],
+        'related_articles': ['protein-intake-per-day', 'sugar-salt-limit', 'calorie-deficit-fat-loss', 'glycemic-index-food-list', 'daily-nutrition-check'],
     },
     {
         'slug': 'sugar-salt-limit',
@@ -442,7 +442,7 @@ ARTICLES = [
          'GB 28050-2011《食品安全国家标准 预包装食品营养标签通则》.（钠的营养素参考值 2000 mg）',
          '含糖、含盐的每份估算值与本站糖摄入量、盐摄入量工具的简化模型一致；包装食品数值为常见标签值，实际以营养成分表为准。'],
         'related_tools': ['/sugar-intake', '/salt', '/glycemic-load'],
-        'related_articles': ['carbs-fat-fiber', 'daily-water-intake', 'caffeine-limit', 'glycemic-index-food-list'],
+        'related_articles': ['carbs-fat-fiber', 'daily-water-intake', 'caffeine-limit', 'glycemic-index-food-list', 'daily-nutrition-check'],
     },
     {
         'slug': 'caffeine-limit',
@@ -773,6 +773,34 @@ ARTICLES = [
                  'Metab, 2006.'],
      'related_tools': ['/bmr', '/calorie', '/activity-level', '/protein'],
      'related_articles': ['bmr-vs-tdee', 'weight-fluctuation-plateau', 'calorie-deficit-fat-loss']},
+    {'slug': 'daily-nutrition-check',
+     'title': '一天吃够营养了吗？最容易缺的营养素与自查方法（附均衡一日菜单）',
+     'h1': '一天吃够营养了吗？最容易缺的营养素与自查方法',
+     'description': '外食为主的一天，钙、铁、钾、维生素 A 往往只达到参考量的三到六成，钠却超标约一半。本文用实际食物数据对比外食的一天和均衡的一天，列出最常不足的营养素、每种怎么补，以及用工具记录 '
+                    '3–7 天自查的方法。',
+     'category': '营养摄入',
+     'published': '2026-11-17',
+     'updated': '2026-11-17',
+     'read_minutes': 8,
+     'toc': [('answer', '先说结论'),
+             ('common', '最常不足与最常超标的营养素'),
+             ('example', '外食的一天 vs 均衡的一天'),
+             ('fix', '每种营养素怎么补'),
+             ('selfcheck', '怎么自查：记录 3–7 天看平均'),
+             ('caution', '需要特别注意的人'),
+             ('faq', '常见问题')],
+     'faq': [('哪些营养素最容易吃不够？', '钙、膳食纤维、钾、维生素 A，以及女性的铁。以精白米面和肉为主、蔬果和奶豆制品少的饮食，这几项往往只达到参考量的一半左右；相反，钠（盐）常常超标。'),
+             ('一天要吃多少钙？',
+              '按《中国居民膳食营养素参考摄入量（2023 版）》，成人每天 800 mg。1 杯牛奶约 230–250 mg、1 碗无糖豆花约 600 mg、1 块老豆腐约 140 '
+              'mg，奶和豆制品搭配就很容易达到。'),
+             ('怎么知道自己缺不缺营养？', '可以连续记录 3–7 天饮食，用营养分析工具看平均摄入量。如果某种营养素长期低于参考量的 70%，就值得调整饮食；是否真的缺乏，需要医生通过症状和检查判断。'),
+             ('需要吃复合维生素吗？', '饮食均衡的健康成人通常不需要。孕期、素食、老年人或医生确认缺乏时，可以在医生或营养师建议下补充；补充剂不能代替均衡饮食。')],
+     'sources': ['中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》，人民卫生出版社，2023。',
+                 '国家卫生健康委员会《中国居民营养与慢性病状况报告（2020 年）》。',
+                 '卫生福利部食品药物管理署“食品营养成分资料库”；U.S. Department of Agriculture, FoodData Central, SR Legacy (2018)。',
+                 '示例菜单的营养素数值由本站一日饮食营养分析工具的食物数据计算。'],
+     'related_tools': ['/nutrition-check', '/fiber', '/protein', '/salt'],
+     'related_articles': ['protein-intake-per-day', 'carbs-fat-fiber', 'sugar-salt-limit']},
 ]
 
 ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}
@@ -781,6 +809,16 @@ ARTICLES_BY_SLUG = {a["slug"]: a for a in ARTICLES}
 # 繁体版（/zh-hant/）专用的元数据覆盖：用于按台湾标准改写的文章。
 # 用简体书写即可，输出时会自动转繁体。只需写和简体版不同的字段。
 HANT_OVERRIDES = {
+    "daily-nutrition-check": {'title': '一天吃够营养了吗？最容易缺的营养素与自查方法（台湾 DRIs 标准）',
+     'description': '外食为主的一天，钙、铁、钾、维生素 A 往往只达到参考量的三到六成，钠却超过 2,300 mg '
+                    '的上限。本文依台湾国人膳食营养素参考摄取量第八版，对比外食的一天和均衡的一天，列出最常不足的营养素和补充方法。',
+     'faq': [('哪些营养素最容易吃不够？', '钙、膳食纤维、钾、维生素 A，以及女性的铁。以精白米面和肉为主、蔬果和奶豆制品少的饮食，这几项往往只达到参考量的一半左右；相反，钠（盐）常常超标。'),
+             ('一天要吃多少钙？',
+              '依台湾《国人膳食营养素参考摄取量》第八版，成人每天 1,000 mg。1 杯牛奶约 230–250 mg、1 碗无糖豆花约 600 mg、1 块传统豆腐约 140 '
+              'mg，奶和豆制品搭配就比较容易达到。'),
+             ('怎么知道自己缺不缺营养？', '可以连续记录 3–7 天饮食，用营养分析工具看平均摄取量。如果某种营养素长期低于参考量的 70%，就值得调整饮食；是否真的缺乏，需要医师通过症状和检查判断。'),
+             ('需要吃综合维生素吗？', '饮食均衡的健康成人通常不需要。怀孕、素食、年长者或医师确认缺乏时，可以在医师或营养师建议下补充；补充剂不能代替均衡饮食。')],
+     'extra_sources': ['卫生福利部国民健康署《国人膳食营养素参考摄取量》第八版。']},
     "bmi-normal-range": {
         "extra_sources": ["卫生福利部国民健康署：成人肥胖定义（BMI 与腰围标准）。"],
         "title": "BMI 正常范围是多少？台湾标准与 WHO 标准对照（附身高体重表）",

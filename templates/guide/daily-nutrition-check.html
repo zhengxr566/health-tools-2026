@@ -1,0 +1,144 @@
+{% extends "article.html" %}
+{% block article_body %}
+
+<h2 id="answer">先说结论</h2>
+<div class="callout">
+  <ul>
+    <li><b>最容易吃不够：</b>钙、膳食纤维、钾、维生素 A，以及女性的铁。以精白米面、肉和少量蔬菜为主、很少喝奶吃豆制品的饮食，这几项往往只达到参考量的一半左右。</li>
+    <li><b>最容易超标：</b>钠（盐）。外卖、方便面、加工肉和酱料加起来，一天很容易超过 {% if is_hant %}2,300{% else %}2,000{% endif %} mg 的上限。</li>
+    <li><b>怎么补：</b>每天 1–2 份奶类或含钙豆制品、一斤左右蔬菜（一半是深绿色）、一两份水果、主食换一部分全谷物和薯类，大多数营养素就能接近参考量。</li>
+    <li><b>怎么自查：</b>连续记录 3–7 天的饮食，用 <a href="/nutrition-check">一日饮食营养分析</a> 看平均下来哪些营养素经常不足，比只看某一天更准确。</li>
+  </ul>
+</div>
+<p>
+  吃饱不等于吃够。很多人热量和蛋白质都不缺，却长期钙、纤维、钾吃得不够，盐又吃得太多。
+  下面用本站工具的食物数据，对比“典型外食的一天”和“营养均衡的一天”，看看差在哪里、怎么调整。
+</p>
+
+<h2 id="common">最常不足与最常超标的营养素</h2>
+{% if is_hant %}
+<p>以台湾《国人膳食营养素参考摄取量》第八版为准，成人每天的参考量如下：</p>
+{% else %}
+<p>以中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》为准，成人（18–49 岁）每天的参考量如下：</p>
+{% endif %}
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>营养素</th><th>男性</th><th>女性</th><th>为什么容易不足</th></tr></thead>
+    <tbody>
+      {% if is_hant %}
+      <tr><td>钙</td><td colspan="2">1,000 mg</td><td class="text-start small">奶类和豆制品吃得少</td></tr>
+      <tr><td>膳食纤维</td><td colspan="2">每 1,000 kcal 约 14 g（约 20–38 g）</td><td class="text-start small">精白米面为主，蔬果和全谷物少</td></tr>
+      <tr><td>铁</td><td>10 mg</td><td>15 mg</td><td class="text-start small">女性因月经流失需要较多</td></tr>
+      <tr><td>钾</td><td>2,800 mg</td><td>2,500 mg</td><td class="text-start small">蔬菜、水果、薯类吃得少</td></tr>
+      <tr><td>维生素 A</td><td>600 μg RE</td><td>500 μg RE</td><td class="text-start small">深色蔬菜和蛋奶吃得少</td></tr>
+      <tr><td>钠（上限）</td><td colspan="2">2,300 mg（约 6 g 盐）</td><td class="text-start small">外食、加工食品、酱料</td></tr>
+      {% else %}
+      <tr><td>钙</td><td colspan="2">800 mg</td><td class="text-start small">奶类和豆制品吃得少</td></tr>
+      <tr><td>膳食纤维</td><td colspan="2">25–30 g</td><td class="text-start small">精白米面为主，蔬果和全谷物少</td></tr>
+      <tr><td>铁</td><td>12 mg</td><td>18 mg</td><td class="text-start small">女性因月经流失需要较多</td></tr>
+      <tr><td>钾</td><td colspan="2">2,000 mg</td><td class="text-start small">蔬菜、水果、薯类吃得少</td></tr>
+      <tr><td>维生素 A</td><td>770 μg RAE</td><td>660 μg RAE</td><td class="text-start small">深色蔬菜和蛋奶吃得少</td></tr>
+      <tr><td>钠（上限）</td><td colspan="2">2,000 mg（约 5 g 盐）</td><td class="text-start small">外食、加工食品、酱料</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% if is_hant %}
+<p>
+  台湾的国民营养健康调查也一再指出，多数成人的钙、膳食纤维和维生素 D 摄取不足，而钠普遍偏高。
+  维生素 D 主要靠晒太阳在皮肤合成，食物中含量少，本文不展开讨论。
+</p>
+{% else %}
+<p>
+  《中国居民营养与慢性病状况报告（2020 年）》指出，家庭人均每日烹调用盐约 9.3 克、烹调用油约 43.2 克，都明显高于膳食指南的建议；
+  同时钙、铁、维生素 A、维生素 D 等部分营养素缺乏的问题依然存在。
+</p>
+{% endif %}
+
+<h2 id="example">外食的一天 vs 均衡的一天</h2>
+<p>下面两份菜单都用本站营养分析工具的食物数据计算（按{% if is_hant %}台湾{% else %}中国{% endif %}成年女性的参考量）：</p>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light"><tr><th></th><th>典型外食的一天</th><th>均衡的一天</th></tr></thead>
+    <tbody>
+      <tr><td>早餐</td><td>馒头 1 个、含糖豆浆 1 杯、茶叶蛋 1 个</td><td>燕麦片 40 g、低脂牛奶 1 杯、水煮蛋 1 个、香蕉 1 根</td></tr>
+      <tr><td>午餐</td><td>白米饭 2 碗、肉末炒白菜（猪肉末 50 g、大白菜 150 g）</td><td>糙米饭 1 碗、鸡腿肉 100 g、西兰花 100 g、老豆腐 1 块</td></tr>
+      <tr><td>晚餐</td><td>火腿炒饭 1 盘</td><td>白米饭 1 碗、瘦牛肉 100 g、菠菜 100 g、番茄 1 个</td></tr>
+      <tr><td>其他</td><td>珍珠奶茶（半糖）1 杯、苹果 1 个；油 2 汤匙、盐 5 g</td><td>无糖豆花 1 碗、番石榴 1 个、花生 15 g；油 2 汤匙、盐 4 g</td></tr>
+      <tr><td>热量</td><td>约 2,430 kcal</td><td>约 1,850 kcal</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle text-center">
+    <thead class="table-light"><tr><th>营养素（达成率）</th><th>外食的一天</th><th>均衡的一天</th></tr></thead>
+    <tbody>
+      {% if is_hant %}
+      <tr><td>钙</td><td class="text-danger">25%</td><td>122%</td></tr>
+      <tr><td>膳食纤维</td><td class="text-danger">60%</td><td>105%</td></tr>
+      <tr><td>铁</td><td class="text-danger">37%</td><td>108%</td></tr>
+      <tr><td>钾</td><td class="text-danger">51%</td><td>164%</td></tr>
+      <tr><td>维生素 A</td><td class="text-danger">57%</td><td>122%</td></tr>
+      <tr><td>维生素 C</td><td class="text-danger">54%</td><td>476%</td></tr>
+      <tr><td>钠（占上限）</td><td class="text-danger">137%</td><td>87%</td></tr>
+      {% else %}
+      <tr><td>钙</td><td class="text-danger">31%</td><td>153%</td></tr>
+      <tr><td>膳食纤维</td><td class="text-warning">82%</td><td>108%</td></tr>
+      <tr><td>铁</td><td class="text-danger">31%</td><td>90%</td></tr>
+      <tr><td>钾</td><td class="text-danger">64%</td><td>205%</td></tr>
+      <tr><td>维生素 A</td><td class="text-danger">43%</td><td>92%</td></tr>
+      <tr><td>维生素 C</td><td class="text-danger">54%</td><td>476%</td></tr>
+      <tr><td>钠（占上限）</td><td class="text-danger">158%</td><td>100%</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+<p>
+  外食的一天热量反而多了约 600 kcal，主要来自主食、炒饭的油和奶茶；但钙、铁、钾、维生素几乎全面不足。
+  均衡的一天并没有用到昂贵或特殊的食物，关键差别在于：<b>每餐都有蔬菜、每天有奶和豆制品、主食换一部分全谷物、零食换成水果和坚果</b>。
+</p>
+<p>
+  也可以看到，女性的铁即使吃得很均衡也只是勉强达标——参考量较高、植物性食物中的铁吸收率又低，这是女性常见缺铁的原因之一。
+</p>
+<a class="tool-cta" href="/nutrition-check">→ 把你今天吃的东西加进去，看看缺了什么：一日饮食营养分析</a>
+
+<h2 id="fix">每种营养素怎么补</h2>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light"><tr><th>营养素</th><th>容易做到的补法（含量约值）</th></tr></thead>
+    <tbody>
+      <tr><td>钙</td><td>低脂牛奶 1 杯（约 230 mg）、无糖豆花 1 碗（约 600 mg）、老豆腐 1 块 100 g（约 140 mg）、豆腐干 1 块（约 95 mg）、小白菜 100 g（约 120 mg）</td></tr>
+      <tr><td>膳食纤维</td><td>燕麦片 40 g（约 4 g）、红薯 1 个（约 5 g）、地瓜叶 100 g（约 3 g）、番石榴 1 个（约 8 g）；主食一半换全谷物</td></tr>
+      <tr><td>铁</td><td>瘦牛肉 100 g（约 2.7 mg）、菠菜 100 g（约 2.9 mg）、地瓜叶 100 g（约 2.5 mg）、豆腐干；同一餐吃番石榴、橙子等富含维生素 C 的水果，有助于植物性铁的吸收</td></tr>
+      <tr><td>钾</td><td>红薯 1 个（约 710 mg）、土豆 1 个（约 490 mg）、菠菜 100 g（约 510 mg）、香蕉 1 根（约 360 mg）</td></tr>
+      <tr><td>维生素 A</td><td>胡萝卜 1 根（约 560 μg）、红薯 1 个（约 1,400 μg）、菠菜 100 g（约 300 μg）、南瓜、鸡蛋</td></tr>
+      <tr><td>维生素 C</td><td>番石榴 1 个（约 340 mg）、猕猴桃 1 个（约 60 mg）、西兰花 100 g（约 90 mg）、青椒 1 个（约 95 mg）</td></tr>
+      <tr><td>减少钠</td><td>方便面调料包只放一半、少喝汤底、加工肉（火腿、培根）少吃、酱油和蚝油用量减半，用醋、葱姜蒜、香料提味</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="small text-muted">含量按工具使用的食物数据和常见份量计算；蔬菜按生重，烹调会损失部分维生素 C。</p>
+
+<h2 id="selfcheck">怎么自查：记录 3–7 天看平均</h2>
+<ol>
+  <li><b>连续记录几天：</b>工作日和周末的饮食差别很大，至少记录 3 天（最好包含 1 天周末）。</li>
+  <li><b>份量估得大概就好：</b>米饭按“碗”、肉按“手掌大小”、蔬菜按“一份约 100 g”，不必称重。</li>
+  <li><b>别漏掉油、盐和饮料：</b>炒菜油、调味料、奶茶和果汁对热量和钠影响很大。</li>
+  <li><b>看平均和规律：</b>如果某种营养素几天都在 70% 以下，才值得认真调整；偶尔一天不够不用担心。</li>
+</ol>
+<p>
+  在线工具只能估算食物中的含量，无法判断身体是否真的缺乏。如果长期疲倦、头晕、指甲变脆或体检发现贫血、骨密度低，请就医检查。
+</p>
+
+<h2 id="caution">需要特别注意的人</h2>
+<ul>
+  <li><b>孕期和哺乳期：</b>钙、铁、叶酸、碘的需要量增加，请依照产检医生或营养师的建议。</li>
+  <li><b>素食者：</b>容易缺乏维生素 B12、铁、锌和钙，需要特别规划，或在医生指导下使用补充剂。</li>
+  <li><b>老年人：</b>蛋白质、钙和维生素 D 更重要，食欲差时可以少量多餐。</li>
+  <li><b>慢性病患者：</b>肾脏病需要限制钾、磷和蛋白质，高血压需要限钠，请以医生的饮食建议为准。</li>
+</ul>
+<p>
+  补充剂不能代替均衡饮食，单一营养素补过量也有风险（例如长期大量补铁、补维生素 A）。是否需要补充，请先咨询医生或营养师。
+</p>
+
+{% endblock %}
