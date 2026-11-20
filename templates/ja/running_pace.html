@@ -5,6 +5,7 @@
 <div class="tool-card tool-card-form">
   <h1 class="h4 mb-1">ランニングペース計算</h1>
   <p class="text-muted mb-3">走った距離とタイムから、1kmあたりのペース（キロ何分）と時速を計算し、5km〜フルマラソンの予想タイムを表示します。</p>
+      <div class="alert alert-success small mb-3" role="note"><b>早わかり：</b>ペース＝タイム÷距離。10kmを55分で走るとキロ5分30秒（時速約10.9km）。このペースのままならハーフ約1時間56分、フル約3時間52分です（後半の失速は含みません）。</div>
   <form method="post" class="row g-3">
     <div class="col-12 col-md-3">
       <label class="form-label">距離（km）</label>
@@ -33,6 +34,7 @@
     <div class="col-6"><div class="small text-muted">ペース</div><div class="display-6 fw-semibold">キロ {{ result.pace_text | replace(' /km', '') }}</div></div>
     <div class="col-6"><div class="small text-muted">平均時速</div><div class="display-6 fw-semibold">{{ result.speed_kmh }} <span class="fs-5">km/h</span></div></div>
   </div>
+
   <h2 class="h6 mt-4 mb-2">このペースで走った場合の予想タイム</h2>
   <div class="table-responsive">
     <table class="table table-sm table-bordered text-center align-middle mb-2">
@@ -45,6 +47,8 @@
 {% endif %}
 
 <div class="tool-card">
+  {{ ui.figure("pace-finish-times") }}
+
   <h2 class="h6">ペースと時速の換算表</h2>
   <div class="table-responsive">
     <table class="table table-sm table-bordered text-center align-middle">

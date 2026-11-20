@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-page">
@@ -9,6 +10,7 @@
         <p class="text-muted mb-2">
           输入步数、身高和性别，估算这些步数大概等于多少公里。一般来说，10000步大约等于 6–8 公里，具体取决于身高、性别和步幅。
         </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>10000 步一般约等于 <b>6–8 公里</b>：身高 160 cm 的女性约 6.6 km，身高 170 cm 的男性约 7.1 km（步幅约为身高 × 0.41）。</div>
         <p class="text-muted mb-3">
           
         </p>
@@ -77,6 +79,7 @@
         <div class="form-text mt-2">
           估算步幅：约 {{ result.stride_cm }} cm / 步。
         </div>
+
 
                 <h2 class="h6 mb-3">按当前性别与身高估算的步数对应公里数</h2>
         <div class="table-responsive">
@@ -148,6 +151,9 @@
       </div>
       {% endif %}
 
+      <div class="tool-card">
+        {{ ui.figure("steps-distance-chart") }}
+      </div>
       <div class="tool-card">
         <h2 class="h6">10000步是多少公里？</h2>
         <p class="text-muted">

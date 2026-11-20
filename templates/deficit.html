@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -9,6 +10,7 @@
       <p class="text-muted mb-3">
         输入 TDEE，估算减脂、维持或增肌时的目标日摄入热量（kcal/天，仅供参考）。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>先算出每日总消耗（TDEE），再减去 300–500 kcal。例如 TDEE 2,000 kcal：温和减脂吃约 1,700 kcal，较快减脂约 1,500 kcal，每周约减 0.3–0.5 kg；本工具的目标热量不会低于 1,200 kcal。</div>
 
       <form method="post" class="row g-3">
         <div class="col-12">
@@ -82,6 +84,9 @@
 
   <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("deficit-weekly-loss") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">什么是热量缺口？</h2>
       <p class="text-muted">

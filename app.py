@@ -934,6 +934,12 @@ FOOD_MAP_FIGURES = json.loads((Path(app.root_path) / "data" / "food_map_figures.
 FIGURES.update(FOOD_MAP_FIGURES)
 PAGE_FIGURES["/guide/food-nutrient-map"] = list(FOOD_MAP_FIGURES)
 
+# 工具页的对照图（scripts/build_tool_charts.py 生成，说明文字和所在页面存在 data/tool_chart_figures.json）
+TOOL_CHART_FIGURES = json.loads((Path(app.root_path) / "data" / "tool_chart_figures.json").read_text(encoding="utf-8"))
+for _key, _fig in TOOL_CHART_FIGURES.items():
+    FIGURES[_key] = {k: v for k, v in _fig.items() if k != "page"}
+    PAGE_FIGURES.setdefault(_fig["page"], []).append(_key)
+
 # 已生成的分享卡片文件名（例如 bmi.png、bmi.hant.png、bmi.ja.png），按语言分别判断有没有专属卡片
 OG_FILES = {p.name for p in (STATIC_DIR / "og").glob("*.png")}
 

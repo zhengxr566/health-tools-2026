@@ -5,6 +5,7 @@
 <div class="tool-card tool-card-form">
   <h1 class="h4 mb-1">歩数・距離換算｜1万歩は何キロ？</h1>
   <p class="text-muted mb-3">歩数と身長から、歩幅を推定して歩いた距離（km）を計算します。1万歩はおよそ6〜8kmです。</p>
+      <div class="alert alert-success small mb-3" role="note"><b>早わかり：</b>1万歩はおよそ<b>6〜8km</b>。身長160cmの女性で約6.6km、身長170cmの男性で約7.1kmです（歩幅は身長×約0.41）。</div>
   <form method="post" class="row g-3">
     <div class="col-12 col-md-4">
       <label class="form-label">歩数</label>
@@ -45,6 +46,8 @@
 {% endif %}
 
 <div class="tool-card">
+  {{ ui.figure("steps-distance-chart") }}
+
   <h2 class="h6">身長別・歩数と距離の早見表</h2>
   <p class="text-muted small">歩幅＝身長×約0.414（男女の平均）として計算しています。</p>
   <div class="table-responsive">

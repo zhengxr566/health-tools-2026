@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -9,6 +10,7 @@
       <p class="text-muted mb-3">
         按体重与目标估算每日蛋白质建议（g/天，仅供参考），适合日常维持、减脂期与增肌期使用。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>体重 60 kg 的人：日常约 72 g（1.2 g/kg）、减脂期约 96 g（1.6 g/kg）、增肌期约 108 g（1.8 g/kg）。膳食推荐量（成人约每公斤 1 g 左右）是避免缺乏的参考量，有运动习惯的人通常需要更多。</div>
 
       <form method="post" class="row g-3">
         <div class="col-12">
@@ -78,6 +80,9 @@
 
   <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("protein-by-weight") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">为什么蛋白质重要？</h2>
       <p class="text-muted">

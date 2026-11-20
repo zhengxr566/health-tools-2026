@@ -7,6 +7,7 @@
 <div class="tool-card tool-card-form">
   <h1 class="h4 mb-1">歩数・時間換算｜1万歩は何分かかる？</h1>
   <p class="text-muted mb-3">歩数と歩く速さから、歩くのにかかる時間を計算します。1万歩は普通の速さで約100分です。</p>
+      <div class="alert alert-success small mb-3" role="note"><b>早わかり：</b>1万歩にかかる時間は、1分100歩のふつうの速さで<b>約100分（1時間40分）</b>。ゆっくり（1分80歩）なら約125分、速歩き（1分130歩）なら約77分です。</div>
   <form method="post" class="row g-3">
     <div class="col-12 col-md-6">
       <label class="form-label">歩数</label>
@@ -31,6 +32,8 @@
 {% endif %}
 
 <div class="tool-card">
+  {{ ui.figure("steps-time-chart") }}
+
   <h2 class="h6">歩数と時間の早見表</h2>
   <div class="table-responsive">
     <table class="table table-sm table-bordered text-center align-middle">

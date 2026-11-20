@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" width="760" height="388" font-family="'PingFang TC','Microsoft JhengHei','Noto Sans TC','Noto Sans CJK TC',sans-serif" role="img">
+<title>三大營養素比例與克數對照圖（減脂、維持、增肌）</title>
+<desc>三大營養素比例與克數對照圖（減脂、維持、增肌）</desc>
+<rect width="760" height="388" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="21" fill="#1f2937" text-anchor="start" font-weight="bold">三大營養素怎麼分配？按目標對照（2,000 kcal）</text>
+<text x="24.0" y="64.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="normal">與本站宏量營養素計算機相同的比例；蛋白質、碳水 1 g = 4 kcal，脂肪 1 g = 9 kcal</text>
+<rect x="24" y="82" width="14" height="14" rx="3" fill="#d1495b"/>
+<text x="44.0" y="94.0" font-size="12.5" fill="#1f2937" text-anchor="start" font-weight="normal">蛋白質</text>
+<rect x="107" y="82" width="14" height="14" rx="3" fill="#e8b23a"/>
+<text x="127.0" y="94.0" font-size="12.5" fill="#1f2937" text-anchor="start" font-weight="normal">碳水</text>
+<rect x="177" y="82" width="14" height="14" rx="3" fill="#4f7fe0"/>
+<text x="197.0" y="94.0" font-size="12.5" fill="#1f2937" text-anchor="start" font-weight="normal">脂肪</text>
+<text x="24.0" y="148.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">減脂期</text>
+<rect x="150.0" y="128" width="172.0" height="30" rx="4" fill="#d1495b"/>
+<text x="237.0" y="148.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">30%</text>
+<text x="237.0" y="176.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">150 g</text>
+<rect x="324.0" y="128" width="201.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="425.5" y="148.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">35%</text>
+<text x="425.5" y="176.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">175 g</text>
+<rect x="527.0" y="128" width="201.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="628.5" y="148.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">35%</text>
+<text x="628.5" y="176.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">78 g</text>
+<text x="24.0" y="214.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">維持期</text>
+<rect x="150.0" y="194" width="143.0" height="30" rx="4" fill="#d1495b"/>
+<text x="222.5" y="214.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="222.5" y="242.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">125 g</text>
+<rect x="295.0" y="194" width="259.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="425.5" y="214.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">45%</text>
+<text x="425.5" y="242.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">225 g</text>
+<rect x="556.0" y="194" width="172.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="643.0" y="214.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">30%</text>
+<text x="643.0" y="242.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">67 g</text>
+<text x="24.0" y="280.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">增肌期</text>
+<rect x="150.0" y="260" width="143.0" height="30" rx="4" fill="#d1495b"/>
+<text x="222.5" y="280.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="222.5" y="308.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">125 g</text>
+<rect x="295.0" y="260" width="288.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="440.0" y="280.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">50%</text>
+<text x="440.0" y="308.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">250 g</text>
+<rect x="585.0" y="260" width="143.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="657.5" y="280.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="657.5" y="308.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">56 g</text>
+<text x="24.0" y="366.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">熱量不同時，克數按比例增減；例如 1,600 kcal 維持期：蛋白質 100 g、碳水 180 g、脂肪 53 g。</text>
+<text x="746" y="376" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

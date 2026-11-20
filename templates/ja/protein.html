@@ -6,6 +6,7 @@
 <div class="tool-card tool-card-form">
   <h1 class="h4 mb-1">たんぱく質の1日必要量計算</h1>
   <p class="text-muted mb-3">体重と目的から、1日にとりたいたんぱく質の量（g）の目安を計算します。</p>
+      <div class="alert alert-success small mb-3" role="note"><b>早わかり：</b>体重60kgなら、日常は約72g（1.2g/kg）、減量中は約96g（1.6g/kg）、筋肉をつけたいなら約108g（1.8g/kg）が目安です。</div>
   <form method="post" class="row g-3">
     <div class="col-12 col-md-6">
       <label class="form-label">体重（kg）</label>
@@ -32,6 +33,8 @@
 {% endif %}
 
 <div class="tool-card">
+  {{ ui.figure("protein-by-weight") }}
+
   <h2 class="h6">食事摂取基準のたんぱく質の推奨量</h2>
   <p class="text-muted">厚生労働省「日本人の食事摂取基準（2025年版）」では、成人のたんぱく質の推奨量を次のように示しています。これは不足しないための量で、運動や減量をしている人は多めが目安になります。</p>
   <div class="table-responsive">

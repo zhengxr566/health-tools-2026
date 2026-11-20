@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 524" width="760" height="524" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>ランニングのペース別完走タイム早見表（5K・10K・ハーフ・フル）</title>
+<desc>ランニングのペース別完走タイム早見表（5K・10K・ハーフ・フル）</desc>
+<rect width="760" height="524" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="21" fill="#1f2937" text-anchor="start" font-weight="bold">ペース別・完走タイム早見表</text>
+<text x="24.0" y="64.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="normal">全区間を同じペースで走った場合（当サイトの計算機と同じ方法）。長い距離ほど実際はこれより遅くなりがちです</text>
+<rect x="16" y="88" width="728" height="30" fill="#f3f4f6"/>
+<text x="28.0" y="108.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="bold">ペース（/km）</text>
+<text x="150.0" y="108.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="bold">時速</text>
+<text x="290.0" y="108.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="bold">5K</text>
+<text x="410.0" y="108.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="bold">10K</text>
+<text x="540.0" y="108.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="bold">ハーフ</text>
+<text x="670.0" y="108.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="bold">フル</text>
+<rect x="16" y="118" width="728" height="38" fill="#fafafa"/>
+<text x="28.0" y="143.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">4'00"</text>
+<text x="150.0" y="143.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">15.0 km/h</text>
+<text x="290.0" y="143.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">20:00</text>
+<text x="410.0" y="143.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">40:00</text>
+<text x="540.0" y="143.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:24:23</text>
+<text x="670.0" y="143.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">2:48:47</text>
+<text x="28.0" y="181.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">4'30"</text>
+<text x="150.0" y="181.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">13.3 km/h</text>
+<text x="290.0" y="181.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">22:30</text>
+<text x="410.0" y="181.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">45:00</text>
+<text x="540.0" y="181.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:34:56</text>
+<text x="670.0" y="181.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">3:09:53</text>
+<rect x="16" y="194" width="728" height="38" fill="#fafafa"/>
+<text x="28.0" y="219.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">5'00"</text>
+<text x="150.0" y="219.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">12.0 km/h</text>
+<text x="290.0" y="219.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">25:00</text>
+<text x="410.0" y="219.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">50:00</text>
+<text x="540.0" y="219.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:45:29</text>
+<text x="670.0" y="219.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">3:30:58</text>
+<text x="28.0" y="257.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">5'30"</text>
+<text x="150.0" y="257.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">10.9 km/h</text>
+<text x="290.0" y="257.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">27:30</text>
+<text x="410.0" y="257.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">55:00</text>
+<text x="540.0" y="257.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:56:02</text>
+<text x="670.0" y="257.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">3:52:04</text>
+<rect x="16" y="270" width="728" height="38" fill="#fafafa"/>
+<text x="28.0" y="295.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">6'00"</text>
+<text x="150.0" y="295.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">10.0 km/h</text>
+<text x="290.0" y="295.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">30:00</text>
+<text x="410.0" y="295.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:00:00</text>
+<text x="540.0" y="295.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">2:06:35</text>
+<text x="670.0" y="295.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">4:13:10</text>
+<text x="28.0" y="333.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">6'30"</text>
+<text x="150.0" y="333.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">9.2 km/h</text>
+<text x="290.0" y="333.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">32:30</text>
+<text x="410.0" y="333.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:05:00</text>
+<text x="540.0" y="333.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">2:17:08</text>
+<text x="670.0" y="333.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">4:34:16</text>
+<rect x="16" y="346" width="728" height="38" fill="#fafafa"/>
+<text x="28.0" y="371.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">7'00"</text>
+<text x="150.0" y="371.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">8.6 km/h</text>
+<text x="290.0" y="371.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">35:00</text>
+<text x="410.0" y="371.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:10:00</text>
+<text x="540.0" y="371.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">2:27:41</text>
+<text x="670.0" y="371.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">4:55:22</text>
+<text x="28.0" y="409.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">7'30"</text>
+<text x="150.0" y="409.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">8.0 km/h</text>
+<text x="290.0" y="409.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">37:30</text>
+<text x="410.0" y="409.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:15:00</text>
+<text x="540.0" y="409.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">2:38:14</text>
+<text x="670.0" y="409.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">5:16:28</text>
+<rect x="16" y="422" width="728" height="38" fill="#fafafa"/>
+<text x="28.0" y="447.0" font-size="15" fill="#1f2937" text-anchor="start" font-weight="bold">8'00"</text>
+<text x="150.0" y="447.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="normal">7.5 km/h</text>
+<text x="290.0" y="447.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">40:00</text>
+<text x="410.0" y="447.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">1:20:00</text>
+<text x="540.0" y="447.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">2:48:47</text>
+<text x="670.0" y="447.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="normal">5:37:34</text>
+<text x="24.0" y="502.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">例：キロ6分00秒なら、10Kは約1:00:00、ハーフは約2:06:35。</text>
+<text x="746" y="512" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

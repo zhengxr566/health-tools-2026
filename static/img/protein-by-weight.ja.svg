@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" width="760" height="470" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>1日のたんぱく質量：体重別の早見グラフ</title>
+<desc>1日のたんぱく質量：体重別の早見グラフ</desc>
+<rect width="760" height="470" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="21" fill="#1f2937" text-anchor="start" font-weight="bold">1日のたんぱく質量：体重別の早見グラフ</text>
+<text x="24.0" y="64.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="normal">日常1.2g/kg・減量1.6g/kg・筋肥大1.8g/kg（当サイトの計算機と同じ）。体重60kgの日常で約72g</text>
+<line x1="74" y1="392.0" x2="610" y2="392.0" stroke="#e5e7eb"/>
+<text x="66.0" y="396.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="normal">0</text>
+<line x1="74" y1="317.0" x2="610" y2="317.0" stroke="#e5e7eb"/>
+<text x="66.0" y="321.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="normal">50</text>
+<line x1="74" y1="242.0" x2="610" y2="242.0" stroke="#e5e7eb"/>
+<text x="66.0" y="246.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="normal">100</text>
+<line x1="74" y1="167.0" x2="610" y2="167.0" stroke="#e5e7eb"/>
+<text x="66.0" y="171.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="normal">150</text>
+<line x1="74" y1="92.0" x2="610" y2="92.0" stroke="#e5e7eb"/>
+<text x="66.0" y="96.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="normal">200</text>
+<text x="74.0" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">45</text>
+<text x="122.7" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">50</text>
+<text x="171.5" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">55</text>
+<text x="220.2" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">60</text>
+<text x="268.9" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">65</text>
+<text x="317.6" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">70</text>
+<text x="366.4" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">75</text>
+<text x="415.1" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">80</text>
+<text x="463.8" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">85</text>
+<text x="512.5" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">90</text>
+<text x="561.3" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">95</text>
+<text x="610.0" y="410.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="normal">100</text>
+<text x="342.0" y="432.0" font-size="12.5" fill="#6b7280" text-anchor="middle" font-weight="normal">体重（kg）</text>
+<text x="66.0" y="78.0" font-size="12" fill="#6b7280" text-anchor="end" font-weight="normal">g/日</text>
+<polyline points="74.0,311.0 122.7,302.0 171.5,293.0 220.2,284.0 268.9,275.0 317.6,266.0 366.4,257.0 415.1,248.0 463.8,239.0 512.5,230.0 561.3,221.0 610.0,212.0" fill="none" stroke="#4f7fe0" stroke-width="3"/>
+<circle cx="74.0" cy="311.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="122.7" cy="302.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="171.5" cy="293.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="220.2" cy="284.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="268.9" cy="275.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="317.6" cy="266.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="366.4" cy="257.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="415.1" cy="248.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="463.8" cy="239.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="512.5" cy="230.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="561.3" cy="221.0" r="3.2" fill="#4f7fe0"/>
+<circle cx="610.0" cy="212.0" r="3.2" fill="#4f7fe0"/>
+<text x="620.0" y="216.0" font-size="12.5" fill="#4f7fe0" text-anchor="start" font-weight="bold">日常 1.2g/kg</text>
+<text x="220.2" y="275.0" font-size="11.5" fill="#4f7fe0" text-anchor="middle" font-weight="bold">72</text>
+<polyline points="74.0,284.0 122.7,272.0 171.5,260.0 220.2,248.0 268.9,236.0 317.6,224.0 366.4,212.0 415.1,200.0 463.8,188.0 512.5,176.0 561.3,164.0 610.0,152.0" fill="none" stroke="#198754" stroke-width="3"/>
+<circle cx="74.0" cy="284.0" r="3.2" fill="#198754"/>
+<circle cx="122.7" cy="272.0" r="3.2" fill="#198754"/>
+<circle cx="171.5" cy="260.0" r="3.2" fill="#198754"/>
+<circle cx="220.2" cy="248.0" r="3.2" fill="#198754"/>
+<circle cx="268.9" cy="236.0" r="3.2" fill="#198754"/>
+<circle cx="317.6" cy="224.0" r="3.2" fill="#198754"/>
+<circle cx="366.4" cy="212.0" r="3.2" fill="#198754"/>
+<circle cx="415.1" cy="200.0" r="3.2" fill="#198754"/>
+<circle cx="463.8" cy="188.0" r="3.2" fill="#198754"/>
+<circle cx="512.5" cy="176.0" r="3.2" fill="#198754"/>
+<circle cx="561.3" cy="164.0" r="3.2" fill="#198754"/>
+<circle cx="610.0" cy="152.0" r="3.2" fill="#198754"/>
+<text x="620.0" y="156.0" font-size="12.5" fill="#198754" text-anchor="start" font-weight="bold">減量 1.6g/kg</text>
+<text x="220.2" y="239.0" font-size="11.5" fill="#198754" text-anchor="middle" font-weight="bold">96</text>
+<polyline points="74.0,270.5 122.7,257.0 171.5,243.5 220.2,230.0 268.9,216.5 317.6,203.0 366.4,189.5 415.1,176.0 463.8,162.5 512.5,149.0 561.3,135.5 610.0,122.0" fill="none" stroke="#e8833a" stroke-width="3"/>
+<circle cx="74.0" cy="270.5" r="3.2" fill="#e8833a"/>
+<circle cx="122.7" cy="257.0" r="3.2" fill="#e8833a"/>
+<circle cx="171.5" cy="243.5" r="3.2" fill="#e8833a"/>
+<circle cx="220.2" cy="230.0" r="3.2" fill="#e8833a"/>
+<circle cx="268.9" cy="216.5" r="3.2" fill="#e8833a"/>
+<circle cx="317.6" cy="203.0" r="3.2" fill="#e8833a"/>
+<circle cx="366.4" cy="189.5" r="3.2" fill="#e8833a"/>
+<circle cx="415.1" cy="176.0" r="3.2" fill="#e8833a"/>
+<circle cx="463.8" cy="162.5" r="3.2" fill="#e8833a"/>
+<circle cx="512.5" cy="149.0" r="3.2" fill="#e8833a"/>
+<circle cx="561.3" cy="135.5" r="3.2" fill="#e8833a"/>
+<circle cx="610.0" cy="122.0" r="3.2" fill="#e8833a"/>
+<text x="620.0" y="126.0" font-size="12.5" fill="#e8833a" text-anchor="start" font-weight="bold">筋肥大 1.8g/kg</text>
+<text x="220.2" y="221.0" font-size="11.5" fill="#e8833a" text-anchor="middle" font-weight="bold">108</text>
+<text x="24.0" y="456.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="normal">肥満の方は標準体重で計算を。腎臓病の方は医師の指示に従ってください。</text>
+<text x="746" y="458" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 458" width="760" height="458" font-family="'PingFang TC','Microsoft JhengHei','Noto Sans TC','Noto Sans CJK TC',sans-serif" role="img">
+<title>熱量缺口與每週減重對照圖</title>
+<desc>熱量缺口與每週減重對照圖</desc>
+<rect width="760" height="458" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="21" fill="#1f2937" text-anchor="start" font-weight="bold">每天少吃多少熱量，一週能減多少？</text>
+<text x="24.0" y="64.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="normal">按 1 kg 體脂肪 ≈ 7,700 kcal 估算：每週減重 = 每日缺口 × 7 ÷ 7,700</text>
+<text x="170.0" y="106.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">每週約減（kg）</text>
+<text x="736.0" y="106.0" font-size="12" fill="#6b7280" text-anchor="end" font-weight="normal">減 5 kg 約需</text>
+<text x="24.0" y="144.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">每天 −250 kcal</text>
+<rect x="170" y="126" width="95.0" height="26" rx="4" fill="#198754"/>
+<text x="273.0" y="144.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.23 kg</text>
+<text x="736.0" y="144.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約 22 周</text>
+<text x="24.0" y="198.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">每天 −300 kcal</text>
+<rect x="170" y="180" width="114.0" height="26" rx="4" fill="#198754"/>
+<text x="292.0" y="198.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.27 kg</text>
+<text x="736.0" y="198.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約 18 周</text>
+<text x="24.0" y="252.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">每天 −500 kcal</text>
+<rect x="170" y="234" width="190.0" height="26" rx="4" fill="#198754"/>
+<text x="368.0" y="252.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.45 kg</text>
+<text x="736.0" y="252.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約 11 周</text>
+<text x="24.0" y="306.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">每天 −750 kcal</text>
+<rect x="170" y="288" width="285.0" height="26" rx="4" fill="#e8833a"/>
+<text x="463.0" y="306.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.68 kg</text>
+<text x="736.0" y="306.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約 7 周</text>
+<text x="24.0" y="360.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">每天 −1000 kcal</text>
+<rect x="170" y="342" width="380.0" height="26" rx="4" fill="#e8833a"/>
+<text x="558.0" y="360.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.91 kg</text>
+<text x="736.0" y="360.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約 6 周</text>
+<text x="24.0" y="420.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">綠色：每天 300–500 kcal 的常用範圍；橙色：缺口較大，更難堅持，也更容易流失肌肉。</text>
+<text x="24.0" y="438.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">實際減重會比線性估算慢：體重下降後消耗也隨之減少（Hall 等，2011）。</text>
+<text x="746" y="446" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

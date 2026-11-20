@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 454" width="760" height="454" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>PFCバランスの比率とグラム数（目的別）</title>
+<desc>PFCバランスの比率とグラム数（目的別）</desc>
+<rect width="760" height="454" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="21" fill="#1f2937" text-anchor="start" font-weight="bold">PFCバランスの配分：目的別の早見図（2,000kcal）</text>
+<text x="24.0" y="64.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="normal">当サイトのPFC計算機と同じ比率。たんぱく質・炭水化物は1g＝4kcal、脂質は1g＝9kcal</text>
+<rect x="24" y="82" width="14" height="14" rx="3" fill="#d1495b"/>
+<text x="44.0" y="94.0" font-size="12.5" fill="#1f2937" text-anchor="start" font-weight="normal">たんぱく質</text>
+<rect x="133" y="82" width="14" height="14" rx="3" fill="#e8b23a"/>
+<text x="153.0" y="94.0" font-size="12.5" fill="#1f2937" text-anchor="start" font-weight="normal">炭水化物</text>
+<rect x="229" y="82" width="14" height="14" rx="3" fill="#4f7fe0"/>
+<text x="249.0" y="94.0" font-size="12.5" fill="#1f2937" text-anchor="start" font-weight="normal">脂質</text>
+<text x="24.0" y="148.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">食事摂取基準の目安</text>
+<rect x="150.0" y="128" width="85.0" height="30" rx="4" fill="#d1495b"/>
+<text x="193.5" y="148.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">15%</text>
+<text x="193.5" y="176.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">75 g</text>
+<rect x="237.0" y="128" width="346.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="411.0" y="148.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">60%</text>
+<text x="411.0" y="176.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">300 g</text>
+<rect x="585.0" y="128" width="143.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="657.5" y="148.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="657.5" y="176.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">56 g</text>
+<text x="24.0" y="214.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">減量期</text>
+<rect x="150.0" y="194" width="172.0" height="30" rx="4" fill="#d1495b"/>
+<text x="237.0" y="214.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">30%</text>
+<text x="237.0" y="242.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">150 g</text>
+<rect x="324.0" y="194" width="201.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="425.5" y="214.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">35%</text>
+<text x="425.5" y="242.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">175 g</text>
+<rect x="527.0" y="194" width="201.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="628.5" y="214.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">35%</text>
+<text x="628.5" y="242.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">78 g</text>
+<text x="24.0" y="280.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">維持期</text>
+<rect x="150.0" y="260" width="143.0" height="30" rx="4" fill="#d1495b"/>
+<text x="222.5" y="280.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="222.5" y="308.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">125 g</text>
+<rect x="295.0" y="260" width="259.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="425.5" y="280.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">45%</text>
+<text x="425.5" y="308.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">225 g</text>
+<rect x="556.0" y="260" width="172.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="643.0" y="280.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">30%</text>
+<text x="643.0" y="308.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">67 g</text>
+<text x="24.0" y="346.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">増量期</text>
+<rect x="150.0" y="326" width="143.0" height="30" rx="4" fill="#d1495b"/>
+<text x="222.5" y="346.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="222.5" y="374.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">125 g</text>
+<rect x="295.0" y="326" width="288.0" height="30" rx="4" fill="#e8b23a"/>
+<text x="440.0" y="346.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">50%</text>
+<text x="440.0" y="374.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">250 g</text>
+<rect x="585.0" y="326" width="143.0" height="30" rx="4" fill="#4f7fe0"/>
+<text x="657.5" y="346.0" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="bold">25%</text>
+<text x="657.5" y="374.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="normal">56 g</text>
+<text x="24.0" y="432.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">エネルギー量が違えばグラム数も比例して変わります。例：1,600kcalの維持期はP100g・C180g・F53g。</text>
+<text x="746" y="442" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

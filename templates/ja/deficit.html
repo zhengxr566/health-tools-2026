@@ -12,6 +12,7 @@
 <div class="tool-card tool-card-form">
   <h1 class="h4 mb-1">ダイエットの目標カロリー計算</h1>
   <p class="text-muted mb-3">1日の消費カロリー（TDEE）と目標から、1日にとるカロリーの目安を計算します。消費カロリーがわからない場合は、先に<a href="/calorie">1日の消費カロリー計算</a>をご利用ください。</p>
+      <div class="alert alert-success small mb-3" role="note"><b>早わかり：</b>減量中の目標は、1日の消費カロリー（TDEE）から300〜500kcal減らした量が目安です。TDEEが2,000kcalなら1,500〜1,700kcalで、1か月に約1.2〜2.1kg減るペースです（下限は1,200kcal）。</div>
   <form method="post" class="row g-3">
     <div class="col-12 col-md-6">
       <label class="form-label">1日の消費カロリー（kcal）</label>
@@ -47,6 +48,8 @@
 {% endif %}
 
 <div class="tool-card">
+  {{ ui.figure("deficit-weekly-loss") }}
+
   <h2 class="h6">どれくらい減らせばいい？</h2>
   <p class="text-muted">
     無理なく続けられる減量ペースは、<b>1か月に1〜2kg程度</b>（1週間に0.25〜0.5kg）が目安です。

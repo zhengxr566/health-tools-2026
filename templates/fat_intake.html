@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -9,6 +10,7 @@
       <p class="text-muted mb-3">
         输入体重并选择目标，快速估算每天建议摄入多少脂肪，适合作为减脂、维持或增肌饮食安排的参考起点。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>按每公斤体重 0.8–1.1 g 估算：体重 60 kg 的人，减脂期约 48 g、维持期约 60 g、增肌期约 66 g；一般建议脂肪占总热量的 20–30%，并少吃饱和脂肪和反式脂肪。</div>
 
       <form method="post" class="row g-3">
         <div class="col-12">
@@ -76,6 +78,9 @@
 
   <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("fat-by-weight") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">脂肪为什么不是“越少越好”？</h2>
       <p class="text-muted">

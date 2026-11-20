@@ -12,6 +12,7 @@
 <div class="tool-card tool-card-form">
   <h1 class="h4 mb-1">PFCバランス計算</h1>
   <p class="text-muted mb-3">1日のカロリーと目的から、たんぱく質（P）・脂質（F）・炭水化物（C）をそれぞれ何グラムとればよいかを計算します。</p>
+      <div class="alert alert-success small mb-3" role="note"><b>早わかり：</b>1日2,000kcalで食事摂取基準の目安（P15%・F25%・C60%）なら、たんぱく質75g・脂質56g・炭水化物300g。たんぱく質と炭水化物は1g＝4kcal、脂質は1g＝9kcalで計算します。</div>
   <form method="post" class="row g-3">
     <div class="col-12 col-md-5">
       <label class="form-label">1日のカロリー（kcal）</label>
@@ -30,6 +31,7 @@
 
 {% if result %}
 <div class="tool-card">
+
   <h2 class="h6 mb-3">{{ tdee_in }} kcal の PFC の目安</h2>
   <div class="row g-2 text-center">
     <div class="col-4"><div class="p-3 rounded-3 bg-light h-100"><div class="small text-muted">たんぱく質（P）</div><div class="fs-3 fw-semibold">{{ result.protein_g }} g</div><div class="small text-muted">{{ result.protein_ratio }}%</div></div></div>
@@ -41,6 +43,8 @@
 {% endif %}
 
 <div class="tool-card">
+  {{ ui.figure("macro-split-chart") }}
+
   <h2 class="h6">PFCバランスとは</h2>
   <p class="text-muted">
     PFCバランスは、1日にとるエネルギーのうち、たんぱく質（Protein）・脂質（Fat）・炭水化物（Carbohydrate）がそれぞれ何％を占めるかを表したものです。

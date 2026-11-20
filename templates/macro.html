@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -9,6 +10,7 @@
       <p class="text-muted mb-3">
         输入每日总热量并选择目标，快速估算蛋白质、碳水化合物和脂肪的建议分配，适合作为减脂、维持或增肌饮食的参考起点。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>以每天 2,000 kcal、维持期（蛋白质 25%、碳水 45%、脂肪 30%）为例：蛋白质 125 g、碳水 225 g、脂肪 67 g。蛋白质和碳水每克 4 kcal，脂肪每克 9 kcal。</div>
 
       <form method="post" class="row g-3">
         <div class="col-12">
@@ -100,6 +102,9 @@
 
   <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("macro-split-chart") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">什么是宏量营养素？</h2>
       <p class="text-muted">

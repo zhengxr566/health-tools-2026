@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 458" width="760" height="458" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>エネルギー不足量と1週間の減量の目安</title>
+<desc>エネルギー不足量と1週間の減量の目安</desc>
+<rect width="760" height="458" fill="#ffffff"/>
+<text x="24.0" y="40.0" font-size="21" fill="#1f2937" text-anchor="start" font-weight="bold">1日に何kcal減らすと、1週間で何kg減る？</text>
+<text x="24.0" y="64.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="normal">体脂肪1kg≈7,200kcalとして計算：1週間の減少量＝1日の不足分×7÷7,200</text>
+<text x="170.0" y="106.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="normal">1週間の減少（kg）</text>
+<text x="736.0" y="106.0" font-size="12" fill="#6b7280" text-anchor="end" font-weight="normal">5kg減に必要な期間</text>
+<text x="24.0" y="144.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">1日 −250kcal</text>
+<rect x="170" y="126" width="95.0" height="26" rx="4" fill="#198754"/>
+<text x="273.0" y="144.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.24 kg</text>
+<text x="736.0" y="144.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約21週</text>
+<text x="24.0" y="198.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">1日 −300kcal</text>
+<rect x="170" y="180" width="114.0" height="26" rx="4" fill="#198754"/>
+<text x="292.0" y="198.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.29 kg</text>
+<text x="736.0" y="198.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約17週</text>
+<text x="24.0" y="252.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">1日 −500kcal</text>
+<rect x="170" y="234" width="190.0" height="26" rx="4" fill="#198754"/>
+<text x="368.0" y="252.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.49 kg</text>
+<text x="736.0" y="252.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約10週</text>
+<text x="24.0" y="306.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">1日 −750kcal</text>
+<rect x="170" y="288" width="285.0" height="26" rx="4" fill="#e8833a"/>
+<text x="463.0" y="306.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.73 kg</text>
+<text x="736.0" y="306.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約7週</text>
+<text x="24.0" y="360.0" font-size="14" fill="#1f2937" text-anchor="start" font-weight="bold">1日 −1000kcal</text>
+<rect x="170" y="342" width="380.0" height="26" rx="4" fill="#e8833a"/>
+<text x="558.0" y="360.0" font-size="13" fill="#1f2937" text-anchor="start" font-weight="normal">0.97 kg</text>
+<text x="736.0" y="360.0" font-size="13" fill="#1f2937" text-anchor="end" font-weight="normal">約5週</text>
+<text x="24.0" y="420.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">緑：1日300〜500kcalの一般的な範囲。オレンジ：不足が大きく、続けにくく筋肉も落ちやすくなります。</text>
+<text x="24.0" y="438.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="normal">実際の減り方は計算より遅くなりがちです。体重が減ると消費量も下がるためです。</text>
+<text x="746" y="446" text-anchor="end" font-size="12" fill="#9ca3af">calmyhealth.com</text>
+</svg>

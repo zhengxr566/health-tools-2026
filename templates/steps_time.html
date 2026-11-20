@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 {% set current_pace = pace_in or 'normal' %}
@@ -10,6 +11,7 @@
       <p class="text-muted mb-3">
         10000步大约需要 77–125 分钟，具体取决于步行速度。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>10000 步按每分钟 100 步的常见步速，大约要走 <b>100 分钟（1 小时 40 分）</b>；慢走（每分钟 80 步）约 125 分钟，快走（每分钟 130 步）约 77 分钟。</div>
 
       <form method="post" class="row g-2">
         <div class="col-12">
@@ -100,6 +102,9 @@
   </div>
 
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("steps-time-chart") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">10000步要走多久？</h2>
       <p class="text-muted">

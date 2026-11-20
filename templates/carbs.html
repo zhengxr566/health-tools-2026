@@ -10,6 +10,7 @@
       <p class="text-muted mb-3">
         输入体重并选择目标，算出每天建议吃多少克碳水；填写每日总热量后，还能看到碳水占比是否在膳食推荐范围内。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>常用估算是每公斤体重 3–5 g：体重 60 kg 的人，减脂期约 180 g、维持期约 240 g、增肌期约 300 g。{% if is_hant %}按台湾国人膳食营养素参考摄取量，碳水化合物约占总热量的 50–60%。{% else %}按《中国居民膳食营养素参考摄入量（2023 版）》，碳水化合物约占总热量的 50–65%。{% endif %}</div>
 
       <form method="post" class="row g-3">
         <div class="col-12 col-md-6">
@@ -94,6 +95,9 @@
 
   <!-- 右侧：解释内容 -->
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("carbs-by-weight") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">一天吃多少碳水才合适？</h2>
       <p class="text-muted">

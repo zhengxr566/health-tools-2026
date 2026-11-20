@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as ui with context %}
 {% block content %}
 
 <div class="tool-layout">
@@ -9,6 +10,7 @@
       <p class="text-muted mb-3">
         输入跑步距离和完成时间，计算每公里配速、平均速度，并估算常见比赛距离的大概完赛时间。
       </p>
+      <div class="alert alert-success small mb-3" role="note"><b>快速答案：</b>配速 = 用时 ÷ 距离。例如 10 公里跑 55 分钟，配速是 5'30"/km（时速约 10.9 km/h）；保持这个配速，半马约 1:56、全马约 3:52（没有计入后程掉速）。</div>
 
       <form id="tool-form" method="post" class="row g-3">
         <div class="col-12">
@@ -87,6 +89,9 @@
 
   <!-- 右侧：解释 / SEO 内容 -->
   <div class="tool-col tool-col-result">
+    <div class="tool-card">
+      {{ ui.figure("pace-finish-times") }}
+    </div>
     <div class="tool-card">
       <h2 class="h6">跑步配速是什么意思？</h2>
       <p class="text-muted">
