@@ -474,7 +474,7 @@ ARTICLES = [
          'going to bed. J Clin Sleep Med, 2013.',
          '各饮品每份咖啡因含量为典型估算值（现煮咖啡 95 mg、浓缩咖啡 63 mg、茶 40 mg、能量饮料 80 mg、可乐 35 mg），与本站咖啡因摄入量工具一致；截止时间按“入睡时间 − 6 '
          '小时”计算，与本站咖啡因截止时间工具一致。'],
-        'related_tools': ['/caffeine-intake', '/caffeine-cutoff'],
+        'related_tools': ['/caffeine-intake', '/sleep'],
         'related_articles': ['sleep-cycle-90-minutes', 'sleep-debt-nap', 'daily-water-intake'],
     },
     {
@@ -623,7 +623,7 @@ ARTICLES = [
          'social time. Chronobiol Int, 2006.',
          'Drake C, et al. Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. J Clin '
          'Sleep Med, 2013.'],
-        'related_tools': ['/jet-lag', '/chronotype', '/caffeine-cutoff', '/sleep'],
+        'related_tools': ['/sleep', '/caffeine-intake', '/sleep-debt', '/nap-time'],
         'related_articles': ['sleep-debt-nap', 'sleep-cycle-90-minutes', 'caffeine-limit'],
     },
     {'slug': 'glycemic-index-food-list',
@@ -730,7 +730,7 @@ ARTICLES = [
                  'prediabetes. Cell Metab, 2018.',
                  'Chen M, et al. Association of eating duration less than 8 h with all-cause, cardiovascular, and cancer mortality. '
                  'Diabetes Metab Syndr, 2025.'],
-     'related_tools': ['/meal-split', '/deficit', '/protein', '/caffeine-cutoff'],
+     'related_tools': ['/meal-split', '/deficit', '/protein', '/caffeine-intake'],
      'related_articles': ['calorie-deficit-fat-loss', 'protein-intake-per-day', 'boost-metabolism']},
     {'slug': 'boost-metabolism',
      'title': '基础代谢能提高吗？增肌、年龄与节食对代谢的真实影响',

@@ -88,12 +88,32 @@ OLD_HOSTS = {
 
 
 
+# 已删除的页面（孕期工具、作息类型测试、时差恢复）：返回 410 Gone
+GONE_PATHS = {
+    "/pregnancy-due-date",
+    "/pregnancy-week",
+    "/ovulation",
+    "/conception-date",
+    "/period-calculator",
+    "/fertility-calculator",
+    "/implantation-calculator",
+    "/pregnancy-weight",
+    "/pregnancy-calorie",
+    "/pregnancy-protein",
+    "/fetal-development",
+    "/pregnancy-water",
+    "/chronotype",
+    "/jet-lag",
+    "/category/pregnancy",
+    "/safe-days-calculator",
+}
+
 # 功能重复、已合并的工具页 → 合并后的页面
 MERGED_PATHS = {
     "/sleep-wake-time": "/sleep",
     "/sleep-bedtime": "/sleep?mode=wake_at",
     "/sleep-recovery": "/sleep-debt",
-    "/safe-days-calculator": "/ovulation",
+    "/caffeine-cutoff": "/caffeine-intake#cutoff",
 }
 
 @app.before_request
@@ -106,6 +126,9 @@ def redirect_old_domain():
     if host in OLD_HOSTS or host.endswith(".run.app") or host == "www.calmyhealth.com":
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
         return redirect(f"{BASE_URL_ENV}{request.script_root}{request.path}{qs}", code=301)
+    # 已删除的页面返回 410，告诉搜索引擎永久移除
+    if request.path in GONE_PATHS:
+        return gone_page()
     # 已合并的工具页 301 到合并后的页面（保留 /zh-hant、/ja 前缀）
     if request.path in MERGED_PATHS:
         return redirect(f"{request.script_root}{MERGED_PATHS[request.path]}", code=301)
@@ -483,7 +506,7 @@ TOOLS = [
     # 3.1.8 咖啡因摄入
     {
         "endpoint": "caffeine_intake",
-        "name": "咖啡因摄入计算器",
+        "name": "咖啡因计算器（摄入量与截止时间）",
         "path": "/caffeine-intake",
         "desc": "估算每天咖啡因摄入量",
         "category": "nutrition",
@@ -668,159 +691,9 @@ TOOLS = [
         "subgroup": "sleep_quality",
         "featured": True,
     },
-    # 4.3.3 咖啡因截止时间
-    {
-        "endpoint": "caffeine_cutoff",
-        "name": "咖啡因截止时间计算器",
-        "path": "/caffeine-cutoff",
-        "desc": "估算今晚想睡好最晚几点别再喝咖啡",
-        "category": "activity",
-        "subgroup": "sleep_quality",
-        "featured": True,
-    },
-    # 4.3.4 时差恢复
-    {
-        "endpoint": "jet_lag",
-        "name": "时差恢复计算器",
-        "path": "/jet-lag",
-        "desc": "估算跨时区后大概要几天恢复作息",
-        "category": "activity",
-        "subgroup": "sleep_quality",
-        "featured": True,
-    },
-    # 4.3.5 作息类型
-    {
-        "endpoint": "chronotype",
-        "name": "作息类型测试",
-        "path": "/chronotype",
-        "desc": "测试你更像早鸟型还是夜猫型",
-        "category": "activity",
-        "subgroup": "sleep_quality",
-        "featured": True,
-    },
     # 5. 孕期工具
     # ========= 5.1. 基础孕期 ======= 
-    # 5.1.1 预产期计算
-    {
-        "endpoint": "pregnancy_due_date",
-        "name": "预产期计算器",
-        "path": "/pregnancy-due-date",
-        "desc": "末次月经推算预产期与孕周",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": True,
-    },
-    # 5.1.2 怀孕周数
-    {
-        "endpoint": "pregnancy_week",
-        "name": "怀孕周数计算器",
-        "path": "/pregnancy-week",
-        "desc": "计算当前孕周、孕期阶段与预产期",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": False,
-    },
-    # 5.1.3 预测排卵日
-    {
-        "endpoint": "ovulation",
-        "name": "排卵期计算器",
-        "path": "/ovulation",
-        "desc": "预测排卵日与易孕期",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": False,
-    },
-    # 5.1.4 受孕日期
-    {
-        "endpoint": "conception_date",
-        "name": "受孕日期推算器",
-        "path": "/conception-date",
-        "desc": "推算宝宝可能受孕时间",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": False,
-    },
-    # 5.1.5 月经周期
-    {
-        "endpoint": "period_calculator",
-        "name": "月经周期计算器",
-        "path": "/period-calculator",
-        "desc": "预测下次月经与下个周期时间",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": True,
-    },
-    # 5.1.7 易孕期计算
-    {
-        "endpoint": "fertility_calculator",
-        "name": "易孕期计算器",
-        "path": "/fertility-calculator",
-        "desc": "预测易孕期与较高受孕概率日期",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": True,
-    },
-    # 5.1.8 着床时间
-    {
-        "endpoint": "implantation_calculator",
-        "name": "着床时间计算器",
-        "path": "/implantation-calculator",
-        "desc": "估算受孕后可能的着床时间范围",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": False,
-    },
     # ========= 5.2. 孕期健康 ======= 
-    # 5.2.1 孕期体重增长
-    {
-        "endpoint": "pregnancy_weight",
-        "name": "孕期体重增长计算器",
-        "path": "/pregnancy-weight",
-        "desc": "根据BMI计算孕期体重增长范围",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": False,
-    },
-    # 5.2.2 孕期热量需求
-    {
-        "endpoint": "pregnancy_calorie",
-        "name": "孕期热量需求计算器",
-        "path": "/pregnancy-calorie",
-        "desc": "估算孕期每日热量需求",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": False,
-    },
-    # 5.2.3 孕期蛋白质
-    {
-        "endpoint": "pregnancy_protein",
-        "name": "孕期蛋白质需求计算器",
-        "path": "/pregnancy-protein",
-        "desc": "估算孕期每日蛋白质摄入",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": False,
-    },
-    # 5.2.4 胎儿发育周数
-    {
-        "endpoint": "fetal_development",
-        "name": "胎儿发育周数图",
-        "path": "/fetal-development",
-        "desc": "查看不同孕周的胎儿发育阶段与进度",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": True,
-    },
-    # 5.2.5 孕期饮水量
-    {
-        "endpoint": "pregnancy_water",
-        "name": "孕期饮水量计算器",
-        "path": "/pregnancy-water",
-        "desc": "估算怀孕后每天建议喝多少水",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_health",
-        "featured": False,
-    },
 ]
 
 from flask import request
@@ -875,6 +748,12 @@ def page_not_found(e):
             "canonical": canonical_url("/")}
     popular = [t for t in TOOLS if t["path"] in ("/bmi", "/calorie", "/bodyfat", "/steps-distance", "/carbs", "/sleep")]
     return render_template("404.html", meta=meta, page_noindex=True, popular=popular), 404
+
+
+def gone_page():
+    """已永久删除的页面：和 404 页面相同的内容，但状态码是 410。"""
+    resp = page_not_found(None)
+    return resp[0], 410
 
 
 @app.after_request
@@ -4162,515 +4041,6 @@ def maintenance_calories_info(
         "progress": progress,
     }
 # -----------------------
-# Tool: pregnancy
-# -----------------------
-# 5. 孕期工具
-# ========= 5.1. 基础孕期 ======= 
-## 5.1.1 预产期计算
-@app.route("/pregnancy-due-date", methods=["GET", "POST"])
-def pregnancy_due_date():
-    error = None
-    lmp_in = ""
-
-    due_date = None
-    days_to_due = None
-    current_week = None
-    pregnancy_calendar = None
-
-    # 示例数据
-    demo_due_date = None
-    demo_days_to_due = None
-    demo_current_week = None
-    demo_pregnancy_calendar = None
-
-    meta = {
-        "title": "预产期计算器（孕周表格版）- CalmyHealth",
-        "description": "输入末次月经第一天，计算预计预产期、距离预产期天数、当前孕周，并查看完整显示到预产期的孕周表格。",
-        "canonical": canonical_url("/pregnancy-due-date"),
-    }
-
-    # -----------------------
-    # 先准备未计算时的示例数据
-    # 示例逻辑：假设今天大约在孕 12 周
-    # -----------------------
-    try:
-        today = date.today()
-        demo_lmp_date = today - timedelta(days=12 * 7 + 3)  # 示例：12周+3天
-        demo_due_date_obj = estimate_due_date(demo_lmp_date)
-
-        demo_due_date = demo_due_date_obj.strftime("%Y-%m-%d")
-        demo_days_to_due = (demo_due_date_obj - today).days
-        demo_current_week = format_week_label((today - demo_lmp_date).days)
-        demo_pregnancy_calendar = build_pregnancy_calendar(demo_lmp_date, demo_due_date_obj)
-    except Exception:
-        demo_due_date = None
-        demo_days_to_due = None
-        demo_current_week = None
-        demo_pregnancy_calendar = None
-
-    # -----------------------
-    # 用户提交后计算真实结果
-    # -----------------------
-    if request.method == "POST":
-        lmp_in = (request.form.get("lmp") or "").strip()
-
-        try:
-            if not lmp_in:
-                raise ValueError("请输入末次月经第一天。")
-
-            lmp_date = parse_date(lmp_in)
-            today = date.today()
-
-            if lmp_date > today:
-                raise ValueError("末次月经第一天不能晚于今天。")
-
-            due_date_obj = estimate_due_date(lmp_date)
-
-            due_date = due_date_obj.strftime("%Y-%m-%d")
-            days_to_due = (due_date_obj - today).days
-
-            pregnancy_days = (today - lmp_date).days
-            current_week = format_week_label(pregnancy_days)
-
-            pregnancy_calendar = build_pregnancy_calendar(lmp_date, due_date_obj)
-
-        except ValueError as e:
-            error = str(e)
-        except Exception:
-            error = "日期格式错误，请重新输入。"
-
-    return render_template(
-        "pregnancy_due_date.html",
-        meta=meta,
-        error=error,
-        lmp_in=lmp_in,
-        due_date=due_date,
-        days_to_due=days_to_due,
-        current_week=current_week,
-        pregnancy_calendar=pregnancy_calendar,
-        demo_due_date=demo_due_date,
-        demo_days_to_due=demo_days_to_due,
-        demo_current_week=demo_current_week,
-        demo_pregnancy_calendar=demo_pregnancy_calendar,
-        page_kind="tool",
-    )
-
-# 5.1.2 怀孕周数
-@app.route("/pregnancy-week", methods=["GET", "POST"])
-def pregnancy_week():
-    error = None
-    lmp_in = ""
-    result = None
-
-    if request.method == "POST":
-        lmp_in = request.form.get("lmp", "").strip()
-
-        try:
-            if not lmp_in:
-                raise ValueError("请输入末次月经日期。")
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            result = pregnancy_week_info(lmp_date)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效日期。"
-
-    # /pregnancy-week
-    meta = {
-        "title": "怀孕周数计算器｜孕周与预产期计算 - CalmyHealth",
-        "description": "输入末次月经日期，计算当前怀孕周数、孕期阶段、预产期和孕期进度，适合孕期时间参考。",
-        "canonical": canonical_url("/pregnancy-week"),
-    }
-
-    return render_template(
-        "pregnancy_week.html",
-        meta=meta,
-        error=error,
-        lmp_in=lmp_in,
-        result=result,
-        page_kind="tool",
-    )
-# 5.1.3 预测排卵日
-@app.route("/ovulation", methods=["GET", "POST"])
-def ovulation():
-
-    error = None
-    result = None
-    lmp_in = ""
-    cycle_in = "28"
-
-    if request.method == "POST":
-
-        lmp_in = request.form.get("lmp", "").strip()
-        cycle_in = request.form.get("cycle", "28")
-
-        try:
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            cycle_length = int(cycle_in)
-
-            if cycle_length < 21 or cycle_length > 45:
-                raise ValueError("月经周期通常在21–45天之间")
-
-            result = ovulation_info(lmp_date, cycle_length)
-
-        except Exception as e:
-            error = str(e)
-
-    meta = {
-        "title": "排卵期计算器（易孕期与排卵日预测）",
-        "description": "输入末次月经和周期长度，计算排卵日、易孕期和下次月经日期。",
-        "canonical": canonical_url("/ovulation"),
-    }
-
-    return render_template(
-        "ovulation.html",
-        meta=meta,
-        result=result,
-        error=error,
-        lmp_in=lmp_in,
-        cycle_in=cycle_in,
-        page_kind="tool",
-    )
-# 5.1.4 受孕日期
-@app.route("/conception-date", methods=["GET", "POST"])
-def conception_date():
-
-    error = None
-    result = None
-    lmp_in = ""
-
-    if request.method == "POST":
-
-        lmp_in = request.form.get("lmp", "").strip()
-
-        try:
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-
-            result = conception_info(lmp_date)
-
-        except Exception:
-            error = "请输入有效日期"
-
-    meta = {
-        "title": "受孕日期推算器（宝宝大概什么时候怀上的）",
-        "description": "根据末次月经推算可能的受孕日期，同时显示预产期参考。",
-        "canonical": canonical_url("/conception-date"),
-    }
-
-    return render_template(
-        "conception_date.html",
-        meta=meta,
-        result=result,
-        error=error,
-        lmp_in=lmp_in,
-        page_kind="tool",
-    )
-# 5.1.5 月经周期
-@app.route("/period-calculator", methods=["GET", "POST"])
-def period_calculator():
-    error = None
-    result = None
-
-    lmp_in = ""
-    cycle_in = "28"
-    period_in = "5"
-
-    if request.method == "POST":
-        lmp_in = request.form.get("lmp", "").strip()
-        cycle_in = request.form.get("cycle_length", "28").strip()
-        period_in = request.form.get("period_length", "5").strip()
-
-        try:
-            if not lmp_in:
-                raise ValueError("请输入末次月经开始日期。")
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            cycle_length = int(cycle_in)
-            period_length = int(period_in)
-
-            result = period_cycle_info(lmp_date, cycle_length, period_length)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "月经周期计算器｜下次月经与排卵期预测 - CalmyHealth",
-        "description": "输入末次月经开始日期、周期长度和经期时长，预测下次月经、排卵日和易孕期范围。",
-        "canonical": canonical_url("/period-calculator"),
-    }
-    return render_template(
-        "period_calculator.html",
-        meta=meta,
-        error=error,
-        result=result,
-        lmp_in=lmp_in,
-        cycle_in=cycle_in,
-        period_in=period_in,
-        page_kind="tool",
-    )
-# 5.1.7 易孕期计算
-@app.route("/fertility-calculator", methods=["GET", "POST"])
-def fertility_calculator():
-    error = None
-    result = None
-
-    lmp_in = ""
-    cycle_in = "28"
-
-    if request.method == "POST":
-        lmp_in = request.form.get("lmp", "").strip()
-        cycle_in = request.form.get("cycle_length", "28").strip()
-
-        try:
-            if not lmp_in:
-                raise ValueError("请输入末次月经开始日期。")
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            cycle_length = int(cycle_in)
-
-            result = fertility_window_info(lmp_date, cycle_length)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "易孕期计算器（Fertility Calculator）- CalmyHealth",
-        "description": "输入末次月经开始日期和平均周期长度，预测排卵日、易孕期范围和相对更高受孕概率的日期窗口。",
-        "canonical": canonical_url("/fertility-calculator"),
-    }
-
-    return render_template(
-        "fertility_calculator.html",
-        meta=meta,
-        error=error,
-        result=result,
-        lmp_in=lmp_in,
-        cycle_in=cycle_in,
-        page_kind="tool",
-    )
-# 5.1.8 着床时间
-@app.route("/implantation-calculator", methods=["GET", "POST"])
-def implantation_calculator():
-    error = None
-    result = None
-
-    mode_in = "lmp"
-    lmp_in = ""
-    ovulation_in = ""
-
-    if request.method == "POST":
-        mode_in = request.form.get("mode", "lmp").strip()
-        lmp_in = request.form.get("lmp", "").strip()
-        ovulation_in = request.form.get("ovulation_date", "").strip()
-
-        try:
-            if mode_in == "ovulation":
-                if not ovulation_in:
-                    raise ValueError("请输入排卵日。")
-                result = implantation_info(ovulation_date=parse_date(ovulation_in))
-            else:
-                mode_in = "lmp"
-                if not lmp_in:
-                    raise ValueError("请输入末次月经开始日期。")
-                result = implantation_info(lmp_date=parse_date(lmp_in))
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "着床时间计算器 - CalmyHealth",
-        "description": "输入排卵日或末次月经开始日期，估算常见的着床时间范围（排卵后约 6–12 天，多数在 8–10 天），仅供参考。",
-        "canonical": canonical_url("/implantation-calculator"),
-    }
-
-    return render_template(
-        "implantation_calculator.html",
-        meta=meta,
-        error=error,
-        result=result,
-        mode_in=mode_in,
-        lmp_in=lmp_in,
-        ovulation_in=ovulation_in,
-        page_kind="tool",
-    )
-# ========= 5.2. 孕期健康 ======= 
-# 5.2.1 孕期体重增长
-@app.route("/pregnancy-weight", methods=["GET", "POST"])
-def pregnancy_weight():
-
-    error = None
-    result = None
-    height_in = ""
-    weight_in = ""
-
-    if request.method == "POST":
-
-        height_in = request.form.get("height_cm", "")
-        weight_in = request.form.get("weight_kg", "")
-
-        try:
-
-            height = float(height_in)
-            weight = float(weight_in)
-
-            result = pregnancy_weight_gain(height, weight)
-
-        except Exception:
-            error = "请输入有效身高和体重"
-
-    meta = {
-        "title": "孕期体重增长计算器（Pregnancy Weight Gain Calculator）",
-        "description": "根据孕前BMI计算孕期建议体重增长范围，并提供医学参考标准。",
-        "canonical": canonical_url("/pregnancy-weight"),
-    }
-
-    return render_template(
-        "pregnancy_weight.html",
-        meta=meta,
-        result=result,
-        error=error,
-        height_in=height_in,
-        weight_in=weight_in,
-        page_kind="tool",
-    )
-# 5.2.2 孕期热量需求 
-@app.route("/pregnancy-calorie", methods=["GET", "POST"])
-def pregnancy_calorie():
-    error = None
-    base_kcal_in = ""
-    trimester_in = "first"
-    result = None
-
-    if request.method == "POST":
-        base_kcal_in = request.form.get("base_kcal", "").strip()
-        trimester_in = request.form.get("trimester", "first")
-
-        try:
-            base_kcal = float(base_kcal_in)
-
-            if base_kcal <= 0 or base_kcal > 10000:
-                raise ValueError("请输入合理的基础热量（kcal/天）。")
-
-            result = pregnancy_calorie_need(base_kcal, trimester_in)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "孕期热量需求计算器（不同孕期每天该吃多少热量）- CalmyHealth",
-        "description": "输入基础每日热量并选择孕期阶段，估算孕早期、孕中期、孕晚期每天建议摄入热量，并附公式说明、图表展示与相关孕期工具。",
-        "canonical": canonical_url("/pregnancy-calorie"),
-    }
-
-    return render_template(
-        "pregnancy_calorie.html",
-        meta=meta,
-        error=error,
-        base_kcal_in=base_kcal_in,
-        trimester_in=trimester_in,
-        result=result,
-        page_kind="tool",
-    )
-# 5.2.3 孕期蛋白质
-@app.route("/pregnancy-protein", methods=["GET", "POST"])
-def pregnancy_protein():
-    error = None
-    weight_kg_in = ""
-    trimester_in = "first"
-    result = None
-
-    if request.method == "POST":
-        weight_kg_in = request.form.get("weight_kg", "").strip()
-        trimester_in = request.form.get("trimester", "first")
-
-        try:
-            weight_kg = float(weight_kg_in)
-            result = pregnancy_protein_need(weight_kg, trimester_in)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "孕期蛋白质需求计算器（怀孕后每天蛋白质该吃多少）- CalmyHealth",
-        "description": "输入体重并选择孕期阶段，估算孕期每天蛋白质摄入建议，并附公式说明、结果图示和相关孕期工具内链。",
-        "canonical": canonical_url("/pregnancy-protein"),
-    }
-
-    return render_template(
-        "pregnancy_protein.html",
-        meta=meta,
-        error=error,
-        weight_kg_in=weight_kg_in,
-        trimester_in=trimester_in,
-        result=result,
-        page_kind="tool",
-    )
-# 5.2.4 胎儿发育周数
-@app.route("/fetal-development", methods=["GET", "POST"])
-def fetal_development():
-    error = None
-    week_in = ""
-    result = None
-
-    if request.method == "POST":
-        week_in = request.form.get("week", "").strip()
-
-        try:
-            week = int(week_in)
-            result = fetal_development_data(week)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效的孕周。"
-
-    meta = {
-        "title": "胎儿发育周数图（孕周发育进度查询）- CalmyHealth",
-        "description": "输入孕周，查看胎儿发育阶段、40周进度和本周常见发育特点，并推荐相关孕期工具。",
-        "canonical": canonical_url("/fetal-development"),
-    }
-
-    return render_template(
-        "fetal_development.html",
-        meta=meta,
-        error=error,
-        week_in=week_in,
-        result=result,
-        page_kind="tool",
-    )
-# 5.2.5 孕期饮水量
-@app.route("/pregnancy-water", methods=["GET", "POST"])
-def pregnancy_water():
-    error = None
-    weight_kg_in = ""
-    trimester_in = "first"
-    result = None
-
-    if request.method == "POST":
-        weight_kg_in = request.form.get("weight_kg", "").strip()
-        trimester_in = request.form.get("trimester", "first")
-
-        try:
-            weight_kg = float(weight_kg_in)
-            result = pregnancy_water_need(weight_kg, trimester_in)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "孕期饮水量计算器（怀孕后每天建议喝多少水）- CalmyHealth",
-        "description": "输入体重并选择孕期阶段，估算孕期每天建议饮水量，并附结果说明、公式解释和相关孕期工具内链。",
-        "canonical": canonical_url("/pregnancy-water"),
-    }
-
-    return render_template(
-        "pregnancy_water.html",
-        meta=meta,
-        error=error,
-        weight_kg_in=weight_kg_in,
-        trimester_in=trimester_in,
-        result=result,
-        page_kind="tool",
-    )
-
-
-# -----------------------
 # Tool: BMR
 # -----------------------
 # 2. 代谢与热量
@@ -5154,82 +4524,6 @@ def nap_time():
         result=result,
         page_kind="tool",
     )
-# ========= 4.3. 睡眠质量 ======= 
-# 4.3.4 时差恢复
-@app.route("/jet-lag", methods=["GET", "POST"])
-def jet_lag():
-    error = None
-    zones_in = "6"
-    direction_in = "east"
-    result = None
-
-    if request.method == "POST":
-        zones_in = request.form.get("timezones_crossed", "6").strip()
-        direction_in = request.form.get("direction", "east").strip()
-
-        try:
-            timezones_crossed = int(zones_in)
-            result = jet_lag_info(timezones_crossed, direction_in)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "时差恢复计算器（跨时区后大概要几天恢复作息）- CalmyHealth",
-        "description": "输入跨越的时区数量和飞行方向，估算时差恢复所需天数，并了解向东飞、向西飞对睡眠节律的不同影响。",
-        "canonical": canonical_url("/jet-lag"),
-    }
-
-    return render_template(
-        "jet_lag.html",
-        meta=meta,
-        error=error,
-        zones_in=zones_in,
-        direction_in=direction_in,
-        result=result,
-        page_kind="tool",
-    )
-# 4.3.5 作息类型
-@app.route("/chronotype", methods=["GET", "POST"])
-def chronotype():
-    error = None
-    result = None
-    answers = {
-        "sleepy_time": "2",
-        "wake_without_alarm": "2",
-        "best_focus": "2",
-        "weekend_shift": "2",
-        "morning_feeling": "2",
-    }
-
-    if request.method == "POST":
-        try:
-            answers["sleepy_time"] = request.form.get("sleepy_time", "2").strip()
-            answers["wake_without_alarm"] = request.form.get("wake_without_alarm", "2").strip()
-            answers["best_focus"] = request.form.get("best_focus", "2").strip()
-            answers["weekend_shift"] = request.form.get("weekend_shift", "2").strip()
-            answers["morning_feeling"] = request.form.get("morning_feeling", "2").strip()
-
-            score = sum(int(v) for v in answers.values())
-            result = chronotype_result(score)
-            result["score"] = score
-
-        except Exception:
-            error = "请完成所有选项后再提交。"
-
-    meta = {
-        "title": "作息类型测试（你是早鸟型还是夜猫型）- CalmyHealth",
-        "description": "通过几个简单问题测试你更像早鸟型、夜猫型还是中间型作息，并查看更适合自己的睡眠节律建议。",
-        "canonical": canonical_url("/chronotype"),
-    }
-
-    return render_template(
-        "chronotype.html",
-        meta=meta,
-        error=error,
-        result=result,
-        answers=answers,
-        page_kind="tool",
-    )
 # -----------------------
 # Tool: Body Fat
 # -----------------------
@@ -5327,39 +4621,6 @@ def sleep_need():
         meta=meta,
         error=error,
         age_in=age_in,
-        result=result,
-        page_kind="tool",
-    )
-
-@app.route("/caffeine-cutoff", methods=["GET", "POST"])
-def caffeine_cutoff():
-    error = None
-    sleep_in = "23:00"
-    cutoff_in = "6"
-    result = None
-
-    if request.method == "POST":
-        sleep_in = request.form.get("sleep_hm", "23:00").strip()
-        cutoff_in = request.form.get("cutoff_hours", "6").strip()
-
-        try:
-            cutoff_hours = float(cutoff_in)
-            result = caffeine_cutoff_info(sleep_in, cutoff_hours)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "咖啡因截止时间计算器（今晚想睡好，最晚几点别再喝咖啡）- CalmyHealth",
-        "description": "输入今晚预计睡觉时间，估算最晚几点后尽量不要再摄入咖啡因，帮助减少咖啡、茶、能量饮料对睡眠的影响。",
-        "canonical": canonical_url("/caffeine-cutoff"),
-    }
-
-    return render_template(
-        "caffeine_cutoff.html",
-        meta=meta,
-        error=error,
-        sleep_in=sleep_in,
-        cutoff_in=cutoff_in,
         result=result,
         page_kind="tool",
     )
@@ -6014,7 +5275,20 @@ def caffeine_intake():
     energy_drinks_in = "0"
     cola_cans_in = "0"
 
-    if request.method == "POST":
+    # 同一页的第二个计算器：咖啡因截止时间（原 /caffeine-cutoff）
+    sleep_in = "23:00"
+    cutoff_in = "6"
+    cutoff_result = None
+    cutoff_error = None
+    if request.method == "POST" and request.form.get("calc") == "cutoff":
+        sleep_in = request.form.get("sleep_hm", "23:00").strip()
+        cutoff_in = request.form.get("cutoff_hours", "6").strip()
+        try:
+            cutoff_result = caffeine_cutoff_info(sleep_in, float(cutoff_in))
+        except Exception as e:
+            cutoff_error = str(e) if str(e) else "请输入有效数据。"
+
+    if request.method == "POST" and request.form.get("calc") != "cutoff":
         brewed_coffee_in = request.form.get("brewed_coffee", "1").strip()
         espresso_shots_in = request.form.get("espresso_shots", "0").strip()
         tea_cups_in = request.form.get("tea_cups", "1").strip()
@@ -6033,8 +5307,8 @@ def caffeine_intake():
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "咖啡因摄入计算器（一天喝多少咖啡因）- CalmyHealth",
-        "description": "根据咖啡、浓缩咖啡、茶、能量饮料和可乐的份数，粗略估算每天咖啡因摄入量，并判断整体是否偏高。",
+        "title": "咖啡因计算器｜一天能喝几杯咖啡、几点前该停 - CalmyHealth",
+        "description": "按咖啡、浓缩咖啡、茶、能量饮料和可乐的份数估算一天的咖啡因摄入量，对照每日 400 mg 的参考上限；再按睡觉时间算出最晚几点前停止喝咖啡。",
         "canonical": canonical_url("/caffeine-intake"),
     }
 
@@ -6048,6 +5322,10 @@ def caffeine_intake():
         tea_cups_in=tea_cups_in,
         energy_drinks_in=energy_drinks_in,
         cola_cans_in=cola_cans_in,
+        sleep_in=sleep_in,
+        cutoff_in=cutoff_in,
+        cutoff_result=cutoff_result,
+        cutoff_error=cutoff_error,
         page_kind="tool",
     )
 # -----------------------
