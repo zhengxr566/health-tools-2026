@@ -47,7 +47,7 @@
           {{ kcal }} kcal
         </div>
         <div class="small text-muted">
-          这是包含基础代谢的总消耗；其中因为走路而<b>额外</b>多消耗的约为 {{ (kcal * 5 / 7)|round|int }} kcal。
+          这是包含基础代谢的总消耗；其中因为走路而<b>额外</b>多消耗的约为 {{ (kcal * 2 / 3)|round|int }} kcal。
           做减脂计划时建议参考额外消耗。
         </div>
         <div class="step-link-grid mt-3">
@@ -153,6 +153,62 @@
       </div>
 
       <div class="tool-card">
+        <h2 class="h6">计算过程：步数如何变成热量</h2>
+        <p class="text-muted">
+          步数本身不能直接算热量，本工具分两步完成：先把步数换成步行时间，再用 MET 法计算消耗。
+        </p>
+        <div class="bg-light rounded-3 p-3 small mb-3">
+          步行时间（小时）= 步数 ÷ 100 步/分钟 ÷ 60<br>
+          总消耗（kcal）= 3.0 MET × 体重（kg）× 步行时间（小时）
+        </div>
+        <p class="text-muted mb-0">
+          MET（代谢当量）表示某项活动的能量消耗是安静坐着时的几倍，1 MET 约等于每公斤体重每小时消耗 1 kcal。
+          常用的 MET 数据汇编《Compendium of Physical Activities》中，时速约 4 公里的平地步行在 3 MET 左右；
+          步频研究也发现，成年人每分钟约 100 步时大致对应 3 MET。所以本工具统一按 100 步/分钟、3.0 MET 计算。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">计算示例</h2>
+        <p class="text-muted mb-2">
+          体重 65 kg 的王女士，今天走了 8000 步：
+        </p>
+        <div class="bg-light rounded-3 p-3 small mb-3">
+          步行时间 = 8000 ÷ 100 ÷ 60 ≈ 1.33 小时（80 分钟）<br>
+          总消耗 = 3.0 × 65 × 1.33 ≈ 260 kcal<br>
+          额外消耗 = 260 × 2/3 ≈ 173 kcal
+        </div>
+        <p class="text-muted mb-0">
+          260 kcal 是这 80 分钟里身体的全部消耗，其中包括即使坐着不动也会消耗的部分（1 MET）。
+          真正因为走路而多出来的，是 3 MET 中的另外 2 MET，也就是总消耗的三分之二，约 173 kcal。
+          做减脂计划时应参考额外消耗，因为静息部分已经包含在你的 <a href="/calorie">TDEE</a> 里，再加一次会重复计算。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">什么情况下结果会偏高或偏低？</h2>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>情况</th>
+                <th>与估算相比</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>快走、上坡、爬楼、背包负重</td><td>实际消耗通常更高</td></tr>
+              <tr><td>逛街、走走停停、慢速散步</td><td>实际消耗通常更低</td></tr>
+              <tr><td>全天零散的家务和室内走动</td><td>步频低于 100，通常更低</td></tr>
+              <tr><td>计步漏记（推车、手机放包里）</td><td>步数偏少，结果偏低</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small text-muted mt-3 mb-0">
+          MET 值是在人群平均水平上得出的，个人的步行效率、体成分和身高都会造成差异。把结果看作一个粗略范围更稳妥，不要把它当作精确测量。
+        </p>
+      </div>
+
+      <div class="tool-card">
         <h2 class="h6">常见问题</h2>
 
         <h3 class="h6 mt-3 mb-1">每天一定要走 10000 步吗？</h3>
@@ -169,6 +225,23 @@
         <p class="text-muted">
           体重会受水分、饮食、睡眠、压力和周期性波动影响。更建议看数周趋势，而不是几天内的即时变化。
         </p>
+
+        <h3 class="h6 mt-3 mb-1">手机显示的消耗和这里不一样，该信哪个？</h3>
+        <p class="text-muted">
+          两者都是估算。很多应用只显示“活动消耗”（相当于本页的额外消耗），有的还会结合心率和速度。
+          比较时先确认对方显示的是总消耗还是活动消耗，再看数字是否在同一量级。
+        </p>
+
+        <h3 class="h6 mt-3 mb-1">走 10000 步能减多少脂肪？</h3>
+        <p class="text-muted">
+          以 60 kg 为例，10000 步总消耗约 300 kcal，额外消耗约 200 kcal。单次步行减掉的脂肪很少，效果来自长期坚持，并且要看饮食是否同时控制。
+        </p>
+
+        <h3 class="h6 mt-3 mb-1">参考资料</h3>
+        <ul class="small text-muted ps-3">
+          <li class="mb-1">Ainsworth BE, et al. 2011 Compendium of Physical Activities: a second update of codes and MET values. Medicine &amp; Science in Sports &amp; Exercise, 2011.</li>
+          <li class="mb-0">Tudor-Locke C, et al. How fast is fast enough? Walking cadence (steps/min) as a practical estimate of intensity in adults: a narrative review. British Journal of Sports Medicine, 2018.</li>
+        </ul>
 
         <hr class="my-4">
         <p class="small text-muted mb-0">

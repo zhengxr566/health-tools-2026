@@ -150,6 +150,59 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">“每 1000 kcal 14 g”是怎么来的？</h2>
+      <p class="text-muted">
+        这个系数来自美国医学研究院（IOM）2002 年制定的膳食参考摄入量：研究显示，膳食纤维摄入较高的人群冠心病风险较低，
+        这一保护作用大约在每 1000 kcal 摄入 14 g 纤维时出现，因此用它作为适宜摄入量，美国膳食指南也沿用了这个标准。
+        按热量计算的好处是：吃得多的人，对应的纤维目标也更高。
+      </p>
+      <p class="text-muted mb-0">
+        本工具的完整规则是：先算 热量 ÷ 1000 × 14，再与性别下限（男 30 g、女 25 g）比较，取较大的那个，最后四舍五入到整数。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <ul class="text-muted ps-3">
+        <li class="mb-2">女性，每天约 1800 kcal：1800 ÷ 1000 × 14 = 25.2 g，高于 25 g 下限，结果 <b>25 g</b>，“常见参考”。</li>
+        <li class="mb-2">男性，每天约 2000 kcal：2000 ÷ 1000 × 14 = 28 g，低于 30 g 下限，按下限取 <b>30 g</b>，“较充足参考”。</li>
+        <li class="mb-0">男性，每天约 2600 kcal：2600 ÷ 1000 × 14 = 36.4 g，结果 <b>36 g</b>，“较高参考”。</li>
+      </ul>
+
+      <div class="table-responsive">
+        <table class="table table-sm small text-muted mb-0">
+          <thead>
+            <tr><th>结果</th><th>工具提示</th><th>常见对应情况</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>25–29 g</td><td>常见参考</td><td>每天约 2100 kcal 以下的女性（男性因下限为 30 g，不会落在这一档）</td></tr>
+            <tr><td>30–34 g</td><td>较充足参考</td><td>每天约 2500 kcal 以下的男性，或 2100–2500 kcal 的女性</td></tr>
+            <tr><td>35 g 及以上</td><td>较高参考</td><td>每天约 2500 kcal 以上、活动量大的人</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">和官方建议对照</h2>
+      {% if is_hant %}
+      <p class="text-muted">
+        台湾国民健康署建议成年人每天摄取膳食纤维 25–35 g，《每日饮食指南》也建议全谷杂粮类至少三分之一来自未精制的全谷杂粮。
+        本工具的结果大多落在这个区间内。
+      </p>
+      {% else %}
+      <p class="text-muted">
+        中国营养学会建议成年人每天膳食纤维摄入 25–30 g。《中国居民膳食指南（2022）》对应的食物量是：
+        每天全谷物和杂豆 50–150 g、蔬菜 300–500 g、水果 200–350 g。按这个结构吃，纤维通常就能接近目标。
+      </p>
+      {% endif %}
+      <p class="text-muted mb-0">
+        <b>不适合直接套用的人：</b>儿童（下限按成人设定，偏高）、有炎症性肠病或肠道狭窄、近期做过肠道手术的人，
+        以及需要限制钾或磷的肾病患者（豆类、全谷物含量较高）。这些情况请按医生或营养师的建议调整。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">我一定要严格按这个数字吃吗？</h3>
@@ -166,6 +219,29 @@
       <p class="text-muted">
         很适合。因为它能帮助你把热量和宏量营养之外，补上“饮食结构”这一块。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">突然多吃纤维为什么会胀气？</h3>
+      <p class="text-muted">
+        肠道细菌发酵纤维会产生气体，短时间内加量太多就容易腹胀。更稳妥的做法是每周增加几克，同时多喝水，给肠道一两周适应时间。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">纤维补充剂能代替蔬菜和全谷物吗？</h3>
+      <p class="text-muted">
+        不能完全代替。补充剂通常只含一两种纤维，而蔬菜、水果、豆类和全谷物还同时提供钾、维生素和多种植物化合物。
+        饮食实在难以达标时，补充剂可以作为辅助。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids. 2002/2005</li>
+        <li class="mb-1">U.S. Department of Agriculture and U.S. Department of Health and Human Services. Dietary Guidelines for Americans, 2020–2025</li>
+        {% if is_hant %}
+        <li class="mb-0">台湾卫生福利部国民健康署《每日饮食指南》</li>
+        {% else %}
+        <li class="mb-0">中国营养学会《中国居民膳食指南（2022）》</li>
+        {% endif %}
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

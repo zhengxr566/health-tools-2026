@@ -134,6 +134,62 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">本工具怎么算：公式与例子</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        建议饮水量（ml/天）= 体重（kg）× 33
+      </div>
+
+      <p class="text-muted">
+        结果先四舍五入到整数毫升，再除以 1000 换算成升，保留一位小数。系数 33 ml/kg 取的是常见 30–35 ml/kg 区间的中间值，
+        只用体重一个变量，所以不区分性别、年龄、季节和运动量。
+      </p>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">计算示例</div>
+        <ul class="text-muted mb-0 ps-3">
+          <li class="mb-2">小林，体重 60 kg：60 × 33 = 1980 ml，约 2.0 L。</li>
+          <li class="mb-2">小陈，体重 52 kg：52 × 33 = 1716 ml，约 1.7 L。</li>
+          <li class="mb-0">如果小林当天快走 1 小时、出汗明显，运动前后称体重少了 0.5 kg，就应在 1980 ml 之外再补上运动丢失的水分。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">和官方建议怎么对照？</h2>
+      {% if is_hant %}
+      <p class="text-muted">
+        台湾国民健康署常用的简便估算是每公斤体重约 30 ml。以 60 kg 为例约 1800 ml，比本工具的 1980 ml 略低，
+        两者相差约 10%，都属于日常参考范围。
+      </p>
+      {% else %}
+      <p class="text-muted">
+        《中国居民膳食指南（2022）》建议：在温和气候条件下、身体活动水平较低的成年人，每天饮水男性 1700 ml、女性 1500 ml。
+        这里的“饮水”指白水、茶水等液体，不包括食物中的水。本工具按体重给出的数值往往比这个基线略高，
+        可以理解为已经给日常活动和出汗留了一些余量。
+      </p>
+      {% endif %}
+      <p class="text-muted mb-0">
+        欧洲食品安全局（EFSA）2010 年给出的成年人“总水分”适宜摄入量为男性约 2.5 L/天、女性约 2.0 L/天，
+        其中约 20%–30% 来自食物（蔬菜、水果、粥、汤等），其余来自饮品。所以如果你三餐里汤水和蔬果多，实际需要喝的量会少一些。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">哪些情况要加量，哪些情况不能照搬？</h2>
+      <ul class="text-muted ps-3">
+        <li class="mb-2"><b>需要加量：</b>天气炎热、高温作业、长时间运动、发热、腹泻或呕吐时，水分丢失明显增加。</li>
+        <li class="mb-2"><b>运动补水：</b>运动前后各称一次体重，体重每减少 1 kg，美国运动医学会（ACSM）的建议是补充约 1.5 L 液体，分几次喝完。</li>
+        <li class="mb-2"><b>孕期和哺乳期：</b>需水量会增加，可参考 <a href="/pregnancy-water">孕期饮水量计算器</a>。</li>
+        <li class="mb-0"><b>不能照搬：</b>心力衰竭、肾功能不全（尤其透析）、肝硬化腹水，或医生要求限水的人，应以医嘱为准。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        短时间内大量饮水也有风险：长时间耐力运动中只喝大量白水、不补充电解质，可能引起低钠血症，
+        表现为头痛、恶心、意识模糊。耐力运动时更合理的做法是按出汗量补水，并适当补充含钠饮料。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">每天一定要喝 8 杯水吗？</h3>
@@ -150,6 +206,29 @@
       <p class="text-muted">
         通常应根据运动时长、出汗量和环境温度灵活调整。出汗明显时，基础饮水量往往需要额外增加。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">怎么判断自己喝够了没有？</h3>
+      <p class="text-muted">
+        最简单的指标是尿液颜色：多数时候呈淡黄色通常说明基本够；颜色深黄、尿量少，往往提示需要多喝一些。
+        但服用维生素 B2 等补充剂后尿色会变黄，这时参考意义下降。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">一次喝多少比较合适？</h3>
+      <p class="text-muted">
+        日常补水更适合少量多次，每次一两百毫升，分散在一天里喝完。一次猛灌大量的水，多数会很快变成尿液排出，补水效果并不好。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        {% if is_hant %}
+        <li class="mb-1">台湾卫生福利部国民健康署，每日饮水量简易估算（体重 × 30 ml）相关卫教资料</li>
+        {% else %}
+        <li class="mb-1">中国营养学会《中国居民膳食指南（2022）》</li>
+        {% endif %}
+        <li class="mb-1">EFSA Panel on Dietetic Products, Nutrition and Allergies. Scientific Opinion on Dietary Reference Values for water. EFSA Journal, 2010</li>
+        <li class="mb-0">Sawka MN, et al. American College of Sports Medicine position stand: Exercise and fluid replacement. Med Sci Sports Exerc, 2007</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

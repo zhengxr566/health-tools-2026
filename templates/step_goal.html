@@ -145,6 +145,91 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">三种目标的具体规则</h2>
+      <p class="text-muted">
+        结果取“当前步数 + 增量”和“该目标的最低步数”两者中较大的一个：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        建议步数 = max（最低步数，当前日均步数 + 增量）
+      </div>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>目标</th>
+              <th>增量</th>
+              <th>最低步数</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>维持体重 / 保持活跃</td><td>+1000 步</td><td>6000 步</td></tr>
+            <tr><td>提升活动量</td><td>+2000 步</td><td>7000 步</td></tr>
+            <tr><td>减脂导向</td><td>+3000 步</td><td>8000 步</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-3 mb-0">
+        设置最低步数，是因为当前步数很低时，只加 1000–3000 步得到的目标仍然偏少；当前步数已经较高时，最低步数不起作用，目标就是在原基础上再加一点。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">
+        小陈是办公室职员，手机显示最近两周日均 4500 步，想减脂：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        4500 + 3000 = 7500 步，低于减脂目标的最低 8000 步<br>
+        → 建议目标 8000 步 / 天，需增加 3500 步<br>
+        粗略消耗参考：8000 × 0.04 = 320 kcal / 天
+      </div>
+      <p class="text-muted mb-0">
+        3500 步大约是正常速度步行 35 分钟。对小陈来说，更现实的做法是第一周先加到 6000 步左右，适应后再往 8000 步推进，
+        例如提前一站下车、午饭后散步 15 分钟。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">“粗略消耗参考”是怎么来的？</h2>
+      <p class="text-muted">
+        这里按每步约 0.04 kcal 粗算，计算的是建议步数的总消耗，而不是新增步数的消耗。0.04 kcal/步大约相当于体重 80 kg 的人以正常速度步行时的总消耗，
+        体重较轻的人实际会更低：按本站 <a href="/steps">步数转热量</a> 的方法（3.0 MET、100 步/分钟），60 kg 约为 0.03 kcal/步。
+      </p>
+      <p class="text-muted mb-0">
+        如果需要更贴近自己的数字，建议把建议步数和体重一起输入步数转热量计算器，并参考其中的“额外消耗”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">日均步数大致处于什么水平？</h2>
+      <p class="text-muted">
+        研究者常用下面这套按日均步数划分的参考（Tudor-Locke 与 Bassett，2004），用来大致判断一个健康成年人的日常活动水平：
+      </p>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>日均步数</th>
+              <th>活动水平</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>少于 5000</td><td>久坐</td></tr>
+            <tr><td>5000–7499</td><td>活动偏少</td></tr>
+            <tr><td>7500–9999</td><td>有一定活动</td></tr>
+            <tr><td>10000–12499</td><td>活跃</td></tr>
+            <tr><td>12500 及以上</td><td>非常活跃</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mt-3 mb-0">
+        关于健康收益，2022 年发表在《柳叶刀·公共卫生》的一项汇总分析纳入了 15 个队列研究，发现日均步数越多，全因死亡风险越低，
+        但收益会逐渐趋于平稳：60 岁及以上人群大约在每天 6000–8000 步，60 岁以下人群大约在 8000–10000 步。
+        这说明 10000 步并不是唯一的门槛，从低水平往上多走，收益往往最明显。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">每天一定要走到同一个数字吗？</h3>
@@ -161,6 +246,22 @@
       <p class="text-muted">
         很适合。因为它会从你当前水平出发，而不是直接给出一个脱离现实的步数数字。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">当前日均步数怎么填才准？</h3>
+      <p class="text-muted">
+        用手机或手表最近 1–2 周的日均值，不要只看某一天。周末和工作日差别大的人，取整周平均更合适。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">每天应该增加多少步才不容易放弃？</h3>
+      <p class="text-muted">
+        没有统一标准。比较稳妥的做法是每 1–2 周增加约 1000 步，觉得轻松再往上加；如果膝盖、脚踝出现疼痛，应先减量，持续不适时请咨询医生。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">参考资料</h3>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Tudor-Locke C, Bassett DR Jr. How many steps/day are enough? Preliminary pedometer indices for public health. Sports Medicine, 2004.</li>
+        <li class="mb-0">Paluch AE, et al. Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts. The Lancet Public Health, 2022.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

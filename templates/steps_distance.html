@@ -179,6 +179,74 @@
       </div>
 
       <div class="tool-card">
+        <h2 class="h6">计算示例</h2>
+        <p class="text-muted mb-2">
+          一位身高 170 cm 的男性，今天走了 10000 步：
+        </p>
+        <div class="bg-light rounded-3 p-3 small mb-3">
+          步幅 = 170 × 0.415 = 70.55 cm（页面显示约 70.5 cm）<br>
+          距离 = 10000 × 70.55 cm = 705500 cm ≈ 7055 米 ≈ 7.1 公里
+        </div>
+        <p class="text-muted mb-0">
+          换成一位身高 160 cm 的女性：步幅 = 160 × 0.413 ≈ 66.1 cm，10000 步约 6608 米，即约 6.6 公里。
+          两人相差约 0.4 公里，几乎全部来自身高带来的步幅差异，性别系数本身只差 0.002，影响很小。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">这里的“步幅”指什么？</h2>
+        <p class="text-muted">
+          本页的步幅是指迈出一步时，前脚跟到后脚跟之间的距离，也就是走一步前进了多远。
+          有些资料把左右脚各迈一次（两步）算作一个“跨步”，数值约是本页步幅的两倍，对照时注意不要混淆。
+        </p>
+        <p class="text-muted mb-0">
+          “身高 × 0.415 / 0.413”是计步器和健身应用中常见的经验系数，用于在没有实测数据时粗估步幅。
+          它反映的是平地、正常速度下的平均情况：腿长比例、走路习惯和速度都会让真实步幅偏离这个估计。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">怎样测出自己的真实步幅？</h2>
+        <p class="text-muted">
+          如果想让距离估算更准，可以自己测一次步幅，方法很简单：
+        </p>
+        <ul class="text-muted ps-3">
+          <li class="mb-2">找一段已知长度的平直路面，例如标准 400 米跑道的内圈，或用卷尺量出 20 米。</li>
+          <li class="mb-2">用平时的速度自然走完全程，同时数步数。不要刻意迈大步。</li>
+          <li class="mb-2">步幅 = 距离 ÷ 步数。例如 20 米走了 29 步，步幅约 69 cm。</li>
+          <li class="mb-0">多走两三次取平均。之后用“步数 × 步幅”就能得到比身高系数更贴近你本人的距离。</li>
+        </ul>
+        <p class="text-muted mb-0">
+          很多手机和手表也允许手动填写步幅，填入实测值后，它们显示的距离通常会更接近实际。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">哪些情况下结果会偏差较大？</h2>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>情况</th>
+                <th>实际步幅变化</th>
+                <th>估算距离通常</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>快走、赶路</td><td>变大</td><td>偏少</td></tr>
+              <tr><td>慢慢散步、逛街</td><td>变小</td><td>偏多</td></tr>
+              <tr><td>上坡、爬楼梯</td><td>明显变小</td><td>偏多</td></tr>
+              <tr><td>跑步</td><td>远大于走路</td><td>明显偏少，不适用</td></tr>
+              <tr><td>年长者、步态不稳</td><td>通常偏小</td><td>偏多</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small text-muted mt-3 mb-0">
+          另外，计步本身也有误差：手机放在包里、推婴儿车或购物车时容易少记步数，坐车颠簸时又可能多记。距离是在步数基础上换算的，计步误差会原样带入结果。
+        </p>
+      </div>
+
+      <div class="tool-card">
         <h2 class="h6">常见问题</h2>
 
         <h3 class="h6 mt-3 mb-1">10000步一定是固定公里数吗？</h3>
@@ -199,6 +267,16 @@
         <h3 class="h6 mt-3 mb-1">这个工具适合减脂和日常活动管理吗？</h3>
         <p class="text-muted">
           适合。它能把抽象的步数转成更直观的距离，方便规划每日活动量和减脂目标。
+        </p>
+
+        <h3 class="h6 mt-3 mb-1">走 1 公里大约需要多少步？</h3>
+        <p class="text-muted">
+          用 100000 除以步幅（cm）即可。步幅 70 cm 约 1430 步，步幅 65 cm 约 1540 步，按本页模型，身高 150–190 cm 的成年人大约在 1270–1610 步之间。
+        </p>
+
+        <h3 class="h6 mt-3 mb-1">跑步的步数能用这个工具换算距离吗？</h3>
+        <p class="text-muted">
+          不建议。跑步时步幅通常比走路大得多，用走路的身高系数会明显低估距离。跑步距离更适合用 GPS 或跑道圈数来记录，再用<a href="/running-pace">跑步配速计算器</a>看节奏。
         </p>
 
         <hr class="my-4">

@@ -109,6 +109,30 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算示例：两种方法怎么对照</h2>
+      <p class="text-muted">
+        一位 65 kg、正在减脂的人，选择“减脂期”：65 × 3 = <b>195 g</b>，折合 195 × 4 = 780 kcal。
+        如果再填上每日总热量 1,800 kcal，碳水占比 = 780 ÷ 1,800 ≈ <b>43%</b>，
+        低于推荐范围 {% if is_hant %}50%–60%（对应 225–270 g）{% else %}50%–65%（对应 225–292 g）{% endif %}。
+      </p>
+      <p class="text-muted">
+        同样 65 kg，如果选“增肌期”，65 × 5 = 325 g，折合 1,300 kcal，需要更高的总热量来配合。
+        减脂期出现这种情况很常见：总热量少了，蛋白质又要吃够，碳水的比例自然会降下来。只要不低于 130 g、训练和精力不受影响，就可以接受。
+      </p>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle mb-0">
+          <thead class="table-light"><tr><th>碳水占总热量</th><th>工具显示</th><th>怎么理解</th></tr></thead>
+          <tbody>
+            <tr><td>低于 26%</td><td>低碳水饮食</td><td>属于低碳饮食的范围，长期执行前最好咨询专业人士。</td></tr>
+            <tr><td>26% 到 50%</td><td>低于推荐范围</td><td>减脂、高蛋白饮食中常见；乏力或训练变差时适当加碳水。</td></tr>
+            <tr><td>{% if is_hant %}50%–60%{% else %}50%–65%{% endif %}</td><td>推荐范围</td><td>符合一般成年人的膳食参考。</td></tr>
+            <tr><td>{% if is_hant %}高于 60%{% else %}高于 65%{% endif %}</td><td>高于推荐范围</td><td>检查总热量是否填得偏低，或把部分主食换成蛋白质类食物。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">运动量大的人需要更多碳水</h2>
       <p class="text-muted">美国运动医学会（ACSM）等机构对运动人群的建议是按训练量调整：</p>
       <div class="table-responsive">
@@ -155,6 +179,12 @@
       <p class="text-muted">体重变化主要取决于全天的总热量。晚餐吃主食本身不会让人更胖，但如果晚上容易吃宵夜、吃过量，就值得控制。</p>
       <h3 class="h6 mt-3 mb-1">水果、牛奶里的糖算碳水吗？</h3>
       <p class="text-muted">算。它们都属于碳水化合物，但完整水果和奶类里的天然糖不属于需要特别限制的“添加糖”。</p>
+      <h3 class="h6 mt-3 mb-1">按体重算的结果和按比例算的差很多，听哪个？</h3>
+      <p class="text-muted">先检查总热量是否合理。总热量没问题时，减脂期以按体重的结果为准，同时保证每天不少于 130 g；维持期两者差距大，多半是体重或活动量偏离一般情况，可以取两者中间值试 2–4 周。</p>
+      <h3 class="h6 mt-3 mb-1">粗粮和白米白面的碳水可以等量替换吗？</h3>
+      <p class="text-muted">按克数可以。每克碳水的热量差不多，但全谷物和杂豆的膳食纤维更多，更耐饿，餐后血糖上升通常也更慢，所以换成粗粮时克数不用变，主要是质量更好。</p>
+      <h3 class="h6 mt-3 mb-1">运动饮料、能量胶要算进去吗？</h3>
+      <p class="text-muted">要算。它们的热量几乎都来自糖，属于碳水。长时间耐力训练时可以用来补充，日常久坐时喝运动饮料，等于多喝了一份含糖饮料。</p>
       <h3 class="h6 mt-3 mb-1">这个结果需要严格执行吗？</h3>
       <p class="text-muted mb-0">不用。把它当作起点，执行 2–4 周后，再根据体重趋势、训练表现和饥饿感调整。</p>
       <hr class="my-4">

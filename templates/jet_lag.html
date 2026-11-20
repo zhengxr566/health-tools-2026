@@ -127,10 +127,62 @@
       <ul class="text-muted mb-0">
         <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
         <li><a href="/sleep-duration">睡眠时长计算器</a>：看实际睡了多久</li>
-        <li><a href="/sleep-debt">睡眠债计算器</a>：最近有没有长期少睡</li>
         <li><a href="/sleep-debt">睡眠债计算器</a>：估算累计少睡多少、恢复要几天</li>
         <li><a href="/caffeine-cutoff">咖啡因截止时间计算器</a>：避免临近睡前咖啡因干扰</li>
       </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例与结果分档</h2>
+      <ul class="text-muted ps-3">
+        <li class="mb-2">北京（UTC+8）飞伦敦（冬季 UTC+0），向西跨 8 个时区：8 ÷ 2 = <b>4 天</b>，“中等恢复期”。</li>
+        <li class="mb-2">伦敦飞回北京，向东跨 8 个时区：8 × 1 = <b>8 天</b>，“恢复时间可能较长”。</li>
+        <li class="mb-0">上海飞曼谷，向西跨 1 个时区：1 ÷ 2 = <b>0.5 天</b>，“短期可适应”。</li>
+      </ul>
+      <p class="text-muted">
+        同样的距离，回程比去程多出一倍天数，这正是“向东更难”在计算上的体现。
+      </p>
+      <div class="table-responsive">
+        <table class="table table-sm small text-muted mb-0">
+          <thead>
+            <tr><th>估算天数</th><th>工具提示</th><th>行程建议</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0（未跨时区）</td><td>几乎没有明显时差</td><td>照常作息</td></tr>
+            <tr><td>2 天及以下</td><td>短期可适应</td><td>不必刻意调整，保证到达当晚睡眠</td></tr>
+            <tr><td>2.5–5 天</td><td>中等恢复期</td><td>重要会议、比赛尽量不排在头两天</td></tr>
+            <tr><td>5 天以上</td><td>恢复时间可能较长</td><td>考虑出发前几天提前调整作息</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个经验规则的依据与局限</h2>
+      <p class="text-muted">
+        人体生物钟每天能自然移动的幅度有限，一般向后推（晚睡）比向前拨（早睡）更容易，
+        临床综述中常见的估计是：向东每天约能调整 1 小时，向西每天约 1.5 小时左右。本工具把它简化为“向东 1 天/时区、向西 0.5 天/时区”，
+        向西部分略微偏乐观。
+      </p>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>超过 12 个时区：</b>两地实际时差最多 12 小时。例如向东跨 14 个时区，身体感受到的其实接近向西 10 个时区，此时按较小的方向重新填写更合理。</li>
+        <li class="mb-2"><b>只跨 1–2 个时区或停留不到 2–3 天：</b>很多人会选择维持原来的作息，不去调整。</li>
+        <li class="mb-0"><b>个体差异：</b>年龄较大、本身睡眠不好、飞行中几乎没睡的人，恢复往往更慢。南北向飞行即使很长，只要不跨时区，就只有旅途疲劳，没有时差。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">到达后怎么缩短恢复期？</h2>
+      <ul class="text-muted ps-3">
+        <li class="mb-2"><b>用好光照：</b>向东飞后多接触上午到中午的日光、傍晚少接触强光；向西飞后多接触傍晚的光。光照是调整生物钟最有效的信号。</li>
+        <li class="mb-2"><b>按当地时间吃饭和睡觉：</b>白天实在困可以小睡，但控制在 20–30 分钟以内，避免下午晚些时候长时间补觉。</li>
+        <li class="mb-2"><b>出发前预调：</b>向东飞前几天，每天提前约 1 小时睡觉和起床；向西飞则每天推后约 1 小时。</li>
+        <li class="mb-0"><b>咖啡因与酒精：</b>白天适量咖啡因可以提神，但下午以后少喝；酒精会让睡眠变浅，不建议用来助眠。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        褪黑素对减轻时差症状有一定研究支持，但不同地区对它的管理方式不同，剂量和服用时间也有讲究。
+        正在服药、怀孕或有慢性病的人，使用前请先咨询医生或药师。
+      </p>
     </div>
 
     <div class="tool-card">
@@ -150,6 +202,21 @@
       <p class="text-muted">
         还可能影响白天精神状态、食欲、专注力和整体作息节奏。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">怎么数自己跨了几个时区？</h3>
+      <p class="text-muted">
+        用两地的 UTC 时差相减即可，例如北京 UTC+8、纽约冬季 UTC−5，相差 13 小时。超过 12 时，用 24 减去它（24 − 13 = 11），
+        按另一个方向填 11 个时区更接近身体的实际感受。注意夏令时会让时差变化 1 小时。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Sack RL. Jet lag. N Engl J Med, 2010</li>
+        <li class="mb-1">Waterhouse J, Reilly T, Atkinson G, Edwards B. Jet lag: trends and coping strategies. Lancet, 2007</li>
+        <li class="mb-1">Herxheimer A, Petrie KJ. Melatonin for the prevention and treatment of jet lag. Cochrane Database Syst Rev, 2002</li>
+        <li class="mb-0">U.S. CDC. CDC Yellow Book: Health Information for International Travel, Jet Lag</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

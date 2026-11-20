@@ -79,6 +79,63 @@
     <li>女性：495 ÷（1.29579 − 0.35004 × log10(腹囲 ＋ ヒップ − 首囲) ＋ 0.22100 × log10(身長)）− 450</li>
   </ul>
   <p class="text-muted">周径囲法は推定値で、個人では数％の誤差が出ることがあります。減量中の変化を追うには十分役立ちます。</p>
+</div>
+
+<div class="tool-card">
+  <h2 class="h6">この式のしくみ</h2>
+  <p class="text-muted">
+    米海軍式は、米海軍の研究者 Hodgdon と Beckett が1984年に発表した方法です。水中体重法で測った体の密度と、首・腹囲・ヒップ・身長の関係から式を作っています。
+    式の前半で体の密度を推定し、それを「体脂肪率 ＝ 495 ÷ 体密度 − 450」（Siri の式）で体脂肪率に換算しています。
+    脂肪は筋肉より軽いため、腹囲が大きく首が細いほど体密度は低く、体脂肪率は高く推定されます。
+  </p>
+
+  <h2 class="h6 mt-4">計算例：身長172cm・首囲38cm・腹囲86cmの男性</h2>
+  <ul class="text-muted small">
+    <li>腹囲 − 首囲 ＝ 86 − 38 ＝ 48 → log10(48) ≒ 1.6812</li>
+    <li>log10(172) ≒ 2.2355</li>
+    <li>1.0324 − 0.19077 × 1.6812 ＋ 0.15456 × 2.2355 ≒ 1.0572（推定した体密度）</li>
+    <li>495 ÷ 1.0572 − 450 ≒ <b>18.2%</b> → ACE の区分では「標準」</li>
+  </ul>
+  <p class="text-muted">
+    同じ人の腹囲が1cm大きい87cmなら約19.0%、1cm小さい85cmなら約17.4%になります。腹囲1cmで体脂肪率が0.8%前後動くため、測り方をそろえることがとても大切です。
+    女性の例として、身長158cm・首囲32cm・腹囲72cm・ヒップ94cmなら約27.3%で、女性の「標準」（25〜31%）にあたります。
+  </p>
+
+  <h2 class="h6 mt-4">結果の読み方</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+      <thead class="table-light"><tr><th style="min-width:7em">区分</th><th>考え方</th></tr></thead>
+      <tbody>
+        <tr><td>必須脂肪</td><td>生きるために最低限必要な量に近い水準です。アスリートの減量期などを除き、この範囲を目指す必要はありません。女性は月経不順の原因にもなります。</td></tr>
+        <tr><td>アスリート・引き締まっている</td><td>定期的に運動している人に多い範囲です。体重が軽すぎないか、疲れやすくないかもあわせて確認しましょう。</td></tr>
+        <tr><td>標準</td><td>一般的な成人に多い範囲です。腹囲が健診基準を超えていなければ、今の生活を保つことが目標になります。</td></tr>
+        <tr><td>高め</td><td>体脂肪が多い状態です。食事の見直しと、歩く量・筋トレを増やして、ゆっくり下げていきましょう。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="h6 mt-4">精度と限界</h2>
+  <ul class="text-muted">
+    <li>首が太い人（首の筋肉が発達している人）は低めに、おなかの皮膚がたるんでいる人は高めに出ることがあります。</li>
+    <li>高度の肥満の人や、筋肉量が非常に多い人では、誤差が大きくなりやすいとされます。</li>
+    <li>妊娠中の方や、腹水・むくみがある方には使えません。</li>
+    <li>計算結果が2%未満や60%を超える場合は、それぞれ2%・60%として表示しています。極端な値が出たときは、入力や測り方を確認してください。</li>
+  </ul>
+
+  <h2 class="h6 mt-4">よくある質問</h2>
+  <p class="mb-1"><b>Q. 体組成計の数値と違うのはなぜですか？</b></p>
+  <p class="text-muted">家庭用の体組成計は、体に流した微弱な電流の通りやすさから推定しています。体の水分量の影響を受けやすく、入浴後や運動後、時間帯によっても数値が変わります。どちらも推定値なので、同じ方法で比べ続けることが大切です。</p>
+  <p class="mb-1"><b>Q. 女性だけヒップを測るのはなぜですか？</b></p>
+  <p class="text-muted">女性は男性に比べてお尻や太ももに脂肪がつきやすいため、式を作るときにヒップを加えたほうが推定が合いやすかったからです。</p>
+  <p class="mb-1"><b>Q. どのくらいの頻度で測ればいいですか？</b></p>
+  <p class="text-muted">2〜4週間に1回程度で十分です。朝の空腹時など同じ条件で測り、数値の上下より、数か月の流れを見ましょう。</p>
+
+  <h2 class="h6 mt-4">参考資料</h2>
+  <ul class="small text-muted">
+    <li>Hodgdon JA, Beckett MB. Prediction of percent body fat for U.S. Navy men from body circumferences and height（女性版も同年）. Naval Health Research Center, 1984.</li>
+    <li>Siri WE. Body composition from fluid spaces and density: analysis of methods. 1961.</li>
+    <li>American Council on Exercise（ACE）の体脂肪率の区分</li>
+  </ul>
   {{ ui.disclaimer() }}
 </div>
 

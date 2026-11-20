@@ -68,6 +68,56 @@
     </table>
   </div>
   <p class="small text-muted">食品の量は一般的な成分値から計算したおおよその目安です。商品によって異なるため、栄養成分表示もご確認ください。</p>
+
+  <h2 class="h6 mt-4">計算方法</h2>
+  <p class="text-muted">
+    <b>1日のたんぱく質（g）＝ 体重（kg）× 目的別の係数</b><br>
+    係数は、健康維持が1.2g、減量中が1.6g、筋肉をつけたい場合が1.8gです。結果は整数に四捨五入し、3食に分けた1食あたりの量も表示します。
+    食事摂取基準の推奨量は、標準的な体格の人を想定した量で、体重1kgあたりに直すとおおむね1g前後です。健康維持の1.2gは、それに少しゆとりを持たせた値です。
+    減量中や筋力トレーニング中の係数は、スポーツ栄養の研究で示されている1日1.4〜2.0g/kgの範囲から選んでいます。
+  </p>
+
+  <h2 class="h6 mt-4">計算例：体重60kgの場合</h2>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered text-center align-middle">
+      <thead class="table-light"><tr><th>目的</th><th>計算</th><th>1日</th><th>1食あたり</th></tr></thead>
+      <tbody>
+        <tr><td>健康維持</td><td>60 × 1.2</td><td>72 g</td><td>約 24 g</td></tr>
+        <tr><td>減量中</td><td>60 × 1.6</td><td>96 g</td><td>約 32 g</td></tr>
+        <tr><td>筋肉をつけたい</td><td>60 × 1.8</td><td>108 g</td><td>約 36 g</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted">健康維持の72gは、上の表の「たんぱく質20gの目安」で考えると、鮭1切れ強、卵3個、納豆3パックに、ほかの食事に含まれる分を合わせたくらいの量です。</p>
+
+  <h2 class="h6 mt-4">上手なとり方</h2>
+  <ul class="text-muted">
+    <li><b>3食に分ける：</b>朝食はたんぱく質が少なくなりがちです。卵や納豆、乳製品を1品足すと、1日の量をそろえやすくなります。</li>
+    <li><b>いろいろな食品から：</b>肉・魚・卵・大豆製品・乳製品を組み合わせると、脂質のとりすぎを防ぎつつ、ほかの栄養素も一緒にとれます。</li>
+    <li><b>減量中は特に意識する：</b>食事の量を減らすと、たんぱく質も一緒に減りがちです。主食や脂っこい料理を控えても、主菜は残すようにしましょう。</li>
+  </ul>
+
+  <h2 class="h6 mt-4">計算が合いにくい人</h2>
+  <ul class="text-muted">
+    <li><b>肥満の方：</b>今の体重で計算すると、脂肪の分まで含まれて多めに出ます。<a href="/ideal-weight">標準体重</a>（BMI22の体重）を入れて計算するのが一つの方法です。</li>
+    <li><b>高齢の方：</b>筋肉の衰え（フレイル）を防ぐため、食事摂取基準では65歳以上のエネルギーに占めるたんぱく質の目標量の下限を15％と、若い世代より高めにしています。食が細くなった方は、量が足りているか特に気をつけてください。</li>
+    <li><b>腎臓の病気がある方、妊娠中・授乳中の方：</b>必要量や上限が異なるため、医師や管理栄養士の指示に従ってください。</li>
+  </ul>
+
+  <h2 class="h6 mt-4">よくある質問</h2>
+  <p class="text-muted mb-1"><b>Q. プロテインは飲んだほうがいいですか？</b></p>
+  <p class="text-muted">食事で必要な量がとれていれば、必須ではありません。食事だけでは足りない日や、忙しくて主菜を用意できないときの補助として使うとよいでしょう。</p>
+  <p class="text-muted mb-1"><b>Q. たんぱく質はとればとるほど筋肉がつきますか？</b></p>
+  <p class="text-muted">筋力トレーニングと組み合わせた研究では、体重1kgあたり1日約1.6gを超えると、それ以上増やしても筋肉の増え方はほとんど変わらなかったと報告されています。筋肉をつけるには、トレーニングと十分なエネルギー摂取が欠かせません。</p>
+  <p class="text-muted mb-1"><b>Q. とりすぎると体に悪いですか？</b></p>
+  <p class="text-muted">食事摂取基準では、たんぱく質の耐容上限量は定められていませんが、エネルギーの20％を超える量は目標量の範囲外です。腎機能が低下している人は、とりすぎに注意が必要です。</p>
+
+  <h2 class="h6 mt-4">参考資料</h2>
+  <ul class="small text-muted">
+    <li>厚生労働省「日本人の食事摂取基準（2025年版）」</li>
+    <li>Morton RW, et al. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults. <i>Br J Sports Med</i>, 2018.</li>
+    <li>Jäger R, et al. International Society of Sports Nutrition Position Stand: protein and exercise. <i>J Int Soc Sports Nutr</i>, 2017.</li>
+  </ul>
   {{ ui.disclaimer() }}
 </div>
 

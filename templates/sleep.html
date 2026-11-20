@@ -130,10 +130,95 @@
 
       <h2 class="h6 mt-4">相关工具推荐</h2>
       <ul class="text-muted mb-0">
+        <li><a href="/sleep-need">睡眠需求计算器</a>：按年龄查看该睡多久</li>
+        <li><a href="/sleep-debt">睡眠债计算器</a>：最近少睡了多少、补觉要几天</li>
+        <li><a href="/nap-time">午睡时间计算器</a>：白天小睡 20 分钟还是 90 分钟</li>
         <li><a href="/water">饮水量</a>：基础习惯管理</li>
         <li><a href="/calorie">TDEE</a>：睡眠与恢复也会影响日常状态和活动量</li>
         <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：从体重管理角度看生活方式</li>
       </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">两种模式分别怎么算？</h2>
+      <p class="text-muted">
+        这个计算器把“现在睡几点起”和“想几点起该几点睡”放在同一个页面，用的是同一套规则：每个睡眠周期按 90 分钟算，
+        另加 15 分钟入睡缓冲，周期数取 3、4、5、6 个，所以每次都会给出 4 个时间点。
+      </p>
+
+      <div class="bg-light rounded-3 p-3 small mb-2">
+        我现在要睡：建议起床时间 = 现在时间 + 15 分钟 + 周期数 × 90 分钟
+      </div>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        我想几点起：建议上床时间 = 目标起床时间 − 周期数 × 90 分钟 − 15 分钟
+      </div>
+
+      <p class="text-muted mb-0">
+        15 分钟缓冲是给“躺下到真正睡着”留的时间。第二种模式算出的是该躺下的时间，缓冲已经扣好，不需要再自己提前。
+        如果你平时躺下 30 分钟以上才睡得着，可以把结果再往前挪 15 分钟左右。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2"><b>例 1：现在睡几点起？</b> 23:00 躺下，预计 23:15 睡着。</p>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-3">
+          <thead class="table-light"><tr><th>周期数</th><th>睡眠时长</th><th>建议起床</th></tr></thead>
+          <tbody>
+            <tr><td>3 个</td><td>4.5 小时</td><td>03:45</td></tr>
+            <tr><td>4 个</td><td>6 小时</td><td>05:15</td></tr>
+            <tr class="table-success"><td>5 个</td><td>7.5 小时</td><td>06:45</td></tr>
+            <tr><td>6 个</td><td>9 小时</td><td>08:15</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-muted mb-2"><b>例 2：想几点起该几点睡？</b> 目标 07:00 起床。</p>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-3">
+          <thead class="table-light"><tr><th>周期数</th><th>睡眠时长</th><th>建议上床</th></tr></thead>
+          <tbody>
+            <tr><td>3 个</td><td>4.5 小时</td><td>02:15</td></tr>
+            <tr><td>4 个</td><td>6 小时</td><td>00:45</td></tr>
+            <tr class="table-success"><td>5 个</td><td>7.5 小时</td><td>23:15</td></tr>
+            <tr><td>6 个</td><td>9 小时</td><td>21:45</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        以例 2 的 23:15 为例：07:00 往前推 5 个周期（7 小时 30 分）是 23:30，再减去 15 分钟缓冲，就是 23:15。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">4 个时间点怎么选？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-3">
+          <thead class="table-light"><tr><th>周期数</th><th>睡眠时长</th><th>适合情况</th></tr></thead>
+          <tbody>
+            <tr><td>3 个</td><td>4.5 小时</td><td>只适合偶尔赶早班机、熬夜后应急，不宜连续使用</td></tr>
+            <tr><td>4 个</td><td>6 小时</td><td>低于成年人至少 7 小时的建议，连续几天会累积睡眠债</td></tr>
+            <tr class="table-success"><td>5 个</td><td>7.5 小时</td><td>落在成年人 7–9 小时范围内，多数人优先选这一档</td></tr>
+            <tr><td>6 个</td><td>9 小时</td><td>青少年、正在补觉或本身睡得多的人可以选</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        选择顺序建议是：先保证总时长够，再考虑周期是否“整齐”。为了凑周期而把 7.5 小时缩成 6 小时，通常得不偿失。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">准确度和局限</h2>
+      <p class="text-muted">
+        90 分钟是平均值。成年人一个睡眠周期大约在 90–110 分钟之间，同一个人前半夜深睡较多、后半夜快速眼动睡眠较多，
+        每个周期的长度也不完全一样。再加上每晚入睡快慢不同，算出来的时间点误差有十几分钟到半小时都很正常。
+      </p>
+      <p class="text-muted mb-0">
+        更实用的做法是：按结果连续试一周，固定起床时间。如果总在闹钟响时昏沉，就把闹钟前后挪 10–15 分钟再观察。
+        饮酒、熬夜后补觉、倒班或跨时区时，周期规律会被打乱，结果参考价值更低。
+      </p>
     </div>
 
     <div class="tool-card">
@@ -153,6 +238,24 @@
       <p class="text-muted">
         可以作为作息安排参考，但更重要的是借此逐渐建立稳定的睡眠习惯，而不是每天反复依赖计算结果。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">凌晨 1 点睡，几点起比较好？</h3>
+      <p class="text-muted">
+        按 15 分钟入睡缓冲，大约 01:15 睡着。睡 5 个周期是 08:45 起，睡 4 个周期是 07:15 起。按周期的思路，必须早起时选 07:15，比落在周期中间的 06:30 更可能醒得清爽。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">想 6:30 起，应该几点睡？</h3>
+      <p class="text-muted">
+        睡 5 个周期需要 22:45 上床，睡 6 个周期需要 21:15 上床；如果只能 00:15 上床，就只够 4 个周期（6 小时）。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Carskadon MA, Dement WC. Normal human sleep: an overview. In: Principles and Practice of Sleep Medicine.</li>
+        <li class="mb-1">Watson NF, et al. Recommended Amount of Sleep for a Healthy Adult (AASM/SRS). Sleep, 2015.</li>
+        <li class="mb-0">Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations. Sleep Health, 2015.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

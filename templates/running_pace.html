@@ -156,6 +156,73 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">配速和速度怎么互换？</h2>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        配速（秒/公里）= 总秒数 ÷ 距离（公里）<br>
+        速度（km/h）= 距离（公里）÷ 总时间（小时）= 60 ÷ 配速（分钟）
+      </div>
+      <p class="text-muted mb-0">
+        例如配速 6'00"/km，就是 60 ÷ 6 = 10 km/h；速度 12 km/h，就是 60 ÷ 12 = 5 分钟，即 5'00"/km。
+        跑步机通常显示 km/h，户外手表通常显示配速，用这个关系就能把两者对上。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">
+        一位跑者用 55 分 00 秒跑完 10 公里：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        总时间 = 55 × 60 = 3300 秒<br>
+        配速 = 3300 ÷ 10 = 330 秒/公里 = 5'30"/km<br>
+        速度 = 10 ÷ (3300 ÷ 3600) ≈ 10.9 km/h → 属于“较快配速”
+      </div>
+      <p class="text-muted mb-0">
+        工具给出的半程马拉松预计时间是 1:56:02，全程马拉松是 3:52:04。这是假设全程都保持 5'30"/km 得出的，
+        对更长的距离通常偏乐观，下面会说明原因。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">结果中的配速档位怎么看？</h2>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>工具提示</th>
+              <th>平均速度</th>
+              <th>对应配速</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>偏慢配速</td><td>低于 7 km/h</td><td>慢于 8'34"/km</td></tr>
+            <tr><td>常见配速</td><td>7 至 10 km/h 以下</td><td>8'34"–6'00"/km 之间</td></tr>
+            <tr><td>较快配速</td><td>10 至 13 km/h 以下</td><td>6'00"–4'37"/km 之间</td></tr>
+            <tr><td>高配速</td><td>13 km/h 及以上</td><td>4'37"/km 或更快</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-3 mb-0">
+        这些档位只是按速度粗分，方便快速定位，不代表训练水平高低。同一个人做恢复跑和比赛时，可能落在完全不同的档位里，这很正常。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么长距离预计时间往往偏快？</h2>
+      <p class="text-muted">
+        本工具的预计完赛时间是“当前配速 × 目标距离”，即假设配速不变。实际上距离越长，人能维持的配速越慢。
+        常用的 Riegel 公式考虑了这一点：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        预计时间 = 已知时间 ×（目标距离 ÷ 已知距离）<sup>1.06</sup>
+      </div>
+      <p class="text-muted mb-0">
+        以上面的 10 公里 55:00 为例，Riegel 公式估算半马约 2:01:21、全马约 4:13:01，分别比按固定配速推算慢约 5 分钟和 21 分钟。
+        对没有系统训练长距离的跑者，全马实际成绩常常比两种估算都慢。备赛时更建议用最近一次接近目标距离的成绩来推算。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">配速越快越好吗？</h3>
@@ -174,6 +241,22 @@
       <p class="text-muted">
         适合。它最大的价值之一，就是把“我跑了多久”转换成更容易理解的配速数字，让你更容易观察训练趋势。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">每英里配速怎么换算成每公里？</h3>
+      <p class="text-muted">
+        1 英里约等于 1.609 公里。每英里配速 ÷ 1.609 就是每公里配速，例如 9'00"/英里约为 5'36"/km。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">手表显示的配速和这里算的不一样？</h3>
+      <p class="text-muted">
+        手表的距离来自 GPS，高楼、树荫和弯道多的路线容易出现误差，配速也会跟着偏差。
+        如果在标准 400 米跑道或已知距离的路线上测，用本工具算出的平均配速会更可靠。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">参考资料</h3>
+      <ul class="small text-muted ps-3">
+        <li class="mb-0">Riegel PS. Athletic records and human endurance. American Scientist, 1981.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

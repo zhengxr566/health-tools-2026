@@ -141,6 +141,63 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">四个公式分别怎么算？</h2>
+      <p class="text-muted">
+        这四个公式都以 5 英尺（152.4 cm）为起点：先算出身高比 5 英尺多出多少英寸（1 英寸 = 2.54 cm），
+        再用“起点体重 + 每英寸增加的公斤数 × 英寸数”得出结果。本工具显示的平均值，就是四个结果的算术平均。
+      </p>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead>
+            <tr class="text-muted">
+              <th>公式</th>
+              <th>男性（kg）</th>
+              <th>女性（kg）</th>
+              <th>出处</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Devine</td><td>50 + 2.3 × 英寸</td><td>45.5 + 2.3 × 英寸</td><td class="small text-muted">1974 年</td></tr>
+            <tr><td>Robinson</td><td>52 + 1.9 × 英寸</td><td>49 + 1.7 × 英寸</td><td class="small text-muted">1983 年</td></tr>
+            <tr><td>Miller</td><td>56.2 + 1.41 × 英寸</td><td>53.1 + 1.36 × 英寸</td><td class="small text-muted">1983 年</td></tr>
+            <tr><td>Hamwi</td><td>48 + 2.7 × 英寸</td><td>45.5 + 2.2 × 英寸</td><td class="small text-muted">1964 年</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mt-3 mb-0">
+        Devine 公式最初是为计算庆大霉素等药物剂量提出的，后来才被广泛借用为“理想体重”。
+        这几个公式都来自欧美人群，也都不是专门为判断健康体重设计的，所以更适合当作参考点。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例：身高 175 cm 的男性</h2>
+      <ol class="text-muted ps-3">
+        <li class="mb-1">换算：175 ÷ 2.54 ≈ 68.9 英寸，比 5 英尺（60 英寸）多约 8.9 英寸。</li>
+        <li class="mb-1">Devine：50 + 2.3 × 8.9 ≈ 70.5 kg。</li>
+        <li class="mb-1">Robinson：52 + 1.9 × 8.9 ≈ 68.9 kg。</li>
+        <li class="mb-1">Miller：56.2 + 1.41 × 8.9 ≈ 68.7 kg。</li>
+        <li class="mb-1">Hamwi：48 + 2.7 × 8.9 ≈ 72.0 kg。</li>
+        <li class="mb-0">平均值：约 70.0 kg，对应 BMI 约 22.9。</li>
+      </ol>
+      <p class="text-muted mb-0">
+        作为对照，按{% if is_hant %}台湾国健署{% else %}中国 WS/T 428-2013{% endif %}标准，正常 BMI 为 18.5–23.9，
+        175 cm 对应的体重约 56.7–73.2 kg。公式平均值落在这个范围中间偏上的位置。
+        如果某个公式的结果超出了 BMI 正常范围，更建议以 BMI 范围为准。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这些公式在哪些情况下不准？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>身高低于 152.4 cm</b>：公式没有为 5 英尺以下的身高设计，本工具会按 0 英寸计算，结果固定为起点体重（例如女性 Devine 为 45.5 kg），可能偏高。这时更建议参考 <a href="/bmi">BMI 健康体重范围</a>。</li>
+        <li class="mb-2"><b>肌肉量较多的人</b>：公式只看身高和性别，不区分肌肉和脂肪。经常力量训练的人，实际健康体重可能明显高于公式结果。</li>
+        <li class="mb-2"><b>老年人</b>：公式没有考虑年龄。老年人体重过低带来的风险同样需要重视，不建议为了接近公式结果而刻意减重。</li>
+        <li class="mb-0"><b>孕期、未成年人和有慢性病的人</b>：不适用这些公式，应遵循医生或营养师的个体化建议。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">相关工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/bmi">BMI</a> 与 <a href="/bodyfat">体脂率</a>：判断体型与体成分</li>
@@ -167,6 +224,32 @@
       <p class="text-muted">
         更建议把平均值当作“参考点”，再结合 BMI、体脂率、腰围和可持续性来决定是否真的需要调整体重。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">哪个公式最准？</h3>
+      <p class="text-muted">
+        没有公认“最准”的公式。医疗上计算药物剂量时最常用 Devine 公式；日常设定目标时，看几个公式的平均值，
+        再确认它落在 BMI 正常范围内，通常就够用了。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">同样身高，为什么女性的结果更低？</h3>
+      <p class="text-muted">
+        这些公式的起点和每英寸增量都按性别分开设定。一般来说，同等身高下女性的肌肉量和骨量平均低于男性，
+        所以公式给出的数值也更低。以 160 cm 为例，女性四个公式的平均值约为 53.9 kg。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">我现在离公式结果差很多，怎么定目标？</h3>
+      <p class="text-muted">
+        不必一步到位。可以先以减少当前体重的 5%–10% 作为第一阶段目标，再用
+        <a href="/goal-time">目标体重所需时间</a> 估算周期，达到后再评估是否继续。
+      </p>
+
+      <h4 class="h6 mt-4 mb-1">参考资料</h4>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Devine BJ. Gentamicin therapy. Drug Intelligence and Clinical Pharmacy, 1974.</li>
+        <li class="mb-1">Robinson JD, et al. Determination of ideal body weight for drug dosage calculations. American Journal of Hospital Pharmacy, 1983.</li>
+        <li class="mb-1">Miller DR, et al. American Journal of Hospital Pharmacy, 1983.</li>
+        <li class="mb-0">Hamwi GJ. Therapy: changing dietary concepts. In: Diabetes Mellitus: Diagnosis and Treatment, 1964.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

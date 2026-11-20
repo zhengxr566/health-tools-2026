@@ -144,6 +144,65 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">WHtR 怎么算？一个例子</h2>
+      <p class="text-muted">
+        公式是 <b>WHtR = 腰围 ÷ 身高</b>，两者用同一单位（都用厘米）即可，结果没有单位。
+        常被概括成一句话：<b>腰围不要超过身高的一半</b>。
+      </p>
+      <ol class="text-muted ps-3">
+        <li class="mb-1">一位身高 170 cm、腰围 88 cm 的成年人：88 ÷ 170 ≈ 0.518，工具显示为 0.52。</li>
+        <li class="mb-1">0.52 落在 0.5–0.59 区间，提示“需要注意”。</li>
+        <li class="mb-0">腰围上限：170 × 0.5 = 85.0 cm。也就是说，腰围减少约 3 cm，就能回到 0.5 以下。</li>
+      </ol>
+      <p class="text-muted mb-0">
+        这种算法的好处是不用记男女不同的腰围数字，个子高的人和个子矮的人也能用同一把尺子比较。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">结果怎么读？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead>
+            <tr class="text-muted">
+              <th>WHtR</th>
+              <th>本站提示</th>
+              <th>含义与建议</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>&lt; 0.40</td><td>偏低</td><td class="small text-muted">腰围相对身高很小，可能体重偏轻，可再看 BMI 是否低于 18.5。</td></tr>
+            <tr><td>0.40 – 0.49</td><td>较好</td><td class="small text-muted">腹部脂肪处于较理想水平，保持现有习惯，定期复测。</td></tr>
+            <tr><td>0.50 – 0.59</td><td>需要注意</td><td class="small text-muted">腹部脂肪偏多，代谢风险开始上升。建议从饮食和活动量入手，目标是先回到 0.5 以下。</td></tr>
+            <tr><td>≥ 0.60</td><td>风险较高</td><td class="small text-muted">腹部脂肪明显偏多。建议做一次体检，查看血压、血糖、血脂，并制定减重计划。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-2 mb-0">
+        0.5 和 0.6 这两个界值与英国 NICE 2022 年更新的成人肥胖指南一致，也是 Ashwell 等人系统综述中常用的切点。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">和腰围切点对照看</h2>
+      <p class="text-muted">
+        {% if is_hant %}
+        台湾国民健康署以腰围男性 ≥ 90 cm、女性 ≥ 80 cm 定义腹部肥胖。
+        {% else %}
+        中国 WS/T 428-2013《成人体重判定》规定：男性腰围 85–89.9 cm、女性 80–84.9 cm 为中心型肥胖前期；
+        男性 ≥ 90 cm、女性 ≥ 85 cm 为中心型肥胖。
+        {% endif %}
+        WHtR 和这些腰围切点可以同时看：如果两者都提示偏高，腹部脂肪偏多的可能性就更大。
+      </p>
+      <h2 class="h6 mt-4">哪些情况不适合用 WHtR？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">孕期女性：腰围随孕周增大，不能用来判断腹部脂肪。</li>
+        <li class="mb-2">腹水、腹部肿瘤、严重腹胀等情况：腰围变大并不是脂肪造成的。</li>
+        <li class="mb-0">饭后、憋气或收腹时测量：腰围会明显不同。结果在 0.5 附近时，这点差别就可能改变提示。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">WHtR 一定比 BMI 更好吗？</h3>
@@ -160,6 +219,28 @@
       <p class="text-muted">
         多数人每周或每两周记录一次就足够，重点是方法一致，方便看长期趋势。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">男性和女性用同一个界值吗？</h3>
+      <p class="text-muted">
+        是的。WHtR 已经用身高做了校正，0.5 和 0.6 这两个界值对成年男性和女性都适用，这也是它比单看腰围更方便的地方。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">BMI 正常但 WHtR 超过 0.5，要紧吗？</h3>
+      <p class="text-muted">
+        值得留意。这种情况说明体重不算重，但脂肪偏向堆积在腹部。可以先从减少含糖饮料和精制零食、增加日常步行和力量训练做起，
+        并在下次体检时关注血压、血糖和血脂。
+      </p>
+
+      <h4 class="h6 mt-4 mb-1">参考资料</h4>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Ashwell M, Gunn P, Gibson S. Waist-to-height ratio is a better screening tool than waist circumference and BMI for adult cardiometabolic risk factors: systematic review and meta-analysis. Obesity Reviews, 2012.</li>
+        <li class="mb-1">NICE. Obesity: identification, assessment and management（2022 年更新）。</li>
+        {% if is_hant %}
+        <li class="mb-0">卫生福利部国民健康署：成人肥胖定义。</li>
+        {% else %}
+        <li class="mb-0">WS/T 428-2013《成人体重判定》。</li>
+        {% endif %}
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

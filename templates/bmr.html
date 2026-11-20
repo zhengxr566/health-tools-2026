@@ -101,6 +101,109 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算公式：Mifflin-St Jeor</h2>
+      <div class="bg-light rounded-3 p-3 small mb-2">
+        男性：BMR = 10 × 体重(kg) + 6.25 × 身高(cm) − 5 × 年龄 + 5<br>
+        女性：BMR = 10 × 体重(kg) + 6.25 × 身高(cm) − 5 × 年龄 − 161
+      </div>
+      <p class="text-muted">
+        这个公式由 Mifflin、St Jeor 等人在 1990 年发表，依据的是 498 名 19–78 岁健康成年人（包括正常体重和肥胖者）用间接测热法实测的静息能量消耗。
+        公式里每一项的含义：
+      </p>
+      <ul class="text-muted">
+        <li><b>体重：</b>每多 1 kg，BMR 增加 10 kcal。体重越大，需要维持的身体组织越多。</li>
+        <li><b>身高：</b>每高 1 cm，BMR 增加 6.25 kcal。</li>
+        <li><b>年龄：</b>每大 1 岁，BMR 减少 5 kcal，也就是每 10 年约少 50 kcal。</li>
+        <li><b>性别常数：</b>男性 +5，女性 −161。年龄、身高、体重都相同时，男性的估算值比女性高 166 kcal，主要因为男性平均肌肉比例更高。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        之所以用这个公式，是因为一项比较常用预测公式的系统综述（Frankenfield 等，2005）发现，无论正常体重还是肥胖成年人，
+        Mifflin-St Jeor 估算值落在实测值 ±10% 以内的比例都高于其他公式，包括更早的 Harris-Benedict 公式。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted">一位 40 岁男性，身高 172 cm，体重 75 kg：</p>
+      <ul class="text-muted">
+        <li>体重项：10 × 75 = 750</li>
+        <li>身高项：6.25 × 172 = 1,075</li>
+        <li>年龄项：5 × 40 = 200</li>
+        <li>BMR = 750 + 1,075 − 200 + 5 = <b>1,630 kcal/天</b></li>
+      </ul>
+      <p class="text-muted">
+        如果把性别换成女性、其他数字不变，BMR = 750 + 1,075 − 200 − 161 = 1,464 kcal/天。
+        BMR 再乘以活动系数，就是每日总消耗（TDEE）。这位男性在不同活动水平下的 TDEE：
+      </p>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>活动水平</th><th>系数</th><th>TDEE（kcal/天）</th></tr></thead>
+          <tbody>
+            <tr><td>久坐</td><td>1.2</td><td>1,956</td></tr>
+            <tr><td>轻度活动</td><td>1.375</td><td>2,241</td></tr>
+            <tr><td>中度活动</td><td>1.55</td><td>2,526</td></tr>
+            <tr><td>较高活动</td><td>1.725</td><td>2,812</td></tr>
+            <tr><td>非常高</td><td>1.9</td><td>3,097</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mb-0">同样的 BMR，从久坐到中度活动，每天的总消耗相差约 570 kcal。活动水平的说明见 <a href="/calorie">TDEE 计算器</a>。</p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">算出 BMR 之后怎么用？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle mb-2">
+          <thead class="table-light"><tr><th>你想做的事</th><th>正确用法</th></tr></thead>
+          <tbody>
+            <tr><td>估算一天消耗多少</td><td>BMR × 活动系数 = TDEE，不要直接把 BMR 当成消耗。</td></tr>
+            <tr><td>定减脂热量</td><td>从 TDEE 减 300–500 kcal，而不是从 BMR 再往下减。</td></tr>
+            <tr><td>判断是不是吃得太少</td><td>长期摄入明显低于 BMR，通常说明缺口过大，值得调整。</td></tr>
+            <tr><td>和别人比较</td><td>相差几十 kcal 没有实际意义，公式本身的误差就比这大。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mb-0">
+        补充：严格意义的基础代谢（BMR）要求清晨刚醒、空腹、静卧时测量；Mifflin-St Jeor 公式原本估算的是静息代谢（RMR），测量条件稍宽松，数值通常略高一点。
+        日常使用中两者常常混用，这点差别远小于公式本身的误差。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个估算准吗？</h2>
+      <p class="text-muted">
+        真正的基础代谢需要在清晨空腹、静卧、室温舒适的条件下，用仪器测量呼吸中的氧气和二氧化碳才能得到。公式只是根据人群数据推算，
+        对个人来说，估算值和实测值相差 10% 左右并不少见。以下情况误差往往更大：
+      </p>
+      <ul class="text-muted">
+        <li><b>肌肉量特别多的人：</b>公式只看总体重，不区分肌肉和脂肪，结果可能偏低。</li>
+        <li><b>体脂率很高的人：</b>脂肪组织的代谢比肌肉低，按总体重计算可能偏高。</li>
+        <li><b>不适用的人群：</b>18 岁以下、孕期和哺乳期、甲状腺功能异常、发热或患重病、服用影响代谢的药物者，公式结果参考价值有限。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        公式主要基于美国成年人的数据建立，用于其他人群时误差可能不同。需要精确数值时（例如临床营养治疗），可以到医院营养科做静息代谢测定。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">常见问题</h2>
+      <h3 class="h6 mt-3 mb-1">每天吃得比 BMR 还少会怎样？</h3>
+      <p class="text-muted">偶尔一两天没关系。长期明显低于 BMR，蛋白质和维生素、矿物质很难吃够，更容易流失肌肉、疲劳，结束节食后也更容易反弹。减脂热量应从 TDEE 出发来定。</p>
+      <h3 class="h6 mt-3 mb-1">体脂秤显示的基础代谢和这里不一样，信哪个？</h3>
+      <p class="text-muted">体脂秤一般先估算去脂体重，再代入自己的公式，结果和这里有差别很正常。两者都是估算，选一个固定使用、看长期变化趋势就可以。</p>
+      <h3 class="h6 mt-3 mb-1">年纪越大，基础代谢一定越低吗？</h3>
+      <p class="text-muted">公式按每 10 岁少 50 kcal 计算。不过一项汇总了数千人测量数据的研究（Pontzer 等，2021）发现，按去脂体重校正后，20–60 岁之间的能量消耗大致稳定，60 岁以后才明显下降。中年后“代谢变慢”，很大程度上和肌肉减少、活动减少有关。</p>
+      <h3 class="h6 mt-3 mb-1">怎样提高基础代谢？</h3>
+      <p class="text-muted mb-0">体重下降时 BMR 也会跟着下降（每少 1 kg 约少 10 kcal）。坚持力量训练、保住或增加肌肉，是少数能长期维持静息消耗的方法，但幅度有限，不能代替饮食控制，参见 <a href="/guide/boost-metabolism">提高代谢的方法</a>。</p>
+      <hr class="my-4">
+      <p class="small text-muted mb-0">
+        参考：Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr, 1990；
+        Frankenfield D, et al. Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review. J Am Diet Assoc, 2005；
+        Pontzer H, et al. Daily energy expenditure through the human life course. Science, 2021。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6 mt-0">相关工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/calorie">每日热量需求（TDEE）</a>：从 BMR 推到总消耗</li>

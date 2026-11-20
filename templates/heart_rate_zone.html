@@ -142,6 +142,86 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">两种方法的公式</h2>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        估算最大心率 = 220 − 年龄<br>
+        最大心率百分比法：区间心率 = 最大心率 × 百分比<br>
+        Karvonen 储备心率法：区间心率 = 静息心率 +（最大心率 − 静息心率）× 百分比
+      </div>
+      <p class="text-muted mb-0">
+        “最大心率 − 静息心率”叫作储备心率，表示从安静到全力之间心率可以提高的空间。
+        五个区间都按 50%–60%、60%–70%、70%–80%、80%–90%、90%–100% 划分；两种方法用的百分比相同，只是乘的基数不同。
+        由于 Karvonen 法从静息心率起算，同一百分比下得到的心率会比最大心率百分比法更高，尤其是较低的区间。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">
+        35 岁，早晨静息心率 60 bpm：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        最大心率 = 220 − 35 = 185 bpm<br>
+        储备心率 = 185 − 60 = 125 bpm<br>
+        Zone 2 下限 = 60 + 125 × 0.6 = 135 bpm；上限 = 60 + 125 × 0.7 = 147.5 ≈ 148 bpm
+      </div>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>区间</th>
+              <th>只填年龄</th>
+              <th>加填静息心率 60</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Zone 1 恢复 / 热身</td><td>92–111</td><td>122–135</td></tr>
+            <tr><td>Zone 2 轻松有氧</td><td>111–130</td><td>135–148</td></tr>
+            <tr><td>Zone 3 中等强度</td><td>130–148</td><td>148–160</td></tr>
+            <tr><td>Zone 4 阈值 / 较高强度</td><td>148–166</td><td>160–172</td></tr>
+            <tr><td>Zone 5 高强度冲刺</td><td>166–185</td><td>172–185</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-3 mb-0">
+        单位均为 bpm（次/分钟）。可以看到，同一个人用两种方法算出的 Zone 2 相差约 20 bpm，所以对照手表数据时，先确认手表用的是哪种方法。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">怎样测静息心率？</h2>
+      <ul class="text-muted ps-3">
+        <li class="mb-2">早晨醒来后、起床前测量，前一晚没有饮酒、熬夜效果最好。</li>
+        <li class="mb-2">平躺或安静坐着，用手指按住手腕或颈部脉搏，数满 60 秒；也可以用手表在同一时间读取。</li>
+        <li class="mb-0">连续测 3–5 天取平均。感冒、睡眠不足、压力大时静息心率会暂时升高，这几天的数值不宜采用。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        成年人安静时的心率通常在 60–100 bpm；经常耐力训练的人可能低于 60。如果静息心率长期高于 100 或低于 50 且伴随头晕、乏力，应就医检查。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">“220 − 年龄”的误差有多大？</h2>
+      <p class="text-muted">
+        这个公式简单好记，但同龄人的真实最大心率可能相差 10 bpm 以上，个别人差得更多。
+        2001 年 Tanaka 等人基于大量数据提出了另一个公式：最大心率 ≈ 208 − 0.7 × 年龄。
+        两者在 40 岁左右结果接近，年龄越大差异越明显，例如 60 岁时分别为 160 和 166 bpm。
+      </p>
+      <p class="text-muted mb-0">
+        如果你按区间训练时总觉得“太轻松”或“根本到不了”，很可能是公式不适合你。
+        更准确的最大心率需要在专业人员监督下做运动负荷测试获得。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">哪些人不适合直接用这些区间？</h2>
+      <p class="text-muted mb-0">
+        服用 β 受体阻滞剂等影响心率的药物、有心脏病或心律失常、孕期，以及刚做过手术的人，心率对运动的反应可能和公式不同，
+        按公式区间训练可能并不安全。这些情况下请先咨询医生，由医生或康复治疗师给出运动强度建议。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">220 - 年龄一定准确吗？</h3>
@@ -160,6 +240,23 @@
         训练强度越高，单位时间消耗通常会更大，但并不代表所有训练都应该追求高区间。
         真正有用的是训练目标、可恢复性和长期坚持，而不是一味追求更高心率。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">“燃脂心率”是哪个区间？</h3>
+      <p class="text-muted">
+        常说的燃脂区间一般指 Zone 2 左右。在这个强度下，脂肪供能的比例较高，而且容易持续较长时间。
+        但减脂最终取决于总热量消耗和饮食，并不是只有在这个区间运动才会减脂。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">没有心率表，怎么判断强度？</h3>
+      <p class="text-muted">
+        可以用“说话测试”：能完整说话但唱不了歌，大致是中等强度；只能断断续续说几个字，就已经是较高强度。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">参考资料</h3>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Karvonen MJ, Kentala E, Mustala O. The effects of training on heart rate; a longitudinal study. Annales Medicinae Experimentalis et Biologiae Fenniae, 1957.</li>
+        <li class="mb-0">Tanaka H, Monahan KD, Seals DR. Age-predicted maximal heart rate revisited. Journal of the American College of Cardiology, 2001.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

@@ -126,14 +126,14 @@
         </div>
 
         <div class="form-text mt-3">
-          通常成人可优先参考约 7–9 小时睡眠，表格中已高亮更接近该范围的起床时间。
+          通常成人可优先参考约 7–9 小时睡眠，表格中高亮了处在该范围中段的 7.5–8.5 小时三档。
         </div>
 
         {% if result %}
         <div class="step-link-grid mt-3">
           <a class="btn btn-outline-primary btn-sm" href="/sleep-debt">去算睡眠债</a>
           <a class="btn btn-outline-primary btn-sm" href="/sleep">去算睡眠周期</a>
-          <a class="btn btn-outline-primary btn-sm" href="/sleep-debt">去算睡眠债</a>
+          <a class="btn btn-outline-primary btn-sm" href="/sleep-efficiency">去算睡眠效率</a>
           <a class="btn btn-outline-primary btn-sm" href="/sleep-need">去算睡眠需求</a>
         </div>
         {% endif %}
@@ -152,6 +152,53 @@
 
         <p class="text-muted mb-0">
           例如：23:30 入睡，07:00 起床，总时长大约是 7 小时 30 分。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">跨过半夜的计算示例</h2>
+        <p class="text-muted mb-2">
+          例如 23:45 入睡、06:30 起床。工具发现起床时间早于入睡时间，会自动把起床时间算作第二天：
+        </p>
+        <ul class="text-muted ps-3 mb-3">
+          <li class="mb-2">23:45 到 24:00：15 分钟</li>
+          <li class="mb-2">00:00 到 06:30：6 小时 30 分钟</li>
+          <li class="mb-0">合计：6 小时 45 分钟，约 6.75 小时</li>
+        </ul>
+        <p class="text-muted mb-0">
+          这个结果在工具里属于“常见范围”，但仍比成年人至少 7 小时的建议少 15 分钟。连续一周如此，就会累积约 1.75 小时的睡眠债（按 7 小时目标算）。
+          如果入睡和起床填了同一个时间，工具会按整整 24 小时计算，请检查是否选错。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">结果分级和建议范围</h2>
+        <p class="text-muted mb-2">工具对结果做了一个宽松的分级，用来快速发现明显偏短或偏长的情况：</p>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-3">
+            <thead class="table-light"><tr><th>睡眠时长</th><th>工具显示</th><th>怎么理解</th></tr></thead>
+            <tbody>
+              <tr><td>不到 6 小时</td><td>偏短</td><td>对几乎所有成年人都不够，偶尔一晚影响有限，长期如此需要调整</td></tr>
+              <tr><td>6–9 小时</td><td>常见范围</td><td>其中 7–9 小时才是成年人建议范围；6–7 小时偏紧</td></tr>
+              <tr><td>超过 9 小时</td><td>偏长</td><td>补觉、生病恢复期或青少年可能需要；长期如此且白天仍困，值得留意</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-muted mb-0">
+          下方对照表固定列出 6–9 小时、每半小时一档的起床时间，并高亮 7.5、8、8.5 小时三档，方便你按目标时长倒推闹钟。
+          儿童和青少年需要的时长更多，可以用 <a href="/sleep-need">睡眠需求计算器</a> 按年龄查看。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6">在床时间不等于睡着的时间</h2>
+        <p class="text-muted">
+          本工具算的是从入睡时间到起床时间的间隔。如果你填的是“上床时间”而不是“睡着的时间”，结果会偏多：
+          躺下后刷 20 分钟手机、半夜醒来 30 分钟，这些都会被算进去。
+        </p>
+        <p class="text-muted mb-0">
+          想知道扣掉这些时间后真正睡了多久，可以用 <a href="/sleep-efficiency">睡眠效率计算器</a>，
+          它会用在床时间减去入睡耗时和夜间清醒时长。手环、手表给出的睡眠时长也是估算值，和自己感觉不一致时，看一周的平均趋势比纠结单晚数字更有意义。
         </p>
       </div>
 
@@ -191,6 +238,28 @@
           不一定。睡眠时长和睡眠质量不是同一个概念。这个页面主要解决“睡了多久”，不是完整评估睡眠质量。
         </p>
 
+        <h3 class="h6 mt-3 mb-1">想睡满 8 小时，闹钟该定几点？</h3>
+        <p class="text-muted">
+          用预计睡着的时间加 8 小时即可，例如 23:30 睡着就定 07:30。如果你躺下后通常要 15–20 分钟才睡着，闹钟要再往后留出这段时间，或者提前上床。
+        </p>
+
+        <h3 class="h6 mt-3 mb-1">午睡时间要不要加进去？</h3>
+        <p class="text-muted">
+          建议分开看。成年人 7–9 小时的建议主要指夜间睡眠，短午睡不能完全替代夜里少睡的部分。午睡安排可以参考 <a href="/nap-time">午睡时间计算器</a>。
+        </p>
+
+        <h3 class="h6 mt-3 mb-1">工作日睡 6 小时、周末睡 10 小时，平均够吗？</h3>
+        <p class="text-muted">
+          平均下来约 7.1 小时，看似达标，但这种“平时欠、周末补”的模式并不能完全抵消工作日缺觉的影响。更稳妥的做法是让每天的时长接近。
+        </p>
+
+        <hr class="my-4">
+        <h2 class="h6">参考资料</h2>
+        <ul class="small text-muted ps-3">
+          <li class="mb-1">Watson NF, et al. Recommended Amount of Sleep for a Healthy Adult (AASM/SRS). Sleep, 2015.</li>
+          <li class="mb-0">Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations. Sleep Health, 2015.</li>
+        </ul>
+
         <hr class="my-4">
         <p class="small text-muted mb-0">
           本页面仅用于一般科普参考，不构成医疗建议。
@@ -214,9 +283,9 @@
         <div class="tool-side-content">
           <h2 class="h6">相关睡眠工具</h2>
           <ul class="text-muted ps-3 mb-4">
-            <li class="mb-2"><a href="/sleep-debt">睡眠债计算器</a>：估算累计睡眠不足</li>
+            <li class="mb-2"><a href="/sleep-debt">睡眠债计算器</a>：估算累计少睡多少、补觉要几天</li>
             <li class="mb-2"><a href="/sleep">睡眠周期计算器</a>：推算更舒服的入睡 / 起床时间</li>
-            <li class="mb-2"><a href="/sleep-debt">睡眠债计算器</a>：估算累计少睡多少、大概需要多久恢复</li>
+            <li class="mb-2"><a href="/sleep-efficiency">睡眠效率计算器</a>：扣除入睡耗时和夜醒，看实际睡了多久</li>
             <li class="mb-2"><a href="/sleep-need">睡眠需求计算器</a>：按年龄查看建议睡眠时长</li>
             <li class="mb-0"><a href="/caffeine-cutoff">咖啡因截止时间</a>：估算几点后不宜喝咖啡</li>
           </ul>

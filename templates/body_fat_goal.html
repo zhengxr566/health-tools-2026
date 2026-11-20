@@ -121,6 +121,56 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算步骤：一个完整例子</h2>
+      <p class="text-muted mb-2">
+        假设一位体重 80 kg、体脂率 25% 的人，想降到 15%，每天保持 500 kcal 的热量缺口：
+      </p>
+      <ol class="text-muted ps-3">
+        <li class="mb-1">去脂体重 = 80 × (1 − 0.25) = 60.0 kg，当前脂肪 = 20.0 kg。</li>
+        <li class="mb-1">假设去脂体重保持不变，目标体重 = 60 ÷ (1 − 0.15) ≈ 70.6 kg，届时脂肪约 10.6 kg。</li>
+        <li class="mb-1">需要减掉的脂肪 = 80 − 70.6 ≈ 9.4 kg。</li>
+        <li class="mb-1">按每公斤脂肪约 7,700 kcal 计算：9.41 × 7,700 ≈ 72,470 kcal。</li>
+        <li class="mb-0">所需时间 = 72,470 ÷ 500 ≈ 144.9 天，约 20.7 周、4.8 个月（按每月 30.4 天）。每周约减 0.45 kg，工具四舍五入显示为 0.5 kg。</li>
+      </ol>
+      <p class="text-muted mb-0">
+        注意第 2 步：目标体重是用“去脂体重 ÷ (1 − 目标体脂率)”反推出来的，而不是简单地从体重里减掉 10%。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">节奏分档怎么判断？</h2>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead>
+            <tr class="text-muted">
+              <th>每日缺口</th>
+              <th>本站提示</th>
+              <th>对应每周减脂（估算）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>&lt; 300 kcal</td><td>较温和</td><td>不到约 0.27 kg</td></tr>
+            <tr><td>300 – 600 kcal</td><td>常见减脂节奏</td><td>约 0.27 – 0.55 kg</td></tr>
+            <tr><td>&gt; 600 kcal</td><td>较激进</td><td>超过约 0.55 kg</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-2 mb-0">
+        每周减脂 = 每日缺口 × 7 ÷ 7,700。缺口越大，越需要保证蛋白质摄入和力量训练，以减少肌肉流失。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么实际往往比估算慢？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>消耗会随体重下降</b>：体重变轻后，身体每天消耗的热量也会减少，原来 500 kcal 的缺口会慢慢变小。Hall 等人 2011 年在《柳叶刀》发表的研究指出，固定的“每公斤 7,700 kcal”算法会高估长期的减重速度。</li>
+        <li class="mb-2"><b>去脂体重不一定能完全保住</b>：工具假设去脂体重不变，实际减重中常会减掉一部分肌肉和水分。</li>
+        <li class="mb-2"><b>体脂率本身有误差</b>：同样是 80 kg、目标 15%，如果当前体脂率其实是 22% 而不是 25%，需要减的脂肪就从 9.4 kg 变成 6.6 kg，时间从 20.7 周变成 14.5 周。建议用同一种方法测量起点和终点。</li>
+        <li class="mb-0"><b>热量缺口本身是估算</b>：每日消耗和饮食摄入都很难精确计算，执行中有偏差很正常。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">下一步怎么做？</h2>
       <p class="text-muted">
         如果你还不确定每日热量缺口应该设多少，可以先用 <a href="/calorie">TDEE 计算器</a> 估算总消耗，
@@ -170,6 +220,24 @@
         因为体重里不只有脂肪，还包括肌肉、水分和糖原波动。减脂过程中，体重只是表面数字，
         体脂率、腰围和长期趋势通常更值得一起看。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">目标体脂率设多少比较合适？</h3>
+      <p class="text-muted">
+        可以参考 ACE 分级：男性 14%–17.9%、女性 21%–24.9% 属于“健身良好”。不建议把目标设在必需脂肪水平
+        （男性约 6% 以下、女性约 14% 以下），这对多数人既难维持，也可能影响健康。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">每日热量缺口该填多少？</h3>
+      <p class="text-muted">
+        热量缺口 = 每日总消耗（TDEE）− 每日实际摄入。例如 TDEE 约 2,300 kcal、计划每天吃 1,800 kcal，缺口就是 500 kcal。
+        不清楚自己的 TDEE，可以先用 <a href="/calorie">TDEE 计算器</a> 估算。
+      </p>
+
+      <h4 class="h6 mt-4 mb-1">参考资料</h4>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Hall KD, et al. Quantification of the effect of energy imbalance on bodyweight. The Lancet, 2011.</li>
+        <li class="mb-0">American Council on Exercise（ACE）：体脂率分级表。</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

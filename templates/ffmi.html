@@ -316,8 +316,27 @@
         <p class="text-muted mb-2"><b>去脂体重 = 体重 × (1 - 体脂率)</b></p>
         <p class="text-muted mb-2">然后计算：</p>
         <p class="text-muted mb-2"><b>FFMI = 去脂体重 ÷ 身高²</b></p>
+        <p class="text-muted">
+          很多工具还会同时给出标准化 FFMI，用于减少不同身高之间比较时的偏差。本工具使用的是
+          <b>标准化 FFMI = FFMI + 6.1 × (1.8 − 身高 m)</b>，即把结果换算到 1.80 m 身高的水平：比 1.80 m 矮的人会加一点，高的人会减一点。
+          这个修正式来自 Kouri 等人 1995 年对训练人群的研究。
+        </p>
+
+        <h2 class="h6 mt-4">计算示例</h2>
+        <p class="text-muted mb-2">一位男性，身高 175 cm、体重 75 kg、体脂率 15%：</p>
+        <ol class="text-muted ps-3">
+          <li class="mb-1">去脂体重 = 75 × (1 − 0.15) = 63.75 kg，工具显示为 63.8 kg；脂肪重量约 11.2 kg。</li>
+          <li class="mb-1">原始 FFMI = 63.75 ÷ 1.75² = 63.75 ÷ 3.0625 ≈ 20.8。</li>
+          <li class="mb-1">标准化 FFMI = 20.82 + 6.1 × (1.8 − 1.75) ≈ 20.82 + 0.31 ≈ 21.1。</li>
+          <li class="mb-0">对照男性基准表，原始 FFMI 20.8 落在 19.5–20.9 区间，属于“中等偏高”。</li>
+        </ol>
+
+        <h2 class="h6 mt-4">结果有多准？</h2>
         <p class="text-muted mb-0">
-          很多工具还会同时给出标准化 FFMI，用于减少不同身高之间比较时的偏差。
+          FFMI 的准确度几乎完全取决于输入的体脂率。以上面这位男性为例，体脂率每差 3 个百分点，去脂体重就差约 2.25 kg，
+          FFMI 随之相差约 0.7，足以跨过一个表格区间。体脂秤、围度公式和 DXA 测出的体脂率常常不同，
+          所以比较前后变化时，请始终用同一种方法测体脂。另外，去脂体重除了肌肉，还包括骨骼、器官和水分，
+          脱水或大量饮水后测量也会让结果偏离。孕期女性和未成年人不适用本表。
         </p>
       </div>
     </div>
@@ -388,6 +407,16 @@
             <p class="text-muted">
               不能完全代替。BMI 更适合基础筛查，FFMI 更适合体型和去脂体重分析。
               两者结合看，通常比只看单一指标更有参考价值。
+            </p>
+
+            <h3 class="h6 mt-3 mb-1">FFMI 25 是自然训练的上限吗？</h3>
+            <p class="text-muted">
+              这个说法来自 Kouri 等人 1995 年的研究：其中未使用类固醇的男性训练者，标准化 FFMI 很少超过 25。
+              它是一项研究样本中的观察，不是严格的生理上限，也不能用来判断某个人是否用药。
+            </p>
+
+            <p class="small text-muted">
+              参考资料：Kouri EM, Pope HG Jr, Katz DL, Oliva P. Fat-free mass index in users and nonusers of anabolic-androgenic steroids. Clinical Journal of Sport Medicine, 1995.
             </p>
 
             <hr class="my-4">

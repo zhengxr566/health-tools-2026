@@ -121,6 +121,96 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">为什么用 80、100、130 步/分钟？</h2>
+      <p class="text-muted">
+        “每分钟走多少步”叫作步频。它比“走得快不快”这种感觉更容易量化，也和步行强度关系密切。
+        运动科学研究中，成年人每分钟约 100 步常被用作中等强度步行的参考门槛，大致相当于 3 MET（静坐时的 3 倍能量消耗）；
+        每分钟约 130 步则已经是明显的快走，接近较高强度。
+      </p>
+      <p class="text-muted mb-0">
+        所以本页把 100 步/分钟当作“正常步行”，80 步/分钟对应逛街、遛弯这类慢速散步，130 步/分钟对应有意识的快走。
+        三个速度覆盖了大多数人日常走路的范围。本站的<a href="/steps">步数转热量</a>也按 100 步/分钟、3 MET 计算，两页的假设一致。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">
+        小李晚饭后快走，手机记录了 7500 步，他选择“快走（约 130 步/分钟）”：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        7500 ÷ 130 ≈ 57.7 分钟 → 显示约 58 分钟
+      </div>
+      <p class="text-muted mb-2">
+        同样的 7500 步，如果按正常步行 100 步/分钟计算是 75 分钟，按散步 80 步/分钟则约 94 分钟。
+        步数相同，时间可以相差半个多小时，这就是选对步行速度的意义。
+      </p>
+      <p class="text-muted mb-0">
+        结果中的分钟数会四舍五入到整数，超过 60 分钟时显示为“小时 + 分钟”。例如 6000 步散步：6000 ÷ 80 = 75 分钟，显示为 1 小时 15 分。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">怎样知道自己的步频？</h2>
+      <p class="text-muted">
+        最简单的方法：用平时的速度走起来，走稳后看着手表数 30 秒内迈了多少步，再乘以 2。
+        比如 30 秒走了 52 步，步频就是约 104 步/分钟，接近本页的“正常步行”。不少运动手表和手机健康应用也会直接显示步频。
+      </p>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>步频（步/分钟）</th>
+              <th>常见场景</th>
+              <th>选哪个速度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>低于 90</td><td>逛街、带孩子、边走边看手机</td><td>散步</td></tr>
+            <tr><td>90–115</td><td>通勤、平常赶路</td><td>正常步行</td></tr>
+            <tr><td>116 以上</td><td>有意识地快走、锻炼</td><td>快走</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-3 mb-0">
+        个子较高的人步幅大，同样速度下步频往往偏低；年长者步频通常也会慢一些。按自己实测的步频选择，比按年龄或身高猜更准确。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">一天的 10000 步，不等于连续走 100 分钟</h2>
+      <p class="text-muted">
+        手机记录的是全天累计步数，其中很多来自做家务、上下楼、在办公室走动，这些零散步数的步频通常不到 80，而且走走停停。
+        本工具算的是“如果连续走完这些步数需要多久”，适合用来规划专门安排的散步或快走，而不是还原你一天里实际走路花了多少时间。
+      </p>
+      <p class="text-muted mb-0">
+        如果想把步行当作锻炼，可以参考世界卫生组织 2020 年身体活动指南：成年人每周进行 150–300 分钟中等强度活动。
+        按 100 步/分钟计算，每次快走 30 分钟大约是 3000 步，每周 5 次就能达到 150 分钟的下限。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">把时间、距离和热量放在一起看</h2>
+      <p class="text-muted">
+        以 10000 步、正常步行为例：时间约 100 分钟；身高 170 cm 的男性按步幅约 70.5 cm 计算，距离约 7.1 公里；
+        体重 60 kg 的人按 3.0 MET 计算，总消耗约 300 kcal，其中因走路额外多消耗约 200 kcal。
+      </p>
+      <p class="text-muted mb-0">
+        三个数字分别回答“要留多少时间”“走了多远”“消耗了多少”，规划饭后散步或通勤步行时，可以配合<a href="/steps-distance">步数转距离</a>和<a href="/steps">步数转热量</a>一起使用。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">结果会有多大误差？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">红绿灯、上下坡、人多拥挤都会让实际步频变低，路上停顿越多，实际用时越长。</li>
+        <li class="mb-2">同一个人在一次步行中速度也会变化，开始和结束时通常更慢。</li>
+        <li class="mb-2">手机放在包里或手推购物车时，计步本身可能漏记或多记，换算出的时间也会跟着偏差。</li>
+        <li class="mb-0">因此结果更适合估计“大概要留出多少时间”，实际用时通常会比计算值略长一些。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">10000步一定要走100分钟吗？</h3>
@@ -137,6 +227,27 @@
       <p class="text-muted">
         8000步通常约62–100分钟，正常步行约80分钟。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">走 1 小时大概是多少步？</h3>
+      <p class="text-muted">
+        反过来算即可：步频 × 60。散步约 4800 步，正常步行约 6000 步，快走约 7800 步。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">3000 步要走多久？</h3>
+      <p class="text-muted">
+        正常步行约 30 分钟，散步约 38 分钟，快走约 23 分钟。30 分钟左右的饭后散步通常就是 2500–3000 步。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">快走一定要达到每分钟 130 步吗？</h3>
+      <p class="text-muted">
+        不必。130 步/分钟对很多人已经比较吃力。如果你平时步频在 100 左右，能稳定保持 100 以上、呼吸加快但还能说完整句子，就已经属于中等强度步行。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">参考资料</h3>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Tudor-Locke C, et al. How fast is fast enough? Walking cadence (steps/min) as a practical estimate of intensity in adults: a narrative review. British Journal of Sports Medicine, 2018.</li>
+        <li class="mb-0">World Health Organization. WHO guidelines on physical activity and sedentary behaviour. 2020.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

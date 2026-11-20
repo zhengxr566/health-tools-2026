@@ -150,6 +150,57 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">本工具的计算方法</h2>
+
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        咖啡因总量（mg）= 现煮咖啡杯数 × 95 + 浓缩咖啡 shot 数 × 63 + 茶杯数 × 40 + 能量饮料罐数 × 80 + 可乐罐数 × 35
+      </div>
+
+      <p class="text-muted">
+        每份的数值是常见饮品的典型含量：一杯约 240 ml 的现煮咖啡约 95 mg，一份约 30 ml 的浓缩咖啡约 63 mg，
+        一杯红茶或绿茶约 40 mg，一罐 250 ml 左右的能量饮料约 80 mg，一罐 330 ml 可乐约 35 mg。
+        实际含量随品牌和冲泡方式变化很大，例如连锁店的大杯美式往往含 2–3 份浓缩，冷萃咖啡也常比普通现煮咖啡更浓。
+      </p>
+
+      <div class="bg-light rounded-3 p-3">
+        <div class="fw-semibold mb-2">计算示例</div>
+        <p class="small text-muted mb-2">
+          一位上班族：早上 1 杯现煮咖啡，午后 1 杯拿铁（按 1 份浓缩），下午 1 杯茶，晚饭配 1 罐可乐。
+        </p>
+        <p class="small text-muted mb-0">
+          95 + 63 + 40 + 35 = <b>233 mg</b>，落在“偏高但常见”（201–400 mg）区间。总量没有超过成年人参考上限，
+          但晚饭时的可乐离睡觉较近，更值得调整的是时间而不是总量。
+        </p>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">结果分档与参考上限</h2>
+      <div class="table-responsive">
+        <table class="table table-sm small text-muted mb-3">
+          <thead>
+            <tr><th>估算总量</th><th>工具提示</th><th>怎么理解</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0–100 mg</td><td>较低</td><td>约 1 杯咖啡以内，多数人影响较小</td></tr>
+            <tr><td>101–200 mg</td><td>常见范围</td><td>注意最后一杯的时间即可</td></tr>
+            <tr><td>201–400 mg</td><td>偏高但常见</td><td>仍在成年人常用参考上限内，敏感者可能已出现心慌、睡不好</td></tr>
+            <tr><td>401 mg 及以上</td><td>较高</td><td>超过成年人常用参考上限，建议减量</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted">
+        欧洲食品安全局（EFSA）2015 年的评估认为：健康成年人每天摄入不超过 400 mg、单次不超过 200 mg，
+        一般不会带来健康风险；孕妇和哺乳期女性每天不超过 200 mg；儿童和青少年按每公斤体重约 3 mg/天估算。
+        {% if is_hant %}台湾食品药物管理署则建议成年人每日咖啡因摄取量以不超过 300 mg 为宜，比 EFSA 的数值更保守。{% endif %}
+      </p>
+      <p class="text-muted mb-0">
+        有心律失常、焦虑障碍、胃食管反流或正在服用某些药物（例如部分抗抑郁药、茶碱类药物）的人，耐受量可能更低，
+        具体可以问医生或药师。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">茶里的咖啡因也算吗？</h3>
@@ -166,6 +217,33 @@
       <p class="text-muted">
         适合做快速记录和趋势观察。多数人不需要每天精确统计，但可以偶尔用它检查最近是不是喝得有点多。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">无咖啡因咖啡完全不含咖啡因吗？</h3>
+      <p class="text-muted">
+        不是完全没有，但一般每杯只有几毫克，远低于普通咖啡。对咖啡因很敏感或孕期想控制总量的人，它是比较实用的替代选择。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">突然戒掉咖啡会怎样？</h3>
+      <p class="text-muted">
+        长期每天喝咖啡的人突然停掉，常会在一两天内出现头痛、乏力、注意力下降，一般持续几天。
+        每隔几天减少半杯、逐步减量，通常更容易接受。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">喝多了会有什么表现？</h3>
+      <p class="text-muted">
+        常见的是心跳加快、手抖、紧张焦虑、胃部不适和入睡困难。出现这些情况时，先把当天剩下的咖啡因停掉，多喝水；
+        如果出现胸痛、明显心律不齐或意识异常，应及时就医。高浓度咖啡因粉末和片剂很容易过量，不建议自行使用。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">EFSA Panel on Dietetic Products, Nutrition and Allergies. Scientific Opinion on the safety of caffeine. EFSA Journal, 2015</li>
+        {% if is_hant %}
+        <li class="mb-1">台湾卫生福利部食品药物管理署，咖啡因摄取相关说明</li>
+        {% endif %}
+        <li class="mb-0">U.S. FDA. Spilling the Beans: How Much Caffeine is Too Much?</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

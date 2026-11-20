@@ -122,9 +122,54 @@
         <li><a href="/caffeine-intake">咖啡因摄入计算器</a>：先看一天总量，再理解最晚摄入时间</li>
         <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
         <li><a href="/sleep-duration">睡眠时长计算器</a>：看昨晚到底睡了多久</li>
-        <li><a href="/sleep-debt">睡眠债计算器</a>：看最近是不是长期少睡</li>
         <li><a href="/sleep-debt">睡眠债计算器</a>：估算欠了多少觉、大概要补几天</li>
         <li><a href="/sleep-need">睡眠需求计算器</a>：按年龄看常见建议睡眠范围</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">为什么是 6 小时？从半衰期说起</h2>
+      <p class="text-muted">
+        咖啡因在体内主要由肝脏代谢，健康成年人的半衰期平均约 4–5 小时，也就是每过这么久，体内剩余量减少一半。
+        假设半衰期按 5 小时算，15:00 喝下一杯含 200 mg 咖啡因的大杯咖啡，到 20:00 体内还剩约 100 mg，到 01:00 仍有约 50 mg。
+        所以“下午喝的咖啡”到半夜并没有完全代谢掉。
+      </p>
+      <p class="text-muted mb-0">
+        一项发表在 J Clin Sleep Med（2013）的研究让受试者在睡前 0、3、6 小时分别服用 400 mg 咖啡因，
+        结果即使是睡前 6 小时服用，总睡眠时间也减少了 1 小时以上。这也是很多睡眠建议把截止时长设为 6 小时左右的原因；
+        如果你下午喝得比较多，提前得更多会更稳妥。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例与截止时长怎么选</h2>
+      <ul class="text-muted ps-3">
+        <li class="mb-2">计划 23:30 睡觉、对咖啡因敏感，截止时长填 8：23:30 − 8 小时 = <b>15:30</b>。</li>
+        <li class="mb-2">计划 00:30 睡觉、截止时长 6：00:30 − 6 小时 = 前一天 <b>18:30</b>（工具会自动跨过午夜计算）。</li>
+        <li class="mb-0">截止时长可以填小数，例如 5.5 小时，工具按分钟换算。</li>
+      </ul>
+
+      <div class="table-responsive">
+        <table class="table table-sm small text-muted mb-0">
+          <thead>
+            <tr><th>情况</th><th>建议填写的截止时长</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>喝完咖啡入睡一般不受影响，一天 1–2 杯</td><td>5–6 小时</td></tr>
+            <tr><td>下午喝过大杯咖啡、浓茶或能量饮料</td><td>8 小时左右</td></tr>
+            <tr><td>自觉对咖啡因敏感、最近入睡困难或早醒</td><td>8–10 小时，或只在上午喝</td></tr>
+            <tr><td>孕期、服用口服避孕药或某些会减慢咖啡因代谢的药物</td><td>更早截止，并咨询医生控制总量</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">哪些因素会让咖啡因代谢变慢或变快？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>变慢：</b>怀孕（尤其孕晚期）、口服避孕药、肝功能受损，以及氟伏沙明、环丙沙星等会抑制肝脏代谢酶的药物。</li>
+        <li class="mb-2"><b>变快：</b>吸烟会加快咖啡因代谢，戒烟后同样的咖啡量可能感觉“更提神”，睡眠也更容易受影响。</li>
+        <li class="mb-0"><b>基因差异：</b>同样一杯咖啡，有人几小时就没感觉，有人到夜里还睡不着，这部分与代谢酶的个体差异有关，计算器无法反映。</li>
       </ul>
     </div>
 
@@ -145,6 +190,24 @@
       <p class="text-muted">
         不能。它更适合作为一般睡眠习惯调整参考，不替代个体化医疗建议。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">巧克力、可可饮料也含咖啡因吗？</h3>
+      <p class="text-muted">
+        含有，但通常比咖啡少，黑巧克力比牛奶巧克力多一些。睡前吃一小块一般影响不大，但对咖啡因很敏感的人可以留意。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">上夜班的人怎么用这个工具？</h3>
+      <p class="text-muted">
+        把“预计睡觉时间”填成下班后真正准备睡的时间即可，例如早上 08:00 睡，截止时长 6 小时，就是凌晨 02:00 后不再喝。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Drake C, Roehrs T, Shambroom J, Roth T. Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. J Clin Sleep Med, 2013</li>
+        <li class="mb-1">EFSA Panel on Dietetic Products, Nutrition and Allergies. Scientific Opinion on the safety of caffeine. EFSA Journal, 2015</li>
+        <li class="mb-0">U.S. FDA. Spilling the Beans: How Much Caffeine is Too Much?</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

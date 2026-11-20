@@ -151,6 +151,41 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">三种目标的比例和计算示例</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>目标</th><th>蛋白质 / 碳水 / 脂肪</th><th>2,000 kcal 时（g）</th></tr></thead>
+          <tbody>
+            <tr><td>减脂期</td><td>30% / 35% / 35%</td><td>150 / 175 / 78</td></tr>
+            <tr><td>维持期</td><td>25% / 45% / 30%</td><td>125 / 225 / 67</td></tr>
+            <tr><td>增肌期</td><td>25% / 50% / 25%</td><td>125 / 250 / 56</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        以减脂期、每天 2,000 kcal 为例：蛋白质 2,000 × 30% = 600 kcal，÷ 4 = 150 g；碳水 2,000 × 35% = 700 kcal，÷ 4 = 175 g；
+        脂肪 2,000 × 35% = 700 kcal，÷ 9 ≈ 78 g。三项相加约 2,000 kcal，小数四舍五入后可能差几 kcal。
+        克数会随总热量同比例变化，例如同样是维持期，每天 2,500 kcal 时为蛋白质 156 g、碳水 281 g、脂肪 83 g。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">和膳食指南的推荐范围对照</h2>
+      <p class="text-muted">
+        {% if is_hant %}台湾《国人膳食营养素参考摄取量》（第八版）建议成年人碳水占总热量的 50%–60%、脂肪 20%–30%。{% else %}《中国居民膳食营养素参考摄入量（2023 版）》建议成年人碳水占总热量的 50%–65%、脂肪 20%–30%。{% endif %}
+        对照本工具的比例：
+      </p>
+      <ul class="text-muted">
+        <li><b>维持期、增肌期：</b>脂肪在范围内；维持期碳水 45%，略低于下限，日常可以把一部分蛋白质换成主食。</li>
+        <li><b>减脂期：</b>碳水 35%、脂肪 35%，都在一般人群推荐范围之外。这是为了在总热量减少时多留蛋白质、提高饱腹感，适合阶段性使用，减脂结束后回到维持期比例即可。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        <b>用体重检查一下蛋白质：</b>按比例算出的蛋白质克数会随热量变化。把它除以体重，如果超过每公斤约 2 g，多出的部分对保肌帮助不大，
+        可以换成碳水。国际运动营养学会认为，大多数有运动习惯的人每天每公斤 1.4–2.0 g 已经足够。也可以直接用 <a href="/protein">蛋白质需求</a> 按体重计算。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">宏量营养素比例一定要很精确吗？</h2>
       <p class="text-muted">
         不一定。对大多数普通用户来说，宏量营养素更适合拿来做“结构参考”，而不是要求每天都完全精确到个位数。
@@ -183,6 +218,16 @@
         不一定。对很多人来说，更关键的是总热量是否合理，以及这个饮食方案能不能长期执行。
       </p>
 
+      <h3 class="h6 mt-3 mb-1">喝酒的热量算在哪一项？</h3>
+      <p class="text-muted">
+        酒精每克约 7 kcal，不属于蛋白质、碳水和脂肪，但同样算进总热量。经常喝酒的话，三大营养素的实际空间会被挤小。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">每天差个 10–20 g 要紧吗？</h3>
+      <p class="text-muted">
+        不要紧。看一周的平均值更有意义。蛋白质尽量每天吃够，碳水和脂肪之间可以互相调整，只要总热量大致不变即可。蛋白质经常不够的话，可以每餐加一份鸡蛋、豆腐、牛奶或瘦肉。
+      </p>
+
       <h3 class="h6 mt-3 mb-1">这个工具适合健身新手吗？</h3>
       <p class="text-muted">
         很适合。因为它能把抽象的“总热量”直接拆成更容易理解和安排的三大营养素。
@@ -190,6 +235,8 @@
 
       <hr class="my-4">
       <p class="small text-muted mb-0">
+        参考：{% if is_hant %}卫生福利部国民健康署《国人膳食营养素参考摄取量》第八版{% else %}中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》{% endif %}；
+        Jäger R, et al. International Society of Sports Nutrition Position Stand: protein and exercise. J Int Soc Sports Nutr, 2017。
         本页面仅用于一般科普参考，不构成医疗建议。
       </p>
     </div>

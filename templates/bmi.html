@@ -161,6 +161,69 @@
           </ul>
         </div>
 
+        <h2 class="h6 mt-4">BMI 怎么算？一个完整例子</h2>
+        <p class="text-muted mb-2">
+          公式是 <b>BMI = 体重（kg）÷ 身高（m）²</b>，身高要先从厘米换算成米。以一位身高 170 cm、体重 75 kg 的成年人为例：
+        </p>
+        <ol class="text-muted ps-3">
+          <li class="mb-1">身高换算：170 cm = 1.70 m，1.70 × 1.70 = 2.89。</li>
+          <li class="mb-1">计算：75 ÷ 2.89 ≈ 25.95，工具保留一位小数，显示为 26.0。</li>
+          <li class="mb-1">对照分级：{% if is_hant %}按台湾国健署标准，24 ≤ BMI &lt; 27 属于「过重」。{% else %}按中国标准，24 ≤ BMI &lt; 28 属于「超重」。{% endif %}</li>
+          <li class="mb-1">正常体重范围：18.5 × 2.89 ≈ 53.5 kg，23.9 × 2.89 ≈ 69.1 kg，所以这个身高的正常范围约是 53.5–69.1 kg。</li>
+          <li class="mb-0">差距：75 − 69.1 = 5.9 kg。按每周减 0.5 kg 的温和速度，大约需要 12 周。</li>
+        </ol>
+        <p class="text-muted">
+          反过来也能用：想知道某个 BMI 对应多少体重，用 BMI × 身高（m）² 即可。
+        </p>
+
+        <h2 class="h6 mt-4">为什么{% if is_hant %}台湾{% else %}中国{% endif %}的切点比 WHO 低？</h2>
+        <p class="text-muted">
+          {% if is_hant %}
+          台湾卫生福利部国民健康署以 BMI 24 作为过重、27 作为肥胖的起点，并把腰围男性 ≥ 90 cm、女性 ≥ 80 cm 定为腹部肥胖。
+          {% else %}
+          中国卫生行业标准 WS/T 428-2013《成人体重判定》以 BMI 24 作为超重、28 作为肥胖的起点，
+          并规定腰围男性 ≥ 90 cm、女性 ≥ 85 cm 为中心型肥胖。
+          {% endif %}
+          采用比 WHO 更低的切点，是因为在相同 BMI 下，亚洲人群的体脂比例和腹部脂肪往往更高。
+          WHO 2004 年针对亚洲人群的专家咨询报告也指出，许多亚洲人群在 BMI 低于 25 时，2 型糖尿病和心血管病风险就已经升高。
+          所以用本地标准判断，比直接套用 WHO 的 25 / 30 更贴近实际风险。
+        </p>
+
+        <h2 class="h6 mt-4">哪些人不适合只看 BMI？</h2>
+        <ul class="text-muted ps-3">
+          <li class="mb-2"><b>肌肉量多的人</b>：长期力量训练者或运动员，体重中肌肉占比高，BMI 可能落在超重区，但体脂并不高。可以改看<a href="/bodyfat">体脂率</a>或 <a href="/ffmi">FFMI</a>。</li>
+          <li class="mb-2"><b>老年人</b>：随年龄增长肌肉减少、脂肪增加，BMI 正常也可能体脂偏高；反过来，老年人体重过低的风险也需要重视。</li>
+          <li class="mb-2"><b>孕期和哺乳期女性</b>：体重包含胎儿、胎盘、羊水和增加的血容量，不能用成人 BMI 切点判断，应遵循产检医生的增重建议。</li>
+          <li class="mb-0"><b>18 岁以下的儿童和青少年</b>：处于生长发育期，需要按年龄和性别使用专门的 BMI 参考值，不能直接套用成人标准。</li>
+        </ul>
+
+        <h2 class="h6 mt-4">常见问题</h2>
+        <h3 class="h6 mt-3 mb-1">BMI 24 算胖吗？</h3>
+        <p class="text-muted">
+          {% if is_hant %}按台湾标准，BMI 24.0 刚好进入「过重」区间（24–26.9），27 起才算肥胖。{% else %}按中国标准，BMI 24.0 刚好进入「超重」区间（24–27.9），28 起才算肥胖。{% endif %}
+          刚越过切点不必紧张，更值得看的是腰围是否超标、体重是否还在持续上升。
+        </p>
+        <h3 class="h6 mt-3 mb-1">男女的 BMI 标准一样吗？</h3>
+        <p class="text-muted">
+          一样，成人 BMI 切点不分性别。但在相同 BMI 下，女性的体脂率通常高于男性，所以想了解体成分，可以再算一次体脂率。
+        </p>
+        <h3 class="h6 mt-3 mb-1">BMI 多久测一次比较合适？</h3>
+        <p class="text-muted">
+          体重会随饮水、进食、排便和盐分摄入在一天内上下波动，单次数值意义有限。
+          建议每周固定在早晨空腹、如厕后称重，看 2–4 周的平均变化。
+        </p>
+
+        <h2 class="h6 mt-4">参考资料</h2>
+        <ul class="small text-muted ps-3">
+          {% if is_hant %}
+          <li class="mb-1">卫生福利部国民健康署：成人肥胖定义（BMI 与腰围切点）。</li>
+          {% else %}
+          <li class="mb-1">中华人民共和国国家卫生和计划生育委员会：WS/T 428-2013《成人体重判定》。</li>
+          {% endif %}
+          <li class="mb-1">WHO Expert Consultation. Appropriate body-mass index for Asian populations and its implications for policy and intervention strategies. The Lancet, 2004; 363: 157–163.</li>
+          <li class="mb-0">WHO: Obesity and overweight（Fact sheet）。</li>
+        </ul>
+
         <hr class="my-4">
 
         <h2 class="h6">免责声明</h2>

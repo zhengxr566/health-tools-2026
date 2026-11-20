@@ -131,6 +131,45 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">目标热量是怎么算出来的？</h2>
+      <div class="bg-light rounded-3 p-3 small mb-3">目标热量 = TDEE + 调整值（最低显示 1,200 kcal）</div>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>模式</th><th>调整值</th><th>TDEE 2,000 时</th><th>预计变化</th></tr></thead>
+          <tbody>
+            <tr><td>温和减脂</td><td>−300</td><td>1,700</td><td>每周约 −0.27 kg</td></tr>
+            <tr><td>较快减脂</td><td>−500</td><td>1,500</td><td>每周约 −0.45 kg</td></tr>
+            <tr><td>维持体重</td><td>0</td><td>2,000</td><td>基本不变</td></tr>
+            <tr><td>增重 / 增肌</td><td>+250</td><td>2,250</td><td>取决于训练</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted">
+        预计变化按 1 kg 脂肪约 7,700 kcal 估算。以温和减脂为例：每天少 300 kcal，一周约 2,100 kcal，2,100 ÷ 7,700 ≈ 0.27 kg。
+        较快减脂一周约 3,500 kcal，约 0.45 kg。
+      </p>
+      <p class="text-muted mb-0">
+        <b>为什么有 1,200 kcal 的下限？</b>算出来低于 1,200 kcal 时，工具会显示 1,200 kcal。例如 TDEE 为 1,450 kcal，两种减脂模式都会显示 1,200，实际缺口只有 250 kcal。
+        美国 AHA/ACC/TOS 2013 年肥胖管理指南给出的减重饮食参考是女性每天 1,200–1,500 kcal、男性 1,500–1,800 kcal；再往下吃，很难吃够蛋白质和各种营养素。
+        TDEE 本来就低的人，更适合通过多走路、增加活动来扩大缺口。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">预计速度为什么会越来越慢？</h2>
+      <p class="text-muted">
+        “7,700 kcal = 1 kg”是一个静态估算。体重下降后，身体需要维持的组织变少，TDEE 会跟着下降，原来的缺口就会慢慢变小。
+        研究者用数学模型分析过这一点（Hall 等，2011），结论是按固定缺口推算，会高估几个月以后的减重量。
+      </p>
+      <ul class="text-muted mb-0">
+        <li>每减 4–5 kg，用新体重重新算一次 TDEE 和目标热量。</li>
+        <li>前 1–2 周体重掉得快，多半是水分和糖原，不代表之后也会这么快。</li>
+        <li>连续 3–4 周周平均体重都不动，再考虑把摄入减 100–200 kcal，或增加日常步数。</li>
+        <li>女性在月经前后常有水肿，体重暂时上升，比较时最好对照上个周期的同一阶段。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">相关工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/protein">蛋白质需求</a>：减脂 / 增肌期常用策略</li>
@@ -155,6 +194,17 @@
         不一定。很多人更适合用周平均摄入来管理，而不是每天必须完全一致。核心是整体趋势和执行稳定性。
       </p>
 
+      <h3 class="h6 mt-3 mb-1">算出来是 1,200 kcal，是不是吃得太少了？</h3>
+      <p class="text-muted">
+        如果结果正好是 1,200，说明你的 TDEE 较低、减脂缺口被下限截住了。这时不建议再往下减，可以优先保证蛋白质，再靠增加活动来扩大缺口。
+        有慢性病、孕期哺乳期或正在服药的人，低热量饮食前请先咨询医生。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">减脂多久重新算一次？</h3>
+      <p class="text-muted">
+        体重每变化 4–5 kg，或者工作、运动习惯明显改变时，就重新算一次。中间不必频繁调整，按 2–4 周的趋势判断即可。
+      </p>
+
       <h3 class="h6 mt-3 mb-1">增肌时是不是吃越多越好？</h3>
       <p class="text-muted">
         不是。热量过高不一定让肌肉长得更快，反而可能只是增加脂肪。温和盈余通常更适合大多数人。
@@ -162,6 +212,8 @@
 
       <hr class="my-4">
       <p class="small text-muted mb-0">
+        参考：Jensen MD, et al. 2013 AHA/ACC/TOS Guideline for the Management of Overweight and Obesity in Adults. Circulation, 2014；
+        Hall KD, et al. Quantification of the effect of energy imbalance on bodyweight. Lancet, 2011。
         免责声明：本页面与计算结果仅供参考，不构成医疗建议。
       </p>
     </div>

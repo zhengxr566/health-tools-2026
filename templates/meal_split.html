@@ -151,6 +151,37 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted">每天 1,800 kcal、蛋白质 100 g，三种模式的结果：</p>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>模式</th><th>早餐</th><th>午餐</th><th>晚餐</th></tr></thead>
+          <tbody>
+            <tr><td>均衡三餐</td><td>540 kcal<br>30 g</td><td>630 kcal<br>35 g</td><td>630 kcal<br>35 g</td></tr>
+            <tr><td>晚餐较轻</td><td>540 kcal<br>30 g</td><td>720 kcal<br>40 g</td><td>540 kcal<br>30 g</td></tr>
+            <tr><td>晚餐较重</td><td>450 kcal<br>25 g</td><td>540 kcal<br>30 g</td><td>810 kcal<br>45 g</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        例如均衡三餐的早餐：1,800 × 30% = 540 kcal，100 × 30% = 30 g 蛋白质。各餐先四舍五入，凑整产生的误差会计入晚餐，保证三餐加起来正好等于你输入的总量。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">怎么选分配模式？</h2>
+      <ul class="text-muted">
+        <li><b>均衡三餐：</b>作息规律、三餐都能正常吃的人，可以从这里开始。</li>
+        <li><b>晚餐较轻：</b>午餐方便吃得完整、晚上不运动，或者晚饭吃多了容易睡不好、胃不舒服的人。</li>
+        <li><b>晚餐较重：</b>白天忙、早餐吃不下，或者傍晚训练、训练后需要好好吃一顿的人。晚饭尽量在睡前 2–3 小时吃完。</li>
+        <li><b>一天两餐或四餐：</b>先按三餐算出结果，再把其中一餐拆成两次，或把两餐合并，总量保持不变即可。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        {% if is_hant %}一般建议早餐不要省略，三餐的能量都不宜过度集中在晚上。三餐规律，比较容易控制饥饿感，也能减少下午和夜间的零食。如果你习惯晚餐较重，可以把它当作阶段性安排，并尽量把晚餐时间提早。{% else %}《中国居民膳食指南》建议早餐提供的能量占全天的 25%–30%，午餐 30%–40%，晚餐 30%–35%。“均衡三餐”和“晚餐较轻”都在这个范围内；“晚餐较重”的晚餐占 45%，适合作为阶段性安排。{% endif %}
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">三餐一定要平均分吗？</h2>
       <p class="text-muted">
         不一定。很多人一开始会以为“三餐平均分”最标准，但真正适合你的方式，通常和工作时间、训练安排、食欲习惯、家庭生活节奏都有关系。
@@ -173,6 +204,11 @@
       <p class="text-muted">
         因为很多人虽然知道自己“每天要吃够蛋白质”，但如果全都堆到一餐，执行上往往反而更困难。把蛋白质分散到三餐，
         通常更容易安排，也更容易让日常饮食结构稳定下来。
+      </p>
+
+      <p class="text-muted">
+        以增肌为目标时，一篇综述（Schoenfeld 和 Aragon，2018）建议每餐蛋白质按每公斤体重约 0.4 g 安排，一天至少分 4 次吃。
+        60 kg 的人每餐约 24 g。很多人的早餐蛋白质最少：一个鸡蛋约 6–7 g、一杯 250 ml 牛奶约 7–8 g，早餐可以两样都有，或加一份豆制品。
       </p>
 
       <h2 class="h6 mt-4">相关营养工具推荐</h2>
@@ -200,6 +236,16 @@
         也可以把早餐的部分重新分配到午餐和晚餐。重点是总量和长期执行，而不是形式必须完全一样。
       </p>
 
+      <h3 class="h6 mt-3 mb-1">有加餐怎么办？</h3>
+      <p class="text-muted">
+        加餐的热量要算进全天总量。比较简单的做法是从相邻的一餐里划出来，例如下午吃一份 150 kcal 的酸奶，午餐或晚餐就相应少 150 kcal。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">晚上吃得多会更容易胖吗？</h3>
+      <p class="text-muted">
+        体重变化主要取决于全天总热量。不过晚餐过晚、过量，容易影响睡眠，也更容易接着吃夜宵，所以控制晚餐份量对很多人更好执行。
+      </p>
+
       <h3 class="h6 mt-3 mb-1">这个工具适合减脂和增肌人群吗？</h3>
       <p class="text-muted">
         很适合。因为它会把抽象的“总热量和总蛋白质”进一步拆成更具体的每餐安排。
@@ -207,6 +253,7 @@
 
       <hr class="my-4">
       <p class="small text-muted mb-0">
+        参考：{% if not is_hant %}中国营养学会《中国居民膳食指南（2022）》；{% endif %}Schoenfeld BJ, Aragon AA. How much protein can the body use in a single meal for muscle-building? Implications for daily protein distribution. J Int Soc Sports Nutr, 2018。
         本页面仅用于一般科普参考，不构成医疗建议。
       </p>
     </div>

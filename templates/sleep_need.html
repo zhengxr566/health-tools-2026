@@ -86,15 +86,62 @@
         睡眠需求判断 = 先按年龄分组，再匹配常见建议睡眠范围
       </div>
 
-      <p class="text-muted mb-2">本工具采用的站内简化年龄分组：</p>
-      <ul class="text-muted mb-0 ps-3">
-        <li class="mb-2">0–2 岁：11–14 小时</li>
-        <li class="mb-2">3–5 岁：10–13 小时</li>
-        <li class="mb-2">6–12 岁：9–12 小时</li>
-        <li class="mb-2">13–17 岁：8–10 小时</li>
-        <li class="mb-2">18–64 岁：7–9 小时</li>
-        <li class="mb-0">65 岁以上：7–8 小时</li>
+      <p class="text-muted mb-2">本工具采用的年龄分组和对应来源（时长均为每 24 小时，婴幼儿含白天小睡）：</p>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-3">
+          <thead class="table-light"><tr><th>输入年龄</th><th>建议时长</th><th>依据</th></tr></thead>
+          <tbody>
+            <tr><td>0 岁（按 4–12 个月）</td><td>12–16 小时</td><td>AASM 儿童共识；NSF 对 4–11 个月为 12–15 小时</td></tr>
+            <tr><td>1–2 岁</td><td>11–14 小时</td><td>NSF 与 AASM 一致</td></tr>
+            <tr><td>3–5 岁</td><td>10–13 小时</td><td>NSF 与 AASM 一致</td></tr>
+            <tr><td>6–12 岁</td><td>9–12 小时</td><td>AASM（6–12 岁）；NSF 对 6–13 岁为 9–11 小时</td></tr>
+            <tr><td>13–17 岁</td><td>8–10 小时</td><td>NSF 与 AASM 一致</td></tr>
+            <tr><td>18–64 岁</td><td>7–9 小时</td><td>NSF；AASM/SRS 建议成年人至少 7 小时</td></tr>
+            <tr><td>65 岁以上</td><td>7–8 小时</td><td>NSF</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        结果中的“中间参考值”就是上下限的平均数，例如成年人 (7 + 9) ÷ 2 = 8 小时。输入 0 岁时，工具无法区分新生儿，
+        0–3 个月的新生儿按 NSF 建议通常需要 14–17 小时。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">
+        <b>15 岁的中学生：</b>输入 15，结果为“青少年，8–10 小时，中间参考值 9.0 小时”。如果早上 6:30 必须起床，
+        睡 9 小时就要在 21:30 前睡着，至少睡 8 小时也要在 22:30 前睡着。
+      </p>
+      <p class="text-muted mb-0">
+        <b>35 岁的上班族：</b>输入 35，结果为“成年人，7–9 小时，中间参考值 8.0 小时”。7:00 起床的话，23:00 睡着可睡满 8 小时，
+        最晚 0:00 睡着才能达到 7 小时下限。想把入睡时间和睡眠周期对齐，可以用 <a href="/sleep">睡眠周期计算器</a> 的“我想几点起”模式。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">怎么判断自己是否睡够了？</h2>
+      <p class="text-muted">
+        年龄范围是群体建议，落到个人身上，更直接的信号是白天状态。下面几种情况持续出现，通常说明实际睡眠低于自己的需要：
+      </p>
+      <ul class="text-muted ps-3 mb-3">
+        <li class="mb-2">不靠闹钟很难醒，或者需要反复按掉闹钟</li>
+        <li class="mb-2">上午就犯困，开会、看书、坐车时容易睡着</li>
+        <li class="mb-2">周末或假期比工作日多睡 2 小时以上</li>
+        <li class="mb-0">注意力、情绪明显变差，靠咖啡撑到下午</li>
       </ul>
+      <p class="text-muted mb-0">
+        反过来，如果已经睡在建议范围上限甚至更长，白天仍然困倦、打鼾明显或醒后头痛，问题可能不在时长，建议咨询医生，排查睡眠呼吸暂停、甲状腺功能、抑郁等情况。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个范围的局限</h2>
+      <p class="text-muted mb-0">
+        工具只按年龄分组，没有考虑孕期、生病恢复期、高强度训练、倒班工作等会改变睡眠需求的因素。这些建议来自专家组对研究证据的综合判断，
+        描述的是大多数健康人的合适区间，不是“少睡 10 分钟就有害”的硬性界线。NSF 同时给出了“可能适合”的更宽区间，例如 26–64 岁为 6–10 小时，
+        65 岁以上为 5–9 小时，少数人落在这些区间里也可能状态良好。
+      </p>
     </div>
 
     <div class="tool-card">
@@ -125,7 +172,7 @@
       <h2 class="h6 mt-4">相关睡眠工具推荐</h2>
       <ul class="text-muted mb-0">
         <li><a href="/sleep-duration">睡眠时长计算器</a>：看昨晚到底睡了多久</li>
-        <li><a href="/sleep-debt">睡眠债计算器</a>：看最近累计少睡了多少</li>
+        <li><a href="/sleep-efficiency">睡眠效率计算器</a>：躺床时间里有多少真正睡着</li>
         <li><a href="/sleep-debt">睡眠债计算器</a>：估算欠了多少觉、大概需要多久恢复</li>
         <li><a href="/sleep">睡眠周期计算器</a>：安排更舒服的入睡 / 起床时间</li>
         <li><a href="/nap-time">午睡时间计算器</a>：午睡多久不容易醒来头昏</li>
@@ -149,6 +196,24 @@
       <p class="text-muted">
         适合作为一般参考，但具体情况仍可能因个体差异而不同。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">老年人睡得少、醒得早是正常的吗？</h3>
+      <p class="text-muted">
+        随年龄增长，夜里更容易醒、早上醒得更早比较常见，但 65 岁以上的建议仍是 7–8 小时。如果长期睡不着、白天精神差，这不是“老了就该这样”，建议就医。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">成年人睡超过 9 小时是不是太多？</h3>
+      <p class="text-muted">
+        偶尔睡超过 9 小时不必担心，年轻人、正在补觉或生病恢复期的人可能需要更多睡眠。如果长期需要 10 小时以上仍觉得睡不够，值得请医生评估。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations: methodology and results summary. Sleep Health, 2015.</li>
+        <li class="mb-1">Paruthi S, et al. Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine. J Clin Sleep Med, 2016.</li>
+        <li class="mb-0">Watson NF, et al. Recommended Amount of Sleep for a Healthy Adult (AASM/SRS). Sleep, 2015.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

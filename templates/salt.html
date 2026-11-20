@@ -158,6 +158,67 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算示例：一天的盐是怎么累积的</h2>
+      <p class="text-muted">
+        以工具的默认输入为例：在家吃 2 餐、外卖 1 餐、加工食品 1 份（例如一根火腿肠或一包榨菜）。
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        2 × 1.5 + 1 × 3.0 + 1 × 1.2 = <b>7.2 g</b> → 提示“偏高”
+      </div>
+      <p class="text-muted mb-0">
+        如果把那顿外卖换成在家吃（3 × 1.5 + 1.2 = 5.7 g），结果降到“略高”；再去掉加工食品，只剩 4.5 g，回到常见控制范围。
+        可以看出，外卖一餐的估算值是家常菜的两倍，减少外卖频率往往是最直接的调整。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">结果分档与官方建议</h2>
+      <div class="table-responsive">
+        <table class="table table-sm small text-muted mb-3">
+          <thead>
+            <tr><th>估算盐量</th><th>工具提示</th><th>建议</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>5 g 及以下</td><td>大致在常见控制范围内</td><td>保持现有习惯</td></tr>
+            <tr><td>5.1–7 g</td><td>略高，值得注意</td><td>先减掉一项最大的来源</td></tr>
+            <tr><td>7 g 以上</td><td>偏高</td><td>减少外卖、汤底和加工食品的频率</td></tr>
+          </tbody>
+        </table>
+      </div>
+      {% if is_hant %}
+      <p class="text-muted">
+        台湾国民健康署建议成年人每日钠摄取量不超过 2400 mg，约等于 6 g 盐。本工具的 5 g 分界线采用的是更严格的 WHO 建议，
+        所以结果在 5–6 g 之间时，按台湾的标准仍未超标，但已经接近上限。
+      </p>
+      {% else %}
+      <p class="text-muted">
+        《中国居民膳食指南（2022）》建议成年人每天食盐摄入不超过 5 g，世界卫生组织（WHO）的建议同样是每天少于 5 g 盐（约 2000 mg 钠）。
+        本工具的 5 g 分界线就是按这个数值设定的。
+      </p>
+      {% endif %}
+      <p class="text-muted mb-0">
+        长期吃盐过多会使血压升高，而高血压是脑卒中和心脏病的重要危险因素。已经确诊高血压、肾病或心衰的人，
+        医生给出的限盐目标可能更低，应以医嘱为准。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">怎么从营养标签换算盐？</h2>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        盐（g）≈ 钠（mg）× 2.54 ÷ 1000
+      </div>
+      <p class="text-muted">
+        食品标签通常只标“钠”，不标“盐”。1 g 盐约含 393 mg 钠，粗略记成“400 mg 钠约等于 1 g 盐”即可。
+        假设一包方便面连同调料包标注钠 2000 mg，约等于 5 g 盐，一包就接近一整天的建议上限。
+      </p>
+      <p class="text-muted mb-0">
+        本工具的局限：每餐数值是固定的平均值，不能反映口味轻重、汤喝了多少、蘸料用了多少，误差可能达到几克。
+        想要更准确的数字，需要连续记录饮食或做 24 小时尿钠检测。另外，低钠盐用钾替代了部分钠，
+        适合多数人，但肾功能不全或正在服用保钾类药物的人不宜自行使用，应先咨询医生。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">这个结果准确吗？</h3>
@@ -174,6 +235,27 @@
       <p class="text-muted">
         适合。因为它能帮助你把“热量和宏量营养”之外的饮食结构问题也补上。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">酱油、蚝油、味精也算盐吗？</h3>
+      <p class="text-muted">
+        它们本身不叫盐，但都含钠，应该算进总量。做菜时用了较多酱油或酱料，家常菜那一项可以按多一份来估。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">出汗多的时候需要多吃盐吗？</h3>
+      <p class="text-muted">
+        日常出汗一般不需要特意加盐，正常饮食里的钠已经足够。长时间高温劳动或耐力运动、大量出汗时，可以通过含钠的运动饮料补充。
+      </p>
+
+      <hr class="my-4">
+      <h2 class="h6">参考资料</h2>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">World Health Organization. Guideline: Sodium intake for adults and children. 2012</li>
+        {% if is_hant %}
+        <li class="mb-0">台湾卫生福利部国民健康署，每日钠摄取量建议相关卫教资料</li>
+        {% else %}
+        <li class="mb-0">中国营养学会《中国居民膳食指南（2022）》</li>
+        {% endif %}
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

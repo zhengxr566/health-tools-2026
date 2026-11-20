@@ -143,6 +143,62 @@
       </div>
 
       <div class="tool-card">
+        <h2 class="h6 mb-3">完整计算示例</h2>
+        <p class="text-muted mb-2">
+          小李最近一周工作日加班，平均每晚只睡 6.5 小时，他给自己定的目标是 8 小时。输入 6.5、8、7 天：
+        </p>
+        <ul class="text-muted ps-3 mb-3">
+          <li class="mb-2">每日缺口 = 8 − 6.5 = 1.5 小时</li>
+          <li class="mb-2">累计睡眠债 = 1.5 × 7 = 10.5 小时</li>
+          <li class="mb-2">目标完成度 = 6.5 ÷ 8 = 81%</li>
+          <li class="mb-0">每天缺口在 1–2 小时之间，结果显示“中度睡眠不足”</li>
+        </ul>
+        <p class="text-muted mb-0">
+          补觉表会给出：每天多睡 0.5 小时约 21 天，多睡 1 小时约 10.5 天，多睡 1.5 小时约 7 天。
+          注意“多睡”是相对目标 8 小时而言，也就是说要把每晚睡眠提到 8.5、9 或 9.5 小时。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">结果分级怎么看？</h2>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-3">
+            <thead class="table-light"><tr><th>平均每天少睡</th><th>工具显示</th><th>建议</th></tr></thead>
+            <tbody>
+              <tr><td>0 小时</td><td>基本达标</td><td>保持现有作息即可</td></tr>
+              <tr><td>不到 1 小时</td><td>轻度睡眠不足</td><td>每晚提前 15–30 分钟上床，通常几天就能追平</td></tr>
+              <tr><td>1–2 小时</td><td>中度睡眠不足</td><td>先把每晚睡眠拉回目标值，再安排补觉</td></tr>
+              <tr><td>2 小时及以上</td><td>明显睡眠不足</td><td>需要调整整体作息，补觉表只能作为参考</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-muted mb-0">
+          工具按“平均每天”计算，某一天睡超了不会抵消其他天的缺口，所以请填写这几天的平均值。统计天数最多 31 天。
+        </p>
+      </div>
+
+      <div class="tool-card">
+        <h2 class="h6 mb-3">补觉要几天？恢复是怎么估算的</h2>
+        <div class="bg-light rounded-3 p-3 small mb-3">
+          恢复天数 = 累计睡眠债 ÷ 每天比目标多睡的时长
+        </div>
+        <p class="text-muted">
+          这是一个便于做计划的简化算法：把睡眠债当作需要按小时还回去的量。研究并没有给出“欠 1 小时就要还 1 小时”的精确比例，
+          实际恢复速度因人而异，但有几点结论比较一致：
+        </p>
+        <ul class="text-muted ps-3 mb-3">
+          <li class="mb-2"><b>先止损再还债。</b>如果每天仍然少睡，一边补一边继续欠，表里的天数没有意义。</li>
+          <li class="mb-2"><b>一晚长觉不够。</b>Banks 等人 2010 年的实验中，连续数晚限制睡眠后，只给一晚恢复睡眠，注意力等指标并未完全回到原水平。</li>
+          <li class="mb-2"><b>周末猛补效果有限。</b>Depner 等人 2019 年的研究发现，工作日少睡、周末随意补觉的模式，并没有阻止代谢指标变差。</li>
+          <li class="mb-0"><b>自我感觉会低估缺觉。</b>Van Dongen 等人 2003 年的研究中，连续两周每晚只睡 6 小时的人，认知表现明显下降，但自评困倦只略有增加。</li>
+        </ul>
+        <p class="text-muted mb-0">
+          实际操作上，每天多睡 0.5–1 小时最容易坚持：提前上床，而不是推迟起床，这样不会打乱早上的作息。
+          如果按目标睡够一两周后仍然白天困倦、打鼾明显或醒后头痛，建议就医排查睡眠呼吸暂停等问题。
+        </p>
+      </div>
+
+      <div class="tool-card">
         <h2 class="h6">什么是睡眠债？</h2>
         <p class="text-muted">
           睡眠债通常可以理解为：你实际睡到的时间，和你理想需要睡到的时间之间，长期累计下来的差距。
@@ -201,6 +257,21 @@
           不一定。它主要反映“睡眠时长缺口”，不是完整的睡眠质量评估。
         </p>
 
+        <h3 class="h6 mt-3 mb-1">目标睡眠应该填几小时？</h3>
+        <p class="text-muted">
+          不确定时，成年人可以先填 8 小时（7–9 小时建议范围的中间值），青少年填 9 小时。也可以用
+          <a href="/sleep-need">睡眠需求计算器</a> 按年龄查看。
+        </p>
+
+        <hr class="my-4">
+        <h2 class="h6">参考资料</h2>
+        <ul class="small text-muted ps-3">
+          <li class="mb-1">Van Dongen HPA, Maislin G, Mullington JM, Dinges DF. The cumulative cost of additional wakefulness. Sleep, 2003.</li>
+          <li class="mb-1">Banks S, Van Dongen HPA, Maislin G, Dinges DF. Neurobehavioral dynamics following chronic sleep restriction: dose-response effects of one night for recovery. Sleep, 2010.</li>
+          <li class="mb-1">Depner CM, et al. Ad libitum weekend recovery sleep fails to prevent metabolic dysregulation during a repeating pattern of insufficient sleep and weekend recovery sleep. Current Biology, 2019.</li>
+          <li class="mb-0">Watson NF, et al. Recommended Amount of Sleep for a Healthy Adult (AASM/SRS). Sleep, 2015.</li>
+        </ul>
+
         <hr class="my-4">
         <p class="small text-muted mb-0">
           本页面仅用于一般科普参考，不构成医疗建议。
@@ -227,7 +298,7 @@
             <li class="mb-2"><a href="/sleep">睡眠周期计算器</a>：推算入睡 / 起床时间</li>
             <li class="mb-2"><a href="/sleep-duration">睡眠时长计算器</a>：计算从几点睡到几点起</li>
             <li class="mb-2"><a href="/sleep-need">睡眠需求计算器</a>：按年龄查看建议睡眠时长</li>
-            <li class="mb-2"><a href="/sleep">睡眠周期计算器</a>：根据起床时间反推几点入睡，或按入睡时间推算起床时间</li>
+            <li class="mb-2"><a href="/nap-time">午睡时间计算器</a>：白天小睡多久不容易头昏</li>
             <li class="mb-2"><a href="/sleep-efficiency">睡眠效率计算器</a>：估算实际睡眠占比</li>
             <li class="mb-0"><a href="/caffeine-cutoff">咖啡因截止时间</a>：估算几点后不宜喝咖啡</li>
           </ul>

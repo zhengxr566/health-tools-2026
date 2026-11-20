@@ -149,6 +149,75 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">公式是怎么来的？</h2>
+      <p class="text-muted">
+        本工具使用美国海军的围度公式（Hodgdon 与 Beckett，1984 年）。它先用围度和身高估算身体密度，
+        再用 Siri 公式（体脂率 = 495 ÷ 身体密度 − 450）换算成体脂率。身高和围度单位都是厘米：
+      </p>
+      <ul class="text-muted ps-3">
+        <li class="mb-2"><b>男性</b>：495 ÷ (1.0324 − 0.19077 × log10(腰围 − 颈围) + 0.15456 × log10(身高)) − 450</li>
+        <li class="mb-0"><b>女性</b>：495 ÷ (1.29579 − 0.35004 × log10(腰围 + 臀围 − 颈围) + 0.22100 × log10(身高)) − 450</li>
+      </ul>
+      <p class="text-muted mb-0">
+        可以粗略理解为：腰围（女性再加臀围）越大，脂肪越多；颈围更多反映骨架和肌肉，所以要减掉；最后再按身高校正。
+        女性需要臀围，是因为女性的脂肪更多分布在臀部和大腿。本工具显示的结果限制在 2%–60% 之间。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">一位男性，身高 175 cm、颈围 38 cm、腰围 85 cm：</p>
+      <ol class="text-muted ps-3">
+        <li class="mb-1">腰围 − 颈围 = 47；log10(47) ≈ 1.6721，log10(175) ≈ 2.2430。</li>
+        <li class="mb-1">身体密度 ≈ 1.0324 − 0.19077 × 1.6721 + 0.15456 × 2.2430 ≈ 1.0601。</li>
+        <li class="mb-0">体脂率 ≈ 495 ÷ 1.0601 − 450 ≈ 16.9%，在 ACE 分级中属于“健身良好”。</li>
+      </ol>
+      <p class="text-muted">
+        如果把腰围多量 1 cm（86 cm），结果会变成约 17.7%；少量 1 cm（84 cm）则约为 16.2%。
+        也就是说，腰围每差 1 cm，结果大约变化 0.8 个百分点，测量手法比想象中更重要。
+      </p>
+      <p class="text-muted mb-0">
+        女性示例：身高 163 cm、颈围 32 cm、腰围 72 cm、臀围 96 cm，计算结果约为 26.9%，属于“一般水平”。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">体脂率分级对照（ACE）</h2>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead>
+            <tr class="text-muted">
+              <th>分级</th>
+              <th>男性</th>
+              <th>女性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>必需脂肪</td><td>&lt; 6%</td><td>&lt; 14%</td></tr>
+            <tr><td>运动员</td><td>6% – 13.9%</td><td>14% – 20.9%</td></tr>
+            <tr><td>健身良好</td><td>14% – 17.9%</td><td>21% – 24.9%</td></tr>
+            <tr><td>一般水平</td><td>18% – 24.9%</td><td>25% – 31.9%</td></tr>
+            <tr><td>偏高</td><td>≥ 25%</td><td>≥ 32%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-2 mb-0">
+        这是美国运动委员会（ACE）的常用分级，不分年龄。女性因生理需要，必需脂肪本来就比男性高。
+        “必需脂肪”区间不是追求目标，长期处在这个水平可能影响激素和月经。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">准确度和局限</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">围度公式是间接估算。与 DXA、水下称重等实验室方法相比，单次结果相差几个百分点很常见，不能当作精确值。</li>
+        <li class="mb-2">公式建立在美国海军人员数据上。腹部特别突出、体型很瘦或肌肉特别发达的人，误差可能更大。</li>
+        <li class="mb-2">测量位置、软尺松紧、是否吸气收腹，都会直接改变结果。同一个人用同一种方法连续记录，比追求单次准确更有用。</li>
+        <li class="mb-0">不适用于孕期女性和儿童青少年。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">体脂率越低越好吗？</h3>
@@ -160,6 +229,19 @@
       <p class="text-muted">
         两者都属于估算工具，受很多因素影响。围度公式的优势是成本低、可重复，适合长期做趋势观察。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">男性腰围要比颈围大多少才能算？</h3>
+      <p class="text-muted">
+        公式里要对“腰围 − 颈围”取对数，所以腰围必须大于颈围，否则无法计算。正常成年人的腰围都远大于颈围；
+        如果提示出错，通常是单位填错或把数值填反了。
+      </p>
+
+      <h4 class="h6 mt-4 mb-1">参考资料</h4>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Hodgdon JA, Beckett MB. Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center, 1984.</li>
+        <li class="mb-1">Siri WE. Body composition from fluid spaces and density: analysis of methods. 1961.</li>
+        <li class="mb-0">American Council on Exercise（ACE）：体脂率分级表。</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

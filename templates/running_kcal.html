@@ -145,6 +145,85 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">三档强度大致对应什么速度？</h2>
+      <p class="text-muted">
+        本工具的三个 MET 值来自常用的 MET 数据汇编《Compendium of Physical Activities》（2011 年版）中按跑步速度列出的数值。
+        选择强度时，可以对照自己的配速：
+      </p>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>本页选项</th>
+              <th>MET</th>
+              <th>对应速度</th>
+              <th>每公里配速</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>轻松跑</td><td>8.3</td><td>约 8.0 km/h</td><td>约 7'27"</td></tr>
+            <tr><td>常见配速</td><td>9.8</td><td>约 9.7 km/h</td><td>约 6'13"</td></tr>
+            <tr><td>较快跑</td><td>11.0</td><td>约 11.3 km/h</td><td>约 5'20"</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-3 mb-0">
+        如果你的配速介于两档之间，可以选更接近的一档，或把相邻两档的结果取中间值。不知道配速的话，可以先用<a href="/running-pace">跑步配速计算器</a>算一下。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted mb-2">
+        体重 65 kg 的跑者，以约 6'10"/km 的配速跑了 40 分钟，选择“常见配速”：
+      </p>
+      <div class="bg-light rounded-3 p-3 small mb-3">
+        运动时间 = 40 ÷ 60 ≈ 0.667 小时<br>
+        热量消耗 = 9.8 × 65 × 0.667 ≈ 425 kcal
+      </div>
+      <p class="text-muted mb-0">
+        这 425 kcal 是跑步期间的总消耗，其中包含身体安静时本来就要消耗的 1 MET。
+        因跑步而额外多出的消耗约为 (9.8 − 1) ÷ 9.8，即总量的九成左右，约 382 kcal。和走路相比，跑步的总消耗里“额外部分”占比更高。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">30 分钟跑步消耗速查表</h2>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>体重</th>
+              <th>轻松跑</th>
+              <th>常见配速</th>
+              <th>较快跑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>50 kg</td><td>208 kcal</td><td>245 kcal</td><td>275 kcal</td></tr>
+            <tr><td>60 kg</td><td>249 kcal</td><td>294 kcal</td><td>330 kcal</td></tr>
+            <tr><td>70 kg</td><td>290 kcal</td><td>343 kcal</td><td>385 kcal</td></tr>
+            <tr><td>80 kg</td><td>332 kcal</td><td>392 kcal</td><td>440 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-3 mb-0">
+        一个好记的经验：跑步每公里大约消耗“体重（kg）× 1 kcal”。例如 60 kg 的人跑 5 公里约 300 kcal，和上表基本一致。
+        这个经验对平路、中等速度比较适用，所以跑得快慢对“每公里”消耗影响不大，主要影响的是单位时间内的消耗。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">哪些情况结果会不准？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2">间歇跑、走跑结合：中间走路或停下的时间也按跑步计算，结果会偏高，建议只填真正跑步的分钟数。</li>
+        <li class="mb-2">上坡、越野、逆风：实际消耗通常高于估算。</li>
+        <li class="mb-2">跑步机：没有风阻，同样速度下消耗可能略低于户外。</li>
+        <li class="mb-0">个体差异：跑步经济性不同的两个人，同体重、同速度下的实际消耗也可能有明显差异。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">常见问题</h2>
 
       <h3 class="h6 mt-3 mb-1">这个结果和手表不一样正常吗？</h3>
@@ -161,6 +240,27 @@
       <p class="text-muted">
         很适合。因为它能把“今天跑了一会儿”转成更具体的热量消耗参考，方便连接到整体计划。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">跑步和快走，哪个更消耗热量？</h3>
+      <p class="text-muted">
+        同样的时间里，跑步消耗明显更多：按本站数值，正常步行约 3 MET，轻松跑已经是 8.3 MET。
+        但快走更容易坚持、受伤风险更低，能长期执行的那一种才是更好的选择。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">跑完步后还会持续消耗热量吗？</h3>
+      <p class="text-muted">
+        会有少量额外消耗，但对一般强度的跑步来说占比不大，本工具没有计入。做热量计划时不必为此额外加一笔。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">跑步时间应该填总时长还是只填跑的部分？</h3>
+      <p class="text-muted">
+        只填真正在跑的时间。热身走路、等红绿灯和拉伸的时间不要算进去，否则结果会偏高。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">参考资料</h3>
+      <ul class="small text-muted ps-3">
+        <li class="mb-0">Ainsworth BE, et al. 2011 Compendium of Physical Activities: a second update of codes and MET values. Medicine &amp; Science in Sports &amp; Exercise, 2011.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

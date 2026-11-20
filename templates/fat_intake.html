@@ -108,6 +108,52 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <ul class="text-muted">
+        <li><b>60 kg，维持期：</b>60 × 1.0 = 60 g，折合 60 × 9 = 540 kcal。如果每天吃 1,800 kcal，脂肪约占 30%。</li>
+        <li><b>70 kg，减脂期：</b>70 × 0.8 = 56 g，折合 504 kcal。如果每天只吃 1,500 kcal，脂肪约占 34%。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        第二个例子说明：按体重算出的克数是固定的，总热量越低，脂肪占的比例就越高。所以算完克数后，最好再除以每日总热量，看看比例是否落在下面的推荐范围内。
+        如果比例明显偏高，最常见的来源是炒菜油和油炸食品，先从这两处减最容易做到。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">推荐范围：脂肪占总热量的 20%–30%</h2>
+      <p class="text-muted">
+        {% if is_hant %}台湾《国人膳食营养素参考摄取量》（第八版）{% else %}《中国居民膳食营养素参考摄入量（2023 版）》{% endif %}建议成年人脂肪供能比为 20%–30%。
+        换算成克数（每克脂肪约 9 kcal）：
+      </p>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>每日总热量</th><th>20%</th><th>30%</th></tr></thead>
+          <tbody>
+            <tr><td>1,500 kcal</td><td>约 33 g</td><td>约 50 g</td></tr>
+            <tr><td>1,800 kcal</td><td>约 40 g</td><td>约 60 g</td></tr>
+            <tr><td>2,000 kcal</td><td>约 44 g</td><td>约 67 g</td></tr>
+            <tr><td>2,500 kcal</td><td>约 56 g</td><td>约 83 g</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        工具结果高于 30% 时，可以往这个表的上限靠；长期低于 20% 也不建议，因为维生素 A、D、E、K 等脂溶性维生素需要和脂肪一起才能更好吸收，饭菜也很难吃得满足。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">比克数更重要的是吃什么脂肪</h2>
+      <ul class="text-muted">
+        <li><b>饱和脂肪：</b>世界卫生组织建议不超过总热量的 10%，主要来自肥肉、黄油、奶油、椰子油和棕榈油。</li>
+        <li><b>反式脂肪：</b>世界卫生组织建议不超过总热量的 1%，越少越好，常见于部分氢化植物油和一些起酥类糕点。</li>
+        <li><b>优先选择：</b>植物油、坚果、鱼类中的不饱和脂肪，用它们替代部分饱和脂肪。</li>
+      </ul>
+      <p class="text-muted mb-0">
+        {% if is_hant %}炒菜用油、坚果、肉类和奶类里的脂肪都要算进全天总量。外食时油脂往往比家里多，记录饮食时容易漏算。{% else %}《中国居民膳食指南（2022）》建议成年人每天烹调油 25–30 g。炒菜用油、坚果、肉类和奶类里的脂肪都要算进全天总量，外食时油脂往往比家里多，记录饮食时容易漏算。{% endif %}
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">减脂期为什么也不能把脂肪压得太低？</h2>
       <p class="text-muted">
         对很多人来说，减脂期最重要的是总热量方向正确，而不是把某一个营养素压到极端。脂肪如果过低，饮食往往会变得更难坚持，
@@ -155,6 +201,26 @@
         不能只看单一营养素。多数情况下，更关键的是整体热量平衡和长期饮食习惯。
       </p>
 
+      <h3 class="h6 mt-3 mb-1">脂肪最少要吃多少？</h3>
+      <p class="text-muted">
+        一般不建议长期低于总热量的 20%。以每天 1,500 kcal 计算，大约是 33 g。血脂异常、胆囊或胰腺疾病患者的脂肪摄入，请遵从医生的建议。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">算出来的脂肪超过总热量的 30%，要不要减？</h3>
+      <p class="text-muted">
+        总热量较低的减脂期常会这样。可以把脂肪降到总热量的 30% 左右，省下的热量换成蛋白质或碳水；但不要为了“低脂”降到 20% 以下。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">增肌期为什么系数更高？</h3>
+      <p class="text-muted">
+        增肌期总热量更高，需要更多的热量来源。脂肪每克约 9 kcal，是碳水和蛋白质的两倍多，适当多吃一点，可以在食量不变的情况下补足热量。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">坚果很健康，可以多吃吗？</h3>
+      <p class="text-muted">
+        坚果的脂肪以不饱和脂肪为主，但热量高，一小把就有不少脂肪。可以把它当作全天脂肪的一部分来吃，而不是额外加上去。
+      </p>
+
       <h3 class="h6 mt-3 mb-1">这个工具适合健身和体重管理人群吗？</h3>
       <p class="text-muted">
         适合。它特别适合想把“总热量目标”进一步拆成更具体脂肪摄入安排的人。
@@ -162,6 +228,8 @@
 
       <hr class="my-4">
       <p class="small text-muted mb-0">
+        参考：{% if is_hant %}卫生福利部国民健康署《国人膳食营养素参考摄取量》第八版{% else %}中国营养学会《中国居民膳食营养素参考摄入量（2023 版）》；中国营养学会《中国居民膳食指南（2022）》{% endif %}；
+        World Health Organization. Saturated fatty acid and trans-fatty acid intake for adults and children: WHO guideline, 2023。
         本页面仅用于一般科普参考，不构成医疗建议。
       </p>
     </div>

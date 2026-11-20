@@ -119,6 +119,57 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">怎么计算？一个例子</h2>
+      <p class="text-muted">
+        公式很直接：<b>所需周数 = |目标体重 − 当前体重| ÷ 每周变化速度</b>。
+        取的是差值的绝对值，所以减重和增重都可以用。工具结果保留一位小数。
+      </p>
+      <p class="text-muted mb-2">
+        例如当前 72 kg、目标 65 kg，相差 7 kg。不同速度下的结果如下：
+      </p>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead>
+            <tr class="text-muted">
+              <th>每周速度</th>
+              <th>所需时间</th>
+              <th>对应每日热量缺口（估算）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0.25 kg</td><td>28.0 周（约 6.4 个月）</td><td>约 275 kcal</td></tr>
+            <tr><td>0.5 kg</td><td>14.0 周（约 3.2 个月）</td><td>约 550 kcal</td></tr>
+            <tr><td>0.75 kg</td><td>9.3 周（约 2.1 个月）</td><td>约 825 kcal</td></tr>
+            <tr><td>1.0 kg</td><td>7.0 周（约 1.6 个月）</td><td>约 1,100 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted mt-2 mb-0">
+        每日缺口按“每公斤体重约 7,700 kcal”粗略换算：每周速度 × 7,700 ÷ 7。月数按每月 30.4 天折算。
+        可以看到，速度翻倍，需要的每日缺口也翻倍，执行难度会明显上升。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">速度怎么选？</h2>
+      <ul class="text-muted mb-0 ps-3">
+        <li class="mb-2"><b>减重</b>：美国疾病控制与预防中心（CDC）建议每周减约 0.5–1 kg（1–2 磅），认为渐进、稳定的减重更容易长期保持。体重基数不大、或刚开始调整饮食的人，从 0.25–0.5 kg 起步通常更容易坚持。</li>
+        <li class="mb-2"><b>增重 / 增肌</b>：多数人选 0.25 kg/周就够了。增重太快时，多出来的部分往往更多是脂肪。</li>
+        <li class="mb-0"><b>选 1.0 kg/周时</b>：需要每天约 1,100 kcal 的缺口，对很多人来说意味着吃得很少。有慢性病、正在服药或处于孕期哺乳期的人，不建议自行采用这么快的速度，应先咨询医生。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">这个估算的局限</h2>
+      <p class="text-muted mb-0">
+        工具假设每周都以同样的速度变化，但现实并非如此。减重开始的前一两周，体重常因水分和糖原减少而下降较快；
+        之后随着体重变轻，每天的总消耗也会降低，同样的饮食带来的缺口会变小，速度自然放慢。
+        Hall 等人 2011 年发表在《柳叶刀》的研究也指出，按固定换算系数推算会高估长期减重速度。
+        所以实际所需时间往往比工具结果更长，建议每 4 周根据实际趋势重新计算一次。
+      </p>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">下一步怎么做？</h2>
       <p class="text-muted">
         先计算 TDEE，设定温和的目标热量，并保证足够蛋白质与日常活动量（例如步数）。
@@ -159,6 +210,17 @@
       <p class="text-muted">
         这不一定说明你失败了。更实用的做法是回看过去几周的执行情况，再微调热量、活动量、恢复和计划节奏。
       </p>
+
+      <h3 class="h6 mt-3 mb-1">可以用来算增重吗？</h3>
+      <p class="text-muted">
+        可以。目标体重高于当前体重时，工具同样按差值除以每周速度计算，比如从 55 kg 增到 60 kg、每周 0.25 kg，约需 20 周。
+      </p>
+
+      <h4 class="h6 mt-4 mb-1">参考资料</h4>
+      <ul class="small text-muted ps-3">
+        <li class="mb-1">Centers for Disease Control and Prevention（CDC）：Losing Weight。</li>
+        <li class="mb-0">Hall KD, et al. Quantification of the effect of energy imbalance on bodyweight. The Lancet, 2011.</li>
+      </ul>
 
       <hr class="my-4">
       <p class="small text-muted mb-0">

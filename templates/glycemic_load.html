@@ -113,6 +113,48 @@
     </div>
 
     <div class="tool-card">
+      <h2 class="h6">计算公式和分级</h2>
+      <div class="bg-light rounded-3 p-3 small mb-2">可利用碳水（g）= 总碳水 − 膳食纤维</div>
+      <div class="bg-light rounded-3 p-3 small mb-3">GL = GI × 可利用碳水（g）÷ 100</div>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle text-center mb-2">
+          <thead class="table-light"><tr><th>等级</th><th>GI</th><th>GL（每份）</th></tr></thead>
+          <tbody>
+            <tr><td>低</td><td>≤ 55</td><td>≤ 10</td></tr>
+            <tr><td>中</td><td>56–69</td><td>大于 10、小于 20</td></tr>
+            <tr><td>高</td><td>≥ 70</td><td>≥ 20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted mb-0">
+        GI 的测定方法是：让受试者吃下含 50 g 可利用碳水的食物，比较 2 小时内的血糖曲线和吃 50 g 葡萄糖时的差别，葡萄糖记为 100。
+        GL 则把“实际吃了多少”也算进去。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">计算示例</h2>
+      <p class="text-muted">
+        一小碗米饭（熟重约 150 g）含碳水约 39 g，膳食纤维很少，这里按 0 计。假设这种米饭的 GI 为 73：
+        GL = 73 × 39 ÷ 100 ≈ <b>28.5</b>，属于高 GL。只吃半碗（约 19.5 g 碳水）时，GL ≈ 14.2，降到中等。
+      </p>
+      <p class="text-muted mb-0">
+        反过来，西瓜常被列为高 GI 食物，但一份 120 g 的西瓜可利用碳水不到 10 g，即使按 GI 75 计算，GL 也不到 75 × 10 ÷ 100 = 7.5，属于低 GL。
+        这就是只看 GI 容易误判的原因。
+      </p>
+    </div>
+
+    <div class="tool-card">
+      <h2 class="h6">GI 数据的局限</h2>
+      <ul class="text-muted mb-0">
+        <li><b>同一种食物差别也很大：</b>品种、成熟度、加工程度和烹调时间都会改变 GI。米饭煮得越软烂、水果越熟，GI 通常越高。</li>
+        <li><b>搭配会改变结果：</b>GI 是单独吃一种食物测出来的。和蔬菜、蛋白质、脂肪一起吃，餐后血糖上升通常更平缓。</li>
+        <li><b>个人差异：</b>研究发现，不同的人吃同一种食物，餐后血糖反应可能相差很大（Zeevi 等，2015）。</li>
+        <li><b>不等于健康程度：</b>有些低 GI 食物脂肪和热量很高，GI 只说明碳水对血糖的影响，不代表整体营养价值。</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
       <h2 class="h6">什么时候这个工具最有用？</h2>
       <p class="text-muted">
         如果你正在关注控糖、饮食质量、餐后波动，或者只是想更清楚地理解“碳水质量”，这个工具会很有帮助。
@@ -136,7 +178,7 @@
         <li><a href="/carbs">碳水化合物需求计算器</a>：把食物质量放回总碳水目标里看</li>
         <li><a href="/macro">宏量营养素计算器</a>：把 GL 放回整体饮食结构里理解</li>
         <li><a href="/meal-split">餐次分配计算器</a>：从整天饮食安排角度看碳水摄入</li>
-        <li><a href="/sugar-intake">糖摄入计算器</a>：补充日常甜饮和甜点的摄入判断</li>
+        <li><a href="/guide/glycemic-index-food-list">GI 值对照表</a>：查常见食物的 GI 参考值</li>
       </ul>
     </div>
 
@@ -153,6 +195,22 @@
         不一定。很多时候关键不只是食物本身，而是份量和整餐结构。GI 高但吃得少，GL 未必就高。
       </p>
 
+      <h3 class="h6 mt-3 mb-1">食物的 GI 值去哪里查？</h3>
+      <p class="text-muted">
+        国际 GI 表（Atkinson 等整理，最近一次更新于 2021 年）收录了几千种食物的测定值，也可以先看站内的 <a href="/guide/glycemic-index-food-list">GI 值对照表</a>。
+        查不到完全一样的食物时，用同类食物的数值估算即可。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">总碳水和膳食纤维从哪里看？</h3>
+      <p class="text-muted">
+        包装食品看营养成分表，按你实际吃的克数换算。如果表上没有单独列出膳食纤维，纤维一栏填 0，结果会略微偏高。
+      </p>
+
+      <h3 class="h6 mt-3 mb-1">糖尿病患者可以用 GL 来安排饮食吗？</h3>
+      <p class="text-muted">
+        GL 可以帮助理解份量的影响，但血糖管理还涉及总碳水、用药和运动时间。请以医生或营养师给出的方案为准，不要只根据这个工具调整饮食或药物。
+      </p>
+
       <h3 class="h6 mt-3 mb-1">这个工具适合做精确医疗判断吗？</h3>
       <p class="text-muted">
         不适合。它更适合作为饮食质量和食物选择的日常参考，不构成医疗建议。
@@ -160,6 +218,10 @@
 
       <hr class="my-4">
       <p class="small text-muted mb-0">
+        参考：Atkinson FS, Foster-Powell K, Brand-Miller JC. International tables of glycemic index and glycemic load values: 2008. Diabetes Care, 2008；
+        Atkinson FS, et al. International tables of glycemic index and glycemic load values 2021: a systematic review. Am J Clin Nutr, 2021；
+        ISO 26642:2010 Food products — Determination of the glycaemic index (GI) and recommendation for food classification；
+        Zeevi D, et al. Personalized nutrition by prediction of glycemic responses. Cell, 2015。
         免责声明：本页面与计算结果仅供一般饮食参考，不构成医疗建议。
       </p>
     </div>
