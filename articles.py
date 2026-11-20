@@ -8,9 +8,9 @@
 """
 
 AUTHOR = {
-    "name": "Zooey",
+    "name": "Ray",
     "url": "/about",
-    "bio": "独立网页开发者，关注健康生活与生活工具开发。",
+    "bio": "CalmyHealth 运营者。关注健康生活，制作方便自测健康指标的工具；内容依据权威机构的指南与已发表的研究论文。",
 }
 
 ARTICLES = [
