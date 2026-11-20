@@ -15,7 +15,7 @@
         <div class="small text-muted mb-2">分类信息</div>
         <div class="fw-semibold mb-2">{{ current_cat.count }} 个工具</div>
         <div class="small text-muted">
-          你可以先浏览这一类工具，再进入子分类查看更具体的工具页面。
+          不确定用哪个？往下看“想知道什么？该用哪个工具”。
         </div>
       </div>
     </div>
@@ -76,25 +76,39 @@
   {% endif %}
 </div>
 
-<div class="bg-white rounded-4 shadow-sm p-4">
-  <div class="row g-4">
-    <div class="col-lg-8">
-      <h2 class="h5 mb-2">如何使用这个分类页</h2>
-      <p class="text-muted mb-0">
-        分类页适合集中浏览同一主题下的多个工具。每个分类下又分为更细的子分类，
-        这样后续新增页面时可以继续按主题归档，保持站点结构清晰，也更适合用户浏览和搜索引擎理解。
-      </p>
-    </div>
-    <div class="col-lg-4">
-      <div class="border rounded-4 p-3 bg-light h-100">
-        <div class="small text-muted mb-2">继续浏览</div>
-        <div class="d-grid gap-2">
-          <a class="btn btn-outline-primary btn-sm" href="/tools">查看全部工具</a>
-          <a class="btn btn-outline-primary btn-sm" href="/">返回首页</a>
-        </div>
-      </div>
-    </div>
+{% if guide %}
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">想知道什么？该用哪个工具</h2>
+  <p class="text-muted">{{ guide.intro }}</p>
+  <div class="table-responsive">
+    <table class="table table-sm align-middle mb-0">
+      <thead class="table-light"><tr><th style="min-width:9em">你想知道</th><th style="min-width:8em">工具</th><th>它怎么算、能告诉你什么</th></tr></thead>
+      <tbody>
+        {% for q, path, name, desc in guide.choose %}
+        <tr><td>{{ q }}</td><td><a href="{{ path }}">{{ name }}</a></td><td class="small text-muted">{{ desc }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
+
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">使用前先了解</h2>
+  <ul class="text-muted mb-0 ps-3">
+    {% for tip in guide.tips %}<li class="mb-2">{{ tip }}</li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if guide_links %}
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <h2 class="h5 mb-3">延伸阅读</h2>
+  <ul class="mb-0 ps-3">
+    {% for a in guide_links %}
+    <li class="mb-2"><a href="/guide/{{ a.slug }}">{{ a.h1 }}</a> <span class="small text-muted">· {{ a.read_minutes }} 分钟</span></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
 
 {% endblock %}

@@ -20,6 +20,7 @@ from pathlib import Path
 from flask import abort
 
 from articles import ARTICLES, ARTICLES_BY_SLUG, AUTHOR as ARTICLE_AUTHOR, HANT_OVERRIDES
+from category_content import CATEGORY_GUIDES
 from seo_meta import SEO_OVERRIDES
 from i18n_hant import ENV_KEY as LANG_ENV_KEY, HANT_PREFIX, HantPrefixMiddleware, convert_html
 from i18n_ja import (
@@ -86,6 +87,15 @@ OLD_HOSTS = {
 }
 
 
+
+# 功能重复、已合并的工具页 → 合并后的页面
+MERGED_PATHS = {
+    "/sleep-wake-time": "/sleep",
+    "/sleep-bedtime": "/sleep?mode=wake_at",
+    "/sleep-recovery": "/sleep-debt",
+    "/safe-days-calculator": "/ovulation",
+}
+
 @app.before_request
 def redirect_old_domain():
     host = request.host.split(":")[0].lower()
@@ -96,6 +106,9 @@ def redirect_old_domain():
     if host in OLD_HOSTS or host.endswith(".run.app") or host == "www.calmyhealth.com":
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
         return redirect(f"{BASE_URL_ENV}{request.script_root}{request.path}{qs}", code=301)
+    # 已合并的工具页 301 到合并后的页面（保留 /zh-hant、/ja 前缀）
+    if request.path in MERGED_PATHS:
+        return redirect(f"{request.script_root}{MERGED_PATHS[request.path]}", code=301)
     # /bmi/ 这类末尾带斜杠的网址统一 301 到 /bmi
     if request.path != "/" and request.path.endswith("/") and request.method in ("GET", "HEAD"):
         qs = f"?{request.query_string.decode()}" if request.query_string else ""
@@ -623,42 +636,12 @@ TOOLS = [
         "subgroup": "sleep_time",
         "featured": False,
     },
-    # 4.2.4 补觉时间
-    {
-        "endpoint": "sleep_recovery",
-        "name": "补觉时间计算器",
-        "path": "/sleep-recovery",
-        "desc": "估算睡眠不足后大概要补多久",
-        "category": "activity",
-        "subgroup": "sleep_time",
-        "featured": False,
-    },
     # 4.2.5 午睡时间
     {
         "endpoint": "nap_time",
         "name": "午睡时间计算器",
         "path": "/nap-time",
         "desc": "估算午睡多久更不容易醒来头昏",
-        "category": "activity",
-        "subgroup": "sleep_time",
-        "featured": False,
-    },
-    # 4.2.6 起床时间
-    {
-        "endpoint": "sleep_wake_time",
-        "name": "起床时间计算器",
-        "path": "/sleep-wake-time",
-        "desc": "按90分钟睡眠周期计算更容易自然醒的起床时间",
-        "category": "activity",
-        "subgroup": "sleep_time",
-        "featured": False,
-    },
-    # 4.2.7 - 入睡时间
-    {
-        "endpoint": "sleep_bedtime",
-        "name": "入睡时间计算器",
-        "path": "/sleep-bedtime",
-        "desc": "根据起床时间反推最佳入睡时间，减少睡眠中断感",
         "category": "activity",
         "subgroup": "sleep_time",
         "featured": False,
@@ -766,16 +749,6 @@ TOOLS = [
         "category": "pregnancy",
         "subgroup": "pregnancy_basic",
         "featured": True,
-    },
-    # 5.1.6 安全期计算
-    {
-        "endpoint": "safe_days_calculator",
-        "name": "安全期计算器",
-        "path": "/safe-days-calculator",
-        "desc": "按周期估算相对低受孕概率日期",
-        "category": "pregnancy",
-        "subgroup": "pregnancy_basic",
-        "featured": False,
     },
     # 5.1.7 易孕期计算
     {
@@ -961,6 +934,9 @@ def grouped_tools(current_path=None):
     groups = []
 
     for cat_slug, cat_meta in CATEGORY_META.items():
+        # noindex 的分类（孕期工具）不放进导航，避免每页都链接到未收录页面
+        if cat_slug in NOINDEX_CATEGORIES:
+            continue
         children = []
 
         for child_slug, child_meta in cat_meta.get("children", {}).items():
@@ -3942,6 +3918,8 @@ def category_page(slug: str):
         current_cat=current_cat,
         categories=nav_groups,
         page_kind="category",
+        guide=CATEGORY_GUIDES.get(slug),
+        guide_links=[ARTICLES_BY_SLUG[g] for g in CATEGORY_GUIDES.get(slug, {}).get("guides", []) if g in ARTICLES_BY_SLUG],
     )
 
 
@@ -4424,50 +4402,6 @@ def period_calculator():
     }
     return render_template(
         "period_calculator.html",
-        meta=meta,
-        error=error,
-        result=result,
-        lmp_in=lmp_in,
-        cycle_in=cycle_in,
-        period_in=period_in,
-        page_kind="tool",
-    )
-# 5.1.6 安全期计算
-@app.route("/safe-days-calculator", methods=["GET", "POST"])
-def safe_days_calculator():
-    error = None
-    result = None
-
-    lmp_in = ""
-    cycle_in = "28"
-    period_in = "5"
-
-    if request.method == "POST":
-        lmp_in = request.form.get("lmp", "").strip()
-        cycle_in = request.form.get("cycle_length", "28").strip()
-        period_in = request.form.get("period_length", "5").strip()
-
-        try:
-            if not lmp_in:
-                raise ValueError("请输入末次月经开始日期。")
-
-            lmp_date = datetime.strptime(lmp_in, "%Y-%m-%d").date()
-            cycle_length = int(cycle_in)
-            period_length = int(period_in)
-
-            result = safe_days_info(lmp_date, cycle_length, period_length)
-
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "安全期计算器（月经周期参考）- CalmyHealth",
-        "description": "输入末次月经开始日期、平均周期长度和经期时长，估算周期中的相对低受孕概率日期、排卵日和易孕期范围，仅供周期参考。",
-        "canonical": canonical_url("/safe-days-calculator"),
-    }
-
-    return render_template(
-        "safe_days_calculator.html",
         meta=meta,
         error=error,
         result=result,
@@ -5031,7 +4965,7 @@ def water():
 @app.route("/sleep", methods=["GET", "POST"])
 def sleep():
     error = None
-    mode_in = "sleep_now"
+    mode_in = request.args.get("mode", "sleep_now") if request.args.get("mode") in ("sleep_now", "wake_at") else "sleep_now"
     time_hm_in = ""
     times = []
 
@@ -5080,8 +5014,8 @@ def sleep():
                     times.append(fmt(th, tm))
 
     meta = meta_for(
-        "睡眠周期计算 - CalmyHealth",
-        "睡眠周期计算器：按 90 分钟周期给出推荐入睡/起床时间点，适合做作息规划（仅供参考）。",
+        "睡眠周期计算器：几点睡、几点起（按 90 分钟周期）- CalmyHealth",
+        "按约 90 分钟的睡眠周期计算：现在睡几点起床最好，或想几点起该几点入睡。含 15 分钟入睡缓冲，附 3–6 个周期对照表和睡眠周期的科学说明。",
         "/sleep",
     )
     return render_template(
@@ -5113,13 +5047,18 @@ def sleep_debt():
             days = int(days_in)
 
             result = sleep_debt_info(actual_hours, target_hours, days)
+            # 原“补觉时间计算器”合并到这里：每天多睡 0.5 / 1 / 1.5 小时，大约几天能补回
+            result["recovery"] = [
+                {"extra": extra, "days": round1(result["total_debt"] / extra)}
+                for extra in (0.5, 1.0, 1.5)
+            ] if result["total_debt"] > 0 else []
 
         except Exception as e:
             error = str(e) if str(e) else "请输入有效数据。"
 
     meta = {
-        "title": "睡眠债计算器｜这一周你欠了多少睡眠 - CalmyHealth",
-        "description": "如果每天少睡1小时，一周就会累计约7小时睡眠债。输入你的睡眠时长，快速估算睡眠债，并了解需要多久恢复。",
+        "title": "睡眠债计算器｜欠了多少觉、补觉要几天 - CalmyHealth",
+        "description": "每天少睡1小时，一周就累计约7小时睡眠债。输入实际和目标睡眠时长，算出累计睡眠债，以及每天多睡0.5–1.5小时大约几天能补回。",
         "canonical": canonical_url("/sleep-debt"),
     }
 
@@ -5134,40 +5073,6 @@ def sleep_debt():
         page_kind="tool",
     )
 # ========= 4.2. 睡眠时间 ======= 
-## 4.2.4 补觉时间 (Route)
-@app.route("/sleep-recovery", methods=["GET", "POST"])
-def sleep_recovery():
-    error = None
-    debt_in = "6"
-    recovery_in = "1"
-    result = None
-
-    if request.method == "POST":
-        debt_in = request.form.get("debt_hours", "6").strip()
-        recovery_in = request.form.get("recovery_hours", "1").strip()
-
-        try:
-            debt_hours = float(debt_in)
-            recovery_hours = float(recovery_in)
-            result = sleep_recovery_info(debt_hours, recovery_hours)
-        except Exception as e:
-            error = str(e) if str(e) else "请输入有效数据。"
-
-    meta = {
-        "title": "补觉时间计算器（睡不够后大概要补多久）- CalmyHealth",
-        "description": "输入累计睡眠债和你计划每天额外补觉的时长，估算大概需要多少天恢复，并附结果说明、公式解释和相关睡眠工具推荐。",
-        "canonical": canonical_url("/sleep-recovery"),
-    }
-
-    return render_template(
-        "sleep_recovery.html",
-        meta=meta,
-        error=error,
-        debt_in=debt_in,
-        recovery_in=recovery_in,
-        result=result,
-        page_kind="tool",
-    )
 # 4.2.3 睡眠时长
 @app.route("/sleep-duration", methods=["GET", "POST"])
 def sleep_duration():
@@ -5249,120 +5154,6 @@ def nap_time():
         result=result,
         page_kind="tool",
     )
-# 4.2.6 起床时间
-@app.route("/sleep-wake-time", methods=["GET", "POST"])
-def sleep_wake_time():
-    error = None
-    hour_in = "23"
-    minute_in = "00"
-    sleep_rows = []
-    recommended_time = None
-    recommended_cycles = None
-
-    if request.method == "POST":
-        hour_in = request.form.get("hour", "23")
-        minute_in = request.form.get("minute", "00")
-
-        try:
-            hour = int(hour_in)
-            minute = int(minute_in)
-
-            base = datetime(2000, 1, 1, hour, minute) + timedelta(minutes=15)
-
-            for cycles in [3, 4, 5, 6]:
-                t = base + timedelta(minutes=90 * cycles)
-                is_recommended = cycles == 5
-
-                row = {
-                    "cycles": cycles,
-                    "duration_text": f"{cycles * 1.5:g} 小时",
-                    "time": t.strftime("%H:%M"),
-                    "is_recommended": is_recommended,
-                }
-                sleep_rows.append(row)
-
-                if is_recommended:
-                    recommended_time = row["time"]
-                    recommended_cycles = cycles
-
-        except Exception:
-            error = "请输入有效时间。"
-
-    meta = {
-        "title": "起床时间计算器（按睡眠周期推荐几点醒）- CalmyHealth",
-        "description": "几点起床最清醒？输入准备入睡的时间，按约 90 分钟一个睡眠周期、加上约 15 分钟入睡时间，算出睡满 4–6 个周期时适合醒来的时间，例如 23:00 入睡可在 6:45 或 8:15 起床。",
-        "canonical": canonical_url("/sleep-wake-time"),
-    }
-
-    return render_template(
-        "sleep_wake_time.html",
-        meta=meta,
-        error=error,
-        hour_in=hour_in,
-        minute_in=minute_in,
-        sleep_rows=sleep_rows,
-        recommended_time=recommended_time,
-        recommended_cycles=recommended_cycles,
-        page_kind="tool",
-    )
-
-# 4.2.7 入睡时间
-@app.route("/sleep-bedtime", methods=["GET", "POST"])
-def sleep_bedtime():
-    error = None
-    hour_in = "07"
-    minute_in = "00"
-    sleep_rows = []
-    recommended_time = None
-    recommended_cycles = None
-
-    if request.method == "POST":
-        hour_in = request.form.get("hour", "07")
-        minute_in = request.form.get("minute", "00")
-
-        try:
-            hour = int(hour_in)
-            minute = int(minute_in)
-
-            base = datetime(2000, 1, 1, hour, minute)
-
-            for cycles in [3, 4, 5, 6]:
-                t = base - timedelta(minutes=(90 * cycles + 15))
-                is_recommended = cycles == 5
-
-                row = {
-                    "cycles": cycles,
-                    "duration_text": f"{cycles * 1.5:g} 小时",
-                    "time": t.strftime("%H:%M"),
-                    "is_recommended": is_recommended,
-                }
-                sleep_rows.append(row)
-
-                if is_recommended:
-                    recommended_time = row["time"]
-                    recommended_cycles = cycles
-
-        except Exception:
-            error = "请输入有效时间。"
-
-    meta = {
-        "title": "入睡时间计算器（按起床时间反推几点睡）- CalmyHealth",
-        "description": "几点睡最合适？输入目标起床时间，按约 90 分钟睡眠周期和约 15 分钟入睡时间反推上床时间，例如 7:00 起床可在 23:15 或 0:45 上床，附睡眠时长建议。",
-        "canonical": canonical_url("/sleep-bedtime"),
-    }
-
-    return render_template(
-        "sleep_bedtime.html",
-        meta=meta,
-        error=error,
-        hour_in=hour_in,
-        minute_in=minute_in,
-        sleep_rows=sleep_rows,
-        recommended_time=recommended_time,
-        recommended_cycles=recommended_cycles,
-        page_kind="tool",
-    )
-
 # ========= 4.3. 睡眠质量 ======= 
 # 4.3.4 时差恢复
 @app.route("/jet-lag", methods=["GET", "POST"])

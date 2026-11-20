@@ -99,9 +99,6 @@
             <a class="nav-link {% if request.path.startswith('/category/activity') %}active{% endif %}" href="/category/activity">运动与习惯</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link {% if request.path.startswith('/category/pregnancy') %}active{% endif %}" href="/category/pregnancy">孕期工具</a>
-          </li>
         </ul>
 
         <div class="topbar-links-meta ms-lg-3">
@@ -220,87 +217,34 @@
                     </button>
                   </h2>
                   <div id="mobileNavCollapse" class="accordion-collapse collapse" aria-labelledby="mobileNavHeading" data-bs-parent="#mobileNavAccordion">
-                    <div class="accordion-body p-2 bg-white">
-                      <a class="sidebar-link {% if request.path == '/tools' %}active{% endif %}" href="/tools">
-                        全部工具导航
-                      </a>
-
-                      {% if top_tools %}
-                      <div class="sidebar-section-title">热门工具</div>
-                      <div class="sidebar-group">
-                        {% for tool in top_tools %}
-                          <a
-                            class="sidebar-link sidebar-link-top {% if request.path == tool.path %}active{% endif %}"
-                            href="{{ tool.path }}"
-                          >
-                            {{ loop.index }}. {{ tool.name }}
-                          </a>
-                        {% endfor %}
-                      </div>
-                      {% endif %}
-
-                      <div class="sidebar-section-title">分类目录</div>
-
-                      {% for cat in nav_categories %}
-                        <div class="sidebar-group">
-                          <button
-                            class="sidebar-group-toggle d-flex justify-content-between align-items-center"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#m-cat-{{ cat.slug }}"
-                            aria-expanded="{% if cat.is_open %}true{% else %}false{% endif %}"
-                            aria-controls="m-cat-{{ cat.slug }}"
-                          >
-                            <span>{{ cat.name }}</span>
-                            <span class="toggle-meta">{{ cat.count }}</span>
-                          </button>
-
-                          <div class="collapse {% if cat.is_open %}show{% endif %}" id="m-cat-{{ cat.slug }}">
-                            <div class="sidebar-level-2">
-                              <a
-                                class="sidebar-link small {% if request.path == '/category/' ~ cat.slug %}active{% endif %}"
-                                href="/category/{{ cat.slug }}"
-                              >
-                                查看{{ cat.name }}
-                              </a>
-
-                              {% for child in cat.children %}
-                                <div class="sidebar-subgroup">
-                                  <button
-                                    class="sidebar-subgroup-toggle d-flex justify-content-between align-items-center"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#m-child-{{ cat.slug }}-{{ child.slug }}"
-                                    aria-expanded="{% if cat.is_open or child.is_open %}true{% else %}false{% endif %}"
-                                    aria-controls="m-child-{{ cat.slug }}-{{ child.slug }}"
-                                  >
-                                    <span>{{ child.name }}</span>
-                                    <span class="toggle-meta">{{ child.count }}</span>
-                                  </button>
-
-                                  <div class="collapse {% if cat.is_open or child.is_open %}show{% endif %}" id="m-child-{{ cat.slug }}-{{ child.slug }}">
-                                    <div class="sidebar-level-3">
-                                      {% for tool in child.tools %}
-                                        <a
-                                          class="sidebar-link sidebar-link-tool {% if tool.is_active %}active{% endif %}"
-                                          href="{{ tool.path }}"
-                                        >
-                                          {{ tool.name }}
-                                        </a>
-                                      {% endfor %}
-                                    </div>
-                                  </div>
-                                </div>
-                              {% endfor %}
-                            </div>
-                          </div>
-                        </div>
-                      {% endfor %}
-                    </div>
+                    <div class="accordion-body p-2 bg-white" id="mobileNavBody"></div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <script>
+              // 手机版“工具目录”第一次展开时，从侧栏复制导航（不在正文 HTML 里重复输出一份）
+              (function () {
+                var box = document.getElementById("mobileNavCollapse");
+                if (!box) return;
+                function fill() {
+                  var body = document.getElementById("mobileNavBody"), side = document.getElementById("sidebarPanel");
+                  if (!body || !side || body.childElementCount) return;
+                  var clone = side.cloneNode(true);
+                  clone.querySelectorAll(".sidebar-title").forEach(function (el) { el.remove(); });
+                  clone.querySelectorAll("[id]").forEach(function (el) { el.id = "m-" + el.id; });
+                  clone.querySelectorAll("[data-bs-target]").forEach(function (el) {
+                    el.setAttribute("data-bs-target", el.getAttribute("data-bs-target").replace("#", "#m-"));
+                  });
+                  clone.querySelectorAll("[aria-controls]").forEach(function (el) {
+                    el.setAttribute("aria-controls", "m-" + el.getAttribute("aria-controls"));
+                  });
+                  while (clone.firstChild) body.appendChild(clone.firstChild);
+                }
+                box.addEventListener("show.bs.collapse", fill);
+              })();
+            </script>
 
             {% block content %}{% endblock %}
 

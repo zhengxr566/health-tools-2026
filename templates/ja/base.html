@@ -135,13 +135,34 @@
                     </button>
                   </h2>
                   <div id="mobileNavCollapse" class="accordion-collapse collapse" aria-labelledby="mobileNavHeading" data-bs-parent="#mobileNavAccordion">
-                    <div class="accordion-body p-2 bg-white">
-                      {{ ja_nav('m') }}
-                    </div>
+                    <div class="accordion-body p-2 bg-white" id="mobileNavBody"></div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <script>
+              // 手机版“工具目录”第一次展开时，从侧栏复制导航（不在正文 HTML 里重复输出一份）
+              (function () {
+                var box = document.getElementById("mobileNavCollapse");
+                if (!box) return;
+                function fill() {
+                  var body = document.getElementById("mobileNavBody"), side = document.getElementById("sidebarPanel");
+                  if (!body || !side || body.childElementCount) return;
+                  var clone = side.cloneNode(true);
+                  clone.querySelectorAll(".sidebar-title").forEach(function (el) { el.remove(); });
+                  clone.querySelectorAll("[id]").forEach(function (el) { el.id = "m-" + el.id; });
+                  clone.querySelectorAll("[data-bs-target]").forEach(function (el) {
+                    el.setAttribute("data-bs-target", el.getAttribute("data-bs-target").replace("#", "#m-"));
+                  });
+                  clone.querySelectorAll("[aria-controls]").forEach(function (el) {
+                    el.setAttribute("aria-controls", "m-" + el.getAttribute("aria-controls"));
+                  });
+                  while (clone.firstChild) body.appendChild(clone.firstChild);
+                }
+                box.addEventListener("show.bs.collapse", fill);
+              })();
+            </script>
 
             {% block content %}{% endblock %}
 

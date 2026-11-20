@@ -2,11 +2,49 @@
 {% block content %}
 
 <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
-  <h1 class="h3 mb-2">健康计算工具导航</h1>
-  <p class="text-muted mb-0">
-    提供 BMI、TDEE、BMR、体脂率、理想体重、腰围风险、蛋白质、睡眠、预产期等常用工具。
-    可按热门工具或分类快速进入。
+  <h1 class="h3 mb-2">健康计算工具：体重、热量、营养、运动与睡眠</h1>
+  <p class="text-muted">
+    CalmyHealth 提供 BMI、基础代谢（BMR）、每日总消耗（TDEE）、体脂率、蛋白质与营养摄入、步数换算、睡眠周期等常用健康计算工具，
+    以及配套的健康指南文章。每个工具都会说明用了哪个公式、结果怎么看、有哪些局限，并列出参考来源。
   </p>
+  <p class="text-muted mb-0 small">
+    简体中文版采用中国成人体重判定标准和《中国居民膳食营养素参考摄入量（2023 版）》；繁体中文版采用台湾国民健康署标准；
+    日语版采用日本肥满学会和《日本人の食事摂取基準》。计算结果仅供日常参考，不能代替医生的诊断。
+  </p>
+</div>
+
+<div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">按目标开始</h2>
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <div class="goal-card h-100">
+        <div class="fw-semibold mb-1">想减脂</div>
+        <p class="small text-muted mb-2">先确认体重是否真的需要减，再算出每天的消耗和合适的热量缺口，最后保证蛋白质足够，减脂时少掉肌肉。</p>
+        <div class="small"><a href="/bmi">BMI</a> → <a href="/calorie">TDEE</a> → <a href="/deficit">热量缺口</a> → <a href="/protein">蛋白质</a></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="goal-card h-100">
+        <div class="fw-semibold mb-1">想增肌</div>
+        <p class="small text-muted mb-2">用体脂率和 FFMI 了解目前的肌肉量，在 TDEE 基础上略增热量，并把蛋白质分配到每一餐。</p>
+        <div class="small"><a href="/bodyfat">体脂率</a> → <a href="/ffmi">FFMI</a> → <a href="/macro">三大营养素</a> → <a href="/meal-split">餐次分配</a></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="goal-card h-100">
+        <div class="fw-semibold mb-1">想吃得更均衡</div>
+        <p class="small text-muted mb-2">把一天吃的东西记下来，看看钙、纤维、钾等营养素够不够，再用食物营养图谱找能补上的食物。</p>
+        <div class="small"><a href="/nutrition-check">一日饮食营养分析</a> → <a href="/guide/food-nutrient-map">食物营养图谱</a> → <a href="/salt">盐摄入</a></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="goal-card h-100">
+        <div class="fw-semibold mb-1">想多动、睡得好</div>
+        <p class="small text-muted mb-2">把步数换算成距离和热量，设定适合自己的步数目标；按睡眠周期安排入睡和起床时间。</p>
+        <div class="small"><a href="/steps-distance">步数换算</a> → <a href="/step-goal">步数目标</a> → <a href="/sleep">睡眠周期</a> → <a href="/sleep-debt">睡眠债</a></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% if featured_tools %}
@@ -101,6 +139,13 @@
     background: #f3f8f5;
     border-color: #cfe8d8;
     color: #198754;
+  }
+
+  .goal-card {
+    padding: 0.9rem 1rem;
+    border: 1px solid #e7edf5;
+    border-radius: 0.8rem;
+    background: #fafcff;
   }
 
   .guide-mini {

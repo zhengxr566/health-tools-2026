@@ -50,11 +50,26 @@
           实际睡眠约达到目标的 {{ result.completion }}%
         </div>
 
+        {% if result.recovery %}
+        <div class="text-start mt-3">
+          <div class="fw-semibold small mb-2">补觉要几天？</div>
+          <table class="table table-sm align-middle mb-1">
+            <thead class="table-light"><tr><th>每天比平时多睡</th><th>大约需要</th></tr></thead>
+            <tbody>
+              {% for r in result.recovery %}
+              <tr><td>{{ r.extra }} 小时</td><td>{{ r.days }} 天</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="small text-muted">按“恢复天数 = 睡眠债 ÷ 每天多睡的时长”的简化估算。研究显示，周末一次补很多觉并不能完全抵消平日缺觉的影响，分几天、每天早睡一点更有效。</div>
+        </div>
+        {% endif %}
+
         <div class="step-link-grid mt-3">
           <a class="btn btn-outline-primary btn-sm" href="/sleep">去算睡眠周期</a>
           <a class="btn btn-outline-primary btn-sm" href="/sleep-duration">去算睡眠时长</a>
           <a class="btn btn-outline-primary btn-sm" href="/sleep-need">去算睡眠需求</a>
-          <a class="btn btn-outline-primary btn-sm" href="/sleep-bedtime">去算入睡时间</a>
+          <a class="btn btn-outline-primary btn-sm" href="/nap-time">去算午睡时间</a>
         </div>
       </div>
       {% else %}
@@ -212,7 +227,7 @@
             <li class="mb-2"><a href="/sleep">睡眠周期计算器</a>：推算入睡 / 起床时间</li>
             <li class="mb-2"><a href="/sleep-duration">睡眠时长计算器</a>：计算从几点睡到几点起</li>
             <li class="mb-2"><a href="/sleep-need">睡眠需求计算器</a>：按年龄查看建议睡眠时长</li>
-            <li class="mb-2"><a href="/sleep-bedtime">入睡时间计算器</a>：根据起床时间反推入睡时间</li>
+            <li class="mb-2"><a href="/sleep">睡眠周期计算器</a>：根据起床时间反推几点入睡，或按入睡时间推算起床时间</li>
             <li class="mb-2"><a href="/sleep-efficiency">睡眠效率计算器</a>：估算实际睡眠占比</li>
             <li class="mb-0"><a href="/caffeine-cutoff">咖啡因截止时间</a>：估算几点后不宜喝咖啡</li>
           </ul>
@@ -244,10 +259,7 @@
     { name: "睡眠周期计算器", path: "/sleep" },
     { name: "睡眠时长计算器", path: "/sleep-duration" },
     { name: "睡眠需求计算器", path: "/sleep-need" },
-    { name: "入睡时间计算器", path: "/sleep-bedtime" },
-    { name: "起床时间计算器", path: "/sleep-wake-time" },
     { name: "睡眠效率计算器", path: "/sleep-efficiency" },
-    { name: "补觉时间计算器", path: "/sleep-recovery" },
     { name: "咖啡因截止时间", path: "/caffeine-cutoff" },
     { name: "作息类型测试", path: "/chronotype" },
     { name: "BMI 计算器", path: "/bmi" },

@@ -122,7 +122,7 @@ ARTICLES = [
             "Carskadon MA, Dement WC. Normal human sleep: an overview. In: Principles and Practice of Sleep Medicine.",
             "Tassi P, Muzet A. Sleep inertia. Sleep Medicine Reviews, 2000.",
         ],
-        "related_tools": ["/sleep", "/sleep-bedtime", "/sleep-wake-time", "/sleep-need", "/nap-time"],
+        "related_tools": ["/sleep", "/sleep-need", "/sleep-duration", "/nap-time"],
         "related_articles": ["daily-steps-health", "10000-steps-km"],
     },
     {
@@ -584,7 +584,7 @@ ARTICLES = [
          'Health, 2017.',
          "Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations. Sleep "
          'Health, 2015.'],
-        'related_tools': ['/sleep-debt', '/sleep-recovery', '/nap-time', '/sleep-efficiency', '/sleep-duration'],
+        'related_tools': ['/sleep-debt', '/nap-time', '/sleep-efficiency', '/sleep-duration'],
         'related_articles': ['sleep-cycle-90-minutes', 'jet-lag-chronotype', 'caffeine-limit'],
     },
     {
@@ -623,7 +623,7 @@ ARTICLES = [
          'social time. Chronobiol Int, 2006.',
          'Drake C, et al. Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed. J Clin '
          'Sleep Med, 2013.'],
-        'related_tools': ['/jet-lag', '/chronotype', '/caffeine-cutoff', '/sleep-bedtime'],
+        'related_tools': ['/jet-lag', '/chronotype', '/caffeine-cutoff', '/sleep'],
         'related_articles': ['sleep-debt-nap', 'sleep-cycle-90-minutes', 'caffeine-limit'],
     },
     {'slug': 'glycemic-index-food-list',

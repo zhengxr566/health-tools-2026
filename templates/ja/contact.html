@@ -1,13 +1,36 @@
 {% extends "ja/base.html" %}
 {% block content %}
-<div class="bg-white rounded-3 shadow-sm p-4">
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
   <h1 class="h4 mb-2">お問い合わせ</h1>
-  <p class="text-muted mb-2">ご意見、不具合の報告、ご提案などは、以下のメールアドレスまでお気軽にお送りください（日本語で大丈夫です）。</p>
-  <p class="mb-3">📧 <a href="mailto:calmyhealth@hotmail.com">calmyhealth@hotmail.com</a></p>
-  <ul class="text-muted mb-0">
-    <li><b>ご提案：</b>追加してほしいツールやページ</li>
-    <li><b>不具合：</b>問題が起きたページと入力した数値を添えてお知らせください</li>
-    <li><b>その他：</b>広告・掲載などに関するご相談</li>
+  <p class="text-muted">
+    CalmyHealth は運営者の Zooey が個人で運営しています。計算結果がおかしい、説明に誤りや古い基準がある、こんなツールがほしい、といったご連絡をお待ちしています。
+    メールはすべて運営者本人が読み、通常3営業日以内にお返事します。
+  </p>
+  <p class="mb-0">📧 <a href="mailto:calmyhealth@hotmail.com">calmyhealth@hotmail.com</a> <span class="small text-muted">（日本語・中国語・英語で受け付けています）</span></p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">計算の誤りや内容の問題を報告するとき</h2>
+  <p class="text-muted">確認と修正を早く進めるため、できれば次の内容を添えてください。</p>
+  <ul class="text-muted ps-3">
+    <li class="mb-1"><b>ページのURL：</b>例：https://calmyhealth.com/ja/bmr</li>
+    <li class="mb-1"><b>入力した数値：</b>性別、年齢、身長、体重など</li>
+    <li class="mb-1"><b>表示された結果と、正しいと思われる結果：</b>根拠となる資料（ガイドライン、論文、教科書など）があれば出典も</li>
+    <li class="mb-0"><b>使っている端末とブラウザ：</b>表示がおかしい場合</li>
+  </ul>
+  <p class="text-muted mb-0">
+    誤りが確認できた場合はページを修正し、<a href="/about">運営者情報</a>の更新履歴に記録します。
+    個別の医療・栄養・服薬の相談にはお答えできません。体調や健康上の具体的なご心配は、医師や管理栄養士などの専門家にご相談ください。
+  </p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4">
+  <h2 class="h5 mb-3">その他のお問い合わせ</h2>
+  <ul class="text-muted mb-0 ps-3">
+    <li class="mb-2"><b>ツールのご要望：</b>よく計算するのに使いやすいツールが見つからない指標や、知りたい解説を教えてください。</li>
+    <li class="mb-2"><b>引用・転載：</b>記事や授業でのリンクは歓迎します。文章や図を転載する場合は、出典と元のURLを明記してください。</li>
+    <li class="mb-2"><b>プライバシー：</b>会員登録は不要で、計算のために入力した数値は保存しません。詳しくは<a href="/privacy">プライバシーポリシー</a>をご覧ください。</li>
+    <li class="mb-0"><b>広告・提携：</b>内容に関連するご相談は受け付けますが、提携によって計算方法や解説を変えることはありません。</li>
   </ul>
 </div>
 {% endblock %}

@@ -1,20 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="bg-white rounded-3 shadow-sm p-4">
-  <h1 class="h4 mb-2">联系</h1>
-
-  <p class="text-muted mb-2">
-    如果你有建议、发现 Bug，或有合作想法，欢迎通过邮箱联系：
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h1 class="h4 mb-2">联系 CalmyHealth</h1>
+  <p class="text-muted">
+    CalmyHealth 由站长 Zooey 独立运营。无论是发现计算结果不对、说明有错别字或过时的标准，还是希望增加新工具，都欢迎来信。
+    所有邮件都会亲自阅读，一般在 3 个工作日内回复。
   </p>
-
-  <p class="mb-3">
+  <p class="mb-0">
     📧 <a href="mailto:calmyhealth@hotmail.com">calmyhealth@hotmail.com</a>
+    <span class="small text-muted">（可用中文、日语或英语）</span>
   </p>
+</div>
 
-  <ul class="text-muted mb-0">
-    <li><b>建议：</b>告诉我你希望新增的工具或页面结构</li>
-    <li><b>Bug：</b>请描述出现问题的页面与输入数据</li>
-    <li><b>合作：</b>广告 / 赞助 / 资源互换等</li>
+<div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+  <h2 class="h5 mb-3">反馈计算错误或内容问题</h2>
+  <p class="text-muted">为了尽快确认和修正，请尽量附上：</p>
+  <ul class="text-muted ps-3">
+    <li class="mb-1"><b>页面网址：</b>例如 https://calmyhealth.com/bmr</li>
+    <li class="mb-1"><b>你输入的数值：</b>性别、年龄、身高、体重等</li>
+    <li class="mb-1"><b>看到的结果和你认为正确的结果：</b>如果有依据（指南、论文、教科书），请一并附上出处</li>
+    <li class="mb-0"><b>使用的设备和浏览器：</b>如果是页面显示异常</li>
+  </ul>
+  <p class="text-muted mb-0">
+    确认是错误后，会修正页面并在 <a href="/about">关于页面</a> 的更新记录中注明。
+    本站不提供个人医疗、营养或用药咨询；身体不适或有具体健康问题，请直接咨询医生、营养师等专业人士。
+  </p>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm p-4">
+  <h2 class="h5 mb-3">其他联系事项</h2>
+  <ul class="text-muted mb-0 ps-3">
+    <li class="mb-2"><b>新工具建议：</b>告诉我你常需要计算但找不到好用工具的指标，以及你希望看到哪些说明。</li>
+    <li class="mb-2"><b>引用与转载：</b>欢迎在文章或课程中链接本站页面；转载文字或图片请注明出处并附上原网址。</li>
+    <li class="mb-2"><b>隐私相关：</b>本站不需要注册，计算时输入的数据不会保存，详见 <a href="/privacy">隐私政策</a>。</li>
+    <li class="mb-0"><b>合作：</b>本站接受与内容相关的合作洽谈，但不会因合作改变计算方法或说明内容；赞助内容会明确标注。</li>
   </ul>
 </div>
 {% endblock %}
